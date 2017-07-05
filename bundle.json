@@ -1,0 +1,8 @@
+{
+  "deps": [
+    {
+      "type": "github",
+      "repo": "jemc/ponycc"
+    }
+  ]
+}
