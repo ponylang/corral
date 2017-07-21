@@ -7,5 +7,5 @@ primitive CmdInfo
     try
       let project = ProjectFile.load_project(env, log)
       env.out.print("project: " + project.name() +
-        " info: " + project.data.info.json().string())
+        " info: " + project.info.json().string())
     end

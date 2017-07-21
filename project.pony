@@ -1,14 +1,10 @@
+use "collections"
 use "files"
 use "json"
 use "logger"
 //use "debug"
 
 primitive ProjectFile
-  fun filename(): String => "project.json"
-
-  fun filepath(dir: FilePath): FilePath ? =>
-    dir.join(ProjectFile.filename())
-
   fun find_project_dir(env: Env): (FilePath | None) =>
     let cwd = Path.cwd()
     var dir = cwd
@@ -16,7 +12,7 @@ primitive ProjectFile
       //Debug.out("Looking for project.json in: '" + dir + "'")
       try
         let dir_path = FilePath(env.root as AmbientAuth, dir)
-        let project_file = dir_path.join(filename())
+        let project_file = dir_path.join(Files.proj_filename())
         if project_file.exists() then
           return dir_path
         end
@@ -29,87 +25,72 @@ primitive ProjectFile
   fun load_project(env: Env, log: Logger[String]): Project ? =>
     match find_project_dir(env)
     | let dir: FilePath =>
-      let project_path = dir.join(ProjectFile.filename())
       return Project.load(dir, log)
     else
-      log.log("No " + filename() + " in current working directory or ancestors.")
+      log.log("No " + Files.proj_filename() + " in current working directory or ancestors.")
       error
     end
 
   fun create_project(env: Env, log: Logger[String]): Project ? =>
     let dir = FilePath(env.root as AmbientAuth, Path.cwd())
-    try filepath(dir).remove() end
+    try Files.proj_filepath(dir).remove() end
     Project.create(dir, log)
 
 class Project
   let dir: FilePath
   let log: Logger[String]
-  let data: ProjectData
+  let info: InfoData
+  let bundles: Map[String, Bundle ref] = bundles.create()
 
   new create(dir': FilePath, log': Logger[String]) =>
     dir = dir'
     log = log'
-    data = ProjectData(JsonObject)
+    info = InfoData(JsonObject)
     log.log("Created project in " + dir.path)
 
   new load(dir': FilePath, log': Logger[String]) ? =>
     dir = dir'
     log = log'
+    let data = ProjectData(Json.load_object(Files.proj_filepath(dir), log))
+    let locks_data = LocksData(Json.load_object(Files.lock_filepath(dir), log))
+    // TODO: discard all locks that don't have matching bundles
+    info = data.info
 
-    let file_path = ProjectFile.filepath(dir)
-    log.log("Opening existing project " + file_path.path + ".")
-    let file = OpenFile(file_path) as File // FileErrNo?
-    let content: String = file.read_string(file.size())
-    //log.log("Read: " + content + ".")
-    let json: JsonDoc ref = JsonDoc
-    try
-      json.parse(content)
-      data = ProjectData(json.data as JsonObject)
-      return
+    let lm = Map[String, LockData]
+    for l in locks_data.locks.values() do
+      lm(l.locator) = l
     end
-    (let err_line, let err_message) = json.parse_report()
-    log(Error) and log.log(
-      "JSON error at: " + file.path.path + ":" + err_line.string() + " : " + err_message
-    )
-    data = ProjectData.empty()
-    error
+    for bd in data.bundles.values() do
+      let b = Bundle(this, bd, lm.get_or_else(bd.locator, LockData(JsonObject)))
+      bundles(b.data.locator) = b
+    end
 
-  fun filepath(): FilePath ? => ProjectFile.filepath(dir)
+  fun filepath(): FilePath ? => Files.proj_filepath(dir)
+
+  fun lock_filepath(): FilePath ? => Files.lock_filepath(dir)
 
   fun name(): String => Path.base(dir.path)
 
-  fun bundles(): Iterator[Bundle] =>
-    //ArrayValues[Bundle,Array[Bundle]](data.bundles)
-    object is Iterator[Bundle]
-      let project: Project box = this
-      var i: USize = 0
-      fun ref has_next(): Bool => i < project.data.bundles.size()
-      fun ref next(): Bundle^ ? =>
-        let b = BundleFor(project, project.data.bundles(i))
-        i = i + 1
-        b
-    end
-
-  fun fetch() =>
-    for bundle in bundles() do
+  fun ref fetch() =>
+    for bundle in bundles.values() do
       try
         bundle.fetch()
       end
     end
-    for bundle in bundles() do
+    for bundle in bundles.values() do
       // TODO: detect and prevent infinite recursion here.
       try
         let bundle_dir = FilePath(dir, bundle.packages_path())
-        Project(bundle_dir, log).fetch()
+        Project.load(bundle_dir, log).fetch()
       end
     end
 
   fun paths(): Array[String] val =>
     let out = recover trn Array[String] end
-    for bundle in bundles() do
+    for bundle in bundles.values() do
       out.push(bundle.packages_path())
     end
-    for bundle in bundles() do
+    for bundle in bundles.values() do
       // TODO: detect and prevent infinite recursion here.
       try
         let bundle_dir = FilePath(dir, bundle.packages_path())
@@ -118,19 +99,35 @@ class Project
     end
     out
 
-  fun ref add_bundle(bundle: BundleData) =>
-    data.bundles.push(bundle)
+  fun ref add_bundle(bd: BundleData) ? =>
+    bundles(bd.locator) = Bundle(this, bd, LockData(JsonObject))
 
-  fun save() =>
-    log.log("Going to save " + ProjectFile.filename() + " in " + dir.path)
-    try
-      let file = CreateFile(filepath()) as File
-      log.log("Saving " + file.path.path)
-      file.set_length(0)
-      let json: JsonDoc = JsonDoc
-      json.data = data.json()
-      file.print(json.string("  ", true))
-      file.dispose()
-    else
-      log.log("Error saving " + ProjectFile.filename() + " in " + dir.path)
+  fun json(): JsonObject =>
+    let jo: JsonObject = JsonObject
+    jo.data("info") = info.json()
+    let bundles_array = recover ref JsonArray end
+    for b in bundles.values() do
+      bundles_array.data.push(b.data.json())
     end
+    jo.data("bundles") = bundles_array
+    jo
+
+  fun lock_json(): JsonObject =>
+    let jo: JsonObject = JsonObject
+    let bundles_array = recover ref JsonArray end
+    for b in bundles.values() do
+      bundles_array.data.push(b.lock.json())
+    end
+    jo.data("bundles") = bundles_array
+    jo
+
+  fun save() ? =>
+    Json.write_object(json(), filepath(), log)
+    Json.write_object(lock_json(), lock_filepath(), log)
+
+primitive Files
+  fun tag proj_filename(): String => "project.json"
+  fun tag proj_filepath(dir: FilePath): FilePath ? => dir.join(proj_filename())
+
+  fun tag lock_filename(): String => "bundle-lock.json"
+  fun tag lock_filepath(dir: FilePath): FilePath ? => dir.join(lock_filename())

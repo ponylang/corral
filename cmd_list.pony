@@ -6,7 +6,7 @@ primitive CmdList
     env.out.print("list: " + cmd.string())
     try
       let project = ProjectFile.load_project(env, log)
-      for bd in project.bundles() do
-        env.out.print("  " + project.data.info.json().string())
+      for b in project.bundles.values() do
+        env.out.print("  " + b.data.json().string())
       end
     end

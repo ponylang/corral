@@ -2,24 +2,40 @@ use "files"
 use "json"
 use "logger"
 
-trait Bundle
+interface BundleOps
   fun root_path(): String
   fun packages_path(): String
   fun ref fetch() ?
 
-primitive BundleFor
-  fun apply(project: Project box, data: BundleData box): Bundle ? =>
-    match data.source
-    | "github" => BundleGitHub(project, data)
-    | "git"    => BundleGit(project, data)
-    | "local"  => BundleLocal(project, data)
+class Bundle is BundleOps
+  let project: Project box
+  let data: BundleData box
+  let lock: LockData box
+  var _ops: BundleOps = _NoOps
+
+  new create(project': Project box, data': BundleData box, lock': LockData box) ? =>
+    project = project'
+    data = data'
+    lock = lock'
+    _ops = match data.source
+    | "github" => _GitHubOps(this)
+    | "git"    => _GitOps(this)
+    | "local"  => _LocalOps(this)
     else
       error
     end
 
-class BundleGitHub is Bundle
-  let project: Project box
-  let data: BundleData box
+  fun root_path(): String => _ops.root_path()
+  fun packages_path(): String => _ops.packages_path()
+  fun ref fetch() ? => _ops.fetch()
+
+class _NoOps
+  fun root_path(): String => ""
+  fun packages_path(): String => ""
+  fun ref fetch() => None
+
+class _GitHubOps is BundleOps
+  let bundle: Bundle
 
   // repo: name of github repo, including the github.com part
   // subdir: subdir within repo where pony packages are based
@@ -28,17 +44,15 @@ class BundleGitHub is Bundle
   // <project.dir>/.corral/<repo>/<github_repo_cloned_here>
   // <project.dir>/.corral/<repo>/<subdir>/<packages_tree_here>
 
-  new create(p: Project box, d: BundleData box) =>
-    project = p
-    data = d
-    // TODO: we will assume data has been validated
+  new create(b: Bundle) =>
+    bundle = b
 
   fun root_path(): String =>
-    Path.join(project.dir.path, Path.join(".corral", data.locator))
+    Path.join(bundle.project.dir.path, Path.join(".corral", bundle.data.locator))
 
-  fun packages_path(): String => Path.join(root_path(), data.subdir)
+  fun packages_path(): String => Path.join(root_path(), bundle.data.subdir)
 
-  fun url(): String => "https://" + data.locator + ".git"
+  fun url(): String => "https://" + bundle.data.locator + ".git"
 
   fun ref fetch() ? =>
     try
@@ -51,13 +65,12 @@ class BundleGitHub is Bundle
     _checkout_revision()
 
   fun _checkout_revision() ? =>
-    if data.revision != "" then
-      Shell("cd " + root_path() + " && git checkout " + data.revision)
+    if bundle.lock.revision != "" then
+      Shell("cd " + root_path() + " && git checkout " + bundle.lock.revision)
     end
 
-class BundleGit is Bundle
-  let project: Project box
-  let data: BundleData box
+class _GitOps is BundleOps
+  let bundle: Bundle
   let package_root: String
 
   // [local-]path: path to a local git repo
@@ -66,36 +79,32 @@ class BundleGit is Bundle
   // <project.dir>/.corral/<encoded_local_name>/<git_repo_cloned_here>
   // <project.dir>/.corral/<encoded_local_name>/<packages_tree_here>
 
-  new create(p: Project box, d: BundleData box) =>
-    project = p
-    data = d
-    // TODO: we will assume data has been validated
-    package_root = _PathNameEncoder(data.locator)
-    project.log.log(package_root)
+  new create(b: Bundle) =>
+    bundle = b
+    package_root = _PathNameEncoder(bundle.data.locator)
+    bundle.project.log.log(package_root)
 
   fun root_path(): String =>
-    Path.join(project.dir.path, Path.join(".corral", package_root))
+    Path.join(bundle.project.dir.path, Path.join(".corral", package_root))
 
   fun packages_path(): String => root_path()
 
   fun ref fetch() ? =>
-    Shell("git clone " + data.locator + " " + root_path())
+    Shell("git clone " + bundle.data.locator + " " + root_path())
     _checkout_revision()
 
   fun _checkout_revision() ? =>
-    if data.revision != "" then
-      Shell("cd " + root_path() + " && git checkout " + data.revision)
+    if bundle.lock.revision != "" then
+      Shell("cd " + root_path() + " && git checkout " + bundle.lock.revision)
     end
 
-class BundleLocal is Bundle
-  let project: Project box
-  let data: BundleData box
+class _LocalOps is BundleOps
+  let bundle: Bundle
 
-  new create(p: Project box, d: BundleData box) =>
-    project = p
-    data = d
+  new create(b: Bundle) =>
+    bundle = b
 
-  fun root_path(): String => data.locator
+  fun root_path(): String => bundle.data.locator
 
   fun packages_path(): String => root_path()
 

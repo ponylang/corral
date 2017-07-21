@@ -18,9 +18,12 @@ primitive CmdRun
       ""
     end
     env.out.print("run ponypath: " + ponypath)
-    let rest = ["xxx"]
+    let args = cmd.arg("args").string_seq()
+    let arr = if ponypath.size() > 0 then
+        ["env"; "PONYPATH="+ponypath]
+      else
+        Array[String]()
+      end
     try
-      Shell.from_array(
-        ["env"; "PONYPATH="+ponypath].>append(rest), env~exitcode()
-      )
+      Shell.from_array(arr.>append(args), env~exitcode())
     end
