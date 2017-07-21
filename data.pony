@@ -1,18 +1,18 @@
 use "json"
 
-class ProjectData
+class BundleData
   let info: InfoData
-  let bundles: Array[BundleData]
+  let deps: Array[DepData]
 
   new create(jo: JsonObject box) =>
     info = InfoData(Json.objekt(jo, "info"))
 
-    bundles = Array[BundleData]
-    let bundles_array = Json.array(jo, "bundles")
+    deps = Array[DepData]
+    let bundles_array = Json.array(jo, "deps")
     for bjt in bundles_array.data.values() do
       let bjo = try bjt as JsonObject box else JsonObject end
-      let bd = BundleData(bjo)
-      bundles.push(bd)
+      let bd = DepData(bjo)
+      deps.push(bd)
     end
 
 /*
@@ -20,10 +20,10 @@ class ProjectData
     let jo: JsonObject = JsonObject
     jo.data("info") = info.json()
     let bundles_array = recover ref JsonArray end
-    for b in bundles.values() do
+    for b in deps.values() do
       bundles_array.data.push(b.json())
     end
-    jo.data("bundles") = bundles_array
+    jo.data("deps") = bundles_array
     jo
 */
 
@@ -50,7 +50,7 @@ class InfoData
     Json.set_string(jo, "version", version)
     jo
 
-class BundleData
+class DepData
   var source: String
   var locator: String
   var subdir: String
@@ -63,7 +63,7 @@ class BundleData
     version = Json.string(jo, "version")
     // TODO: validate input and log/error
     //if data.locator == "" then
-    //  project.log.log("No 'locator' key in bundle: " + info.string())
+    //  bundle.log.log("No 'locator' key in dep: " + info.string())
     //  error
     //end
 
@@ -105,7 +105,7 @@ class LockData
     revision = Json.string(jo, "revision")
     // TODO: validate input and log/error
     //if data.locator == "" then
-    //  project.log.log("No 'locator' key in bundle: " + info.string())
+    //  bundle.log.log("No 'locator' key in dep: " + info.string())
     //  error
     //end
 

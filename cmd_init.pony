@@ -5,8 +5,8 @@ primitive CmdInit
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("init: " + cmd.string())
     try
-      let project = ProjectFile.create_project(env, log)
-      env.out.print("created: " + project.name())
-      project.save()
+      let bundle = BundleFile.create_bundle(env, log)
+      env.out.print("created: " + bundle.name())
+      bundle.save()
       env.out.print("Save done.")
     end

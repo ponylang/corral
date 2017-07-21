@@ -1,8 +1,21 @@
 {
   "deps": [
     {
-      "type": "github",
-      "repo": "jemc/ponycc"
+      "source": "github",
+      "locator": "github.com/cquinn/ponylib1"
+    },
+    {
+      "source": "github",
+      "locator": "github.com/cquinn/ponylib2"
+    },
+    {
+      "source": "github",
+      "locator": "github.com/cquinn/ponylib2"
+    },
+    {
+      "source": "github",
+      "locator": "github.com/cquinn/ponylib2"
     }
-  ]
+  ],
+  "info": {}
 }

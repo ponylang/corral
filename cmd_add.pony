@@ -6,7 +6,7 @@ primitive CmdAddGithub
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("add/github: " + cmd.string())
 
-    let bd = BundleData(JsonObject)
+    let bd = DepData(JsonObject)
     bd.source = "github"
     bd.locator = cmd.arg("repo").string()
     bd.subdir = cmd.option("subdir").string()
@@ -15,17 +15,17 @@ primitive CmdAddGithub
 
     log.log("Adding: " + bd.json().string())
     try
-      let project = ProjectFile.load_project(env, log)
-      project.add_bundle(bd)
-      project.save()
-      //project.fetch() // TODO: just fetch this bundle
+      let bundle = BundleFile.load_bundle(env, log)
+      bundle.add_dep(bd)
+      bundle.save()
+      //bundle.fetch() // TODO: just fetch this dep
     end
 
 primitive CmdAddGit
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("add/git: " + cmd.string())
 
-    let bd = BundleData(JsonObject)
+    let bd = DepData(JsonObject)
     bd.source = "git"
     bd.locator = cmd.arg("path").string()
     //bd.subdir = cmd.option("subdir").string()
@@ -34,17 +34,17 @@ primitive CmdAddGit
 
     log.log("Adding: " + bd.json().string())
     try
-      let project = ProjectFile.load_project(env, log)
-      project.add_bundle(bd)
-      project.save()
-      //project.fetch() // TODO: just fetch this bundle
+      let bundle = BundleFile.load_bundle(env, log)
+      bundle.add_dep(bd)
+      bundle.save()
+      //bundle.fetch() // TODO: just fetch this dep
     end
 
 primitive CmdAddLocal
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("add/local: " + cmd.string())
 
-    let bd = BundleData(JsonObject)
+    let bd = DepData(JsonObject)
     bd.source = "local"
     bd.locator = cmd.arg("path").string()
     //bd.subdir = cmd.option("subdir").string()
@@ -53,8 +53,8 @@ primitive CmdAddLocal
 
     log.log("Adding: " + bd.json().string())
     try
-      let project = ProjectFile.load_project(env, log)
-      project.add_bundle(bd)
-      project.save()
-      //project.fetch() // TODO: just fetch this bundle
+      let bundle = BundleFile.load_bundle(env, log)
+      bundle.add_dep(bd)
+      bundle.save()
+      //bundle.fetch() // TODO: just fetch this dep
     end

@@ -1,111 +1,133 @@
+use "collections"
 use "files"
 use "json"
 use "logger"
+//use "debug"
 
-interface BundleOps
-  fun root_path(): String
-  fun packages_path(): String
-  fun ref fetch() ?
+primitive BundleFile
+  fun find_bundle_dir(env: Env): (FilePath | None) =>
+    let cwd = Path.cwd()
+    var dir = cwd
+    while dir.size() > 0 do
+      //Debug.out("Looking for bundle.json in: '" + dir + "'")
+      try
+        let dir_path = FilePath(env.root as AmbientAuth, dir)
+        let bundle_file = dir_path.join(Files.bundle_filename())
+        if bundle_file.exists() then
+          return dir_path
+        end
+      end
+        dir = Path.split(dir)._1
+    end
+    //Debug.out("Looked last for bundle.json in: '" + dir + "'")
+    None
 
-class Bundle is BundleOps
-  let project: Project box
-  let data: BundleData box
-  let lock: LockData box
-  var _ops: BundleOps = _NoOps
-
-  new create(project': Project box, data': BundleData box, lock': LockData box) ? =>
-    project = project'
-    data = data'
-    lock = lock'
-    _ops = match data.source
-    | "github" => _GitHubOps(this)
-    | "git"    => _GitOps(this)
-    | "local"  => _LocalOps(this)
+  fun load_bundle(env: Env, log: Logger[String]): Bundle ? =>
+    match find_bundle_dir(env)
+    | let dir: FilePath =>
+      return Bundle.load(dir, log)
     else
+      log.log("No " + Files.bundle_filename() + " in current working directory or ancestors.")
       error
     end
 
-  fun root_path(): String => _ops.root_path()
-  fun packages_path(): String => _ops.packages_path()
-  fun ref fetch() ? => _ops.fetch()
+  fun create_bundle(env: Env, log: Logger[String]): Bundle ? =>
+    let dir = FilePath(env.root as AmbientAuth, Path.cwd())
+    try Files.bundle_filepath(dir).remove() end
+    Bundle.create(dir, log)
 
-class _NoOps
-  fun root_path(): String => ""
-  fun packages_path(): String => ""
-  fun ref fetch() => None
+class Bundle
+  let dir: FilePath
+  let log: Logger[String]
+  let info: InfoData
+  let deps: Map[String, Dep ref] = deps.create()
 
-class _GitHubOps is BundleOps
-  let bundle: Bundle
+  new create(dir': FilePath, log': Logger[String]) =>
+    dir = dir'
+    log = log'
+    info = InfoData(JsonObject)
+    log.log("Created bundle in " + dir.path)
 
-  // repo: name of github repo, including the github.com part
-  // subdir: subdir within repo where pony packages are based
-  // tag: git tag to checkout
-  //
-  // <project.dir>/.corral/<repo>/<github_repo_cloned_here>
-  // <project.dir>/.corral/<repo>/<subdir>/<packages_tree_here>
+  new load(dir': FilePath, log': Logger[String]) ? =>
+    dir = dir'
+    log = log'
+    let data = BundleData(Json.load_object(Files.bundle_filepath(dir), log))
+    let locks_data = LocksData(Json.load_object(Files.lock_filepath(dir), log))
+    // TODO: discard all locks that don't have matching deps
+    info = data.info
 
-  new create(b: Bundle) =>
-    bundle = b
-
-  fun root_path(): String =>
-    Path.join(bundle.project.dir.path, Path.join(".corral", bundle.data.locator))
-
-  fun packages_path(): String => Path.join(root_path(), bundle.data.subdir)
-
-  fun url(): String => "https://" + bundle.data.locator + ".git"
-
-  fun ref fetch() ? =>
-    try
-      Shell("test -d " + root_path())
-      Shell("git -C " + root_path() + " pull " + url())
-    else
-      Shell("mkdir -p " + root_path())
-      Shell("git clone " + url() + " " + root_path())
+    let lm = Map[String, LockData]
+    for l in locks_data.locks.values() do
+      lm(l.locator) = l
     end
-    _checkout_revision()
-
-  fun _checkout_revision() ? =>
-    if bundle.lock.revision != "" then
-      Shell("cd " + root_path() + " && git checkout " + bundle.lock.revision)
+    for dd in data.deps.values() do
+      let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData(JsonObject)))
+      deps(d.data.locator) = d
     end
 
-class _GitOps is BundleOps
-  let bundle: Bundle
-  let package_root: String
+  fun bundle_filepath(): FilePath ? => Files.bundle_filepath(dir)
 
-  // [local-]path: path to a local git repo
-  // git_tag: git tag to checkout
-  //
-  // <project.dir>/.corral/<encoded_local_name>/<git_repo_cloned_here>
-  // <project.dir>/.corral/<encoded_local_name>/<packages_tree_here>
+  fun lock_filepath(): FilePath ? => Files.lock_filepath(dir)
 
-  new create(b: Bundle) =>
-    bundle = b
-    package_root = _PathNameEncoder(bundle.data.locator)
-    bundle.project.log.log(package_root)
+  fun name(): String => Path.base(dir.path)
 
-  fun root_path(): String =>
-    Path.join(bundle.project.dir.path, Path.join(".corral", package_root))
-
-  fun packages_path(): String => root_path()
-
-  fun ref fetch() ? =>
-    Shell("git clone " + bundle.data.locator + " " + root_path())
-    _checkout_revision()
-
-  fun _checkout_revision() ? =>
-    if bundle.lock.revision != "" then
-      Shell("cd " + root_path() + " && git checkout " + bundle.lock.revision)
+  fun ref fetch() =>
+    for dep in deps.values() do
+      try
+        dep.fetch()
+      end
+    end
+    for dep in deps.values() do
+      // TODO: detect and prevent infinite recursion here.
+      try
+        let bundle_dir = FilePath(dir, dep.packages_path())
+        Bundle.load(bundle_dir, log).fetch()
+      end
     end
 
-class _LocalOps is BundleOps
-  let bundle: Bundle
+  fun paths(): Array[String] val =>
+    let out = recover trn Array[String] end
+    for dep in deps.values() do
+      out.push(dep.packages_path())
+    end
+    for dep in deps.values() do
+      // TODO: detect and prevent infinite recursion here.
+      try
+        let bundle_dir = FilePath(dir, dep.packages_path())
+        out.append(Bundle(bundle_dir, log).paths())
+      end
+    end
+    out
 
-  new create(b: Bundle) =>
-    bundle = b
+  fun ref add_dep(dd: DepData) ? =>
+    deps(dd.locator) = Dep(this, dd, LockData(JsonObject))
 
-  fun root_path(): String => bundle.data.locator
+  fun bundle_json(): JsonObject =>
+    let jo: JsonObject = JsonObject
+    jo.data("info") = info.json()
+    let bundles_array = recover ref JsonArray end
+    for b in deps.values() do
+      bundles_array.data.push(b.data.json())
+    end
+    jo.data("deps") = bundles_array
+    jo
 
-  fun packages_path(): String => root_path()
+  fun lock_json(): JsonObject =>
+    let jo: JsonObject = JsonObject
+    let bundles_array = recover ref JsonArray end
+    for b in deps.values() do
+      bundles_array.data.push(b.lock.json())
+    end
+    jo.data("deps") = bundles_array
+    jo
 
-  fun ref fetch() => None
+  fun save() ? =>
+    Json.write_object(bundle_json(), bundle_filepath(), log)
+    Json.write_object(lock_json(), lock_filepath(), log)
+
+primitive Files
+  fun tag bundle_filename(): String => "bundle.json"
+  fun tag bundle_filepath(dir: FilePath): FilePath ? => dir.join(bundle_filename())
+
+  fun tag lock_filename(): String => "lock.json"
+  fun tag lock_filepath(dir: FilePath): FilePath ? => dir.join(lock_filename())

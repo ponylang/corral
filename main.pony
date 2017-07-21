@@ -17,35 +17,35 @@ actor Main
             where short'='v', default' = false)
         ], [
           CommandSpec.leaf("init",
-            "Initializes the project.json and bundle-lock.json files with skeletal information.")
+            "Initializes the bundle.json and dep-lock.json files with skeletal information.")
           CommandSpec.leaf("info",
-            "Prints all or specific information about the project from project.json.")
+            "Prints all or specific information about the bundle from bundle.json.")
           CommandSpec.parent("add", "", Array[OptionSpec](), [
             CommandSpec.leaf("github",
-              "Adds a remote bundle from a Github repository.", [
+              "Adds a remote dep from a Github repository.", [
                 OptionSpec.string("tag", "Git tag to pull" where short' = 't', default' = "")
-                OptionSpec.string("subdir", "Subdir of project in repo" where short' = 'd', default' = "")
+                OptionSpec.string("subdir", "Subdir of bundle in repo" where short' = 'd', default' = "")
               ], [
                 ArgSpec.string("repo", "Organization/repository name.")
               ])
-            CommandSpec.leaf("git", "Adds a bundle from a local git repository.", [
+            CommandSpec.leaf("git", "Adds a dep from a local git repository.", [
                 OptionSpec.string("tag", "Git tag to pull" where short' = 't', default' = "")
               ], [
                 ArgSpec.string("path", "Local path to Git repo.")
               ])
-            CommandSpec.leaf("local", "Adds a bundle from a local path.",
+            CommandSpec.leaf("local", "Adds a dep from a local path.",
               Array[OptionSpec](), [
-                ArgSpec.string("path", "Local path to bundle project.")
+                ArgSpec.string("path", "Local path to dep bundle.")
               ])
             ])
           CommandSpec.leaf("remove",
-            "Removes one or more bundles from the corral.")
+            "Removes one or more deps from the corral.")
           CommandSpec.leaf("update",
-            "Updates one or more or all of the bundles in the corral to their best revision.")
+            "Updates one or more or all of the deps in the corral to their best revision.")
           CommandSpec.leaf("fetch",
-            "Fetches one or more or all of the bundles into the corral.")
+            "Fetches one or more or all of the deps into the corral.")
           CommandSpec.leaf("list",
-            "Lists the bundles and packages, including corral details.")
+            "Lists the deps and packages, including corral details.")
           CommandSpec.leaf("run",
             "Runs a shell command inside an environment with the corral on the PONYPATH.",
             Array[OptionSpec](), [

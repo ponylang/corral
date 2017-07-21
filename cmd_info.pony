@@ -5,7 +5,7 @@ primitive CmdInfo
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("info: " + cmd.string())
     try
-      let project = ProjectFile.load_project(env, log)
-      env.out.print("project: " + project.name() +
-        " info: " + project.info.json().string())
+      let bundle = BundleFile.load_bundle(env, log)
+      env.out.print("bundle: " + bundle.name() +
+        " info: " + bundle.info.json().string())
     end

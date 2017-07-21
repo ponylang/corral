@@ -5,9 +5,9 @@ primitive CmdRun
   fun apply(env: Env, log: Logger[String], cmd: Command) =>
     env.out.print("run: " + cmd.string())
     let ponypath = try
-      let project = ProjectFile.load_project(env, log)
+      let bundle = BundleFile.load_bundle(env, log)
       var ponypath' = recover trn String end
-      let iter = project.paths().values()
+      let iter = bundle.paths().values()
       for path in iter do
         ponypath'.append(path)
         if iter.has_next() then ponypath'.push(':') end
