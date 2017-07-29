@@ -2,11 +2,11 @@ use "cli"
 use "logger"
 
 primitive CmdList
-  fun apply(env: Env, log: Logger[String], cmd: Command) =>
-    env.out.print("list: " + cmd.string())
+  fun apply(ctx: Context, cmd: Command) =>
+    ctx.env.out.print("list: " + cmd.string())
     try
-      let bundle = BundleFile.load_bundle(env, log)
+      let bundle = BundleFile.load_bundle(ctx.env, ctx.log)?
       for b in bundle.deps.values() do
-        env.out.print("  " + b.data.json().string())
+        ctx.env.out.print("  " + b.data.json().string())
       end
     end

@@ -2,10 +2,10 @@ use "cli"
 use "logger"
 
 class CmdRemove
-  fun apply(env: Env, log: Logger[String], cmd: Command) =>
-    env.out.print("remove: " + cmd.string())
+  fun apply(ctx: Context, cmd: Command) =>
+    ctx.env.out.print("remove: " + cmd.string())
     try
-      let bundle = BundleFile.load_bundle(env, log)
+      let bundle = BundleFile.load_bundle(ctx.env, ctx.log)?
       //bundle.remove_dep(bd)
-      bundle.save()
+      bundle.save()?
     end

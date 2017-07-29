@@ -2,11 +2,11 @@ use "cli"
 use "logger"
 
 primitive CmdInit
-  fun apply(env: Env, log: Logger[String], cmd: Command) =>
-    env.out.print("init: " + cmd.string())
+  fun apply(ctx: Context, cmd: Command) =>
+    ctx.log(Info) and ctx.log.log("init: " + cmd.string())
     try
-      let bundle = BundleFile.create_bundle(env, log)
-      env.out.print("created: " + bundle.name())
-      bundle.save()
-      env.out.print("Save done.")
+      let bundle = BundleFile.create_bundle(ctx.env, ctx.log)?
+      ctx.log(Info) and ctx.log.log("created: " + bundle.name())
+      bundle.save()?
+      ctx.log(Info) and ctx.log.log("Save done.")
     end

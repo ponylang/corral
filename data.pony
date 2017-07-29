@@ -51,16 +51,14 @@ class InfoData
     jo
 
 class DepData
-  var source: String
   var locator: String
-  var subdir: String
   var version: String
+  var subdir: String
 
   new create(jo: JsonObject box) =>
-    source = Json.string(jo, "source") // Required
     locator = Json.string(jo, "locator") // Required
-    subdir = Json.string(jo, "subdir")
     version = Json.string(jo, "version")
+    subdir = Json.string(jo, "subdir")
     // TODO: validate input and log/error
     //if data.locator == "" then
     //  bundle.log.log("No 'locator' key in dep: " + info.string())
@@ -69,10 +67,9 @@ class DepData
 
   fun json(): JsonObject ref =>
     let jo: JsonObject = JsonObject
-    Json.set_string(jo, "source", source)
     Json.set_string(jo, "locator", locator)
-    Json.set_string(jo, "subdir", subdir)
     Json.set_string(jo, "version", version)
+    Json.set_string(jo, "subdir", subdir)
     jo
 
 class LocksData
@@ -103,7 +100,7 @@ class LockData
   new create(jo: JsonObject box) =>
     locator = Json.string(jo, "locator") // Required
     revision = Json.string(jo, "revision")
-    // TODO: validate input and log/error
+    // TODO: validate input and log/error here?
     //if data.locator == "" then
     //  bundle.log.log("No 'locator' key in dep: " + info.string())
     //  error

@@ -1,4 +1,5 @@
 use "cli"
+use "files"
 use "logger"
 
 actor Main
@@ -17,9 +18,9 @@ actor Main
             where short'='v', default' = false)
         ], [
           CommandSpec.leaf("init",
-            "Initializes the bundle.json and dep-lock.json files with skeletal information.")
+            "Initializes the bundle.json and dep-lock.json files with skeletal information.")?
           CommandSpec.leaf("info",
-            "Prints all or specific information about the bundle from bundle.json.")
+            "Prints all or specific information about the bundle from bundle.json.")?
           CommandSpec.parent("add", "", Array[OptionSpec](), [
             CommandSpec.leaf("github",
               "Adds a remote dep from a Github repository.", [
@@ -27,34 +28,35 @@ actor Main
                 OptionSpec.string("subdir", "Subdir of bundle in repo" where short' = 'd', default' = "")
               ], [
                 ArgSpec.string("repo", "Organization/repository name.")
-              ])
+              ])?
             CommandSpec.leaf("git", "Adds a dep from a local git repository.", [
                 OptionSpec.string("tag", "Git tag to pull" where short' = 't', default' = "")
               ], [
                 ArgSpec.string("path", "Local path to Git repo.")
-              ])
+              ])?
             CommandSpec.leaf("local", "Adds a dep from a local path.",
               Array[OptionSpec](), [
                 ArgSpec.string("path", "Local path to dep bundle.")
-              ])
-            ])
+              ])?
+            ])?
           CommandSpec.leaf("remove",
-            "Removes one or more deps from the corral.")
+            "Removes one or more deps from the corral.")?
           CommandSpec.leaf("update",
-            "Updates one or more or all of the deps in the corral to their best revision.")
+            "Updates one or more or all of the deps in the corral to their best revision.")?
           CommandSpec.leaf("fetch",
-            "Fetches one or more or all of the deps into the corral.")
+            "Fetches one or more or all of the deps into the corral.")?
           CommandSpec.leaf("list",
-            "Lists the deps and packages, including corral details.")
+            "Lists the deps and packages, including corral details.")?
           CommandSpec.leaf("run",
             "Runs a shell command inside an environment with the corral on the PONYPATH.",
             Array[OptionSpec](), [
               ArgSpec.string_seq("args", "Arguments to run.")
-            ])
-        ]).>add_help()
+            ])?
+        ])?
+        .> add_help()?
       else
         log(Error) and log.log("CLI Init error")
-        env.exitcode(-1)  // some kind of coding error
+        env.exitcode(-1)  // Illegal command names
         return
       end
 
@@ -73,22 +75,50 @@ actor Main
 
     let quiet = cmd.option("quiet").bool()
     let nothing = cmd.option("nothing").bool()
-
+    let repo_cache = "./_repos"
+    let corral_base = "./_corral"
     env.out.print("Cmd: " + cmd.string())
 
-    match cmd.fullname()
-    | "corral/init" => CmdInit(env, log, cmd)
-    | "corral/info" => CmdInfo(env, log, cmd)
-    | "corral/add/github" => CmdAddGithub(env, log, cmd)
-    | "corral/add/git" => CmdAddGit(env, log, cmd)
-    | "corral/add/local" => CmdAddLocal(env, log, cmd)
-    | "corral/remove" => CmdRemove(env, log, cmd)
-    | "corral/update" => CmdUpdate(env, log, cmd)
-    | "corral/fetch" => CmdFetch(env, log, cmd)
-    | "corral/list" => CmdList(env, log, cmd)
-    | "corral/run" => CmdRun(env, log, cmd)
+    try
+      let context = Context(env, log, quiet, nothing, repo_cache, corral_base)?
+
+      match cmd.fullname()
+      | "corral/init" => CmdInit(context, cmd)
+      | "corral/info" => CmdInfo(context, cmd)
+      | "corral/add/github" => CmdAddGithub(context, cmd)
+      | "corral/add/git" => CmdAddGit(context, cmd)
+      | "corral/add/local" => CmdAddLocal(context, cmd)
+      | "corral/remove" => CmdRemove(context, cmd)
+      | "corral/update" => CmdUpdate(context, cmd)
+      | "corral/fetch" => CmdFetch(context, cmd)
+      | "corral/list" => CmdList(context, cmd)
+      | "corral/run" => CmdRun(context, cmd)
+      else
+        Help.general(cs).print_help(env.out)
+        env.exitcode(0)
+        return
+      end
     else
-      Help.general(cs).print_help(env.out)
-      env.exitcode(0)
-      return
+      log.log("Internal error setting up command context.")
+      env.exitcode(2)
     end
+
+class Context
+  """ Contains options and environment for all commands"""
+  let env: Env
+  let log: Logger[String]
+  let quiet: Bool
+  let nothing: Bool
+  let repo_cache: FilePath
+  let corral_base: FilePath
+
+  new create(env': Env,
+    log': Logger[String],
+    quiet': Bool, nothing': Bool, repo_cache': String, corral_base': String) ?
+  =>
+    env = env'
+    log = log'
+    quiet = quiet'
+    nothing = nothing'
+    repo_cache = FilePath(env.root as AmbientAuth, repo_cache')?
+    corral_base = FilePath(env.root as AmbientAuth, corral_base')?

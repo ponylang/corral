@@ -1,20 +1,16 @@
 {
   "deps": [
     {
-      "source": "github",
-      "locator": "github.com/cquinn/ponylib1"
+      "locator": "https://github.com/cquinn/ponylib1.git"
     },
     {
-      "source": "github",
-      "locator": "github.com/cquinn/ponylib2"
+      "locator": "https://github.com/cquinn/ponylib2.git"
     },
     {
-      "source": "github",
-      "locator": "github.com/cquinn/ponylib2"
+      "locator": "https://github.com/cquinn/ponylib2.git"
     },
     {
-      "source": "github",
-      "locator": "github.com/cquinn/ponylib2"
+      "locator": "https://github.com/cquinn/ponylib2.git"
     }
   ],
   "info": {}

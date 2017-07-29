@@ -10,7 +10,7 @@ primitive Json
     //log.log("Read: " + content + ".")
     let json: JsonDoc ref = JsonDoc
     try
-      json.parse(content)
+      json.parse(content)?
       json.data as JsonObject
     else
       (let err_line, let err_message) = json.parse_report()
@@ -36,7 +36,7 @@ primitive Json
 
   fun string(jt: JsonType box, name: String): String =>
     try
-      (jt as JsonObject box).data(name) as String
+      (jt as JsonObject box).data(name)? as String
     else
       ""
     end
@@ -47,18 +47,18 @@ primitive Json
     end
 
   fun string_must(jt: JsonType box, name: String): String ? =>
-    (jt as JsonObject box).data(name) as String
+    (jt as JsonObject box).data(name)? as String
 
   fun array(jt: JsonType box, name: String): JsonArray box =>
     try
-      (jt as JsonObject box).data(name) as JsonArray box
+      (jt as JsonObject box).data(name)? as JsonArray box
     else
       JsonArray
     end
 
   fun objekt(jt: JsonType box, name: String): JsonObject box =>
     try
-      (jt as JsonObject box).data(name) as JsonObject box
+      (jt as JsonObject box).data(name)? as JsonObject box
     else
       JsonObject
     end
