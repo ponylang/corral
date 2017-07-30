@@ -1,5 +1,6 @@
 use "cli"
 use "logger"
+use "../bundle"
 
 class CmdRemove
   fun apply(ctx: Context, cmd: Command) =>

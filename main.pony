@@ -1,6 +1,7 @@
 use "cli"
 use "files"
 use "logger"
+use "./cmd"
 
 actor Main
   let _env: Env
@@ -21,23 +22,12 @@ actor Main
             "Initializes the bundle.json and dep-lock.json files with skeletal information.")?
           CommandSpec.leaf("info",
             "Prints all or specific information about the bundle from bundle.json.")?
-          CommandSpec.parent("add", "", Array[OptionSpec](), [
-            CommandSpec.leaf("github",
-              "Adds a remote dep from a Github repository.", [
-                OptionSpec.string("tag", "Git tag to pull" where short' = 't', default' = "")
-                OptionSpec.string("subdir", "Subdir of bundle in repo" where short' = 'd', default' = "")
-              ], [
-                ArgSpec.string("repo", "Organization/repository name.")
-              ])?
-            CommandSpec.leaf("git", "Adds a dep from a local git repository.", [
-                OptionSpec.string("tag", "Git tag to pull" where short' = 't', default' = "")
-              ], [
-                ArgSpec.string("path", "Local path to Git repo.")
-              ])?
-            CommandSpec.leaf("local", "Adds a dep from a local path.",
-              Array[OptionSpec](), [
-                ArgSpec.string("path", "Local path to dep bundle.")
-              ])?
+          CommandSpec.leaf("add",
+            "Adds a remote VCS, local VCS or local direct dependency.", [
+              OptionSpec.string("version", "Version constraint" where short' = 'v', default' = "")
+              OptionSpec.string("revision", "Specific revision: tag, branch, commit" where short' = 'r', default' = "")
+            ], [
+              ArgSpec.string("locator", "Organization/repository name.")
             ])?
           CommandSpec.leaf("remove",
             "Removes one or more deps from the corral.")?
@@ -85,9 +75,7 @@ actor Main
       match cmd.fullname()
       | "corral/init" => CmdInit(context, cmd)
       | "corral/info" => CmdInfo(context, cmd)
-      | "corral/add/github" => CmdAddGithub(context, cmd)
-      | "corral/add/git" => CmdAddGit(context, cmd)
-      | "corral/add/local" => CmdAddLocal(context, cmd)
+      | "corral/add" => CmdAdd(context, cmd)
       | "corral/remove" => CmdRemove(context, cmd)
       | "corral/update" => CmdUpdate(context, cmd)
       | "corral/fetch" => CmdFetch(context, cmd)
@@ -102,23 +90,3 @@ actor Main
       log.log("Internal error setting up command context.")
       env.exitcode(2)
     end
-
-class Context
-  """ Contains options and environment for all commands"""
-  let env: Env
-  let log: Logger[String]
-  let quiet: Bool
-  let nothing: Bool
-  let repo_cache: FilePath
-  let corral_base: FilePath
-
-  new create(env': Env,
-    log': Logger[String],
-    quiet': Bool, nothing': Bool, repo_cache': String, corral_base': String) ?
-  =>
-    env = env'
-    log = log'
-    quiet = quiet'
-    nothing = nothing'
-    repo_cache = FilePath(env.root as AmbientAuth, repo_cache')?
-    corral_base = FilePath(env.root as AmbientAuth, corral_base')?

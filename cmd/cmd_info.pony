@@ -1,5 +1,6 @@
 use "cli"
 use "logger"
+use "../bundle"
 
 primitive CmdInfo
   fun apply(ctx: Context, cmd: Command) =>

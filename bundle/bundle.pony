@@ -5,6 +5,7 @@ use "logger"
 //use "debug"
 
 primitive BundleFile
+  """Loader and creator of Bundle files."""
   fun find_bundle_dir(env: Env): (FilePath | None) =>
     let cwd = Path.cwd()
     var dir = cwd
@@ -42,6 +43,7 @@ primitive BundleFile
     Bundle.create(env, dir, log)
 
 class Bundle
+  """Encapsulation of a Bundle + Lock file pair, including all file activities."""
   let env: Env
   let dir: FilePath
   let log: Logger[String]
@@ -81,10 +83,27 @@ class Bundle
 
   fun name(): String => Path.base(dir.path)
 
-  fun paths(): Array[String] val =>
+  fun corral_path(): String => Path.join(dir.path, "_corral")
+
+  fun bundle_roots(): Array[String] val =>
     let out = recover trn Array[String] end
     for dep in deps.values() do
-      out.push(dep.packages_path())
+      out.push(dep.bundle_root())
+    end
+    for dep in deps.values() do
+      // TODO: detect and prevent infinite recursion here.
+      try
+        let bundle_dir = dir.join(dep.bundle_root())?
+        out.append(Bundle(env, bundle_dir, log).bundle_roots())
+      end
+    end
+    out
+
+/*
+  fun all_deps(): Array[Dep] =>
+    let out = recover trn Array[Dep] end
+    for dep in deps.values() do
+      out.push(dep)
     end
     for dep in deps.values() do
       // TODO: detect and prevent infinite recursion here.
@@ -94,9 +113,13 @@ class Bundle
       end
     end
     out
+*/
 
-  fun ref add_dep(dd: DepData) =>
-    deps(dd.locator) = Dep(this, dd, LockData(JsonObject))
+  fun ref add_dep(dd: DepData, ld: LockData) =>
+    deps(dd.locator) = Dep(this, dd, ld)
+
+  fun ref remove_dep(d: Dep) =>
+    try deps.remove(d.data.locator)? end
 
   fun bundle_json(): JsonObject =>
     let jo: JsonObject = JsonObject

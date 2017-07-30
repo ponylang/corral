@@ -1,7 +1,8 @@
 use "cli"
 use "files"
 use "logger"
-use "vcs"
+use "../bundle"
+use "../vcs"
 
 class CmdFetch
   let ctx: Context
@@ -36,17 +37,9 @@ class CmdFetch
     end*/
 
   fun fetch(dep: Dep) ? =>
-    let dd = dep.data
-    let local = ctx.repo_cache.join(_PathNameEncoder(dd.locator))?
-    let workspace = ctx.corral_base.join(dep.root_path())?
-    let di = DepInfo(dd.locator, dd.version, local, workspace)
-    let vo = Vcs(di)
+    let local = ctx.repo_cache.join(dep.flat_repo())?
+    let workspace = FilePath(ctx.env.root as AmbientAuth, dep.repo_root())?
+    let ws = WorkSpec(dep.repo(), dep.version(), local, workspace)
+    let vo = Vcs(dep.vcs())
     let ro = vo.fetch_op(ctx.env)?
-    ro.begin(di)
-
-"""
-VCS Operations:
-  - clone if new, pull (all branches) otherwise.
-  - checkout revision
-  - export_dir to bundle_dir
-"""
+    ro.begin(ws)

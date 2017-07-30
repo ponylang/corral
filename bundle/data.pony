@@ -53,23 +53,21 @@ class InfoData
 class DepData
   var locator: String
   var version: String
-  var subdir: String
 
   new create(jo: JsonObject box) =>
     locator = Json.string(jo, "locator") // Required
     version = Json.string(jo, "version")
-    subdir = Json.string(jo, "subdir")
     // TODO: validate input and log/error
     //if data.locator == "" then
     //  bundle.log.log("No 'locator' key in dep: " + info.string())
     //  error
     //end
+    // TODO: read pony-stable fields and convert here
 
   fun json(): JsonObject ref =>
     let jo: JsonObject = JsonObject
     Json.set_string(jo, "locator", locator)
     Json.set_string(jo, "version", version)
-    Json.set_string(jo, "subdir", subdir)
     jo
 
 class LocksData

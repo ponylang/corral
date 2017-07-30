@@ -1,5 +1,6 @@
 use "cli"
 use "logger"
+use "../bundle"
 
 primitive CmdUpdate
   fun apply(ctx: Context, cmd: Command) =>

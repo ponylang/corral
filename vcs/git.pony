@@ -17,31 +17,31 @@ class val GitSyncRepo is RepoOperation
     git = Binary.on_path(env, "git")?
     next = next'
 
-  fun val begin(di: DepInfo) =>
-    let exists = try di.local.join(".git")?.exists() else false end
+  fun val begin(ws: WorkSpec) =>
+    let exists = try ws.local.join(".git")?.exists() else false end
     if not exists then
-      env.out.print("Cloning " + di.remote + " into " + di.local.path)
-      _clone(di)
+      env.out.print("Cloning " + ws.remote + " into " + ws.local.path)
+      _clone(ws)
     else
-      env.out.print("Fetching " + di.remote + " into " + di.local.path)
-      _fetch(di)
+      env.out.print("Fetching " + ws.remote + " into " + ws.local.path)
+      _fetch(ws)
     end
 
-  fun val _clone(di: DepInfo) =>
+  fun val _clone(ws: WorkSpec) =>
     // Maybe: --recurse-submodules --quiet --verbose
     let cmd = Cmd(git,
-      recover ["clone"; "--no-checkout"; di.remote; di.local.path] end,
+      recover ["clone"; "--no-checkout"; ws.remote; ws.local.path] end,
       env.vars())
-    Runner.run(cmd, {(cr: CmdResult)(self=this) => self._done(cr, di)} iso)
+    Runner.run(cmd, {(cr: CmdResult)(self=this) => self._done(cr, ws)} iso)
 
-  fun val _fetch(di: DepInfo) =>
+  fun val _fetch(ws: WorkSpec) =>
     let cmd = Cmd(git,
-      recover ["-C"; di.local.path; "fetch"; "--tags"] end, env.vars())
-    Runner.run(cmd, {(cr: CmdResult)(self=this) => self._done(cr, di)} iso)
+      recover ["-C"; ws.local.path; "fetch"; "--tags"] end, env.vars())
+    Runner.run(cmd, {(cr: CmdResult)(self=this) => self._done(cr, ws)} iso)
 
-  fun val _done(cr: CmdResult, di: DepInfo) =>
+  fun val _done(cr: CmdResult, ws: WorkSpec) =>
     cr.print_to(env.out)
-    next.begin(di)
+    next.begin(ws)
 
 class val GitCheckoutRepo is RepoOperation
   let env: Env
@@ -53,35 +53,35 @@ class val GitCheckoutRepo is RepoOperation
     git = Binary.on_path(env, "git")?
     next = next'
 
-  fun val begin(di: DepInfo) =>
-    env.out.print("Checking out @" + di.version + " into " + di.workspace.path)
-    _reset_to_version(di)
+  fun val begin(ws: WorkSpec) =>
+    env.out.print("Checking out @" + ws.version + " into " + ws.workspace.path)
+    _reset_to_version(ws)
 
-  fun val _reset_to_version(di: DepInfo) =>
+  fun val _reset_to_version(ws: WorkSpec) =>
     //git reset --mixed <tree-ish>
     let cmd = Cmd(git,
-      recover ["-C"; di.local.path; "reset"; "--mixed"; di.version ] end,
+      recover ["-C"; ws.local.path; "reset"; "--mixed"; ws.version ] end,
       env.vars())
     Runner.run(cmd,
-      {(cr: CmdResult)(self=this) => self._checkout_to_workspace(di)} iso)
+      {(cr: CmdResult)(self=this) => self._checkout_to_workspace(ws)} iso)
 
-  fun val _checkout_to_workspace(di: DepInfo) =>
+  fun val _checkout_to_workspace(ws: WorkSpec) =>
     // Maybe: --recurse-submodules --quiet --verbose
     //"git", "checkout-index", "-f", "-a", "--prefix="+path)
     let cmd = Cmd(git,
       recover [
-        "-C"; di.local.path
+        "-C"; ws.local.path
         "checkout-index"
         "-f"; "-a"
-        "--prefix=" + di.workspace.path + "/"
+        "--prefix=" + ws.workspace.path + "/"
       ] end,
       env.vars())
     Runner.run(cmd,
-      {(cr: CmdResult)(self=this) => self._done(cr, di)} iso)
+      {(cr: CmdResult)(self=this) => self._done(cr, ws)} iso)
 
-  fun val _done(cr: CmdResult, di: DepInfo) =>
+  fun val _done(cr: CmdResult, ws: WorkSpec) =>
     cr.print_to(env.out)
-    next.begin(di)
+    next.begin(ws)
 
 class val GitQueryTags is RepoOperation
   let env: Env
@@ -93,17 +93,17 @@ class val GitQueryTags is RepoOperation
     git = Binary.on_path(env, "git")?
     next = next'
 
-  fun val begin(di: DepInfo) =>
-    _get_tags(di)
+  fun val begin(ws: WorkSpec) =>
+    _get_tags(ws)
 
-  fun val _get_tags(di: DepInfo) =>
+  fun val _get_tags(ws: WorkSpec) =>
     let cmd = Cmd(git,
-      recover ["-C"; di.local.path; "show-ref"] end,
+      recover ["-C"; ws.local.path; "show-ref"] end,
       env.vars())
     Runner.run(cmd,
-      {(cr: CmdResult)(self=this) => self._parse_tags(cr, di)} iso)
+      {(cr: CmdResult)(self=this) => self._parse_tags(cr, ws)} iso)
 
-  fun val _parse_tags(cr: CmdResult, di: DepInfo) =>
+  fun val _parse_tags(cr: CmdResult, ws: WorkSpec) =>
     cr.print_to(env.out)
     let tags = recover Array[String] end
     try

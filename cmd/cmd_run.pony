@@ -1,5 +1,6 @@
 use "cli"
 use "logger"
+use "../bundle"
 
 primitive CmdRun
   fun apply(ctx: Context, cmd: Command) =>
@@ -8,12 +9,11 @@ primitive CmdRun
       try
         let bundle = BundleFile.load_bundle(ctx.env, ctx.log)?
         var ponypath' = recover trn String end
-        let iter = bundle.paths().values()
+        let iter = bundle.bundle_roots().values()
         for path in iter do
           ponypath'.append(path)
           if iter.has_next() then ponypath'.push(':') end
         end
-
         ponypath'
       else
         ""
@@ -26,5 +26,6 @@ primitive CmdRun
         Array[String]()
       end
     try
+      // TODO: need to pass env in here...
       Shell.from_array(arr.>append(args), ctx.env~exitcode())?
     end
