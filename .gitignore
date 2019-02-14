@@ -56,3 +56,4 @@ dkms.conf
 _corral
 _repos
 .corral
+lock.json
