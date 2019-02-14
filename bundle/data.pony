@@ -57,12 +57,6 @@ class DepData
   new create(jo: JsonObject box) =>
     locator = Json.string(jo, "locator") // Required
     version = Json.string(jo, "version")
-    // TODO: validate input and log/error
-    //if data.locator == "" then
-    //  bundle.log.log("No 'locator' key in dep: " + info.string())
-    //  error
-    //end
-    // TODO: read pony-stable fields and convert here
 
   fun json(): JsonObject ref =>
     let jo: JsonObject = JsonObject
@@ -92,17 +86,16 @@ class LocksData
     jo
 
 class LockData
-  var locator: String
+  var locator: String   // Present when locked
   var revision: String  // branch, tag, hash
 
   new create(jo: JsonObject box) =>
-    locator = Json.string(jo, "locator") // Required
+    locator = Json.string(jo, "locator")
     revision = Json.string(jo, "revision")
-    // TODO: validate input and log/error here?
-    //if data.locator == "" then
-    //  bundle.log.log("No 'locator' key in dep: " + info.string())
-    //  error
-    //end
+
+  new none() =>
+    locator = ""
+    revision = ""
 
   fun json(): JsonObject ref =>
     let jo: JsonObject = JsonObject

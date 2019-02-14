@@ -1,6 +1,6 @@
 use "files"
 use "json"
-use "logger"
+use "../util"
 use "debug"
 
 class val Locator
@@ -62,17 +62,15 @@ class Dep
   """
   let bundle: Bundle box
   let data: DepData box
-  let lock: LockData box
+  let lock: LockData
   let locator: Locator
 
-  new create(bundle': Bundle box, data': DepData box, lock': LockData box) =>
+  new create(bundle': Bundle box, data': DepData box, lock': LockData) =>
     bundle = bundle'
     data = data'
     lock = lock'
     locator = Locator(data.locator)
-    bundle.env.out.print("Locator: " + locator.repo_path + " " + locator.vcs_suffix + " " + locator.bundle_path)
-
-  //fun locator(): Locator => loc
+    //bundle.env.out.print("Locator: " + locator.repo_path + " " + locator.vcs_suffix + " " + locator.bundle_path)
 
   fun name(): String =>
     locator.path()
@@ -93,10 +91,20 @@ class Dep
     Path.join(repo_root(), locator.bundle_path)
 
   fun version(): String =>
-    if lock.revision != "" then lock.revision else data.version end
+    if lock.revision != "" then
+      lock.revision
+    elseif data.version != "" then
+      data.version
+    else
+      "master"
+    end
 
   fun vcs(): String =>
     locator.vcs_suffix.trim(1)
+
+  fun ref lock_version(ver: String) =>
+    lock.locator = data.locator
+    lock.revision = ver
 
 primitive _Flattened
   fun apply(path: String): String val =>

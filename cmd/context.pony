@@ -1,17 +1,17 @@
 use "files"
-use "logger"
+use "../util"
 
-class Context
-  """ Contains options and environment for all commands"""
+class val Context
+  """ Contains options and environment for all commands."""
   let env: Env
-  let log: Logger[String]
+  let log: Log
   let quiet: Bool
   let nothing: Bool
   let repo_cache: FilePath
   let corral_base: FilePath
 
-  new create(env': Env,
-    log': Logger[String],
+  new val create(env': Env,
+    log': Log,
     quiet': Bool, nothing': Bool, repo_cache': String, corral_base': String) ?
   =>
     env = env'

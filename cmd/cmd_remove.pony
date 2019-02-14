@@ -1,8 +1,8 @@
 use "cli"
-use "logger"
 use "../bundle"
+use "../util"
 
-class CmdRemove
+primitive CmdRemove
   fun apply(ctx: Context, cmd: Command) =>
     ctx.env.out.print("remove: " + cmd.string())
     try

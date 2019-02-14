@@ -1,7 +1,7 @@
 use "collections"
 use "files"
 use "json"
-use "logger"
+use "../util"
 //use "debug"
 
 primitive BundleFile
@@ -23,45 +23,49 @@ primitive BundleFile
     //Debug.out("Looked last for bundle.json in: '" + dir + "'")
     None
 
-  fun load_bundle(env: Env, log: Logger[String]): Bundle ? =>
+  fun load_bundle(env: Env, log: Log): Bundle ? =>
     match find_bundle_dir(env)
     | let dir: FilePath =>
       try
         Bundle.load(env, dir, log)?
       else
-        log.log("Error loading bundle files in " + dir.path)
+        log.err("Error loading bundle files in " + dir.path)
         error
       end
     else
-      log.log("No " + Files.bundle_filename() + " in current working directory or ancestors.")
+      log.err("No " + Files.bundle_filename() + " in current working directory or ancestors.")
       error
     end
 
-  fun create_bundle(env: Env, log: Logger[String]): Bundle ? =>
+  fun create_bundle(env: Env, log: Log): Bundle ? =>
     let dir = FilePath(env.root as AmbientAuth, Path.cwd())?
     try Files.bundle_filepath(dir)?.remove() end
     Bundle.create(env, dir, log)
 
 class Bundle
-  """Encapsulation of a Bundle + Lock file pair, including all file activities."""
+  """
+  Encapsulation of a Bundle + Lock file pair, including all file activities.
+  """
   let env: Env
   let dir: FilePath
-  let log: Logger[String]
+  let log: Log
   let info: InfoData
   let deps: Map[String, Dep ref] = deps.create()
+  var modified: Bool = false
 
-  new create(env': Env, dir': FilePath, log': Logger[String]) =>
+  new create(env': Env, dir': FilePath, log': Log) =>
     env = env'
     dir = dir'
     log = log'
     info = InfoData(JsonObject)
-    log.log("Created bundle in " + dir.path)
+    log.info("Created bundle in " + dir.path)
 
-  new load(env': Env, dir': FilePath, log': Logger[String]) ? =>
+  new load(env': Env, dir': FilePath, log': Log) ? =>
     env = env'
     dir = dir'
     log = log'
 
+    log.fine("Loading bundle: " + Files.bundle_filepath(dir)?.path)
     let data = BundleData(Json.load_object(Files.bundle_filepath(dir)?, log)?)
     info = data.info
 
@@ -69,12 +73,16 @@ class Bundle
     try
       let locks_data = LocksData(Json.load_object(Files.lock_filepath(dir)?, log)?)
       for l in locks_data.locks.values() do
+        log.fine("Lock " + l.locator + " : " + l.revision)
         lm(l.locator) = l
       end
+    else
+      log.err("Lock file unreadable")
     end
     for dd in data.deps.values() do
-      let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData(JsonObject)))
+      let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData.none()))
       deps(d.data.locator) = d
+      log.fine("Dep " + d.name())
     end
 
   fun bundle_filepath(): FilePath ? => Files.bundle_filepath(dir)?
@@ -117,31 +125,39 @@ class Bundle
 
   fun ref add_dep(dd: DepData, ld: LockData) =>
     deps(dd.locator) = Dep(this, dd, ld)
+    modified = true
 
   fun ref remove_dep(d: Dep) =>
-    try deps.remove(d.data.locator)? end
+    try
+      deps.remove(d.data.locator)?
+      modified = true
+    end
 
   fun bundle_json(): JsonObject =>
     let jo: JsonObject = JsonObject
     jo.data("info") = info.json()
-    let bundles_array = recover ref JsonArray end
-    for b in deps.values() do
-      bundles_array.data.push(b.data.json())
+    let deps_array = recover ref JsonArray end
+    for d in deps.values() do
+      deps_array.data.push(d.data.json())
     end
-    jo.data("deps") = bundles_array
+    jo.data("deps") = deps_array
     jo
 
   fun lock_json(): JsonObject =>
     let jo: JsonObject = JsonObject
-    let bundles_array = recover ref JsonArray end
-    for b in deps.values() do
-      bundles_array.data.push(b.lock.json())
+    let locks_array = recover ref JsonArray end
+    for d in deps.values() do
+      if d.lock.locator != "" then
+        locks_array.data.push(d.lock.json())
+      end
     end
-    jo.data("deps") = bundles_array
+    jo.data("locks") = locks_array
     jo
 
   fun save() ? =>
-    Json.write_object(bundle_json(), bundle_filepath()?, log)
+    if modified then
+      Json.write_object(bundle_json(), bundle_filepath()?, log)
+    end
     Json.write_object(lock_json(), lock_filepath()?, log)
 
 primitive Files

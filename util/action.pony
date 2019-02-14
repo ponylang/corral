@@ -1,9 +1,11 @@
-use "cli"
+use "cli"  // EnvVars
 use "files"
 use "process"
-use "promises"
 
 class val Binary
+  """
+  A Binary encapsulates a binary, executable program and authority to execute it.
+  """
   let auth: AmbientAuth
   let path: FilePath
 
@@ -19,7 +21,7 @@ class val Binary
     name: String) ?
   =>
     auth = env.root as AmbientAuth
-    let evars = EnvVars(env.vars())
+    let evars = EnvVars(env.vars)
     path = first_existing(auth, evars.get_or_else("PATH", ""), name)?
 
   fun tag first_existing(auth': AmbientAuth, binpath: String, name: String): FilePath ? =>
@@ -35,7 +37,12 @@ class val Binary
     end
     error
 
-class val Cmd
+
+class val Action
+  """
+  An Action encapsulates one specific executable action with a binary, cli args
+  and env vars.
+  """
   let bin: Binary val
   let args: Array[String] val
   let vars: Array[String] val
@@ -49,7 +56,8 @@ class val Cmd
     args = args'
     vars = vars'
 
-class val CmdResult
+
+class val ActionResult
   let exit_code: I32
   let stdout: String
   let stderr: String
@@ -72,21 +80,31 @@ class val CmdResult
     out.print("  out: " + stdout)
     out.print("  err: " + stderr)
 
+
 primitive Runner
-  fun run(cmd: Cmd, result: {(CmdResult)} iso) =>
+  """
+  Run an Action using ProcessMonitor, and hand the resulting ActionResult to a
+  given lambda.
+  """
+  fun run(action: Action, result: {(ActionResult)} iso) =>
     let c = _Collector(consume result)
-    let argv: Array[String] iso = recover argv.create(cmd.args.size()+1) end
-    argv.push(cmd.bin.path.path)
-    argv.append(cmd.args)
-    ProcessMonitor(cmd.bin.auth, consume c, cmd.bin.path, consume argv, cmd.vars)
+    let argv: Array[String] iso = recover argv.create(action.args.size()+1) end
+    argv.push(action.bin.path.path)
+    argv.append(action.args)
+    ProcessMonitor(action.bin.auth, action.bin.auth, consume c, action.bin.path, consume argv, action.vars).done_writing()
+
 
 class _Collector is ProcessNotify
+  """
+  Collect Action output and exit into an ActionResult and hand it to the given
+  lambda when ready.
+  """
   let _stdout: String iso = recover String end
   let _stderr: String iso = recover String end
   var _exit_code: I32 = 0
-  let _result: {(CmdResult)} iso
+  let _result: {(ActionResult)} iso
 
-  new iso create(result: {(CmdResult)} iso) =>
+  new iso create(result: {(ActionResult)} iso) =>
     _result = consume result
 
   fun ref created(process: ProcessMonitor ref) =>
@@ -108,14 +126,12 @@ class _Collector is ProcessNotify
       | KillError => "ProcessError: KillError"
       | Unsupported => "ProcessError: Unsupported"
       | CapError =>  "ProcessError: CapError"
-      else
-        "ProcessError: Unknown!"
       end
-    let cr = CmdResult.fail(errmsg)
+    let cr = ActionResult.fail(errmsg)
     _result(cr)
 
   fun ref dispose(process: ProcessMonitor ref, child_exit_code: I32) =>
-    let cr = CmdResult.ok(child_exit_code,
+    let cr = ActionResult.ok(child_exit_code,
       recover val _stdout.clone() end,
       recover val _stderr.clone() end)
     _result(cr)

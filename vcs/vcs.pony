@@ -1,56 +1,76 @@
 use "files"
 
-class val WorkSpec
+class val Repo
+  """
+  Generalized details for any kind of VCS repo.
+  """
   let remote: String
-  let version: String
   let local: FilePath
   let workspace: FilePath
 
   new val create(
     remote': String,
-    version': String,
     local': FilePath,
     workspace': FilePath)
   =>
     remote = "https://" + remote'
     local = local'
-    version = if version' == "" then "HEAD" else version' end
     workspace = workspace'
 
-primitive Vcs
-  fun apply(kind: String): VcsOps val =>
-    // TODO: this is where we look at remote & figure out VCS.
+
+primitive VcsForType
+  """
+  This factory returns a Vcs instance for any given VCS by name.
+  """
+  fun apply(env: Env, kind: String): Vcs val ? =>
     match kind
-    | "git" => GitOps
-    | "hg"  => HgOps
-    | "bzr" => BzrOps
-    | "svn" => SvnOps
+    | "git" => GitVcs(env)?
+    | "hg"  => HgVcs
+    | "bzr" => BzrVcs
+    | "svn" => SvnVcs
     else
-      NoneOps
+      NoneVcs
     end
 
-trait val VcsOps
-  fun tag fetch_op(env: Env): RepoOperation ?
-  fun tag tag_query_op(env: Env, rcv: TagListReceiver): RepoOperation ?
 
-class val NoneOps is VcsOps
-  fun tag fetch_op(env: Env): RepoOperation => NoOperation
-  fun tag tag_query_op(env: Env, rcv: TagListReceiver): RepoOperation => NoOperation
+interface val Vcs
+  """
+  A VcsOps provides factory functions to create each of our high-level VCS
+  operations that commands use to work with repos.
+  """
+  fun val fetch_op(ver: String): RepoOperation ?
+  fun val update_op(rcv: TagListReceiver): RepoOperation ?
+  fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
 
-trait val RepoOperation
-  fun val begin(ws: WorkSpec)
+primitive NoneVcs is Vcs
+  """
+  NoneVcs is a no-op Vcs.
+  """
+  fun tag fetch_op(ver: String): RepoOperation => NoOperation
+  fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
+  fun tag tag_query_op(rcv: TagListReceiver): RepoOperation => NoOperation
 
-trait tag TagListReceiver
-  be receive(tags: Array[String] val)
+
+interface val RepoOperation
+  """
+  A RepoOperation encapsualtes a high-level operation on a repo that is
+  comprised of a chain of one or more smaller steps that all operate on a
+  given Repo and initiated with apply().
+  """
+  fun val apply(repo: Repo)
 
 class val NoOperation is RepoOperation
   new val create() => None
-  fun val begin(ws: WorkSpec) => None
+  fun val apply(repo: Repo) => None
 
-actor TagQueryPrinter is TagListReceiver
+
+type TagListReceiver is {(Array[String] val)} val
+
+
+actor TagQueryErrPrinter is TagListReceiver
   let env: Env
   new create(env': Env) => env = env'
-  be receive(tags: Array[String] val) =>
+  be apply(tags: Array[String] val) =>
     for tg in tags.values() do
-      env.out.print("tag: " + tg)
+      env.err.print("tag: " + tg)
     end

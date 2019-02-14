@@ -1,6 +1,6 @@
 use "cli"
-use "logger"
 use "../bundle"
+use "../util" // Shell, Log
 
 primitive CmdRun
   fun apply(ctx: Context, cmd: Command) =>
@@ -18,7 +18,7 @@ primitive CmdRun
       else
         ""
       end
-    ctx.env.out.print("run ponypath: " + ponypath)
+    ctx.log.info("run ponypath: " + ponypath)
     let args = cmd.arg("args").string_seq()
     let arr = if ponypath.size() > 0 then
         ["env"; "PONYPATH="+ponypath]
@@ -27,5 +27,5 @@ primitive CmdRun
       end
     try
       // TODO: need to pass env in here...
-      Shell.from_array(arr.>append(args), ctx.env~exitcode())?
+      Shell.from_array(arr.>append(args), ctx.env.exitcode)?
     end

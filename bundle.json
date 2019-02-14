@@ -1,13 +1,8 @@
 {
   "deps": [
     {
-      "locator": "github.com/cquinn/ponylib1.git"
-    },
-    {
-      "locator": "github.com/cquinn/ponyc.git/packages"
-    },
-    {
-      "locator": "github.com/cquinn/ponylib2.git"
+      "locator": "github.com/cquinn/pony-semver.git",
+      "version": "master"
     }
   ],
   "info": {}

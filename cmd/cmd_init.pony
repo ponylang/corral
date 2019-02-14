@@ -1,14 +1,14 @@
 use "cli"
-use "logger"
 use "../bundle"
+use "../util"
 
 primitive CmdInit
   fun apply(ctx: Context, cmd: Command) =>
-    ctx.log(Info) and ctx.log.log("init: " + cmd.string())
+    ctx.log.info("init: " + cmd.string())
     try
       // TODO: try to read first to convert/update existing file(s)
       let bundle = BundleFile.create_bundle(ctx.env, ctx.log)?
-      ctx.log(Info) and ctx.log.log("created: " + bundle.name())
+      ctx.log.info("created: " + bundle.name())
       bundle.save()?
-      ctx.log(Info) and ctx.log.log("Save done.")
+      ctx.log.info("Save done.")
     end

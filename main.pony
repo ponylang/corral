@@ -1,13 +1,13 @@
 use "cli"
 use "files"
-use "logger"
+use "util" // Log
 use "./cmd"
 
 actor Main
   let _env: Env
   new create(env: Env) =>
     _env = env
-    let log = StringLogger(Fine, env.err)
+    let log = Log(Fine, env.err, LevelLogFormatter)
 
     let cs = try
         CommandSpec.parent("corral", "", [
@@ -31,12 +31,17 @@ actor Main
             ])?
           CommandSpec.leaf("remove",
             "Removes one or more deps from the corral.")?
+          CommandSpec.leaf("list",
+            "Lists the deps and packages, including corral details.")?
+          CommandSpec.leaf("clean",
+            "Cleans up repo cache and working corral. Default is to clean only working corral.", [
+              OptionSpec.bool("all", "Clean both repo cache and working corral." where short' = 'a', default' = false)
+              OptionSpec.bool("repos", "Clean repo cache only." where short' = 'r', default' = false)
+            ])?
           CommandSpec.leaf("update",
             "Updates one or more or all of the deps in the corral to their best revision.")?
           CommandSpec.leaf("fetch",
             "Fetches one or more or all of the deps into the corral.")?
-          CommandSpec.leaf("list",
-            "Lists the deps and packages, including corral details.")?
           CommandSpec.leaf("run",
             "Runs a shell command inside an environment with the corral on the PONYPATH.",
             Array[OptionSpec](), [
@@ -45,13 +50,13 @@ actor Main
         ])?
         .> add_help()?
       else
-        log(Error) and log.log("CLI Init error")
+        log.err("CLI Init error")
         env.exitcode(-1)  // Illegal command names
         return
       end
 
     let cmd =
-      match CommandParser(cs).parse(env.args, env.vars())
+      match CommandParser(cs).parse(env.args, env.vars)
       | let c: Command => c
       | let ch: CommandHelp =>
         ch.print_help(env.out)
@@ -59,27 +64,29 @@ actor Main
         return
       | let se: SyntaxError =>
         env.out.print(se.string())
+        Help.general(cs).print_help(env.out)
         env.exitcode(1)
         return
       end
 
     let quiet = cmd.option("quiet").bool()
     let nothing = cmd.option("nothing").bool()
-    let repo_cache = "./_repos"
+    let repo_cache = "./_repos"  // TODO: move to user home
     let corral_base = "./_corral"
-    env.out.print("Cmd: " + cmd.string())
+    //log.fine("Cmd: " + cmd.string())
 
     try
-      let context = Context(env, log, quiet, nothing, repo_cache, corral_base)?
+      let context = recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
 
       match cmd.fullname()
       | "corral/init" => CmdInit(context, cmd)
       | "corral/info" => CmdInfo(context, cmd)
       | "corral/add" => CmdAdd(context, cmd)
       | "corral/remove" => CmdRemove(context, cmd)
+      | "corral/list" => CmdList(context, cmd)
+      | "corral/clean" => CmdClean(context, cmd)
       | "corral/update" => CmdUpdate(context, cmd)
       | "corral/fetch" => CmdFetch(context, cmd)
-      | "corral/list" => CmdList(context, cmd)
       | "corral/run" => CmdRun(context, cmd)
       else
         Help.general(cs).print_help(env.out)
@@ -87,6 +94,6 @@ actor Main
         return
       end
     else
-      log.log("Internal error setting up command context.")
+      log.err("Internal error setting up command context.")
       env.exitcode(2)
     end
