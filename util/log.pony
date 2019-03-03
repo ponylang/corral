@@ -20,7 +20,7 @@ primitive Warn
 
 primitive Error
   fun apply(): U32 => 3
-  fun string(): String => "ERRO"
+  fun string(): String => "ERRR"
 
 
 class val Log

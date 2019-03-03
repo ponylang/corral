@@ -18,10 +18,11 @@ Corral builds on the work done in pony-stable, adding some new things:
 TODOs:
 
 - Improve tool output printing, verbosity levels.
-- Honor `-n` everywhere.
-- Figure out layout of recursive deps.
-- Get repo cache situated in the right location.
+- Figure out & fix layout of recursive deps. Flat?
 - Allow for non-semver constraints, such as simple tags or branches.
+- Honor `-n` everywhere.
+- Get repo cache situated in the right location.
+- Use ProcessMonitor (probably via Actions) for run command.
 - Include hashes in lock file.
 - Do something interesting with bundle info.
 - Implement local repos: skip clone/fetch, just checkout.
