@@ -2,9 +2,10 @@ use "cli"  // EnvVars
 use "files"
 use "process"
 
-class val Binary
+
+class val Program
   """
-  A Binary encapsulates a binary, executable program and authority to execute it.
+  A Program encapsulates an executable program and authority to execute it.
   """
   let auth: AmbientAuth
   let path: FilePath
@@ -40,19 +41,19 @@ class val Binary
 
 class val Action
   """
-  An Action encapsulates one specific executable action with a binary, cli args
+  An Action encapsulates one specific executable action with a Program, cli args
   and env vars.
   """
-  let bin: Binary val
+  let prog: Program val
   let args: Array[String] val
   let vars: Array[String] val
 
   new val create(
-    bin': Binary val,
+    prog': Program val,
     args': Array[String] val,
     vars': Array[String] val = recover val Array[String] end)
   =>
-    bin = bin'
+    prog = prog'
     args = args'
     vars = vars'
 
@@ -89,9 +90,9 @@ primitive Runner
   fun run(action: Action, result: {(ActionResult)} iso) =>
     let c = _Collector(consume result)
     let argv: Array[String] iso = recover argv.create(action.args.size()+1) end
-    argv.push(action.bin.path.path)
+    argv.push(action.prog.path.path)
     argv.append(action.args)
-    ProcessMonitor(action.bin.auth, action.bin.auth, consume c, action.bin.path, consume argv, action.vars).done_writing()
+    ProcessMonitor(action.prog.auth, action.prog.auth, consume c, action.prog.path, consume argv, action.vars).done_writing()
 
 
 class _Collector is ProcessNotify

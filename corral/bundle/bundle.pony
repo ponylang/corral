@@ -2,15 +2,17 @@ use "collections"
 use "files"
 use "json"
 use "../util"
-//use "debug"
+
 
 primitive BundleFile
-  """Loader and creator of Bundle files."""
-  fun find_bundle_dir(env: Env): (FilePath | None) =>
+  """
+  Loader and creator of Bundle files.
+  """
+  fun find_bundle_dir(env: Env, log: Log): (FilePath | None) =>
     let cwd = Path.cwd()
     var dir = cwd
     while dir.size() > 0 do
-      //Debug.out("Looking for bundle.json in: '" + dir + "'")
+      log.fine("Looking for " + Files.bundle_filename() + " in: '" + dir + "'")
       try
         let dir_path = FilePath(env.root as AmbientAuth, dir)?
         let bundle_file = dir_path.join(Files.bundle_filename())?
@@ -20,27 +22,30 @@ primitive BundleFile
       end
         dir = Path.split(dir)._1
     end
-    //Debug.out("Looked last for bundle.json in: '" + dir + "'")
+    log.info("bundle.json not found, looked last in: '" + dir + "'")
     None
 
-  fun load_bundle(env: Env, log: Log): Bundle ? =>
-    match find_bundle_dir(env)
+  fun load_bundle(env: Env, log: Log): (Bundle | Error) =>
+    match find_bundle_dir(env, log)
     | let dir: FilePath =>
       try
         Bundle.load(env, dir, log)?
       else
-        log.err("Error loading bundle files in " + dir.path)
-        error
+        Error("Error loading bundle files in " + dir.path)
       end
     else
-      log.err("No " + Files.bundle_filename() + " in current working directory or ancestors.")
-      error
+      Error("No " + Files.bundle_filename() + " in current working directory or ancestors.")
     end
 
-  fun create_bundle(env: Env, log: Log): Bundle ? =>
-    let dir = FilePath(env.root as AmbientAuth, Path.cwd())?
-    try Files.bundle_filepath(dir)?.remove() end
-    Bundle.create(env, dir, log)
+  fun create_bundle(env: Env, log: Log): (Bundle | Error) =>
+    try
+      let dir = FilePath(env.root as AmbientAuth, Path.cwd())?
+      try Files.bundle_filepath(dir)?.remove() end
+      Bundle.create(env, dir, log)
+    else
+      Error("Could not create " + Files.bundle_filename() + " in current working directory.")
+    end
+
 
 class Bundle
   """
@@ -85,27 +90,70 @@ class Bundle
       log.fine("Dep " + d.name())
     end
 
-  fun bundle_filepath(): FilePath ? => Files.bundle_filepath(dir)?
+  fun box name(): String => Path.base(dir.path)
 
-  fun lock_filepath(): FilePath ? => Files.lock_filepath(dir)?
+  fun box bundle_filepath(): FilePath ? => Files.bundle_filepath(dir)?
 
-  fun name(): String => Path.base(dir.path)
+  fun box lock_filepath(): FilePath ? => Files.lock_filepath(dir)?
 
-  fun corral_path(): String => Path.join(dir.path, "_corral")
+  fun box corral_dirpath(): FilePath ? => dir.join("_corral")?
 
-  fun bundle_roots(): Array[String] val =>
-    let out = recover trn Array[String] end
+  fun box corral_dir(): String => Path.join(dir.path, "_corral")
+
+  fun box dep_repo_root(dep: Dep box): FilePath ? =>
+    corral_dirpath()?.join(dep.flat_name())?
+
+  fun box dep_bundle_root(dep: Dep box): FilePath ? =>
+    corral_dirpath()?.join(Path.join(dep.flat_name(), dep.locator.bundle_path))?
+
+  fun box transitive_deps(): Map[String, Dep box] box =>
+    """Return all immediate and transitive deps, with no duplicates."""
+    let tran_deps = Map[String, Dep box]
+    _transitive_deps(this, tran_deps)
+    tran_deps
+
+  fun box _transitive_deps(base_bundle: Bundle box, tran_deps: Map[String, Dep box]) =>
     for dep in deps.values() do
-      out.push(dep.bundle_root())
+      try
+        if not tran_deps.contains(dep.name()) then
+          tran_deps(dep.name()) = dep
+          let bundle_root = base_bundle.dep_bundle_root(dep)?
+          let dbundle = Bundle.load(env, bundle_root, log)?
+          dbundle._transitive_deps(base_bundle, tran_deps)
+        end
+      else
+        log.err("Bundle: error finding bundle dir for tdep: " + dep.name())
+      end
+    end
+
+  fun box bundle_roots(): Array[String] val =>
+    let roots = recover trn Array[String] end
+    let tran_deps = transitive_deps()
+    for dep in tran_deps.values() do
+      let dr = Path.join(corral_dir(), Path.join(dep.flat_name(), dep.locator.bundle_path))
+      roots.push(dr)
+    end
+    consume roots
+
+  // Return an array of dirs for all deps and transitive deps
+  /*
+  fun bundle_roots_old(base_bundle: Bundle): Array[String] val =>
+    let dirs = recover trn Array[String] end
+    for dep in deps.values() do
+      try
+        dirs.push(base_bundle.dep_bundle_root(dep)?.path)
+      end
     end
     for dep in deps.values() do
       // TODO: detect and prevent infinite recursion here.
       try
-        let bundle_dir = dir.join(dep.bundle_root())?
-        out.append(Bundle(env, bundle_dir, log).bundle_roots())
+        //let bundle_dir = dir.join(dep.bundle_root(base_bundle))?
+        let bundle_root = base_bundle.dep_bundle_root(dep)?
+        dirs.append(Bundle.load(env, bundle_root, log)?.bundle_roots(base_bundle))
       end
     end
-    out
+    dirs
+    */
 
 /*
   fun all_deps(): Array[Dep] =>
@@ -159,6 +207,7 @@ class Bundle
       Json.write_object(bundle_json(), bundle_filepath()?, log)
     end
     Json.write_object(lock_json(), lock_filepath()?, log)
+
 
 primitive Files
   fun tag bundle_filename(): String => "bundle.json"

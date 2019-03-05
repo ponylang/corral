@@ -4,20 +4,23 @@ use "files"
 use "../bundle"
 use "../util"
 use "../vcs"
-use sr="../../pony-semver/semver/range"
-use ss="../../pony-semver/semver/solver"
-use sv="../../pony-semver/semver/version"
+use sr="../../../pony-semver/semver/range"
+use ss="../../../pony-semver/semver/solver"
+use sv="../../../pony-semver/semver/version"
+
 
 primitive CmdUpdate
   fun apply(ctx: Context, cmd: Command) =>
-    ctx.env.out.print("update: " + cmd.string())
+    ctx.log.info("update: " + cmd.string())
 
-    try
-      let bundle = recover BundleFile.load_bundle(ctx.env, ctx.log)? end
+    match recover BundleFile.load_bundle(ctx.env, ctx.log) end
+    | let bundle: Bundle iso =>
       _Updater(ctx).update_bundle_deps(consume bundle)
-    else
-      ctx.log.err("Error loading bundle")
+    | let err: Error =>
+      ctx.env.out.print("update: " + err.message)
+      ctx.env.exitcode(1)
     end
+
 
 actor _Updater
   let ctx: Context
@@ -31,16 +34,17 @@ actor _Updater
     let bundle: Bundle ref = consume bundle'
     for dep in bundle.deps.values() do
       try
-        update_dep(dep)?
+        update_dep(bundle, dep)?
+        //TODO: recursive
       else
         ctx.log.err("Error updating dep " + dep.name())
         // It won't get a lock. How should we handle the error?
       end
     end
 
-  fun ref update_dep(dep: Dep) ? =>
+  fun ref update_dep(base_bundle: Bundle box, dep: Dep) ? =>
     let local = ctx.repo_cache.join(dep.flat_repo())?
-    let workspace = FilePath(ctx.env.root as AmbientAuth, dep.repo_root())?
+    let workspace = base_bundle.dep_repo_root(dep)?
     let repo = Repo(dep.repo(), local, workspace)
     let vcs = VcsForType(ctx.env, dep.vcs())?
 

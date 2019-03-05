@@ -3,11 +3,12 @@ use "files"
 use "util" // Log
 use "./cmd"
 
+
 actor Main
   let _env: Env
   new create(env: Env) =>
     _env = env
-    let log = Log(Fine, env.err, LevelLogFormatter)
+    let log = Log(LvlFine, env.err, LevelLogFormatter)
 
     let cs = try
         CommandSpec.parent("corral", "", [
@@ -70,8 +71,9 @@ actor Main
       end
 
     let quiet = cmd.option("quiet").bool()
+    let verbose = cmd.option("verbose").bool()
     let nothing = cmd.option("nothing").bool()
-    let repo_cache = "./_repos"  // TODO: move to user home
+    let repo_cache = "./_repos"  // TODO: move default to user home and have flag
     let corral_base = "./_corral"
     //log.fine("Cmd: " + cmd.string())
 

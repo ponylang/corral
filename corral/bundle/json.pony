@@ -2,6 +2,7 @@ use "files"
 use "json"
 use "../util"
 
+
 primitive Json
   fun load_object(file_path: FilePath, log: Log): JsonObject ? =>
     log.fine("Reading " + file_path.path)

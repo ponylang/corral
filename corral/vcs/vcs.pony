@@ -4,9 +4,9 @@ class val Repo
   """
   Generalized details for any kind of VCS repo.
   """
-  let remote: String
-  let local: FilePath
-  let workspace: FilePath
+  let remote: String // Remote URI to retrieve the repo
+  let local: FilePath // Local clone of the repo
+  let workspace: FilePath // Workspace to checkout into
 
   new val create(
     remote': String,
@@ -42,6 +42,7 @@ interface val Vcs
   fun val update_op(rcv: TagListReceiver): RepoOperation ?
   fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
 
+
 primitive NoneVcs is Vcs
   """
   NoneVcs is a no-op Vcs.
@@ -58,6 +59,7 @@ interface val RepoOperation
   given Repo and initiated with apply().
   """
   fun val apply(repo: Repo)
+
 
 class val NoOperation is RepoOperation
   new val create() => None

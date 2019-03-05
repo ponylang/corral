@@ -1,24 +1,28 @@
 
 type LogLevel is
-  ( Fine
-  | Info
-  | Warn
-  | Error
+  ( LvlFine
+  | LvlInfo
+  | LvlWarn
+  | LvlErrr
   )
 
-primitive Fine
+
+primitive LvlFine
   fun apply(): U32 => 0
   fun string(): String => "FINE"
 
-primitive Info
+
+primitive LvlInfo
   fun apply(): U32 => 1
   fun string(): String => "INFO"
 
-primitive Warn
+
+primitive LvlWarn
   fun apply(): U32 => 2
   fun string(): String => "WARN"
 
-primitive Error
+
+primitive LvlErrr
   fun apply(): U32 => 3
   fun string(): String => "ERRR"
 
@@ -43,19 +47,21 @@ class val Log
     end
 
   fun fine(msg: String, loc: SourceLoc = __loc) =>
-    log(Fine, msg, loc)
+    log(LvlFine, msg, loc)
 
   fun info(msg: String, loc: SourceLoc = __loc) =>
-    log(Info, msg, loc)
+    log(LvlInfo, msg, loc)
 
   fun warn(msg: String, loc: SourceLoc = __loc) =>
-    log(Warn, msg, loc)
+    log(LvlWarn, msg, loc)
 
   fun err(msg: String, loc: SourceLoc = __loc) =>
-    log(Error, msg, loc)
+    log(LvlErrr, msg, loc)
+
 
 interface val LogFormatter
   fun apply(level: LogLevel, msg: String, loc: SourceLoc): String
+
 
 primitive CodeLogFormatter is LogFormatter
   fun apply(level: LogLevel, msg: String, loc: SourceLoc): String =>
@@ -76,6 +82,7 @@ primitive CodeLogFormatter is LogFormatter
      .> append(file_linepos)
      .> append(": ")
      .> append(msg)
+
 
 primitive LevelLogFormatter is LogFormatter
   fun apply(level: LogLevel, msg: String, loc: SourceLoc): String =>

@@ -4,11 +4,11 @@ use "../util"
 
 class val GitVcs is Vcs
   let env: Env
-  let bin: Binary
+  let prog: Program
 
   new val create(env': Env) ? =>
     env = env'
-    bin = Binary.on_path(env, "git")?
+    prog = Program.on_path(env, "git")?
 
   fun val fetch_op(ver: String): RepoOperation =>
     """A fetch for Git is a Sync followed by a Checkout."""
@@ -43,13 +43,13 @@ class val GitSyncRepo is RepoOperation
 
   fun val _clone(repo: Repo) =>
     // Maybe: --recurse-submodules --quiet --verbose
-    let action = Action(git.bin,
+    let action = Action(git.prog,
       recover ["clone"; "--no-checkout"; repo.remote; repo.local.path] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) => self._done(ar, repo)} iso)
 
   fun val _fetch(repo: Repo) =>
-    let action = Action(git.bin,
+    let action = Action(git.prog,
       recover ["-C"; repo.local.path; "fetch"; "--tags"] end, git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) => self._done(ar, repo)} iso)
 
@@ -74,7 +74,7 @@ class val GitCheckoutRepo is RepoOperation
 
   fun val _reset_to_version(repo: Repo) =>
     //git reset --mixed <tree-ish>
-    let action = Action(git.bin,
+    let action = Action(git.prog,
       recover ["-C"; repo.local.path; "reset"; "--mixed"; ver ] end,
       git.env.vars)
     Runner.run(action,
@@ -83,7 +83,7 @@ class val GitCheckoutRepo is RepoOperation
   fun val _checkout_to_workspace(repo: Repo) =>
     // Maybe: --recurse-submodules --quiet --verbose
     //"git", "checkout-index", "-f", "-a", "--prefix="+path)
-    let action = Action(git.bin,
+    let action = Action(git.prog,
       recover [
         "-C"; repo.local.path
         "checkout-index"
@@ -112,7 +112,7 @@ class val GitQueryTags is RepoOperation
     _get_tags(repo)
 
   fun val _get_tags(repo: Repo) =>
-    let action = Action(git.bin,
+    let action = Action(git.prog,
       recover ["-C"; repo.local.path; "show-ref"] end,
       git.env.vars)
     Runner.run(action,

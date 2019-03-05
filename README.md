@@ -17,6 +17,7 @@ Corral builds on the work done in pony-stable, adding some new things:
 
 TODOs:
 
+- Add a --path flag to allow specification of bundle dir to start in
 - Improve tool output printing, verbosity levels.
 - Figure out & fix layout of recursive deps. Flat?
 - Allow for non-semver constraints, such as simple tags or branches.
@@ -25,6 +26,7 @@ TODOs:
 - Use ProcessMonitor (probably via Actions) for run command.
 - Include hashes in lock file.
 - Do something interesting with bundle info.
+- Implement remote gitlabs repos.
 - Implement local repos: skip clone/fetch, just checkout.
 - Implement local paths: skip clone/fetch, version/tag query, always just checkout using symlink or copy or reference path in PONYPATH.
 - Implement other VCS: Hg, Bzr, Svn, etc., as needed.

@@ -3,6 +3,7 @@ use "json"
 use "../util"
 use "debug"
 
+
 class val Locator
   """
   Encapsulation of the bundle dependency's locator string, parsed into distinct
@@ -55,6 +56,7 @@ class val Locator
 
   fun is_local_direct(): Bool => not is_vcs() and is_local()
 
+
 class Dep
   """
   Encapsulation of a dependency within a Bundle, encompassing both dep and lock
@@ -72,25 +74,27 @@ class Dep
     locator = Locator(data.locator)
     //bundle.env.out.print("Locator: " + locator.repo_path + " " + locator.vcs_suffix + " " + locator.bundle_path)
 
-  fun name(): String =>
+  fun box name(): String =>
     locator.path()
 
-  fun flat_name(): String =>
-    _Flattened(name())
+  fun box flat_name(): String =>
+    _Flattened(locator.path())
 
-  fun repo(): String =>
+  fun box repo(): String =>
     locator.repo_path + locator.vcs_suffix
 
-  fun flat_repo(): String =>
+  fun box flat_repo(): String =>
     _Flattened(repo())
 
-  fun repo_root(): String =>
-    Path.join(bundle.corral_path(), _Flattened(locator.path()))
+  //fun repo_root(base_bundle: Bundle box): String =>
+  //  """Return this dep's repo workspace dir under the base bundle's corral."""
+  //  Path.join(base_bundle.corral_path(), flat_name())
 
-  fun bundle_root(): String =>
-    Path.join(repo_root(), locator.bundle_path)
+  //fun bundle_root(base_bundle: Bundle box): String =>
+  //  """Return this dep's bundle dir withing its repo workspace."""
+  //  Path.join(repo_root(base_bundle), locator.bundle_path)
 
-  fun version(): String =>
+  fun box version(): String =>
     if lock.revision != "" then
       lock.revision
     elseif data.version != "" then
@@ -99,12 +103,13 @@ class Dep
       "master"
     end
 
-  fun vcs(): String =>
+  fun box vcs(): String =>
     locator.vcs_suffix.trim(1)
 
   fun ref lock_version(ver: String) =>
     lock.locator = data.locator
     lock.revision = ver
+
 
 primitive _Flattened
   fun apply(path: String): String val =>
