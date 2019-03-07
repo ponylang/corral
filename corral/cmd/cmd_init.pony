@@ -1,4 +1,5 @@
 use "cli"
+use "files"
 use "../bundle"
 use "../util"
 
@@ -7,6 +8,7 @@ primitive CmdInit
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("init: " + cmd.string())
 
+    ctx.env.out.print("\ninit: from dir " + Path.cwd())
     // TODO: try to read first to convert/update existing file(s)
     match BundleFile.create_bundle(ctx.env, ctx.log)
     | let bundle: Bundle =>
@@ -18,6 +20,6 @@ primitive CmdInit
         ctx.env.exitcode(1)
       end
     | let err: Error =>
-      ctx.env.out.print("init: " + err.message)
+      ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end

@@ -16,18 +16,20 @@ primitive CmdAdd
     ld.locator = dd.locator
     ld.revision = cmd.option("revision").string()
 
+    ctx.env.out.print("\nadd: adding: " + dd.locator.string() + " " + dd.version.string() + " " + ld.revision.string())
+
     match BundleFile.load_bundle(ctx.env, ctx.log)
     | let bundle: Bundle =>
       try
         bundle.add_dep(dd, ld)
         bundle.save()?
-        ctx.env.out.print("add: added: " + dd.json().string() + " " + ld.json().string())
+        ctx.env.out.print("  added: " + dd.json().string() + " " + ld.json().string())
         //bundle.fetch() // TODO: maybe just fetch this one new dep
         else
-          ctx.env.out.print("add: could not update " + bundle.name())
+          ctx.env.out.print("  could not update " + bundle.name())
           ctx.env.exitcode(1)
         end
     | let err: Error =>
-      ctx.env.out.print("add: " + err.message)
+      ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end

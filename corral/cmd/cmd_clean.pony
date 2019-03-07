@@ -17,6 +17,8 @@ primitive CmdClean
         let clean_repos = cmd.option("repos").bool()
         let clean_all = cmd.option("all").bool()
 
+        ctx.env.out.print("\nclean: repos:" + clean_repos.string() + " all:" + clean_all.string())
+
         if (not clean_repos) or clean_all then
           ctx.env.out.print("  cleaning corral: " + corral_dir.path)
           corral_dir.remove()
@@ -27,6 +29,6 @@ primitive CmdClean
         end
       end
     | let err: Error =>
-      ctx.env.out.print("clean: " + err.message)
+      ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end

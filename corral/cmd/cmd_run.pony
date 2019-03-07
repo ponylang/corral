@@ -11,6 +11,11 @@ class CmdRun
     ctx = ctx'
     //ctx.log.info("run: " + cmd.string())
 
+    let argss = cmd.arg("args").string_seq()
+    let args = recover val Array[String].create() .> append(argss) end
+
+    ctx.env.out.print("\nrun: ") // + args.string())
+
     // Build a : separated path from bundle roots.
     let ponypath = recover val
       match BundleFile.load_bundle(ctx.env, ctx.log)
@@ -30,8 +35,6 @@ class CmdRun
     end
     ctx.log.info("run ponypath: " + ponypath)
 
-    let argss = cmd.arg("args").string_seq()
-    let args = recover val Array[String].create() .> append(argss) end
     try
       let prog = Program.on_path(ctx.env, args(0)?)?
       let vars = if ponypath.size() > 0 then

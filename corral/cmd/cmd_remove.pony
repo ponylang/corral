@@ -7,6 +7,8 @@ primitive CmdRemove
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("remove: " + cmd.string())
 
+    ctx.env.out.print("\nremove: removing: TODO")
+
     match BundleFile.load_bundle(ctx.env, ctx.log)
     | let bundle: Bundle =>
       try
@@ -19,6 +21,6 @@ primitive CmdRemove
         ctx.env.exitcode(1)
       end
     | let err: Error =>
-      ctx.env.out.print("remove: " + err.message)
+      ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end

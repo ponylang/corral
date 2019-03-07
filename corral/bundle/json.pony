@@ -2,11 +2,16 @@ use "files"
 use "json"
 use "../util"
 
+primitive JsonError
+
 
 primitive Json
-  fun load_object(file_path: FilePath, log: Log): JsonObject ? =>
+  fun load_object(file_path: FilePath, log: Log): (JsonObject | FileErrNo | JsonError) =>
     log.fine("Reading " + file_path.path)
-    let file = OpenFile(file_path) as File // FileErrNo?
+    let file = match OpenFile(file_path)
+    | let f: File => f
+    | let e: FileErrNo => return e
+    end
     let content: String = file.read_string(file.size())
     //log.log("Read: " + content + ".")
     let json: JsonDoc ref = JsonDoc
@@ -18,7 +23,7 @@ primitive Json
       log.err(
         "JSON error at: " + file.path.path + ":" + err_line.string() + " : " + err_message
       )
-      JsonObject
+      JsonError
     end
 
   fun write_object(jo: JsonObject, file_path: FilePath, log: Log) =>

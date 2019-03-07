@@ -71,18 +71,32 @@ class Bundle
     log = log'
 
     log.fine("Loading bundle: " + Files.bundle_filepath(dir)?.path)
-    let data = BundleData(Json.load_object(Files.bundle_filepath(dir)?, log)?)
+    let data = match Json.load_object(Files.bundle_filepath(dir)?, log)
+      | let jo: JsonObject => BundleData(jo)
+      | let fe: FileErrNo =>
+        log.fine("Bundle file not present.")
+        error
+      | let je: JsonError =>
+        log.err("Bundle file unparseable.")
+        error
+      end
     info = data.info
 
     let lm = Map[String, LockData]
     try
-      let locks_data = LocksData(Json.load_object(Files.lock_filepath(dir)?, log)?)
+      let locks_data = match Json.load_object(Files.lock_filepath(dir)?, log)
+        | let jo: JsonObject => LocksData(jo)
+        | let fe: FileErrNo =>
+          log.fine("Lock file not present.")
+          error
+        | let je: JsonError =>
+          log.err("Lock file unparseable.")
+          error
+        end
       for l in locks_data.locks.values() do
         log.fine("Lock " + l.locator + " : " + l.revision)
         lm(l.locator) = l
       end
-    else
-      log.err("Lock file unreadable")
     end
     for dd in data.deps.values() do
       let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData.none()))
@@ -100,7 +114,7 @@ class Bundle
 
   fun box corral_dir(): String => Path.join(dir.path, "_corral")
 
-  fun box dep_repo_root(dep: Dep box): FilePath ? =>
+  fun box dep_workspace_root(dep: Dep box): FilePath ? =>
     corral_dirpath()?.join(dep.flat_name())?
 
   fun box dep_bundle_root(dep: Dep box): FilePath ? =>
@@ -127,49 +141,13 @@ class Bundle
     end
 
   fun box bundle_roots(): Array[String] val =>
-    let roots = recover trn Array[String] end
     let tran_deps = transitive_deps()
+    let roots = recover trn Array[String] end
     for dep in tran_deps.values() do
       let dr = Path.join(corral_dir(), Path.join(dep.flat_name(), dep.locator.bundle_path))
       roots.push(dr)
     end
     consume roots
-
-  // Return an array of dirs for all deps and transitive deps
-  /*
-  fun bundle_roots_old(base_bundle: Bundle): Array[String] val =>
-    let dirs = recover trn Array[String] end
-    for dep in deps.values() do
-      try
-        dirs.push(base_bundle.dep_bundle_root(dep)?.path)
-      end
-    end
-    for dep in deps.values() do
-      // TODO: detect and prevent infinite recursion here.
-      try
-        //let bundle_dir = dir.join(dep.bundle_root(base_bundle))?
-        let bundle_root = base_bundle.dep_bundle_root(dep)?
-        dirs.append(Bundle.load(env, bundle_root, log)?.bundle_roots(base_bundle))
-      end
-    end
-    dirs
-    */
-
-/*
-  fun all_deps(): Array[Dep] =>
-    let out = recover trn Array[Dep] end
-    for dep in deps.values() do
-      out.push(dep)
-    end
-    for dep in deps.values() do
-      // TODO: detect and prevent infinite recursion here.
-      try
-        let bundle_dir = dir.join(dep.packages_path())?
-        out.append(Bundle(env, bundle_dir, log).paths())
-      end
-    end
-    out
-*/
 
   fun ref add_dep(dd: DepData, ld: LockData) =>
     deps(dd.locator) = Dep(this, dd, ld)

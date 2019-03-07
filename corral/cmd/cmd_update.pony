@@ -13,11 +13,13 @@ primitive CmdUpdate
   fun apply(ctx: Context, cmd: Command) =>
     ctx.log.info("update: " + cmd.string())
 
+    ctx.env.out.print("\nupdate:")
+
     match recover BundleFile.load_bundle(ctx.env, ctx.log) end
     | let bundle: Bundle iso =>
       _Updater(ctx).update_bundle_deps(consume bundle)
     | let err: Error =>
-      ctx.env.out.print("update: " + err.message)
+      ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end
 
@@ -44,7 +46,7 @@ actor _Updater
 
   fun ref update_dep(base_bundle: Bundle box, dep: Dep) ? =>
     let local = ctx.repo_cache.join(dep.flat_repo())?
-    let workspace = base_bundle.dep_repo_root(dep)?
+    let workspace = base_bundle.dep_workspace_root(dep)?
     let repo = Repo(dep.repo(), local, workspace)
     let vcs = VcsForType(ctx.env, dep.vcs())?
 
