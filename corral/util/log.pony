@@ -28,6 +28,12 @@ primitive LvlErrr
 
 
 class val Log
+  """
+  A wrapped output stream for use in logging. It supports logging at four levels:
+  err, warn, info and fine. Log level is checked behind the call for convenience
+  at the tradeoff of performance. The formatter can also be selected to customize
+  the log line content and format.
+  """
   let _level: LogLevel
   let _out: OutStream
   let _formatter: LogFormatter

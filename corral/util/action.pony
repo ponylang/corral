@@ -59,6 +59,10 @@ class val Action
 
 
 class val ActionResult
+  """
+  The results of an Action which includes its exit code, out and err streams as Strings,
+  and and error message if the Action failed.
+  """
   let exit_code: I32
   let stdout: String
   let stderr: String
@@ -84,7 +88,7 @@ class val ActionResult
 
 primitive Runner
   """
-  Run an Action using ProcessMonitor, and hand the resulting ActionResult to a
+  Run an Action using ProcessMonitor, and pass the resulting ActionResult to a
   given lambda.
   """
   fun run(action: Action, result: {(ActionResult)} iso) =>
