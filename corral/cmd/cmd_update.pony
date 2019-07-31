@@ -4,9 +4,9 @@ use "files"
 use "../bundle"
 use "../util"
 use "../vcs"
-use sr="../../../pony-semver/semver/range"
-use ss="../../../pony-semver/semver/solver"
-use sv="../../../pony-semver/semver/version"
+use sr="../semver/range"
+use ss="../semver/solver"
+use sv="../semver/version"
 
 
 primitive CmdUpdate

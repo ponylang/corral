@@ -1,5 +1,5 @@
 use "files"
-use "regex"
+use "../regex"
 use "../util"
 
 class val GitVcs is Vcs

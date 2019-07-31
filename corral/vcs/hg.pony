@@ -1,5 +1,4 @@
 use "files"
-use "regex"
 
 primitive HgVcs is Vcs
   fun tag fetch_op(ver: String): RepoOperation => NoOperation
