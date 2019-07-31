@@ -19,7 +19,7 @@ jobs:
       - image: ponylang/ponyc:release
     steps:
       - checkout
-      - run: make test integration
+      - run: make test
       - zulip/status:
           fail_only: true
 
@@ -28,7 +28,7 @@ jobs:
       - image: ponylang/ponyc:latest
     steps:
       - checkout
-      - run: make test integration
+      - run: make test
       - zulip/status:
           fail_only: true
 
