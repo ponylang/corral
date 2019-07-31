@@ -1,7 +1,7 @@
 use "cli"
 use "files"
-use "util" // Log
-use "./cmd"
+use "util"
+use "cmd"
 
 
 actor Main
