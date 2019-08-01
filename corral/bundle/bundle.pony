@@ -64,6 +64,7 @@ class Bundle
     log = log'
     info = InfoData(JsonObject)
     log.info("Created bundle in " + dir.path)
+    modified = true
 
   new load(env': Env, dir': FilePath, log': Log) ? =>
     env = env'
