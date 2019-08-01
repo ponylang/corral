@@ -1,9 +1,0 @@
-{
-  "deps": [
-    {
-      "locator": "github.com/cquinn/pony-semver.git",
-      "version": "master"
-    }
-  ],
-  "info": {}
-}
