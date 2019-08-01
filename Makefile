@@ -45,9 +45,8 @@ endif
 # make version="nightly-19710702"
 # overridden version *should not* contain spaces or characters that aren't
 # legal in filesystem path names
-version=0.0.0
 ifndef version
-#  version := $(shell cat VERSION)
+  version := $(shell cat VERSION)
   ifneq ($(wildcard .git),)
     sha := $(shell git rev-parse --short HEAD)
     tag := $(version)-$(sha)
@@ -55,6 +54,7 @@ ifndef version
     tag := $(version)
   endif
 else
+  foo := $(shell touch VERSION)
   tag := $(version)
 endif
 
@@ -63,6 +63,9 @@ TEST_FILES := $(shell find $(SRC_DIR)/test -name \*.pony -o -name helper.sh)
 VERSION := "$(tag) [$(config)]"
 GEN_FILES_IN := $(shell find $(SRC_DIR) -name \*.pony.in)
 GEN_FILES = $(patsubst %.pony.in, %.pony, $(GEN_FILES_IN))
+
+%.pony: %.pony.in VERSION
+	sed s/%%VERSION%%/$(version)/ $< > $@
 
 $(binary): $(GEN_FILES) $(SOURCE_FILES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) $(SRC_DIR) -o ${BUILD_DIR}
