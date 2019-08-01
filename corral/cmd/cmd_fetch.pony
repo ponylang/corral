@@ -4,7 +4,6 @@ use "../bundle"
 use "../util"
 use "../vcs"
 
-
 class CmdFetch
   let ctx: Context
 
@@ -25,13 +24,14 @@ class CmdFetch
     ctx.log.info("Fetching bundle: " + bundle.name())
     for dep in bundle.deps.values() do
       try
-        ctx.log.info("Fetching dep: " + dep.name() + " @ " + dep.version()) //dep.data.locator)
+        ctx.log.info("Fetching dep: " + dep.name() + " @ " + dep.version())
+          //dep.data.locator)
         fetch_dep(base_bundle, dep)?
       else
-        ctx.log.err("Error fetching dep: " + dep.name() + " @ " + dep.version()) //dep.data.locator)
+        ctx.log.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
+          //dep.data.locator)
       end
     end
-    /**/
     for dep in bundle.deps.values() do
       // TODO: prevent infinite recursion by keeping & checking a deps Set
       try
@@ -43,17 +43,21 @@ class CmdFetch
       else
         ctx.log.err("Error loading/fetching dep's bundle: " + dep.flat_name())
       end
-    end /**/
+    end
 
-  // TODO: we  want the fetch workspace to always be directlyunder this project's
+  // TODO:
+  // We want the fetch workspace to always be directly under this project's
   // corral, but we still locate the fetched bundles from down in corral.
 
   fun fetch_dep(base_bundle: Bundle box, dep: Dep) ? =>
     let local = ctx.repo_cache.join(dep.flat_repo())?
     let workspace = base_bundle.dep_workspace_root(dep)?
     let repo = Repo(dep.repo(), local, workspace)
-    let vcs = VcsForType(ctx.env, dep.vcs())?
-    let fetch_op = vcs.fetch_op(dep.version())? // TODO: careful about version here
+    let vcs = VCSForType(ctx.env, dep.vcs())?
 
-    // TODO: need to include callback here to continue recursion once the fetch is done.
+    // TODO: careful about version here
+    let fetch_op = vcs.fetch_op(dep.version())?
+
+    // TODO:
+    // Need to include callback here to continue recursion once fetch is done.
     fetch_op(repo)

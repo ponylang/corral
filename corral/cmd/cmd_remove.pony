@@ -2,7 +2,6 @@ use "cli"
 use "../bundle"
 use "../util"
 
-
 primitive CmdRemove
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("remove: " + cmd.string())

@@ -1,6 +1,5 @@
 use "json"
 
-
 class BundleData
   let info: InfoData
   let deps: Array[DepData]
@@ -17,6 +16,7 @@ class BundleData
     end
 
 /*
+  TODO: Currently in Bundle.bundle_json()
   fun json(): JsonObject =>
     let jo: JsonObject = JsonObject
     jo.data("info") = info.json()
@@ -27,7 +27,6 @@ class BundleData
     jo.data("deps") = bundles_array
     jo
 */
-
 
 class InfoData
   var name: String
@@ -52,7 +51,6 @@ class InfoData
     Json.set_string(jo, "version", version)
     jo
 
-
 class DepData
   var locator: String
   var version: String
@@ -66,7 +64,6 @@ class DepData
     Json.set_string(jo, "locator", locator)
     Json.set_string(jo, "version", version)
     jo
-
 
 class LocksData
   let locks: Array[LockData]
@@ -88,7 +85,6 @@ class LocksData
     end
     jo.data("locks") = locks_array
     jo
-
 
 class LockData
   var locator: String   // Present when locked

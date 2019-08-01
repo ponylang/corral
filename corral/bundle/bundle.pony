@@ -3,7 +3,6 @@ use "files"
 use "json"
 use "../util"
 
-
 primitive BundleFile
   """
   Loader and creator of Bundle files.
@@ -34,7 +33,9 @@ primitive BundleFile
         Error("Error loading bundle files in " + dir.path)
       end
     else
-      Error("No " + Files.bundle_filename() + " in current working directory or ancestors.")
+      Error(
+        "No " + Files.bundle_filename()
+          + " in current working directory or ancestors.")
     end
 
   fun create_bundle(env: Env, log: Log): (Bundle | Error) =>
@@ -43,9 +44,10 @@ primitive BundleFile
       try Files.bundle_filepath(dir)?.remove() end
       Bundle.create(env, dir, log)
     else
-      Error("Could not create " + Files.bundle_filename() + " in current working directory.")
+      Error(
+        "Could not create " + Files.bundle_filename()
+          + " in current working directory.")
     end
-
 
 class Bundle
   """
@@ -127,7 +129,10 @@ class Bundle
     _transitive_deps(this, tran_deps)
     tran_deps
 
-  fun box _transitive_deps(base_bundle: Bundle box, tran_deps: Map[String, Dep box]) =>
+  fun box _transitive_deps(
+    base_bundle: Bundle box,
+    tran_deps: Map[String, Dep box])
+  =>
     for dep in deps.values() do
       try
         if not tran_deps.contains(dep.name()) then
@@ -145,7 +150,9 @@ class Bundle
     let tran_deps = transitive_deps()
     let roots = recover trn Array[String] end
     for dep in tran_deps.values() do
-      let dr = Path.join(corral_dir(), Path.join(dep.flat_name(), dep.locator.bundle_path))
+      let dr = Path.join(
+        corral_dir(),
+        Path.join(dep.flat_name(), dep.locator.bundle_path))
       roots.push(dr)
     end
     consume roots
@@ -190,7 +197,11 @@ class Bundle
 
 primitive Files
   fun tag bundle_filename(): String => "bundle.json"
-  fun tag bundle_filepath(dir: FilePath): FilePath ? => dir.join(bundle_filename())?
+
+  fun tag bundle_filepath(dir: FilePath): FilePath ? =>
+    dir.join(bundle_filename())?
 
   fun tag lock_filename(): String => "lock.json"
-  fun tag lock_filepath(dir: FilePath): FilePath ? => dir.join(lock_filename())?
+
+  fun tag lock_filepath(dir: FilePath): FilePath ? =>
+    dir.join(lock_filename())?
