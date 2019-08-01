@@ -5,8 +5,8 @@ use "../util"
 primitive JsonError
 
 primitive Json
-  fun load_object(file_path: FilePath, log: Log):
-    (JsonObject | FileErrNo | JsonError)
+  fun load_object(file_path: FilePath, log: Log)
+    : (JsonObject | FileErrNo | JsonError)
   =>
     log.fine("Reading " + file_path.path)
     let file = match OpenFile(file_path)
@@ -22,9 +22,8 @@ primitive Json
     else
       (let err_line, let err_message) = json.parse_report()
       log.err(
-        "JSON error at: " + file.path.path + ":" + err_line.string() + " : " +
-          err_message
-      )
+        "JSON error at: " + file.path.path + ":" + err_line.string() + " : "
+          + err_message)
       JsonError
     end
 

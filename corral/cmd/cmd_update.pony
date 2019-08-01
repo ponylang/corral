@@ -61,8 +61,9 @@ actor _Updater
     try
       (let deptag, let dep) = updates.remove(dep')?
 
-      ctx.log.fine("tags for [" + updates.size().string() + "] " +
-        dep.locator.string() + ": " + tags.size().string())
+      ctx.log.fine(
+        "tags for [" + updates.size().string() + "] " + dep.locator.string()
+          + ": " + tags.size().string())
       let source: ss.InMemArtifactSource = source.create()
 
       for tg in tags.values() do
@@ -74,7 +75,7 @@ actor _Updater
 
       // TODO: consider parsing version much earlier, before we even get here.
       // TODO: also consider allowing literal tags and not just constraints
-      //   expressions.
+      // expressions.
       let constraints = parse_constraints(dep.data.version)
       let result = ss.Solver(source).solve(constraints.values())
 

@@ -1,7 +1,9 @@
 use "files"
 
 primitive BzrVcs is Vcs
-  """Placeholder for Bazaar VCS"""
+  """
+  Placeholder for Bazaar VCS
+  """
 
   fun tag fetch_op(ver: String): RepoOperation => NoOperation
 

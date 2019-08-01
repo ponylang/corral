@@ -3,7 +3,9 @@ use "../regex"
 use "../util"
 
 class val GitVcs is Vcs
-  """Git implementation of Vcs"""
+  """
+  Git implementation of Vcs
+  """
   let env: Env
   let prog: Program
 

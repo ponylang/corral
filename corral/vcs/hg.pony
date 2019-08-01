@@ -1,7 +1,9 @@
 use "files"
 
 primitive HgVcs is Vcs
-  """Placeholder for Mercurial VCS"""
+  """
+  Placeholder for Mercurial VCS
+  """
 
   fun tag fetch_op(ver: String): RepoOperation => NoOperation
 

@@ -33,8 +33,9 @@ primitive BundleFile
         Error("Error loading bundle files in " + dir.path)
       end
     else
-      Error("No " + Files.bundle_filename() +
-        " in current working directory or ancestors.")
+      Error(
+        "No " + Files.bundle_filename()
+          + " in current working directory or ancestors.")
     end
 
   fun create_bundle(env: Env, log: Log): (Bundle | Error) =>
@@ -147,8 +148,9 @@ class Bundle
     let tran_deps = transitive_deps()
     let roots = recover trn Array[String] end
     for dep in tran_deps.values() do
-      let dr = Path.join(corral_dir(),
-          Path.join(dep.flat_name(), dep.locator.bundle_path))
+      let dr = Path.join(
+        corral_dir(),
+        Path.join(dep.flat_name(), dep.locator.bundle_path))
       roots.push(dr)
     end
     consume roots

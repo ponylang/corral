@@ -10,53 +10,88 @@ actor Main
     let log = Log(LvlFine, env.err, LevelLogFormatter)
 
     let cs = try
-        CommandSpec.parent("corral", "", [
-          OptionSpec.bool("quiet", "Quiet output."
-            where short'='q', default' = false)
-          OptionSpec.bool("nothing", "Don't actually apply changes."
-            where short' = 'n', default' = false)
-          OptionSpec.bool("verbose", "Verbose output."
-            where short'='v', default' = false)
-        ], [
-          CommandSpec.leaf("init",
-            "Initializes the bundle.json and dep-lock.json files with" +
-            " skeletal information.")?
-          CommandSpec.leaf("info",
-            "Prints all or specific information about the bundle from" +
-            " bundle.json.")?
-          CommandSpec.leaf("add",
-            "Adds a remote VCS, local VCS or local direct dependency.", [
-              OptionSpec.string("version",
-                "Version constraint" where short' = 'v', default' = "")
-              OptionSpec.string("revision",
-                "Specific revision: tag, branch, commit" where short' = 'r',
+      CommandSpec.parent(
+        "corral",
+        "",
+        [
+          OptionSpec.bool(
+            "quiet",
+            "Quiet output."
+            where short'='q',
+            default' = false)
+          OptionSpec.bool(
+            "nothing",
+            "Don't actually apply changes."
+            where short' = 'n',
+            default' = false)
+          OptionSpec.bool(
+            "verbose",
+            "Verbose output."
+            where short'='v',
+            default' = false)
+        ],
+        [
+          CommandSpec.leaf(
+            "init",
+            "Initializes the bundle.json and dep-lock.json files with"
+              + " skeletal information.")?
+          CommandSpec.leaf(
+            "info",
+            "Prints all or specific information about the bundle from"
+              + " bundle.json.")?
+          CommandSpec.leaf(
+            "add",
+            "Adds a remote VCS, local VCS or local direct dependency.",
+            [
+              OptionSpec.string(
+                "version",
+                "Version constraint"
+                where short' = 'v',
                 default' = "")
-            ], [
+              OptionSpec.string(
+                "revision",
+                "Specific revision: tag, branch, commit"
+                where short' = 'r',
+                default' = "")
+            ],
+            [
               ArgSpec.string("locator", "Organization/repository name.")
             ])?
-          CommandSpec.leaf("remove",
+          CommandSpec.leaf(
+            "remove",
             "Removes one or more deps from the corral.")?
-          CommandSpec.leaf("list",
+          CommandSpec.leaf(
+            "list",
             "Lists the deps and packages, including corral details.")?
-          CommandSpec.leaf("clean",
-            "Cleans up repo cache and working corral. Default is to clean" +
-            " only working corral.", [
-              OptionSpec.bool("all",
-                "Clean both repo cache and working corral." where short' = 'a',
+          CommandSpec.leaf(
+            "clean",
+            "Cleans up repo cache and working corral. Default is to clean"
+              + " only working corral.",
+            [
+              OptionSpec.bool(
+                "all",
+                "Clean both repo cache and working corral."
+                where short' = 'a',
                 default' = false)
-              OptionSpec.bool("repos",
-                "Clean repo cache only." where short' = 'r',
+              OptionSpec.bool(
+                "repos",
+                "Clean repo cache only."
+                where short' = 'r',
                 default' = false)
             ])?
-          CommandSpec.leaf("update",
-            "Updates one or more or all of the deps in the corral to their" +
-            " best revisions.")?
-          CommandSpec.leaf("fetch",
+          CommandSpec.leaf(
+            "update",
+            "Updates one or more or all of the deps in the corral to their"
+              + " best revisions.")?
+          CommandSpec.leaf(
+            "fetch",
             "Fetches one or more or all of the deps into the corral.")?
-          CommandSpec.leaf("run",
-            "Runs a shell command inside an environment with the corral on" +
-            " the PONYPATH.",
-            Array[OptionSpec](), [
+          CommandSpec.leaf(
+            "run",
+            "Runs a shell command inside an environment with the corral on"
+              + " the PONYPATH.",
+            Array[OptionSpec](),
+            [
               ArgSpec.string_seq("args", "Arguments to run.")
             ])?
         ])?
