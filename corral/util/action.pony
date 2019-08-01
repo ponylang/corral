@@ -24,8 +24,8 @@ class val Program
     let evars = EnvVars(env.vars)
     path = first_existing(auth, evars.get_or_else("PATH", ""), name)?
 
-  fun tag first_existing(auth': AmbientAuth, binpath: String, name: String):
-    FilePath ?
+  fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
+    : FilePath ?
   =>
     for bindir in Path.split_list(binpath).values() do
       try
