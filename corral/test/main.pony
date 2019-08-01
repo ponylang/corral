@@ -32,7 +32,7 @@ class iso _TestGitParseTags is UnitTest
     let expect: Array[String] =
       ["0.1.0"; "0.1.1"; "0.1.2"; "0.1.3"; "0.1.4"; "0.1.5"; "0.1.6"; "0.1.7"]
 
-    let git = GitVcs(h.env)?
+    let git = GitVCS(h.env)?
     let rcv = {(res: Array[String] val) => None}
     let res = GitQueryTags(git, consume rcv).parse_tags(stdout)
     for pair in expect.pairs() do
