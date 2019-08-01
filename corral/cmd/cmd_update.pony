@@ -8,7 +8,6 @@ use sr="../semver/range"
 use ss="../semver/solver"
 use sv="../semver/version"
 
-
 primitive CmdUpdate
   fun apply(ctx: Context, cmd: Command) =>
     ctx.log.info("update: " + cmd.string())
@@ -22,7 +21,6 @@ primitive CmdUpdate
       ctx.env.out.print(err.message)
       ctx.env.exitcode(1)
     end
-
 
 actor _Updater
   let ctx: Context
@@ -63,7 +61,8 @@ actor _Updater
     try
       (let deptag, let dep) = updates.remove(dep')?
 
-      ctx.log.fine("tags for [" + updates.size().string() + "] " + dep.locator.string() + ": " + tags.size().string())
+      ctx.log.fine("tags for [" + updates.size().string() + "] " +
+        dep.locator.string() + ": " + tags.size().string())
       let source: ss.InMemArtifactSource = source.create()
 
       for tg in tags.values() do
@@ -74,7 +73,8 @@ actor _Updater
       ctx.log.fine("")
 
       // TODO: consider parsing version much earlier, before we even get here.
-      // TODO: also consider allowing literal tags and not just constraints expressions.
+      // TODO: also consider allowing literal tags and not just constraints
+      //   expressions.
       let constraints = parse_constraints(dep.data.version)
       let result = ss.Solver(source).solve(constraints.values())
 

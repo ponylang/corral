@@ -3,6 +3,7 @@ use "../regex"
 use "../util"
 
 class val GitVcs is Vcs
+  """Git implementation of Vcs"""
   let env: Env
   let prog: Program
 
@@ -21,7 +22,6 @@ class val GitVcs is Vcs
   fun val tag_query_op(rcv: TagListReceiver): RepoOperation =>
     """A query for Git is a Tag Query."""
     GitQueryTags(this, rcv)
-
 
 class val GitSyncRepo is RepoOperation
   let git: GitVcs
@@ -56,7 +56,6 @@ class val GitSyncRepo is RepoOperation
   fun val _done(ar: ActionResult, repo: Repo) =>
     //ar.print_to(git.env.err)
     next(repo)
-
 
 class val GitCheckoutRepo is RepoOperation
   let git: GitVcs
@@ -98,7 +97,6 @@ class val GitCheckoutRepo is RepoOperation
     // TODO: check ar.exit_code == 0 before proceeding
     //ar.print_to(git.env.err)
     next(repo)
-
 
 class val GitQueryTags is RepoOperation
   let git: GitVcs

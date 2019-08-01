@@ -17,7 +17,6 @@ class val Repo
     local = local'
     workspace = workspace'
 
-
 primitive VcsForType
   """
   This factory returns a Vcs instance for any given VCS by name.
@@ -32,16 +31,14 @@ primitive VcsForType
       NoneVcs
     end
 
-
 interface val Vcs
   """
-  A VcsOps provides factory functions to create each of our high-level VCS
-  operations that commands use to work with repos.
+  A Vcs provides functions to perform high-level VCS operations that commands
+  use to work with repos.
   """
   fun val fetch_op(ver: String): RepoOperation ?
   fun val update_op(rcv: TagListReceiver): RepoOperation ?
   fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
-
 
 primitive NoneVcs is Vcs
   """
@@ -51,23 +48,22 @@ primitive NoneVcs is Vcs
   fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
   fun tag tag_query_op(rcv: TagListReceiver): RepoOperation => NoOperation
 
-
 interface val RepoOperation
   """
   A RepoOperation encapsualtes a high-level operation on a repo that is
   comprised of a chain of one or more smaller steps that all operate on a
-  given Repo and initiated with apply().
+  single given Repo and are initiated with apply().
   """
   fun val apply(repo: Repo)
 
-
 class val NoOperation is RepoOperation
+  """
+  NoOperation is a no-op RepoOperation.
+  """
   new val create() => None
   fun val apply(repo: Repo) => None
 
-
 type TagListReceiver is {(Array[String] val)} val
-
 
 actor TagQueryErrPrinter is TagListReceiver
   let env: Env

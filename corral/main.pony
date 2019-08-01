@@ -3,7 +3,6 @@ use "files"
 use "util"
 use "cmd"
 
-
 actor Main
   let _env: Env
   new create(env: Env) =>
@@ -20,13 +19,18 @@ actor Main
             where short'='v', default' = false)
         ], [
           CommandSpec.leaf("init",
-            "Initializes the bundle.json and dep-lock.json files with skeletal information.")?
+            "Initializes the bundle.json and dep-lock.json files with" +
+            " skeletal information.")?
           CommandSpec.leaf("info",
-            "Prints all or specific information about the bundle from bundle.json.")?
+            "Prints all or specific information about the bundle from" +
+            " bundle.json.")?
           CommandSpec.leaf("add",
             "Adds a remote VCS, local VCS or local direct dependency.", [
-              OptionSpec.string("version", "Version constraint" where short' = 'v', default' = "")
-              OptionSpec.string("revision", "Specific revision: tag, branch, commit" where short' = 'r', default' = "")
+              OptionSpec.string("version",
+                "Version constraint" where short' = 'v', default' = "")
+              OptionSpec.string("revision",
+                "Specific revision: tag, branch, commit" where short' = 'r',
+                default' = "")
             ], [
               ArgSpec.string("locator", "Organization/repository name.")
             ])?
@@ -35,16 +39,23 @@ actor Main
           CommandSpec.leaf("list",
             "Lists the deps and packages, including corral details.")?
           CommandSpec.leaf("clean",
-            "Cleans up repo cache and working corral. Default is to clean only working corral.", [
-              OptionSpec.bool("all", "Clean both repo cache and working corral." where short' = 'a', default' = false)
-              OptionSpec.bool("repos", "Clean repo cache only." where short' = 'r', default' = false)
+            "Cleans up repo cache and working corral. Default is to clean" +
+            " only working corral.", [
+              OptionSpec.bool("all",
+                "Clean both repo cache and working corral." where short' = 'a',
+                default' = false)
+              OptionSpec.bool("repos",
+                "Clean repo cache only." where short' = 'r',
+                default' = false)
             ])?
           CommandSpec.leaf("update",
-            "Updates one or more or all of the deps in the corral to their best revision.")?
+            "Updates one or more or all of the deps in the corral to their" +
+            " best revisions.")?
           CommandSpec.leaf("fetch",
             "Fetches one or more or all of the deps into the corral.")?
           CommandSpec.leaf("run",
-            "Runs a shell command inside an environment with the corral on the PONYPATH.",
+            "Runs a shell command inside an environment with the corral on" +
+            " the PONYPATH.",
             Array[OptionSpec](), [
               ArgSpec.string_seq("args", "Arguments to run.")
             ])?
@@ -73,12 +84,13 @@ actor Main
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()
     let nothing = cmd.option("nothing").bool()
-    let repo_cache = "./_repos"  // TODO: move default to user home and have flag
+    let repo_cache = "./_repos"  // TODO: move default to user home and add flag
     let corral_base = "./_corral"
     //log.fine("Cmd: " + cmd.string())
 
     try
-      let context = recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
+      let context =
+        recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
 
       match cmd.fullname()
       | "corral/init" => CmdInit(context, cmd)

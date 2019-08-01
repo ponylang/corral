@@ -3,7 +3,6 @@ use "json"
 use "../util"
 use "debug"
 
-
 class val Locator
   """
   Encapsulation of the bundle dependency's locator string, parsed into distinct
@@ -56,7 +55,6 @@ class val Locator
 
   fun is_local_direct(): Bool => not is_vcs() and is_local()
 
-
 class Dep
   """
   Encapsulation of a dependency within a Bundle, encompassing both dep and lock
@@ -72,7 +70,8 @@ class Dep
     data = data'
     lock = lock'
     locator = Locator(data.locator)
-    //bundle.env.out.print("Locator: " + locator.repo_path + " " + locator.vcs_suffix + " " + locator.bundle_path)
+    //bundle.env.out.print("Locator: " + locator.repo_path + " " +
+    //  locator.vcs_suffix + " " + locator.bundle_path)
 
   fun box name(): String =>
     locator.path()
@@ -110,7 +109,6 @@ class Dep
     lock.locator = data.locator
     lock.revision = ver
 
-
 primitive _Flattened
   fun apply(path: String): String val =>
     let dash_code: U8 = 95 // '_'
@@ -135,5 +133,6 @@ primitive _Flattened
     String.from_array(consume path_name_arr)
 
   fun _is_alphanum(c: U8): Bool =>
-    let alphanums = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".array()
+    let alphanums =
+      "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".array()
     alphanums.contains(c)

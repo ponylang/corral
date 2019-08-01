@@ -22,6 +22,5 @@ class iso _TestGitFetch is UnitTest
     //let ws = WorkSpec(dep.repo(), dep.version(), local, workspace)
     //ro.begin(ws)
 
-
   fun timed_out(h: TestHelper) =>
     h.complete(false)

@@ -2,7 +2,6 @@ use "cli"  // EnvVars
 use "files"
 use "process"
 
-
 class val Program
   """
   A Program encapsulates an executable program and authority to execute it.
@@ -25,7 +24,9 @@ class val Program
     let evars = EnvVars(env.vars)
     path = first_existing(auth, evars.get_or_else("PATH", ""), name)?
 
-  fun tag first_existing(auth': AmbientAuth, binpath: String, name: String): FilePath ? =>
+  fun tag first_existing(auth': AmbientAuth, binpath: String, name: String):
+    FilePath ?
+  =>
     for bindir in Path.split_list(binpath).values() do
       try
         let bd = FilePath(auth', bindir)?
@@ -37,7 +38,6 @@ class val Program
       end
     end
     error
-
 
 class val Action
   """
@@ -57,11 +57,10 @@ class val Action
     args = args'
     vars = vars'
 
-
 class val ActionResult
   """
-  The results of an Action which includes its exit code, out and err streams as Strings,
-  and and error message if the Action failed.
+  The results of an Action which includes its exit code, out and err streams as
+  Strings, and and error message if the Action failed.
   """
   let exit_code: I32
   let stdout: String
@@ -85,7 +84,6 @@ class val ActionResult
     out.print("  out: " + stdout)
     out.print("  err: " + stderr)
 
-
 primitive Runner
   """
   Run an Action using ProcessMonitor, and pass the resulting ActionResult to a
@@ -96,8 +94,12 @@ primitive Runner
     let argv: Array[String] iso = recover argv.create(action.args.size()+1) end
     argv.push(action.prog.path.path)
     argv.append(action.args)
-    ProcessMonitor(action.prog.auth, action.prog.auth, consume c, action.prog.path, consume argv, action.vars).done_writing()
-
+    ProcessMonitor(
+      action.prog.auth,
+      action.prog.auth,
+      consume c, action.prog.path,
+      consume argv,
+      action.vars).done_writing()
 
 class _Collector is ProcessNotify
   """

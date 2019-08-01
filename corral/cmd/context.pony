@@ -1,7 +1,6 @@
 use "files"
 use "../util"
 
-
 class val Context
   """
   Contains options and environment for all commands.
