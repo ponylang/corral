@@ -119,8 +119,11 @@ class val GitQueryTags is RepoOperation
 
   fun val _parse_tags(ar: ActionResult, repo: Repo) =>
     //ar.print_to(git.env.err)
+    next(parse_tags(ar.stdout))
+
+  fun val parse_tags(stdout: String): Array[String] iso^ =>
     let tags = recover Array[String] end
-    for line in ar.stdout.split_by("\n").values() do
+    for line in stdout.split_by("\n").values() do
       //git.env.err.print("line: " + line)
       let matched: Array[String] = line.split_by(" refs/tags/")
       if matched.size() == 2 then
@@ -133,4 +136,4 @@ class val GitQueryTags is RepoOperation
         end
       end
     end
-    next(consume tags)
+    consume tags
