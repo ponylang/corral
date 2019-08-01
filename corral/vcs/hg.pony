@@ -1,6 +1,6 @@
 use "files"
 
-primitive HgVcs is Vcs
+primitive HgVCS is VCS
   """
   Placeholder for Mercurial VCS
   """

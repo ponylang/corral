@@ -46,7 +46,7 @@ actor _Updater
     let local = ctx.repo_cache.join(dep.flat_repo())?
     let workspace = base_bundle.dep_workspace_root(dep)?
     let repo = Repo(dep.repo(), local, workspace)
-    let vcs = VcsForType(ctx.env, dep.vcs())?
+    let vcs = VCSForType(ctx.env, dep.vcs())?
 
     let deptag: Dep tag = dep
     updates(deptag) = dep

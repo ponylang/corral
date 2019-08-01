@@ -53,7 +53,7 @@ class CmdFetch
     let local = ctx.repo_cache.join(dep.flat_repo())?
     let workspace = base_bundle.dep_workspace_root(dep)?
     let repo = Repo(dep.repo(), local, workspace)
-    let vcs = VcsForType(ctx.env, dep.vcs())?
+    let vcs = VCSForType(ctx.env, dep.vcs())?
 
     // TODO: careful about version here
     let fetch_op = vcs.fetch_op(dep.version())?

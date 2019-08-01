@@ -16,7 +16,7 @@ class iso _TestGitFetch is UnitTest
     "vcs/git/fetch"
 
   fun apply(h: TestHelper) ? =>
-    let vcs = VcsForType(h.env, "git")?
+    let vcs = VCSForType(h.env, "git")?
     let fetch_op = vcs.fetch_op("master")?
 
     //let ws = WorkSpec(dep.repo(), dep.version(), local, workspace)

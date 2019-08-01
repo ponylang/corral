@@ -2,9 +2,9 @@ use "files"
 use "../regex"
 use "../util"
 
-class val GitVcs is Vcs
+class val GitVCS is VCS
   """
-  Git implementation of Vcs
+  Git implementation of VCS
   """
   let env: Env
   let prog: Program
@@ -26,10 +26,10 @@ class val GitVcs is Vcs
     GitQueryTags(this, rcv)
 
 class val GitSyncRepo is RepoOperation
-  let git: GitVcs
+  let git: GitVCS
   let next: RepoOperation
 
-  new val create(git': GitVcs, next': RepoOperation) =>
+  new val create(git': GitVCS, next': RepoOperation) =>
     git = git'
     next = next'
 
@@ -60,11 +60,11 @@ class val GitSyncRepo is RepoOperation
     next(repo)
 
 class val GitCheckoutRepo is RepoOperation
-  let git: GitVcs
+  let git: GitVCS
   let ver: String
   let next: RepoOperation
 
-  new val create(git': GitVcs, ver': String, next': RepoOperation) =>
+  new val create(git': GitVCS, ver': String, next': RepoOperation) =>
     git = git'
     ver = ver'
     next = next'
@@ -101,10 +101,10 @@ class val GitCheckoutRepo is RepoOperation
     next(repo)
 
 class val GitQueryTags is RepoOperation
-  let git: GitVcs
+  let git: GitVCS
   let next: TagListReceiver
 
-  new val create(git': GitVcs, next': TagListReceiver) =>
+  new val create(git': GitVCS, next': TagListReceiver) =>
     git = git'
     next = next'
 

@@ -1,6 +1,6 @@
 use "files"
 
-primitive BzrVcs is Vcs
+primitive BzrVCS is VCS
   """
   Placeholder for Bazaar VCS
   """

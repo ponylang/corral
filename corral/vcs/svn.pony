@@ -1,6 +1,6 @@
 use "files"
 
-primitive SvnVcs is Vcs
+primitive SvnVCS is VCS
   """
   Placeholder for Subversion VCS
   """

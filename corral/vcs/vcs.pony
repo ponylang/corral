@@ -17,21 +17,21 @@ class val Repo
     local = local'
     workspace = workspace'
 
-primitive VcsForType
+primitive VCSForType
   """
-  This factory returns a Vcs instance for any given VCS by name.
+  This factory returns a VCS instance for any given VCS by name.
   """
-  fun apply(env: Env, kind: String): Vcs val ? =>
+  fun apply(env: Env, kind: String): VCS val ? =>
     match kind
-    | "git" => GitVcs(env)?
-    | "hg"  => HgVcs
-    | "bzr" => BzrVcs
-    | "svn" => SvnVcs
+    | "git" => GitVCS(env)?
+    | "hg"  => HgVCS
+    | "bzr" => BzrVCS
+    | "svn" => SvnVCS
     else
-      NoneVcs
+      NoneVCS
     end
 
-interface val Vcs
+interface val VCS
   """
   A Vcs provides functions to perform high-level VCS operations that commands
   use to work with repos.
@@ -40,9 +40,9 @@ interface val Vcs
   fun val update_op(rcv: TagListReceiver): RepoOperation ?
   fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
 
-primitive NoneVcs is Vcs
+primitive NoneVCS is VCS
   """
-  NoneVcs is a no-op Vcs.
+  NoneVcs is a no-op VCS.
   """
   fun tag fetch_op(ver: String): RepoOperation => NoOperation
   fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
