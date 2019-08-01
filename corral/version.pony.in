@@ -1,0 +1,4 @@
+primitive Version
+  fun apply() : String =>
+    "%%VERSION%%"
+
