@@ -10,7 +10,7 @@ Corral is alpha level software. We advise you use [stable](https://github.com/po
 
 ## About Corral
 
-Corral is a dependency management tool for [Pony](https://www.ponylang.io). Our goal with Corral is to start from scratch and come up with a full featured replacement for [stable](https://github.com/ponylang/pony-stable), the current dependency management tool for Pony. Corral builds on the work done in pony-stable, and adds some new things:
+Corral is a dependency management tool for [Pony](https://www.ponylang.io). Our goal with Corral is to start from scratch and come up with a full featured replacement for [stable](https://github.com/ponylang/pony-stable), the current dependency management tool for Pony. Corral builds on the work done in stable and adds some new things:
 
 - Uses Pony cli package for command line parsing.
 - Easy extensibility of VCS and Commands.
