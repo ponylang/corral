@@ -44,8 +44,9 @@ primitive BundleFile
       try Files.bundle_filepath(dir)?.remove() end
       Bundle.create(env, dir, log)
     else
-      Error("Could not create " + Files.bundle_filename() +
-        " in current working directory.")
+      Error(
+        "Could not create " + Files.bundle_filename()
+          + " in current working directory.")
     end
 
 class Bundle
