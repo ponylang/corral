@@ -19,6 +19,7 @@ actor Main
           OptionSpec.bool("verbose", "Verbose output."
             where short'='v', default' = false)
         ], [
+          CommandSpec.leaf("version", "Prints Corral version information.")?
           CommandSpec.leaf("init",
             "Initializes the bundle.json and dep-lock.json files with skeletal information.")?
           CommandSpec.leaf("info",
@@ -81,6 +82,7 @@ actor Main
       let context = recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
 
       match cmd.fullname()
+      | "corral/version" => CmdVersion(context, cmd)
       | "corral/init" => CmdInit(context, cmd)
       | "corral/info" => CmdInfo(context, cmd)
       | "corral/add" => CmdAdd(context, cmd)

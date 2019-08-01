@@ -33,7 +33,7 @@ ifdef static
 endif
 
 ifeq ($(static),true)
-  LINKER += --static 
+  LINKER += --static
 endif
 
 ifneq ($(linker),)
@@ -45,9 +45,8 @@ endif
 # make version="nightly-19710702"
 # overridden version *should not* contain spaces or characters that aren't
 # legal in filesystem path names
-version=0.0.0
 ifndef version
-#  version := $(shell cat VERSION)
+  version := $(shell cat VERSION)
   ifneq ($(wildcard .git),)
     sha := $(shell git rev-parse --short HEAD)
     tag := $(version)-$(sha)
@@ -65,6 +64,7 @@ GEN_FILES_IN := $(shell find $(SRC_DIR) -name \*.pony.in)
 GEN_FILES = $(patsubst %.pony.in, %.pony, $(GEN_FILES_IN))
 
 $(binary): $(GEN_FILES) $(SOURCE_FILES) | $(BUILD_DIR)
+	echo "primitive Version fun val apply(): String => \"${version}\"" > $(SRC_DIR)/version.pony
 	${PONYC} $(arch_arg) $(LINKER) $(SRC_DIR) -o ${BUILD_DIR}
 
 install: $(binary)
@@ -87,4 +87,3 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 .PHONY: all clean install test
-
