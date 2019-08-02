@@ -20,8 +20,10 @@ Corral is a dependency management tool for [Pony](https://www.ponylang.io). Our 
 - Uses the Pony process package for running external tools like Git and ponyc.
 - Separate shared repo pool from per-project deps tree.
 
-## Design background
+## Design
 
-For a discussion of the requirements and design work behind Corral, see:
+See [Corral Design](doc/design.md) for more details about the design of Corral. Ongoing questions and notes for future work can be found in [Questions / Notes](doc/questions_notes.md)
 
-- [Pony Package Dependency Management](https://docs.google.com/document/d/1c7puEQLks3X1wpabuXxox8Qi1HUhfSwhobUvmVE56Rw/edit#)
+## Background
+
+Check out [Pony Package Dependency Management](doc/package_dependency_management.md) for a discussion of the research and requirements work behind Corral.
