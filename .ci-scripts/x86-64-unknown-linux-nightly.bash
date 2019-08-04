@@ -30,8 +30,8 @@ PACKAGE=corral-${TRIPLE}
 
 # Cloudsmith configuration
 CLOUDSMITH_VERSION=${TODAY}
-ASSET_OWNER=main-pony
-ASSET_REPO=pony-nightlies
+ASSET_OWNER=ponylang
+ASSET_REPO=nightlies
 ASSET_PATH=${ASSET_OWNER}/${ASSET_REPO}
 ASSET_FILE=${PACKAGE_DIR}/${PACKAGE}.tar.gz
 ASSET_SUMMARY="Pony dependency manager"
