@@ -12,7 +12,8 @@ jobs:
       - run: pip install cloudsmith-cli
       - checkout
       - run: bash .ci-scripts/x86-64-unknown-linux-nightly.bash ${CLOUDSMITH_API_KEY}
-      - zulip/status
+      - zulip/status:
+          fail_only: true
 
   vs-ponyc-release:
     docker:
@@ -46,7 +47,7 @@ workflows:
   every-commit:
     jobs:
       - verify-changelog:
-          context: org-global 
+          context: org-global
       - vs-ponyc-release:
           context: org-global
 
@@ -68,7 +69,7 @@ workflows:
           filters:
             branches:
               only: master
-    jobs: 
+    jobs:
       - x86-64-unknown-linux-nightly:
           context: org-global
 
