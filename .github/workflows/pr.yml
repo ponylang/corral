@@ -1,0 +1,32 @@
+name: PR
+
+on: pull_request
+
+jobs:
+  validate-docker-image-builds:
+    name: Validate Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker build
+        run: "docker build ."
+
+  verify-changelog:
+    name: Verify CHANGELOG is valid
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/changelog-tool:release
+    steps:
+      - uses: actions/checkout@v1
+      - name: Verify CHANGELOG
+        run: changelog-tool verify
+
+  vs-ponyc-release:
+    name: Verify PR builds most recent ponyc release
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
+    steps:
+      - uses: actions/checkout@v1
+      - name: Test with most recent ponyc release
+        run: make test

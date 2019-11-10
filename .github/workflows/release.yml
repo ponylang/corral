@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - \d+.\d+.\d+
+
+jobs:
+  create-and-upload-a-release:
+    name: Build and upload to Cloudsmith
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build and upload
+        run: bash .ci-scripts/release/x86-64-unknown-linux.bash
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          CLOUDSMITH_REPO: releases
+
+  build-release-docker-images:
+    name: Build and push release Docker images
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker login
+        run: "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      - name: Build and push
+        run: bash .ci-scripts/release/build-docker-images-on-release.bash
+
+  trigger-release-announcement:
+    name: Trigger release announcement
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/shared-docker-ci-release:20191107
+    needs: [create-and-upload-a-release, build-release-docker-images]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Trigger release announcement
+        run: bash .ci-scripts/release/trigger-release-announcement.bash
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
