@@ -6,7 +6,7 @@ orbs:
 jobs:
   x86-64-unknown-linux-nightly:
     docker:
-      - image: ponylang/ponyc:alpine
+      - image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
       - run: apk add --update py-pip
       - run: pip install cloudsmith-cli
@@ -17,7 +17,7 @@ jobs:
 
   vs-ponyc-release:
     docker:
-      - image: ponylang/ponyc:release
+      - image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
       - checkout
       - run: make test
@@ -26,7 +26,7 @@ jobs:
 
   vs-ponyc-master:
     docker:
-      - image: ponylang/ponyc:latest
+      - image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
     steps:
       - checkout
       - run: make test
@@ -39,15 +39,12 @@ jobs:
     steps:
       - checkout
       - run: changelog-tool verify
-      - zulip/status:
-          fail_only: true
 
 workflows:
   version: 2
   every-commit:
     jobs:
-      - verify-changelog:
-          context: org-global
+      - verify-changelog
       - vs-ponyc-release:
           context: org-global
 
