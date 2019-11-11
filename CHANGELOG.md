@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Initial alpha release
 
 ### Changed
 
