@@ -14,10 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Build and upload
-        run: bash .ci-scripts/release/x86-64-unknown-linux.bash
+        run: bash .ci-scripts/release/x86-64-unknown-linux-releases.bash
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
-          CLOUDSMITH_REPO: releases
 
   build-release-docker-images:
     name: Build and push release Docker images

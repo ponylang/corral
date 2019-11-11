@@ -51,20 +51,9 @@ if [[ -z "${APPLICATION_SUMMARY}" ]]; then
   exit 1
 fi
 
-if [[ -z "${CLOUDSMITH_REPO}" ]]; then
-  echo -e "\e[31mCLOUDSMITH_REPO needs to be set."
-  echo -e "\e[31mShould be one of:"
-  echo -e "\e[35m     nightlies"
-  echo -e "\e[35m     releases"
-  echo -e "\e[31mExiting.\e[0m"
-  exit 1
-fi
-
 # no unset variables allowed from here on out
 # allow above so we can display nice error messages for expected unset variables
 set -o nounset
-
-TODAY=$(date +%Y%m%d)
 
 # Compiler target parameters
 ARCH=x86-64
@@ -76,7 +65,7 @@ TRIPLE=${ARCH}-${VENDOR}-${OS}
 
 # Build parameters
 BUILD_PREFIX=$(mktemp -d)
-APPLICATION_VERSION="nightly-${TODAY}"
+APPLICATION_VERSION=$(cat VERSION)
 BUILD_DIR=${BUILD_PREFIX}/${APPLICATION_VERSION}
 
 # Asset information
@@ -84,9 +73,9 @@ PACKAGE_DIR=$(mktemp -d)
 PACKAGE=${APPLICATION_NAME}-${TRIPLE}
 
 # Cloudsmith configuration
-CLOUDSMITH_VERSION=${TODAY}
+CLOUDSMITH_VERSION=$(cat VERSION)
 ASSET_OWNER=ponylang
-ASSET_REPO=${CLOUDSMITH_REPO}
+ASSET_REPO=releases
 ASSET_PATH=${ASSET_OWNER}/${ASSET_REPO}
 ASSET_FILE=${PACKAGE_DIR}/${PACKAGE}.tar.gz
 ASSET_SUMMARY="${APPLICATION_SUMMARY}"
