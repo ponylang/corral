@@ -9,13 +9,8 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Initial alpha release
 
 ### Changed
 
-
-## [0.1.0] - 2019-11-11
-
-### Added
-
-- Initial alpha release
 
