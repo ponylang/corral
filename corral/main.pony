@@ -35,7 +35,8 @@ actor Main
         ],
         [
           CommandSpec.leaf(
-            "version", "Show the version and exit")?
+            "version",
+            "Show the version and exit")?
           CommandSpec.leaf(
             "init",
             "Initializes the bundle.json and dep-lock.json files with"
