@@ -10,7 +10,7 @@ Corral is alpha level software. We advise you use [stable](https://github.com/po
 
 ## Instalation
 
-The following command will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default.
+The following command will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default. This requires `ponyup`, our toolchain multiplexer, to be installed. If you don't have it installed, please follow the [instructions](https://github.com/ponylang/ponyup#installing-ponyup).
 
 ```bash
 ponyup update corral release
