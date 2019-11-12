@@ -3,6 +3,9 @@ use "files"
 use "util"
 use "cmd"
 
+primitive Info
+  fun version(): String => Version()
+
 actor Main
   let _env: Env
   new create(env: Env) =>
@@ -31,6 +34,9 @@ actor Main
             default' = false)
         ],
         [
+          CommandSpec.leaf(
+            "version",
+            "Show the version and exit")?
           CommandSpec.leaf(
             "init",
             "Initializes the bundle.json and dep-lock.json files with"
@@ -128,6 +134,7 @@ actor Main
         recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
 
       match cmd.fullname()
+      | "corral/version" => env.out.print("corral " + Info.version())
       | "corral/init" => CmdInit(context, cmd)
       | "corral/info" => CmdInfo(context, cmd)
       | "corral/add" => CmdAdd(context, cmd)
