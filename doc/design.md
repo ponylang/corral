@@ -34,9 +34,9 @@ Corral manages dependency bundles in two directories. One is its shared **repo-c
 
 ## Project Files
 
-A project bundle contains a **bundle.json** file as well as a **lock.json** file in the top level directory. Other encoding syntaxes might be more user-friendly once Pony has libraries for them. Examples: yaml, toml, pbtxt or hcl.
+A project bundle contains a **corral.json** file as well as a **lock.json** file in the top level directory. Other encoding syntaxes might be more user-friendly once Pony has libraries for them. Examples: yaml, toml, pbtxt or hcl.
 
-The `bundle.json` file is managed by the Corral tool, but can also be edited by hand. It contains these JSON objects:
+The `corral.json` file is managed by the Corral tool, but can also be edited by hand. It contains these JSON objects:
 
 - **info**: Information about this bundle:
    - **name**: The name of the bundle, which should be its canonical location. [is this redundant with its implicit location?]
@@ -82,17 +82,17 @@ The `bundle.json` file is managed by the Corral tool, but can also be edited by 
    - **supplier**: the bundle.name above that supplies this package.
 
 The `lock.json` file contains:
-- An entry for each bundle reference in `bundle.json` that indicates the specific revision of each bundle that was resolved at update time.
+- An entry for each bundle reference in `corral.json` that indicates the specific revision of each bundle that was resolved at update time.
    - **bundle**: The bundle locator that this lock applies to.
    - **revision**: The revision that this bundle is locked to; typically a commit hash.
 
 ## Corral Commands
 
-- init : Initializes the bundle.json and lock.json files with skeletal information. Creates the **bundle-corral** subdirectory.
+- init : Initializes the corral.json and lock.json files with skeletal information. Creates the **bundle-corral** subdirectory.
    - No bundle information can be extracted from source, since use statements specify only package names.
    - *TODO: We could parse Pony source to create an initial package list here, with blank supplier-bundles to be filled in later.*
 
-- info : Prints all or specific information about the bundle from bundle.json.
+- info : Prints all or specific information about the bundle from corral.json.
    - TODO.
 
 - add : Adds one or more bundles to the corral.
@@ -101,7 +101,7 @@ The `lock.json` file contains:
    - Package list may be specified; default is to include all packages from the bundle.
 
 - remove : Removes one or more bundles from the corral.
-   - Removes the bundle entries from the `bundle.json`
+   - Removes the bundle entries from the `corral.json`
    - Removes any supplier references to the bundles
    - Removes the bundle trees from the **bundle-corral** directory.
    - *TODO: The --prune option can be used to remove unused packages and bundles. Parses Pony source to get required package list for this option.*
