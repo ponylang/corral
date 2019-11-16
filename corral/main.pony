@@ -39,12 +39,12 @@ actor Main
             "Show the version and exit")?
           CommandSpec.leaf(
             "init",
-            "Initializes the bundle.json and dep-lock.json files with"
+            "Initializes the corral.json and dep-lock.json files with"
               + " skeletal information.")?
           CommandSpec.leaf(
             "info",
             "Prints all or specific information about the bundle from"
-              + " bundle.json.")?
+              + " corral.json.")?
           CommandSpec.leaf(
             "add",
             "Adds a remote VCS, local VCS or local direct dependency.",

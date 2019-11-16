@@ -21,7 +21,7 @@ primitive BundleFile
       end
         dir = Path.split(dir)._1
     end
-    log.info("bundle.json not found, looked last in: '" + dir + "'")
+    log.info("corral.json not found, looked last in: '" + dir + "'")
     None
 
   fun load_bundle(env: Env, log: Log): (Bundle | Error) =>
@@ -196,7 +196,7 @@ class Bundle
 
 
 primitive Files
-  fun tag bundle_filename(): String => "bundle.json"
+  fun tag bundle_filename(): String => "corral.json"
 
   fun tag bundle_filepath(dir: FilePath): FilePath ? =>
     dir.join(bundle_filename())?

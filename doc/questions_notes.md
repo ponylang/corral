@@ -12,10 +12,10 @@ On Pony and Corral and package dependency mananagement things we could change.
 
 - Relative uses. Packages in a bundle should use relative paths to use their sibling packages. This should always result in unambiguous usage of the package from the same version of the same bundle.
 
-- Corralled bundles would have their own bundle.json that would supply the bundle details for resolving all the transitive package usages in the bundle project.
+- Corralled bundles would have their own corral.json that would supply the bundle details for resolving all the transitive package usages in the bundle project.
    - The PONYPATH could have a form where we provided different roots for different bundles being compiled. For example, compiling bundle alpha that depends on bundles beta and gamma, and each of those in turn depend on a bundle delta that could be the same, or different version, or completely different but with the same package names.
    - alpha/
-      - bundle.json
+      - corral.json
       - _corral/
          - alpha/
             - beta/
