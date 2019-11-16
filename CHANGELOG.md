@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Rename bundle.json to corral.json ([PR #52](https://github.com/ponylang/corral/pull/52))
 
 ## [0.1.0] - 2019-11-11
 
