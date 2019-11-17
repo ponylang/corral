@@ -7,25 +7,24 @@ primitive BundleFile
   """
   Loader and creator of Bundle files.
   """
-  fun find_bundle_dir(env: Env, log: Log): (FilePath | None) =>
-    let cwd = Path.cwd()
-    var dir = cwd
-    while dir.size() > 0 do
-      log.fine("Looking for " + Files.bundle_filename() + " in: '" + dir + "'")
+  fun find_bundle_dir(env: Env, path: String, log: Log): (FilePath | None) =>
+    var path' = path
+    while path'.size() > 0 do
+      log.info("Looking for " + Files.bundle_filename() + " in: '" + path' + "'")
       try
-        let dir_path = FilePath(env.root as AmbientAuth, dir)?
-        let bundle_file = dir_path.join(Files.bundle_filename())?
+        let dir = FilePath(env.root as AmbientAuth, path')?
+        let bundle_file = dir.join(Files.bundle_filename())?
         if bundle_file.exists() then
-          return dir_path
+          return dir
         end
       end
-        dir = Path.split(dir)._1
+      path' = Path.split(path')._1
     end
-    log.info("corral.json not found, looked last in: '" + dir + "'")
+    log.info("corral.json not found, looked last in: '" + path' + "'")
     None
 
-  fun load_bundle(env: Env, log: Log): (Bundle | Error) =>
-    match find_bundle_dir(env, log)
+  fun load_bundle(env: Env, path: String, log: Log): (Bundle | Error) =>
+    match find_bundle_dir(env, path, log)
     | let dir: FilePath =>
       try
         Bundle.load(env, dir, log)?
@@ -38,9 +37,9 @@ primitive BundleFile
           + " in current working directory or ancestors.")
     end
 
-  fun create_bundle(env: Env, log: Log): (Bundle | Error) =>
+  fun create_bundle(env: Env, path: String, log: Log): (Bundle | Error) =>
     try
-      let dir = FilePath(env.root as AmbientAuth, Path.cwd())?
+      let dir = FilePath(env.root as AmbientAuth, path)?
       try Files.bundle_filepath(dir)?.remove() end
       Bundle.create(env, dir, log)
     else

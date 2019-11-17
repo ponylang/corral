@@ -7,9 +7,7 @@ primitive CmdInfo
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("info: " + cmd.string())
 
-    ctx.env.out.print("\ninfo: from dir " + Path.cwd())
-
-    match BundleFile.load_bundle(ctx.env, ctx.log)
+    match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
     | let bundle: Bundle =>
       ctx.env.out.print(
         "  information from " + Files.bundle_filename()

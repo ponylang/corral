@@ -6,11 +6,10 @@ use "../util"
 primitive CmdInit
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("init: " + cmd.string())
-
-    ctx.env.out.print("\ninit: from dir " + Path.cwd())
+    ctx.env.out.print("\ninit: from dir " + ctx.path)
 
     // TODO: try to read first to convert/update existing file(s)
-    match BundleFile.create_bundle(ctx.env, ctx.log)
+    match BundleFile.create_bundle(ctx.env, ctx.path, ctx.log)
     | let bundle: Bundle =>
       try
         bundle.save()?

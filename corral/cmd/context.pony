@@ -6,6 +6,7 @@ class val Context
   Contains options and environment for all commands.
   """
   let env: Env
+  let path: String
   let log: Log
   let quiet: Bool
   let nothing: Bool
@@ -13,10 +14,12 @@ class val Context
   let corral_base: FilePath
 
   new val create(env': Env,
+    path': String,
     log': Log,
     quiet': Bool, nothing': Bool, repo_cache': String, corral_base': String) ?
   =>
     env = env'
+    path = path'
     log = log'
     quiet = quiet'
     nothing = nothing'

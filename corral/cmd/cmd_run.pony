@@ -17,7 +17,7 @@ class CmdRun
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
-      match BundleFile.load_bundle(ctx.env, ctx.log)
+      match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
       | let bundle: Bundle =>
         var ponypath' = recover trn String end
         let iter = bundle.bundle_roots().values()

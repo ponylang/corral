@@ -1,5 +1,6 @@
 use "cli"
 use "json"
+use "files"
 use "../bundle"
 use "../util"
 
@@ -19,7 +20,7 @@ primitive CmdAdd
       "\nadd: adding: " + dd.locator.string() + " "
         + dd.version.string() + " " + ld.revision.string())
 
-    match BundleFile.load_bundle(ctx.env, ctx.log)
+    match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
     | let bundle: Bundle =>
       try
         bundle.add_dep(dd, ld)
