@@ -5,7 +5,6 @@ use "../util"
 
 primitive CmdInit
   fun apply(ctx: Context, cmd: Command) =>
-    //ctx.log.info("init: " + cmd.string())
     ctx.env.out.print("\ninit: from dir " + ctx.path)
 
     // TODO: try to read first to convert/update existing file(s)

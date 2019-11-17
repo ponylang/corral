@@ -9,8 +9,6 @@ class CmdFetch
 
   new create(ctx': Context, cmd: Command) =>
     ctx = ctx'
-    //ctx.log.info("fetch: " + cmd.string())
-
     ctx.env.out.print("\nfetch:")
     match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
     | let bundle: Bundle =>

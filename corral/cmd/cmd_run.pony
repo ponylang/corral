@@ -8,7 +8,6 @@ class CmdRun
 
   new create(ctx': Context, cmd: Command) =>
     ctx = ctx'
-    //ctx.log.info("run: " + cmd.string())
 
     let argss = cmd.arg("args").string_seq()
     let args = recover val Array[String].create() .> append(argss) end

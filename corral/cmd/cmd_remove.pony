@@ -4,8 +4,6 @@ use "../util"
 
 primitive CmdRemove
   fun apply(ctx: Context, cmd: Command) =>
-    //ctx.log.info("remove: " + cmd.string())
-
     ctx.env.out.print("\nremove: removing: TODO")
 
     match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)

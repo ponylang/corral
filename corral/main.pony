@@ -39,12 +39,12 @@ actor Main
             "Show the version and exit")?
           CommandSpec.leaf(
             "init",
-            "Initializes the bundle.json and dep-lock.json files with"
+            "Initializes the corral.json and dep-lock.json files with"
               + " skeletal information.",
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where corral.json and dep-lock.json will be created."
                 where short' = 'p',
                 default' = "")
             ]
@@ -56,7 +56,7 @@ actor Main
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -76,7 +76,7 @@ actor Main
                 default' = "")
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ],
@@ -89,7 +89,7 @@ actor Main
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -99,7 +99,7 @@ actor Main
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ]
@@ -121,7 +121,7 @@ actor Main
                 default' = false)
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -132,7 +132,7 @@ actor Main
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -142,7 +142,7 @@ actor Main
             [
               OptionSpec.string(
                 "path",
-                "Alternative bundle path."
+                "The path where both corral.json and dep-lock.json lives."
                 where short' = 'p',
                 default' = "")
             ])?
