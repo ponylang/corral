@@ -1,5 +1,8 @@
 use "ponytest"
+use "files"
 use "../vcs"
+use "../bundle"
+use "../util"
 
 actor Main is TestList
   new create(env: Env) =>
@@ -7,6 +10,18 @@ actor Main is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_TestGitParseTags)
+    test(_TestCreateBundleInCustomPath)
+
+class iso _TestCreateBundleInCustomPath is UnitTest
+  fun name(): String => "bundle/create-in-custom-path"
+
+  fun apply(h: TestHelper) ? =>
+    let log = Log(LvlFine, h.env.err, LevelLogFormatter)
+    let expected = FilePath(h.env.root as AmbientAuth, "tmp")?
+    match BundleFile.create_bundle(h.env, "tmp", log)
+    | let bundle: Bundle =>
+      h.assert_eq[String](expected.path, bundle.dir.path)
+    end
 
 class iso _TestGitParseTags is UnitTest
   fun name(): String => "git/parse-tags"
