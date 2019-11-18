@@ -12,10 +12,10 @@ primitive BundleFile
     while path'.size() > 0 do
       log.info("Looking for " + Files.bundle_filename() + " in: '" + path' + "'")
       try
-        let dir = FilePath(env.root as AmbientAuth, path')?
-        let bundle_file = dir.join(Files.bundle_filename())?
+        let dir_path = FilePath(env.root as AmbientAuth, path')?
+        let bundle_file = dir_path.join(Files.bundle_filename())?
         if bundle_file.exists() then
-          return dir
+          return dir_path
         end
       end
       path' = Path.split(path')._1
