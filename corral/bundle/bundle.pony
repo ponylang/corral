@@ -7,29 +7,29 @@ primitive BundleFile
   """
   Loader and creator of Bundle files.
   """
-  fun find_bundle_dir(env: Env, path: String, log: Log): (FilePath | None) =>
-    var path' = path
-    while path'.size() > 0 do
-      log.info("Looking for " + Files.bundle_filename() + " in: '" + path' + "'")
+  fun find_bundle_dir(env: Env, dir: String, log: Log): (FilePath | None) =>
+    var dir' = dir
+    while dir'.size() > 0 do
+      log.info("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
       try
-        let dir_path = FilePath(env.root as AmbientAuth, path')?
+        let dir_path = FilePath(env.root as AmbientAuth, dir')?
         let bundle_file = dir_path.join(Files.bundle_filename())?
         if bundle_file.exists() then
           return dir_path
         end
       end
-      path' = Path.split(path')._1
+      dir' = Path.split(dir')._1
     end
-    log.info("corral.json not found, looked last in: '" + path' + "'")
+    log.info("corral.json not found, looked last in: '" + dir' + "'")
     None
 
-  fun load_bundle(env: Env, path: String, log: Log): (Bundle | Error) =>
-    match find_bundle_dir(env, path, log)
-    | let dir: FilePath =>
+  fun load_bundle(env: Env, dir: String, log: Log): (Bundle | Error) =>
+    match find_bundle_dir(env, dir, log)
+    | let dir': FilePath =>
       try
-        Bundle.load(env, dir, log)?
+        Bundle.load(env, dir', log)?
       else
-        Error("Error loading bundle files in " + dir.path)
+        Error("Error loading bundle files in " + dir'.path)
       end
     else
       Error(
@@ -37,11 +37,11 @@ primitive BundleFile
           + " in current working directory or ancestors.")
     end
 
-  fun create_bundle(env: Env, path: String, log: Log): (Bundle | Error) =>
+  fun create_bundle(env: Env, dir: String, log: Log): (Bundle | Error) =>
     try
-      let dir = FilePath(env.root as AmbientAuth, path)?
-      try Files.bundle_filepath(dir)?.remove() end
-      Bundle.create(env, dir, log)
+      let dir' = FilePath(env.root as AmbientAuth, dir)?
+      try Files.bundle_filepath(dir')?.remove() end
+      Bundle.create(env, dir', log)
     else
       Error(
         "Could not create " + Files.bundle_filename()
