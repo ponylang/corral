@@ -8,6 +8,7 @@ class CmdRun
 
   new create(ctx': Context, cmd: Command) =>
     ctx = ctx'
+    //ctx.log.info("run: " + cmd.string())
 
     let argss = cmd.arg("args").string_seq()
     let args = recover val Array[String].create() .> append(argss) end
@@ -16,7 +17,7 @@ class CmdRun
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
-      match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
+      match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
       | let bundle: Bundle =>
         var ponypath' = recover trn String end
         let iter = bundle.bundle_roots().values()

@@ -14,7 +14,7 @@ primitive CmdUpdate
 
     ctx.env.out.print("\nupdate:")
 
-    match recover BundleFile.load_bundle(ctx.env, ctx.path, ctx.log) end
+    match recover BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log) end
     | let bundle: Bundle iso =>
       _Updater(ctx).update_bundle_deps(consume bundle)
     | let err: Error =>

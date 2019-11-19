@@ -5,9 +5,10 @@ use "../util"
 
 primitive CmdList
   fun apply(ctx: Context, cmd: Command) =>
-    ctx.env.out.print("\nlist: from dir " + ctx.path)
+    //ctx.log.info("list: " + cmd.string())
+    ctx.env.out.print("\nlist: from dir " + ctx.directory)
 
-    match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
+    match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
     | let bundle: Bundle =>
 
       ctx.env.out.print(

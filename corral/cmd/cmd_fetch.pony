@@ -10,7 +10,7 @@ class CmdFetch
   new create(ctx': Context, cmd: Command) =>
     ctx = ctx'
     ctx.env.out.print("\nfetch:")
-    match BundleFile.load_bundle(ctx.env, ctx.path, ctx.log)
+    match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
     | let bundle: Bundle =>
       fetch_bundle_deps(bundle, bundle)
     | let err: Error =>

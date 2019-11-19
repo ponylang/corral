@@ -43,7 +43,7 @@ actor Main
               + " skeletal information.",
             [
               OptionSpec.string(
-                "path",
+                "directory",
                 "The path where corral.json and dep-lock.json will be created."
                 where short' = 'p',
                 default' = "")
@@ -55,8 +55,8 @@ actor Main
               + " corral.json.",
             [
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -75,8 +75,8 @@ actor Main
                 where short' = 'r',
                 default' = "")
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ],
@@ -88,8 +88,8 @@ actor Main
             "Removes one or more deps from the corral.",
             [
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -98,8 +98,8 @@ actor Main
             "Lists the deps and packages, including corral details.",
             [
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ]
@@ -120,8 +120,8 @@ actor Main
                 where short' = 'r',
                 default' = false)
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -131,8 +131,8 @@ actor Main
               + " best revisions.",
             [
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -141,8 +141,8 @@ actor Main
             "Fetches one or more or all of the deps into the corral.",
             [
               OptionSpec.string(
-                "path",
-                "The path where both corral.json and dep-lock.json lives."
+                "directory",
+                "The path where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -179,9 +179,9 @@ actor Main
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()
     let nothing = cmd.option("nothing").bool()
-    let path = match cmd.option("path").string()
+    let directory = match cmd.option("directory").string()
     | "" => Path.cwd()
-    | let path': String => Path.clean(path')
+    | let dir': String => Path.clean(dir')
     end
     let repo_cache = "./_repos"  // TODO: move default to user home and add flag
     let corral_base = "./_corral"
@@ -189,7 +189,8 @@ actor Main
 
     try
       let context =
-        recover Context(env, path, log, quiet, nothing, repo_cache, corral_base)? end
+        recover Context(env, directory, log,
+          quiet, nothing,repo_cache, corral_base)? end
 
       match cmd.fullname()
       | "corral/version" => env.out.print("corral " + Info.version())
