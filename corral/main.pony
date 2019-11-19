@@ -44,7 +44,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where corral.json and dep-lock.json will be created."
+                "The directory where corral.json and dep-lock.json will be created."
                 where short' = 'p',
                 default' = "")
             ]
@@ -56,7 +56,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -76,7 +76,7 @@ actor Main
                 default' = "")
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ],
@@ -89,7 +89,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -99,7 +99,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ]
@@ -121,7 +121,7 @@ actor Main
                 default' = false)
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -132,7 +132,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
@@ -142,7 +142,7 @@ actor Main
             [
               OptionSpec.string(
                 "directory",
-                "The path where both corral.json and dep-lock.json live."
+                "The directory where both corral.json and dep-lock.json live."
                 where short' = 'p',
                 default' = "")
             ])?
