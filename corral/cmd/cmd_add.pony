@@ -19,7 +19,7 @@ primitive CmdAdd
       "\nadd: adding: " + dd.locator.string() + " "
         + dd.version.string() + " " + ld.revision.string())
 
-    match BundleFile.load_bundle(ctx.env, ctx.log)
+    match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
     | let bundle: Bundle =>
       try
         bundle.add_dep(dd, ld)

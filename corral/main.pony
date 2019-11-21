@@ -40,11 +40,26 @@ actor Main
           CommandSpec.leaf(
             "init",
             "Initializes the corral.json and dep-lock.json files with"
-              + " skeletal information.")?
+              + " skeletal information.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where corral.json and dep-lock.json will be created."
+                where short' = 'p',
+                default' = "")
+            ]
+          )?
           CommandSpec.leaf(
             "info",
             "Prints all or specific information about the bundle from"
-              + " corral.json.")?
+              + " corral.json.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
+            ])?
           CommandSpec.leaf(
             "add",
             "Adds a remote VCS, local VCS or local direct dependency.",
@@ -59,16 +74,36 @@ actor Main
                 "Specific revision: tag, branch, commit"
                 where short' = 'r',
                 default' = "")
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
             ],
             [
               ArgSpec.string("locator", "Organization/repository name.")
             ])?
           CommandSpec.leaf(
             "remove",
-            "Removes one or more deps from the corral.")?
+            "Removes one or more deps from the corral.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
+            ])?
           CommandSpec.leaf(
             "list",
-            "Lists the deps and packages, including corral details.")?
+            "Lists the deps and packages, including corral details.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
+            ]
+          )?
           CommandSpec.leaf(
             "clean",
             "Cleans up repo cache and working corral. Default is to clean"
@@ -84,14 +119,33 @@ actor Main
                 "Clean repo cache only."
                 where short' = 'r',
                 default' = false)
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
             ])?
           CommandSpec.leaf(
             "update",
             "Updates one or more or all of the deps in the corral to their"
-              + " best revisions.")?
+              + " best revisions.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
+            ])?
           CommandSpec.leaf(
             "fetch",
-            "Fetches one or more or all of the deps into the corral.")?
+            "Fetches one or more or all of the deps into the corral.",
+            [
+              OptionSpec.string(
+                "directory",
+                "The directory where both corral.json and dep-lock.json live."
+                where short' = 'p',
+                default' = "")
+            ])?
           CommandSpec.leaf(
             "run",
             "Runs a shell command inside an environment with the corral on"
@@ -125,13 +179,18 @@ actor Main
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()
     let nothing = cmd.option("nothing").bool()
+    let directory = match cmd.option("directory").string()
+    | "" => Path.cwd()
+    | let dir': String => Path.clean(dir')
+    end
     let repo_cache = "./_repos"  // TODO: move default to user home and add flag
     let corral_base = "./_corral"
     //log.fine("Cmd: " + cmd.string())
 
     try
       let context =
-        recover Context(env, log, quiet, nothing, repo_cache, corral_base)? end
+        recover Context(env, directory, log,
+          quiet, nothing,repo_cache, corral_base)? end
 
       match cmd.fullname()
       | "corral/version" => env.out.print("corral " + Info.version())
