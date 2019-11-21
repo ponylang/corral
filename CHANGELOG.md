@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add --path flag ([PR #53](https://github.com/ponylang/corral/pull/53))
 
 ### Changed
 
