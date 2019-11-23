@@ -11,18 +11,15 @@ class val Program
 
   new val create(
     env: Env,
-    path': FilePath) ?
-  =>
-    auth = env.root as AmbientAuth
-    path = path'
-
-  new val on_path(
-    env: Env,
     name: String) ?
   =>
     auth = env.root as AmbientAuth
-    let evars = EnvVars(env.vars)
-    path = first_existing(auth, evars.get_or_else("PATH", ""), name)?
+    if Path.is_abs(name) then
+      path = FilePath(auth, name)?
+    else
+      let evars = EnvVars(env.vars)
+      path = first_existing(auth, evars.get_or_else("PATH", ""), name)?
+    end
 
   fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
     : FilePath ?

@@ -10,7 +10,7 @@ class val GitVCS is VCS
 
   new val create(env': Env) ? =>
     env = env'
-    prog = Program.on_path(env, "git")?
+    prog = Program(env, "git")?
 
   fun val fetch_op(ver: String): RepoOperation =>
     """A fetch for Git is a Sync followed by a Checkout."""
