@@ -22,6 +22,6 @@ class val Context
     log = log'
     quiet = quiet'
     nothing = nothing'
-    directory = directory'    
-    repo_cache = FilePath(env.root as AmbientAuth, repo_cache')?
-    corral_base = FilePath(env.root as AmbientAuth, corral_base')?
+    directory = directory'
+    repo_cache = FilePath(env'.root as AmbientAuth, repo_cache')?
+    corral_base = FilePath(env'.root as AmbientAuth, corral_base')?
