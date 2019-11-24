@@ -7,9 +7,7 @@ primitive Info
   fun version(): String => Version()
 
 actor Main
-  let _env: Env
   new create(env: Env) =>
-    _env = env
     let log = Log(LvlFine, env.err, LevelLogFormatter)
 
     let cs = try

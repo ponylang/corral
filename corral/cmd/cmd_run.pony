@@ -27,9 +27,8 @@ class CmdRun
         end
         ponypath'
       | let err: Error =>
-        ctx.env.out.print("run: " + err.message)
-        ctx.env.exitcode(1)
-        return
+        ctx.env.out.print("run: continuing without a corral.json")
+        String
       end
     end
     ctx.log.info("run ponypath: " + ponypath)
