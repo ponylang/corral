@@ -6,5 +6,5 @@ class Result
     solution = solution'
     err = err'
 
-  fun isErr(): Bool =>
+  fun is_err(): Bool =>
     err.size() != 0

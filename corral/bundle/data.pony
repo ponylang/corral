@@ -5,11 +5,13 @@ class BundleData
   let deps: Array[DepData]
 
   new create(jo: JsonObject box) =>
+    // TODO: iterate over jo's map and verify we just have "info" or "deps"
     info = InfoData(Json.objekt(jo, "info"))
 
     deps = Array[DepData]
     let bundles_array = Json.array(jo, "deps")
     for bjt in bundles_array.data.values() do
+      // TODO: catch and return this error somehow
       let bjo = try bjt as JsonObject box else JsonObject end
       let bd = DepData(bjo)
       deps.push(bd)

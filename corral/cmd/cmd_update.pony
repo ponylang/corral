@@ -14,7 +14,7 @@ primitive CmdUpdate
 
     ctx.env.out.print("\nupdate:")
 
-    match recover BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log) end
+    match recover BundleFile.load_bundle(ctx.bundle_dir, ctx.log) end
     | let bundle: Bundle iso =>
       _Updater(ctx).update_bundle_deps(consume bundle)
     | let err: Error =>
@@ -61,25 +61,18 @@ actor _Updater
     try
       (let deptag, let dep) = updates.remove(dep')?
 
+      // TODO: consider parsing version much earlier, maybe in Bundle.
+      // TODO: also consider allowing literal tags and not just constraints
+      // expressions.
+      let constraints = Constraints.parse(dep.data.version)
+
       ctx.log.fine(
         "tags for [" + updates.size().string() + "] " + dep.locator.string()
           + ": " + tags.size().string())
-      let source: ss.InMemArtifactSource = source.create()
 
-      for tg in tags.values() do
-        ctx.log.fine("  tag:" + tg)
-        let artifact = ss.Artifact("A", sv.ParseVersion(tg))
-        source.add(artifact)
-      end
-      ctx.log.fine("")
+      let result = Constraints.solve(constraints, tags, ctx.log)
 
-      // TODO: consider parsing version much earlier, before we even get here.
-      // TODO: also consider allowing literal tags and not just constraints
-      // expressions.
-      let constraints = parse_constraints(dep.data.version)
-      let result = ss.Solver(source).solve(constraints.values())
-
-      ctx.log.fine("result err: " + result.err)
+      // TODO: probably OK to have multiple solutions: choose 'best' with a strategy like 'latest'.
       if result.solution.size() == 1 then
         let v = result.solution(0)?.version.string()
         //dep.lock.revision = consume v
@@ -94,40 +87,3 @@ actor _Updater
         end
       end
     end
-
-  fun parse_constraints(constraint_str: String box): Array[ss.Constraint] =>
-    let constraints: Array[ss.Constraint] = constraints.create()
-    for c in constraint_str.split_by(" ").values() do
-      let cs = recover val c.clone().>strip() end
-      if cs != "" then
-        try
-          constraints.push(parse_constraint(cs)?)
-        else
-          // How should we report a bad constraint?
-          None // ctx.log.warn("Error parsing constraint " + cs)
-        end
-      end
-    end
-    constraints
-
-  fun parse_constraint(c: String box): ss.Constraint ? =>
-    for pre in ["<="; "<"; ">="; ">"; "="; "^"; "~" ].values() do  // "-"; "+"
-      if not c.at(pre) then continue end
-      let part = recover val c.substring(pre.size().isize()) end
-      let version = sv.ParseVersion(part)
-      if pre.at("=") then
-        let range = sr.Range(version, version, true, true)
-        return ss.Constraint("A", range)
-      elseif pre.at("^") then
-        None
-      elseif pre.at("~") then
-        None
-      else
-        let from_version = if pre.at(">") then version else None end
-        let to_version = if pre.at("<") then version else None end
-        let inclusive = pre.at("=", 1)
-        let range = sr.Range(from_version, to_version, inclusive, inclusive)
-        return ss.Constraint("A", range)
-      end
-    end
-    error

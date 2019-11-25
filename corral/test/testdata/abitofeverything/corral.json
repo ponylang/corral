@@ -1,0 +1,6 @@
+{"deps":[
+  {
+    "locator": "github.com/cquinn/pony-repo1.git/bundle1",
+    "version": ">0.11.0 <1.0.0"
+  }
+]}

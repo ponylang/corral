@@ -2,7 +2,8 @@ type LogLevel is
   ( LvlFine
   | LvlInfo
   | LvlWarn
-  | LvlErrr )
+  | LvlErrr
+  | LvlNone )
 
 primitive LvlFine
   fun apply(): U32 => 0
@@ -19,6 +20,10 @@ primitive LvlWarn
 primitive LvlErrr
   fun apply(): U32 => 3
   fun string(): String => "ERRR"
+
+primitive LvlNone
+  fun apply(): U32 => 4
+  fun string(): String => "-"
 
 class val Log
   """
@@ -66,7 +71,6 @@ primitive CodeLogFormatter is LogFormatter
     let file_name: String = loc.file()
     let file_linenum: String  = loc.line().string()
     let file_linepos: String  = loc.pos().string()
-
     (recover String(file_name.size()
       + file_linenum.size()
       + file_linepos.size()
@@ -83,7 +87,6 @@ primitive CodeLogFormatter is LogFormatter
 
 primitive LevelLogFormatter is LogFormatter
   fun apply(level: LogLevel, msg: String, loc: SourceLoc): String =>
-
     (recover String(level.string().size()
       + msg.size()
       + 4)
@@ -91,3 +94,7 @@ primitive LevelLogFormatter is LogFormatter
      .> append(level.string())
      .> append(": ")
      .> append(msg)
+
+primitive SimpleLogFormatter is LogFormatter
+  fun apply(level: LogLevel, msg: String, loc: SourceLoc): String =>
+    msg

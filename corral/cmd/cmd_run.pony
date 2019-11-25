@@ -1,13 +1,11 @@
 use "cli"
 use "process"
 use "../bundle"
-use "../util" // Shell, Log
+use "../util" // Log
 
 class CmdRun
-  let ctx: Context
 
-  new create(ctx': Context, cmd: Command) =>
-    ctx = ctx'
+  new create(ctx: Context, cmd: Command) =>
     //ctx.log.info("run: " + cmd.string())
 
     let argss = cmd.arg("args").string_seq()
@@ -17,7 +15,7 @@ class CmdRun
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
-      match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
+      match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
       | let bundle: Bundle =>
         var ponypath' = recover trn String end
         let iter = bundle.bundle_roots().values()

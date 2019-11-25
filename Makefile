@@ -33,7 +33,7 @@ ifdef static
 endif
 
 ifeq ($(static),true)
-  LINKER += --static 
+  LINKER += --static
 endif
 
 ifneq ($(linker),)
@@ -78,8 +78,11 @@ install: $(binary)
 $(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
 
+integration: $(binary) $(tests_binary)
+	CORRAL_BIN=$$(pwd)/$(binary) $(tests_binary) --only=integration --sequential
+
 test: $(tests_binary)
-	$^ --sequential
+	$^ --exclude=integration --sequential
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -90,4 +93,3 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 .PHONY: all clean install test
-

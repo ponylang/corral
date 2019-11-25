@@ -5,7 +5,7 @@ primitive HgVCS is VCS
   Placeholder for Mercurial VCS
   """
 
-  fun tag fetch_op(ver: String): RepoOperation => NoOperation
+  fun tag fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation => NoOperation
 
   fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
 

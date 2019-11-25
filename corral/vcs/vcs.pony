@@ -36,7 +36,7 @@ interface val VCS
   A Vcs provides functions to perform high-level VCS operations that commands
   use to work with repos.
   """
-  fun val fetch_op(ver: String): RepoOperation ?
+  fun val fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation ?
   fun val update_op(rcv: TagListReceiver): RepoOperation ?
   fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
 
@@ -44,7 +44,7 @@ primitive NoneVCS is VCS
   """
   NoneVcs is a no-op VCS.
   """
-  fun tag fetch_op(ver: String): RepoOperation => NoOperation
+  fun tag fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation => NoOperation
   fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
   fun tag tag_query_op(rcv: TagListReceiver): RepoOperation => NoOperation
 
@@ -60,15 +60,14 @@ class val NoOperation is RepoOperation
   """
   NoOperation is a no-op RepoOperation.
   """
-  new val create() => None
   fun val apply(repo: Repo) => None
 
 type TagListReceiver is {(Array[String] val)} val
 
-actor TagQueryErrPrinter is TagListReceiver
-  let env: Env
-  new create(env': Env) => env = env'
+actor TagQueryPrinter is TagListReceiver
+  let out: OutStream
+  new create(out': OutStream) => out = out'
   be apply(tags: Array[String] val) =>
     for tg in tags.values() do
-      env.err.print("tag: " + tg)
+      out.print("tag: " + tg)
     end
