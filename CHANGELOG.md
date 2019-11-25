@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Fix  should work if there is no corral.json ([PR #57](https://github.com/ponylang/corral/pull/57))
 
 ### Added
 
