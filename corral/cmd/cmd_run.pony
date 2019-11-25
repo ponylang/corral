@@ -34,7 +34,7 @@ class CmdRun
     ctx.log.info("run ponypath: " + ponypath)
 
     try
-      let prog = Program.on_path(ctx.env, args(0)?)?
+      let prog = Program(ctx.env, args(0)?)?
       let vars = if ponypath.size() > 0 then
           recover val ["PONYPATH=" + ponypath] .> append(ctx.env.vars) end
         else
