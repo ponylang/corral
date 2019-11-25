@@ -7,6 +7,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Fixed
 
 - Fix  should work if there is no corral.json ([PR #57](https://github.com/ponylang/corral/pull/57))
+- Fix Corral run only looking for binaries on /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin ([PR #56](https://github.com/ponylang/corral/pull/56))
 
 ### Added
 
