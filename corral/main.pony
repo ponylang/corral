@@ -52,7 +52,9 @@ actor Main
       | let dirpath': FilePath => dirpath'
       | None => FilePath(auth, Path.cwd())?  // No bundle found, use cwd and let cmds handle it
       end
-      let repo_cache = bundle_dir.join("_repos")?  // TODO: move default to user home and add flag
+      // TODO: move default repo_cache to user home and add flag
+      // https://github.com/ponylang/corral/issues/28
+      let repo_cache = bundle_dir.join("_repos")?
       Context(env, log, quiet, nothing, bundle_dir, repo_cache)
     else
       log.err("Internal error: could not access required directories")

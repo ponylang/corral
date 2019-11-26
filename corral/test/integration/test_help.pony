@@ -14,4 +14,3 @@ class CheckHelp is Checker
     h.assert_true(ar.stdout.contains("Options:"))
     h.assert_true(ar.stdout.contains("Commands:"))
     h.complete(ar.exit_code == 0)
-    //h.env.out.print(ar.stdout)

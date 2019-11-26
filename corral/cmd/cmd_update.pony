@@ -64,6 +64,7 @@ actor _Updater
       // TODO: consider parsing version much earlier, maybe in Bundle.
       // TODO: also consider allowing literal tags and not just constraints
       // expressions.
+      // https://github.com/ponylang/corral/issues/26
       let constraints = Constraints.parse(dep.data.version)
 
       ctx.log.fine(
@@ -73,6 +74,7 @@ actor _Updater
       let result = Constraints.solve(constraints, tags, ctx.log)
 
       // TODO: probably OK to have multiple solutions: choose 'best' with a strategy like 'latest'.
+      // https://github.com/ponylang/corral/issues/63
       if result.solution.size() == 1 then
         let v = result.solution(0)?.version.string()
         //dep.lock.revision = consume v

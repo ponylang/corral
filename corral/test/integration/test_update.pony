@@ -17,7 +17,6 @@ class CheckUpdateEmpty is Checker
     h.assert_eq[I32](0, ar.exit_code)
     h.assert_true(ar.stdout.contains("update:"))
     h.complete(ar.exit_code == 0)
-    //h.env.out.print(ar.stdout)
 
 class TestUpdateGithub is UnitTest
   fun name(): String => "integration/update-github-leaf"
@@ -44,6 +43,4 @@ class CheckUpdateGithub is Checker
       repos_dir.remove()
 
       h.complete(ar.exit_code == 0)
-      //h.env.out.print(ar.stdout)
-      //h.env.err.print(ar.stderr)
     end

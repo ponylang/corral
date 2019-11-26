@@ -27,29 +27,8 @@ actor _Fetcher
   be fetch_bundle_deps(bundle: Bundle val) =>
     ctx.log.info("Fetching direct deps of bundle: " + bundle.name())
     for dep in bundle.deps.values() do
-      //try
-        ctx.log.info("Fetching dep: " + dep.name() + " @ " + dep.version())
-          //dep.data.locator)
-        fetch_dep(dep)
-      //else
-      //  ctx.log.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
-      //    //dep.data.locator)
-      //end
-    end
-    //fetch_transitive_deps(bundle)
-
-  be fetch_transitive_dep(dep: Dep val) =>
-    ctx.log.info("Fetching transitive dep: " + dep.name())
-    // TODO: prevent infinite recursion by keeping & checking a deps Set
-    try
-      let bundle_dir = base_bundle.dep_bundle_root(dep)?
-      ctx.log.fine("Fetching dep's bundle into: " + bundle_dir.path)
-      let dep_bundle: Bundle val = Bundle.load(bundle_dir, ctx.log)?
-      ctx.log.fine("Fetched dep's bundle is: " + dep_bundle.name())
-      fetch_bundle_deps(dep_bundle)
-    else
-      ctx.log.err("Error loading/fetching dep bundle: " + dep.flat_name())
-      ctx.env.exitcode(1)
+      ctx.log.info("Fetching dep: " + dep.name() + " @ " + dep.version())
+      fetch_dep(dep)
     end
 
   fun fetch_dep(dep: Dep val) =>
@@ -62,6 +41,7 @@ actor _Fetcher
       // TODO: deal with versions
       // - If its already resolved from a lock, done.
       // - Else, it is a constraint to solve but we don't have the tags here yet.
+      // https://github.com/ponylang/corral/issues/59
       var version = dep.version()
       let constraints = Constraints.parse(version)
       if constraints.size() > 0 then
@@ -72,6 +52,21 @@ actor _Fetcher
       fetch_op(repo)
     else
       ctx.log.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
+    end
+
+  be fetch_transitive_dep(dep: Dep val) =>
+    ctx.log.info("Fetching transitive dep: " + dep.name())
+    // TODO: prevent infinite recursion by keeping & checking a deps Set
+    // https://github.com/ponylang/corral/issues/62
+    try
+      let bundle_dir = base_bundle.dep_bundle_root(dep)?
+      ctx.log.fine("Fetching dep's bundle into: " + bundle_dir.path)
+      let dep_bundle: Bundle val = Bundle.load(bundle_dir, ctx.log)?
+      ctx.log.fine("Fetched dep's bundle is: " + dep_bundle.name())
+      fetch_bundle_deps(dep_bundle)
+    else
+      ctx.log.err("Error loading/fetching dep bundle: " + dep.flat_name())
+      ctx.env.exitcode(1)
     end
 
 class val _DepFetchFollower is RepoOperation

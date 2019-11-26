@@ -92,4 +92,4 @@ all: test $(binary)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY: all clean install test
+.PHONY: all clean install test integration

@@ -14,4 +14,3 @@ class CheckVersion is Checker
     h.assert_true(ar.stdout.at("corral "))
     h.assert_true(ar.stdout.at(Info.version(), 7))
     h.complete(ar.exit_code == 0)
-    //h.env.out.print(ar.stdout)

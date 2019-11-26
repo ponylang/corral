@@ -6,12 +6,13 @@ class BundleData
 
   new create(jo: JsonObject box) =>
     // TODO: iterate over jo's map and verify we just have "info" or "deps"
+    // https://github.com/ponylang/corral/issues/64
     info = InfoData(Json.objekt(jo, "info"))
 
     deps = Array[DepData]
     let bundles_array = Json.array(jo, "deps")
     for bjt in bundles_array.data.values() do
-      // TODO: catch and return this error somehow
+      // TODO: somehow, catch and return error if bjt is not a JsonObject
       let bjo = try bjt as JsonObject box else JsonObject end
       let bd = DepData(bjo)
       deps.push(bd)

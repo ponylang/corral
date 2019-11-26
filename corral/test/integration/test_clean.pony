@@ -18,4 +18,3 @@ primitive CheckClean
   fun apply(h: TestHelper, ar: ActionResult) =>
     h.assert_eq[I32](0, ar.exit_code)
     h.complete(ar.exit_code == 0)
-    //h.env.out.print(ar.stdout)
