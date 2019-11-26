@@ -20,6 +20,14 @@ Corral is a dependency management tool for [Pony](https://www.ponylang.io). Our 
 - Uses the Pony process package for running external tools like Git and ponyc.
 - Separate shared repo pool from per-project deps tree.
 
+## Installation
+
+The following command will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default. This requires `ponyup`, our toolchain multiplexer, to be installed. If you don't have it installed, please follow the [instructions](https://github.com/ponylang/ponyup#installing-ponyup).
+
+```bash
+ponyup update corral release
+```
+
 ## Design
 
 See [Corral Design](doc/design.md) for more details about the design of Corral. Ongoing questions and notes for future work can be found in [Questions / Notes](doc/questions_notes.md)
