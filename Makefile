@@ -78,11 +78,13 @@ install: $(binary)
 $(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
 
+unittest: $(tests_binary)
+	$^ --exclude=integration
+
 integration: $(binary) $(tests_binary)
 	CORRAL_BIN=$$(pwd)/$(binary) $(tests_binary) --only=integration --sequential
 
-test: $(tests_binary)
-	$^ --exclude=integration --sequential
+test: unittest integration
 
 clean:
 	rm -rf $(BUILD_DIR)
@@ -92,4 +94,4 @@ all: test $(binary)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY: all clean install test integration
+.PHONY: all clean install test unittest integration
