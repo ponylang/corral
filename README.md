@@ -4,7 +4,7 @@ Pony dependency management command-line tool.
 
 ## Status
 
-[![CircleCI](https://circleci.com/gh/ponylang/corral.svg?style=svg)](https://circleci.com/gh/ponylang/corral)
+[![Actions Status](https://github.com/ponylang/corral/workflows/vs-ponyc-latest/badge.svg)](https://github.com/ponylang/corral/actions)
 
 Corral is alpha level software. We advise you use [stable](https://github.com/ponylang/pony-stable) for your dependency management needs. We are looking for help building out Corral and would love if you help out with any of the [open issues](https://github.com/ponylang/corral/issues).
 
