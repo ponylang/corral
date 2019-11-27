@@ -9,7 +9,30 @@ primitive Info
 
 actor Main
   new create(env: Env) =>
-    let log = Log(LvlFine, env.err, LevelLogFormatter)
+    let cmd =
+      match recover val CLI.parse(env.args, env.vars) end
+      | let c: Command => c
+      | (let exit_code: U8, let msg: String) =>
+        if exit_code == 0 then
+          env.out.print(msg)
+        else
+          Log(LvlErrr, env.err, LevelLogFormatter).err(msg)
+          env.out.print(CLI.help())
+          env.exitcode(exit_code.i32())
+        end
+        return
+      end
+
+    // Setup options and helpers used by commands
+    let debug = cmd.option("debug").u64()
+    let quiet = cmd.option("quiet").bool()
+    let verbose = cmd.option("verbose").bool()
+    let ulvl = if verbose then LvlFine elseif quiet then LvlWarn else LvlInfo end
+    let nothing = cmd.option("nothing").bool()
+
+    let log = Log(Level(debug), env.err, LevelLogFormatter)
+    let uout = Log(ulvl, env.out, SimpleLogFormatter)
+
     let auth = try
       env.root as AmbientAuth
     else
@@ -18,31 +41,14 @@ actor Main
       return
     end
 
-    let cmd =
-      match recover val CLI.parse(env.args, env.vars) end
-      | let c: Command => c
-      | (let exit_code: U8, let msg: String) =>
-        if exit_code == 0 then
-          env.out.print(msg)
-        else
-          log.err(msg)
-          env.out.print(CLI.help())
-          env.exitcode(exit_code.i32())
-        end
-        return
-      end
-
-    // Quick commands can be run now without a bundle_dir or Context
+    // Quick commands can be run now without a full context.
     match cmd.fullname()
     | "corral/version" =>
-      env.out.print("corral " + Info.version())
+      uout.info("version: " + Info.version())
       return
     end
 
-    let quiet = cmd.option("quiet").bool()
-    let verbose = cmd.option("verbose").bool()
-    let nothing = cmd.option("nothing").bool()
-
+    // Build the command context
     let context = try
       let bundle_dir_maybe = match cmd.option("bundle_dir").string()
       | "" => BundleFile.find_bundle_dir(auth, Path.cwd(), log)
@@ -55,7 +61,7 @@ actor Main
       // TODO: move default repo_cache to user home and add flag
       // https://github.com/ponylang/corral/issues/28
       let repo_cache = bundle_dir.join("_repos")?
-      Context(env, log, quiet, nothing, bundle_dir, repo_cache)
+      Context(env, log, uout, nothing, bundle_dir, repo_cache)
     else
       log.err("Internal error: could not access required directories")
       env.exitcode(2)
@@ -63,6 +69,7 @@ actor Main
     end
     //log.fine("Cmd: " + cmd.string())
 
+    // Execute the command
     match cmd.fullname()
     | "corral/init" => CmdInit(context, cmd)
     | "corral/info" => CmdInfo(context, cmd)

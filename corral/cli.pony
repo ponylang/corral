@@ -1,7 +1,4 @@
 use "cli"
-use "files"
-use "util"
-use "cmd"
 
 primitive CLI
   fun parse(
@@ -28,6 +25,11 @@ primitive CLI
       "corral",
       "",
       [
+        OptionSpec.u64(
+          "debug",
+          "Configure debug output: 0=off, 1=err, 2=warn, 3=info, 4=fine."
+          where short'='g',
+          default' = 0)
         OptionSpec.bool(
           "quiet",
           "Quiet output."
@@ -82,14 +84,18 @@ primitive CLI
           ])?
         CommandSpec.leaf(
           "remove",
-          "Removes one or more deps from the corral.")?
+          "Removes one or more deps from the bundle.",
+          Array[OptionSpec](),
+          [
+            ArgSpec.string("locator", "Organization/repository name.")
+          ])?
         CommandSpec.leaf(
           "list",
           "Lists the deps and packages, including corral details.")?
         CommandSpec.leaf(
           "clean",
-          "Cleans up repo cache and working corral. Default is to clean"
-            + " only working corral.",
+          "Cleans repo cache and working corral. Default is to clean"
+            + " only the working corral.",
           [
             OptionSpec.bool(
               "all",

@@ -5,27 +5,26 @@ use "../util"
 
 primitive CmdList
   fun apply(ctx: Context, cmd: Command) =>
-    //ctx.log.info("list: " + cmd.string())
-    ctx.env.out.print("\nlist: from dir " + ctx.bundle_dir.path)
+    ctx.uout.info("list: from dir " + ctx.bundle_dir.path)
 
     match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
     | let bundle: Bundle =>
 
-      ctx.env.out.print(
-        "listing " + Files.bundle_filename() + " in " + bundle.name())
+      ctx.uout.info(
+        "list: listing " + Files.bundle_filename() + " in " + bundle.name())
       for d in bundle.deps.values() do
-        ctx.env.out.print("  dep: " + d.name())
-        ctx.env.out.print("    vcs: " + d.vcs())
-        ctx.env.out.print("    ver: " + d.data.version)
-        ctx.env.out.print("    rev: " + d.lock.revision)
+        ctx.uout.info("  dep: " + d.name())
+        ctx.uout.info("    vcs: " + d.vcs())
+        ctx.uout.info("    ver: " + d.data.version)
+        ctx.uout.info("    rev: " + d.lock.revision)
       end
 
-      ctx.env.out.print("")
+      ctx.uout.info("")
       for br in bundle.bundle_roots().values() do
-        ctx.env.out.print("  dep_root: " + br)
+        ctx.uout.info("  dep_root: " + br)
       end
 
     | let err: Error =>
-      ctx.env.out.print("list: " + err.message)
+      ctx.uout.err("list: " + err.message)
       ctx.env.exitcode(1)
     end

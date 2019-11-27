@@ -1,17 +1,14 @@
 use "cli"
 use "process"
 use "../bundle"
-use "../util" // Log
+use "../util"
 
 class CmdRun
-
   new create(ctx: Context, cmd: Command) =>
-    //ctx.log.info("run: " + cmd.string())
-
     let argss = cmd.arg("args").string_seq()
     let args = recover val Array[String].create() .> append(argss) end
 
-    ctx.env.out.print("\nrun: ") // + args.string())
+    ctx.uout.info("run: " + " ".join(args.values()))
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
@@ -25,7 +22,7 @@ class CmdRun
         end
         ponypath'
       | let err: Error =>
-        ctx.env.out.print("run: continuing without a corral.json")
+        ctx.uout.warn("run: continuing without a corral.json")
         String
       end
     end
@@ -39,9 +36,11 @@ class CmdRun
           ctx.env.vars
         end
       let a = Action(prog, recover args.slice(1) end, vars)
-      Runner.run(a, {(result: ActionResult) => result.print_to(ctx.env.out) })
+      if not ctx.nothing then
+        Runner.run(a, {(result: ActionResult) => result.print_to(ctx.env.out) })
+      end
     else
-      ctx.env.out.print("run: " + "couldn't run program: " + cmd.string())
+      ctx.uout.err("run: " + "couldn't run program: " + cmd.string())
       ctx.env.exitcode(1)
       return
     end

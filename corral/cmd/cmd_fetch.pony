@@ -6,13 +6,12 @@ use "../vcs"
 
 primitive CmdFetch
   fun apply(ctx: Context, cmd: Command) =>
-    //ctx.log.info("fetch: " + cmd.string())
-    ctx.env.out.print("\nfetch:")
+    ctx.uout.info("fetch:")
     match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
     | let bundle: Bundle val =>
       _Fetcher(ctx, bundle).fetch_bundle_deps(bundle)
     | let err: Error =>
-      ctx.env.out.print(err.message)
+      ctx.uout.err(err.message)
       ctx.env.exitcode(1)
     end
 
@@ -27,8 +26,12 @@ actor _Fetcher
   be fetch_bundle_deps(bundle: Bundle val) =>
     ctx.log.info("Fetching direct deps of bundle: " + bundle.name())
     for dep in bundle.deps.values() do
-      ctx.log.info("Fetching dep: " + dep.name() + " @ " + dep.version())
-      fetch_dep(dep)
+      if not ctx.nothing then
+        fetch_dep(dep)
+        ctx.uout.info("fetch: fetched dep: " + dep.name() + " @ " + dep.version())
+      else
+        ctx.uout.info("fetch: would have fetched dep: " + dep.name() + " @ " + dep.version())
+      end
     end
 
   fun fetch_dep(dep: Dep val) =>
@@ -51,7 +54,7 @@ actor _Fetcher
       let fetch_op = vcs.fetch_op(version, _DepFetchFollower(this, dep))?
       fetch_op(repo)
     else
-      ctx.log.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
+      ctx.uout.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
     end
 
   be fetch_transitive_dep(dep: Dep val) =>
@@ -65,7 +68,7 @@ actor _Fetcher
       ctx.log.fine("Fetched dep's bundle is: " + dep_bundle.name())
       fetch_bundle_deps(dep_bundle)
     else
-      ctx.log.err("Error loading/fetching dep bundle: " + dep.flat_name())
+      ctx.uout.err("Error loading/fetching dep bundle: " + dep.flat_name())
       ctx.env.exitcode(1)
     end
 

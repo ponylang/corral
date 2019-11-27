@@ -160,11 +160,10 @@ class Bundle
     deps(dd.locator) = Dep(this, dd, ld)
     modified = true
 
-  fun ref remove_dep(d: Dep) =>
-    try
-      deps.remove(d.data.locator)?
-      modified = true
-    end
+  fun ref remove_dep(locator: String) ? =>
+    log.fine("Removing " + locator + " from " + "|".join(deps.keys()))
+    deps.remove(locator)?
+    modified = true
 
   fun bundle_json(): JsonObject =>
     let jo: JsonObject = JsonObject
