@@ -8,6 +8,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 - Fix  should work if there is no corral.json ([PR #57](https://github.com/ponylang/corral/pull/57))
 - Fix Corral run only looking for binaries on $PATH ([PR #56](https://github.com/ponylang/corral/pull/56))
+- Improved testing and more ([PR #60](https://github.com/ponylang/corral/pull/60))
 
 ### Added
 
