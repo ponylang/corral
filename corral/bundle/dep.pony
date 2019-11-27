@@ -85,14 +85,6 @@ class Dep
   fun box flat_repo(): String =>
     _Flattened(repo())
 
-  //fun repo_root(base_bundle: Bundle box): String =>
-  //  """Return this dep's repo workspace dir under the base bundle's corral."""
-  //  Path.join(base_bundle.corral_path(), flat_name())
-
-  //fun bundle_root(base_bundle: Bundle box): String =>
-  //  """Return this dep's bundle dir withing its repo workspace."""
-  //  Path.join(repo_root(base_bundle), locator.bundle_path)
-
   fun box version(): String =>
     if lock.revision != "" then
       lock.revision

@@ -7,7 +7,7 @@ primitive CmdClean
   fun apply(ctx: Context, cmd: Command) =>
     //ctx.log.info("clean: " + cmd.string())
 
-    match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
+    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
     | let bundle: Bundle =>
       try
         let repos_dir = ctx.repo_cache

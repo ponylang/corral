@@ -7,7 +7,7 @@ primitive CmdRemove
     //ctx.log.info("remove: " + cmd.string())
     ctx.env.out.print("\nremove: removing: TODO")
 
-    match BundleFile.load_bundle(ctx.env, ctx.directory, ctx.log)
+    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
     | let bundle: Bundle =>
       try
         // TODO: lookup dep

@@ -9,19 +9,16 @@ class val Context
   let log: Log
   let quiet: Bool
   let nothing: Bool
-  let directory: String
+  let bundle_dir: FilePath
   let repo_cache: FilePath
-  let corral_base: FilePath
 
-  new val create(env': Env,
-    directory': String,
-    log': Log,
-    quiet': Bool, nothing': Bool, repo_cache': String, corral_base': String) ?
+  new val create(env': Env, log': Log,
+    quiet': Bool, nothing': Bool,
+    bundle_dir': FilePath, repo_cache': FilePath)
   =>
     env = env'
     log = log'
     quiet = quiet'
     nothing = nothing'
-    directory = directory'
-    repo_cache = FilePath(env'.root as AmbientAuth, repo_cache')?
-    corral_base = FilePath(env'.root as AmbientAuth, corral_base')?
+    bundle_dir = bundle_dir'
+    repo_cache = repo_cache'

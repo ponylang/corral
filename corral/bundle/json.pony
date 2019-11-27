@@ -8,13 +8,13 @@ primitive Json
   fun load_object(file_path: FilePath, log: Log)
     : (JsonObject | FileErrNo | JsonError)
   =>
-    log.fine("Reading " + file_path.path)
+    //log.fine("Reading json from: " + file_path.path)
     let file = match OpenFile(file_path)
     | let f: File => f
     | let e: FileErrNo => return e
     end
     let content: String = file.read_string(file.size())
-    //log.log("Read: " + content + ".")
+    //log.fine("Read: " + content + ".")
     let json: JsonDoc ref = JsonDoc
     try
       json.parse(content)?
