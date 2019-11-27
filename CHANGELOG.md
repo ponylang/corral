@@ -6,9 +6,8 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
-- Fix  should work if there is no corral.json ([PR #57](https://github.com/ponylang/corral/pull/57))
-- Fix Corral run only looking for binaries on $PATH ([PR #56](https://github.com/ponylang/corral/pull/56))
-- Improved testing and more ([PR #60](https://github.com/ponylang/corral/pull/60))
+- Fix `corral run` should work if there is no corral.json ([PR #57](https://github.com/ponylang/corral/pull/57))
+- Fix `corral run` only looking for binaries on $PATH ([PR #56](https://github.com/ponylang/corral/pull/56))
 
 ### Added
 
@@ -16,6 +15,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Update '--directory' to '--bundle_dir', resolve it early, and ensure other dirs are based on it. ([PR #60](https://github.com/ponylang/corral/pull/60))
 
 ## [0.2.0] - 2019-11-16
 
@@ -28,4 +28,3 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Initial alpha release
-
