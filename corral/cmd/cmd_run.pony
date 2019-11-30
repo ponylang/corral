@@ -3,22 +3,29 @@ use "process"
 use "../bundle"
 use "../util"
 
-class CmdRun
-  new create(ctx: Context, cmd: Command) =>
-    let argss = cmd.arg("args").string_seq()
-    let args = recover val Array[String].create() .> append(argss) end
+class CmdRun is CmdType
+  let args: Array[String] val
 
+  new create(cmd: Command) =>
+    let argss = cmd.arg("args").string_seq()
+    args = recover val Array[String].create() .> append(argss) end
+
+  fun requires_bundle(): Bool => false
+
+  fun apply(ctx: Context, project: Project) =>
     ctx.uout.info("run: " + " ".join(args.values()))
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
-      match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+      match project.load_bundle()
       | let bundle: Bundle =>
-        var ponypath' = recover trn String end
-        let iter = bundle.bundle_roots().values()
-        for path in iter do
-          ponypath'.append(path)
-          if iter.has_next() then ponypath'.push(':') end
+        let ponypath' = recover trn String end
+        let iter = project.transitive_deps(bundle).values()
+        for d in iter do
+          try
+            ponypath'.append(project.dep_bundle_root(d.locator)?.path)
+            if iter.has_next() then ponypath'.push(':') end
+          end
         end
         ponypath'
       | let err: Error =>
@@ -40,7 +47,7 @@ class CmdRun
         Runner.run(a, {(result: ActionResult) => result.print_to(ctx.env.out) })
       end
     else
-      ctx.uout.err("run: " + "couldn't run program: " + cmd.string())
+      ctx.uout.err("run: " + "couldn't run program: " + " ".join(args.values()))
       ctx.env.exitcode(1)
       return
     end

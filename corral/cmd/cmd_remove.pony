@@ -3,12 +3,16 @@ use "json"
 use "../bundle"
 use "../util"
 
-primitive CmdRemove
-  fun apply(ctx: Context, cmd: Command) =>
-    let locator = cmd.arg("locator").string()
+class CmdRemove is CmdType
+  let locator: String
+
+  new create(cmd: Command) =>
+    locator = cmd.arg("locator").string()
+
+  fun apply(ctx: Context, project: Project) =>
     ctx.uout.info("remove: removing: " + locator)
 
-    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+    match project.load_bundle()
     | let bundle: Bundle =>
       try
         bundle.remove_dep(locator)?

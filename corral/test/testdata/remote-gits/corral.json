@@ -1,0 +1,16 @@
+{
+    "deps": [
+        {
+            "locator": "github.com/cquinn/pony-repo2.git/bundle2b",
+            "version": ">0.11.0 <1.0.0"
+        },
+        {
+            "locator": "gitlab.com/cquinn1/justatest.git",
+            "version": "master"
+        },
+        {
+            "locator": "bitbucket.org/cquinn/pony-thing.git",
+            "version": "master"
+        }
+    ]
+}

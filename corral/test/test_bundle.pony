@@ -18,7 +18,7 @@ class TestBundle is UnitTest
     h.assert_no_error(_BundleLoad(TestDir(auth, "empty-deps")?, log), "empty deps")
     h.assert_no_error(_BundleLoad(TestDir(auth, "github-leaf")?, log), "github dep")
     h.assert_no_error(_BundleLoad(TestDir(auth, "local-git")?, log), "local-git dep")
-    h.assert_no_error(_BundleLoad(TestDir(auth, "local")?, log), "local dep")
+    h.assert_no_error(_BundleLoad(TestDir(auth, "local-direct")?, log), "local-direct dep")
     h.assert_no_error(_BundleLoad(TestDir(auth, "abitofeverything")?, log), "mixed deps")
 
     // TODO: figure out useful tests for Bundle creation

@@ -7,17 +7,16 @@ actor Main is TestList
   new make() => None
 
   fun tag tests(test: PonyTest) =>
-    test(_TestGitFetch)
-    //test(_TestGitUpdate)
+    test(_TestGitSync)
     //test(_TestGitTagQuery)
+    //test(_TestGitCheckout)
 
-class iso _TestGitFetch is UnitTest
-  fun name(): String =>
-    "vcs/git/fetch"
+class iso _TestGitSync is UnitTest
+  fun name(): String => "vcs/git/sync"
 
   fun apply(h: TestHelper) ? =>
     let vcs = VCSForType(h.env, "git")?
-    let fetch_op = vcs.fetch_op("master", NoOperation)?
+    let sync_op = vcs.sync_op({(repo: Repo) => None})
 
     //let ws = WorkSpec(dep.repo(), dep.version(), local, workspace)
     //ro.begin(ws)

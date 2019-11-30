@@ -47,7 +47,7 @@ primitive CLI
           default' = false)
         OptionSpec.string(
           "bundle_dir",
-          "The directory where corral.json and lock.json are located."
+          "The directory where the bundle's corral.json and lock.json are located."
           where short' = 'd',
           default' = "<cwd>")
       ],

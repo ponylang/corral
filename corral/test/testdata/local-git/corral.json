@@ -1,6 +1,8 @@
-{"deps":[
+{
+  "deps": [
     {
-      "locator": "../foo/bar/baz.git",
+      "locator": "/Users/carl/ws/pony/cquinn/rfcs.git",
       "version": ">0.11.0 <1.0.0"
     }
-]}
+  ]
+}

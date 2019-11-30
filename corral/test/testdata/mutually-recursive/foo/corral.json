@@ -1,5 +1,7 @@
-{"deps":[
+{
+  "deps": [
     {
-      "locator": "../ba"
+      "locator": "../bar"
     }
-]}
+  ]
+}

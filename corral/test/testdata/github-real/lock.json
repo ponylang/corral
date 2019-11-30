@@ -1,8 +1,0 @@
-{
-  "locks": [
-    {
-      "locator": "github.com/cquinn/pony-repo1.git/bundle1",
-      "revision": "0.14.0"
-    }
-  ]
-}
