@@ -12,5 +12,5 @@ class CheckVersion is Checker
   fun tag apply(h: TestHelper, ar: ActionResult) =>
     h.assert_eq[I32](0, ar.exit_code)
     h.assert_true(ar.stdout.at("version: "))
-    h.assert_true(ar.stdout.at(Info.version(), 9))
+    h.assert_true(ar.stdout.at(Version(), 9))
     h.complete(ar.exit_code == 0)

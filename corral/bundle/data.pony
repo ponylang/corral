@@ -59,8 +59,12 @@ class DepData
   var version: String
 
   new create(jo: JsonObject box) =>
-    locator = Json.string(jo, "locator") // Required
+    locator = Json.string(jo, "locator")
     version = Json.string(jo, "version")
+
+  new none() =>
+    locator = ""
+    version = ""
 
   fun json(): JsonObject ref =>
     let jo: JsonObject = JsonObject

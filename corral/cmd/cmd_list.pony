@@ -3,25 +3,30 @@ use "files"
 use "../bundle"
 use "../util"
 
-primitive CmdList
-  fun apply(ctx: Context, cmd: Command) =>
-    ctx.uout.info("list: from dir " + ctx.bundle_dir.path)
+class CmdList is CmdType
 
-    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+  new create(cmd: Command) => None
+
+  fun apply(ctx: Context, project: Project) =>
+    ctx.uout.info("list: from dir " + project.dir.path)
+
+    match project.load_bundle()
     | let bundle: Bundle =>
-
       ctx.uout.info(
         "list: listing " + Files.bundle_filename() + " in " + bundle.name())
-      for d in bundle.deps.values() do
+
+      let iter = project.transitive_deps(bundle).values()
+      for d in iter do
         ctx.uout.info("  dep: " + d.name())
         ctx.uout.info("    vcs: " + d.vcs())
         ctx.uout.info("    ver: " + d.data.version)
         ctx.uout.info("    rev: " + d.lock.revision)
-      end
-
-      ctx.uout.info("")
-      for br in bundle.bundle_roots().values() do
-        ctx.uout.info("  dep_root: " + br)
+        try
+          ctx.uout.info("  dep_root: " + project.dep_bundle_root(d.locator)?.path)
+        end
+        if iter.has_next() then
+          ctx.uout.info("")
+        end
       end
 
     | let err: Error =>

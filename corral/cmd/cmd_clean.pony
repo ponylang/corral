@@ -3,16 +3,27 @@ use "files"
 use "../bundle"
 use "../util"
 
-primitive CmdClean
-  fun apply(ctx: Context, cmd: Command) =>
-    let clean_repos = cmd.option("repos").bool()
-    let clean_all = cmd.option("all").bool()
+class CmdClean is CmdType
+  let clean_repos: Bool
+  let clean_corral: Bool
 
+  new create(cmd: Command) =>
+    let opt_repos = cmd.option("repos").bool()
+    let opt_all = cmd.option("all").bool()
+    clean_repos = opt_repos or opt_all
+    clean_corral = (not opt_repos) or opt_all
+
+  fun requires_bundle(): Bool =>
+    // TODO: once repo_cache is not under project.dir
+    // clean_corral
+    true
+
+  fun apply(ctx: Context, project: Project) =>
     ctx.uout.info(
-      "clean: repos:" + clean_repos.string() + " all:"
-        + clean_all.string())
+      "clean: corral:" + clean_corral.string() +
+      " repos:" + clean_repos.string())
 
-    if clean_repos or clean_all then
+    if clean_repos then
       let repos_dir = ctx.repo_cache
       if not ctx.nothing then
         ctx.uout.info("clean: removing repos under: " + repos_dir.path)
@@ -22,11 +33,11 @@ primitive CmdClean
       end
     end
 
-    if (not clean_repos) or clean_all then
-      match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+    if clean_corral then
+      match project.load_bundle()
       | let bundle: Bundle =>
         try
-          let corral_dir = bundle.corral_dirpath()?
+          let corral_dir = project.corral_dirpath()?
           if not ctx.nothing then
             ctx.uout.info("clean: removing corral: " + corral_dir.path)
             corral_dir.remove()

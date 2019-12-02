@@ -1,13 +1,14 @@
+use "collections"
 use "files"
 use "json"
 use "../util"
-use "debug"
+use su="../semver/utils"
 
-class val Locator
+class val Locator is (su.ComparableMixin[Locator] & Hashable & Stringable)
   """
   Encapsulation of the bundle dependency's locator string, parsed into distinct
   fields.
-    locator := repo_path[.suffix][/bundle_path]
+    locator := repo_path[.vcs_suffix][/bundle_path]
   """
   let repo_path: String
   let vcs_suffix: String
@@ -26,28 +27,39 @@ class val Locator
         let p = parts(1)?
         bp = if (p.size() > 0) and (p(0)? == '/') then p.trim(1) else p end
         // TODO: strip any leading scheme://
-        //Debug.out(" loc:: rp:" + rp + " vs:" + vs + )
+        //Debug.out(" loc:: rp:" + rp + " vs:" + vs  + " bp:" + bp)
         break
       end end
     end
     if vs == "" then
-      rp = loc
+      bp = loc  // With no vcs, the locator is the local bundle path
     end
     repo_path = rp
     vcs_suffix = vs
     bundle_path = bp
 
   fun path(): String =>
+    """Returns a unique name for this locator without the vcs suffix."""
     Path.join(repo_path, bundle_path)
 
-  fun string(): String =>
-    Path.join(repo_path + vcs_suffix, bundle_path)
+  fun flat_name(): String =>
+    _Flattened(path())
+
+  fun string(): String iso^ =>
+    """Returns the full string for of this locator."""
+    Path.join(repo_path + vcs_suffix, bundle_path).clone()
+
+  fun compare(that: Locator box): Compare =>
+    if (repo_path != that.repo_path) then return repo_path.compare(that.repo_path) end
+    if (vcs_suffix != that.vcs_suffix) then return vcs_suffix.compare(that.vcs_suffix) end
+    bundle_path.compare(that.bundle_path)
+
+  fun hash(): USize =>
+    repo_path.hash() xor vcs_suffix.hash() xor bundle_path.hash()
 
   fun is_vcs(): Bool => vcs_suffix != ""
 
-  fun is_local(): Bool =>
-    let path_pre = repo_path.trim(1,0)
-    (path_pre == ".") or (path_pre == "/")
+  fun is_local(): Bool => (repo_path == "") and (vcs_suffix == "")
 
   fun is_remote_vcs(): Bool => is_vcs() and not is_local()
 
@@ -70,22 +82,19 @@ class Dep
     data = data'
     lock = lock'
     locator = Locator(data.locator)
-    //bundle.env.out.print("Locator: " + locator.repo_path + " " +
-    //  locator.vcs_suffix + " " + locator.bundle_path)
 
-  fun box name(): String =>
+  fun name(): String =>
     locator.path()
 
-  fun box flat_name(): String =>
-    _Flattened(locator.path())
-
-  fun box repo(): String =>
+  fun repo(): String =>
     locator.repo_path + locator.vcs_suffix
 
-  fun box flat_repo(): String =>
+  fun flat_repo(): String =>
     _Flattened(repo())
 
-  fun box version(): String =>
+  fun version(): String => data.version
+
+  fun revision(): String =>
     if lock.revision != "" then
       lock.revision
     elseif data.version != "" then
@@ -94,12 +103,8 @@ class Dep
       "master"
     end
 
-  fun box vcs(): String =>
+  fun vcs(): String =>
     locator.vcs_suffix.trim(1)
-
-  fun ref lock_version(ver: String) =>
-    lock.locator = data.locator
-    lock.revision = ver
 
 primitive _Flattened
   fun apply(path: String): String val =>

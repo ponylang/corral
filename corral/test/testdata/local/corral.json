@@ -1,6 +1,0 @@
-{"deps":[
-    {
-      "locator": "../foo/bar/baz",
-      "version": ">0.11.0 <1.0.0"
-    }
-]}

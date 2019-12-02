@@ -3,12 +3,19 @@ use "files"
 use "../bundle"
 use "../util"
 
-primitive CmdInit
-  fun apply(ctx: Context, cmd: Command) =>
-    ctx.uout.info("init: from dir " + ctx.bundle_dir.path)
+class CmdInit is CmdType
+
+  new create(cmd: Command) => None
+
+  fun requires_bundle(): Bool => false
+  fun requires_no_bundle(): Bool => true
+
+  fun apply(ctx: Context, project: Project) =>
+    ctx.uout.info("init: from dir " + project.dir.path)
 
     // TODO: try to read first to convert/update existing file(s)
-    match BundleFile.create_bundle(ctx.bundle_dir, ctx.log)
+    // TODO: might want to fail if files exist.
+    match project.create_bundle()
     | let bundle: Bundle =>
       try
         if not ctx.nothing then

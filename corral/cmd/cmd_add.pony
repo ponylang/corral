@@ -3,32 +3,32 @@ use "json"
 use "../bundle"
 use "../util"
 
-primitive CmdAdd
-  fun apply(ctx: Context, cmd: Command) =>
-    let dd = DepData(JsonObject)
-    dd.locator = cmd.arg("locator").string()
-    dd.version = cmd.option("version").string()
+class CmdAdd is CmdType
+  let locator: String
+  let version: String
+  let revision: String
 
-    let ld = LockData(JsonObject)
-    ld.locator = dd.locator
-    ld.revision = cmd.option("revision").string()
+  new create(cmd: Command) =>
+    locator = cmd.arg("locator").string()
+    version = cmd.option("version").string()
+    revision = cmd.option("revision").string()
 
+  fun apply(ctx: Context, project: Project) =>
     ctx.uout.info(
-      "add: adding: " + dd.locator.string() + " "
-        + dd.version.string() + " " + ld.revision.string())
+      "add: adding: " + locator + " " + version + " " + revision)
 
-    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+    match project.load_bundle()
     | let bundle: Bundle =>
       try
-        bundle.add_dep(dd, ld)
+        let dep = bundle.add_dep(locator, version, revision)
         if not ctx.nothing then
           bundle.save()?
           ctx.uout.info(
-            "add: added dep: " + dd.json().string() + " " + ld.json().string())
+            "add: added dep: " + dep.data.json().string() + " " + dep.lock.json().string())
           //bundle.fetch() // TODO: maybe just fetch this one new dep
         else
           ctx.uout.info(
-            "add: would have added dep: " + dd.json().string() + " " + ld.json().string())
+            "add: would have added dep: " + dep.data.json().string() + " " + dep.lock.json().string())
         end
       else
         ctx.uout.warn("add: could not update " + bundle.name())

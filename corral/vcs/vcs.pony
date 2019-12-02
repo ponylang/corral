@@ -13,9 +13,14 @@ class val Repo
     local': FilePath,
     workspace': FilePath)
   =>
-    remote = "https://" + remote'
+    remote = remote'
     local = local'
     workspace = workspace'
+
+  fun string(): String =>
+    "[" + remote + "," + local.path + "," + workspace.path + "]"
+
+  fun is_remote(): Bool => remote != ""
 
 primitive VCSForType
   """
@@ -36,17 +41,9 @@ interface val VCS
   A Vcs provides functions to perform high-level VCS operations that commands
   use to work with repos.
   """
-  fun val fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation ?
-  fun val update_op(rcv: TagListReceiver): RepoOperation ?
-  fun val tag_query_op(rcv: TagListReceiver): RepoOperation ?
-
-primitive NoneVCS is VCS
-  """
-  NoneVcs is a no-op VCS.
-  """
-  fun tag fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation => NoOperation
-  fun tag update_op(rcv: TagListReceiver): RepoOperation => NoOperation
-  fun tag tag_query_op(rcv: TagListReceiver): RepoOperation => NoOperation
+  fun val sync_op(next: RepoOperation): RepoOperation
+  fun val tag_query_op(receiver: TagListReceiver): RepoOperation
+  fun val checkout_op(rev: String, next: RepoOperation): RepoOperation
 
 interface val RepoOperation
   """
@@ -56,18 +53,13 @@ interface val RepoOperation
   """
   fun val apply(repo: Repo)
 
-class val NoOperation is RepoOperation
-  """
-  NoOperation is a no-op RepoOperation.
-  """
-  fun val apply(repo: Repo) => None
+interface val TagListReceiver
+  fun apply(repo: Repo, tags: Array[String] val)
 
-type TagListReceiver is {(Array[String] val)} val
-
-actor TagQueryPrinter is TagListReceiver
+class TagQueryPrinter is TagListReceiver
   let out: OutStream
   new create(out': OutStream) => out = out'
-  be apply(tags: Array[String] val) =>
+  fun apply(repo: Repo, tags: Array[String] val) =>
     for tg in tags.values() do
       out.print("tag: " + tg)
     end

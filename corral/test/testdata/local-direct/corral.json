@@ -1,0 +1,8 @@
+{
+  "deps": [
+    {
+      "locator": "../empty-deps",
+      "versionX": ">0.1.0 <1.0.0"
+    }
+  ]
+}

@@ -12,17 +12,14 @@ class val GitVCS is VCS
     env = env'
     prog = Program(env, "git")?
 
-  fun val fetch_op(ver: String, fetch_follower: RepoOperation): RepoOperation =>
-    """A fetch for Git is a Sync followed by a Checkout."""
-    GitSyncRepo(this, GitCheckoutRepo(this, ver, fetch_follower))
+  fun val sync_op(next: RepoOperation): RepoOperation =>
+    GitSyncRepo(this, next)
 
-  fun val update_op(rcv: TagListReceiver): RepoOperation =>
-    """An update for Git is a Sync followed by a Tag Query."""
-    GitSyncRepo(this, GitQueryTags(this, rcv))
+  fun val tag_query_op(next: TagListReceiver): RepoOperation =>
+    GitQueryTags(this, next)
 
-  fun val tag_query_op(rcv: TagListReceiver): RepoOperation =>
-    """A query for Git is a Tag Query."""
-    GitQueryTags(this, rcv)
+  fun val checkout_op(rev: String, next: RepoOperation): RepoOperation =>
+    GitCheckoutRepo(this, rev, next)
 
 class val GitSyncRepo is RepoOperation
   let git: GitVCS
@@ -33,13 +30,17 @@ class val GitSyncRepo is RepoOperation
     next = next'
 
   fun val apply(repo: Repo) =>
-    let exists = try repo.local.join(".git")?.exists() else false end
-    if not exists then
-      git.env.err.print("git cloning " + repo.remote + " into " + repo.local.path)
-      _clone(repo)
+    if repo.is_remote() then
+      let exists = try repo.local.join(".git")?.exists() else false end
+      if not exists then
+        git.env.err.print("git cloning " + repo.remote + " into " + repo.local.path)
+        _clone(repo)
+      else
+        git.env.err.print("git fetching " + repo.remote + " into " + repo.local.path)
+        _fetch(repo)
+      end
     else
-      git.env.err.print("git fetching " + repo.remote + " into " + repo.local.path)
-      _fetch(repo)
+      next(repo) // local repos don't need syncing
     end
 
   fun val _log_err(ar: ActionResult) =>
@@ -48,9 +49,10 @@ class val GitSyncRepo is RepoOperation
     end
 
   fun val _clone(repo: Repo) =>
+    let remote_uri = "https://" + repo.remote
     // Maybe: --recurse-submodules --quiet --verbose
     let action = Action(git.prog,
-      recover ["clone"; "--no-checkout"; repo.remote; repo.local.path] end,
+      recover ["clone"; "--no-checkout"; remote_uri; repo.local.path] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
 
@@ -60,52 +62,6 @@ class val GitSyncRepo is RepoOperation
     Runner.run(action, {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
 
   fun val _done(ar: ActionResult, repo: Repo) =>
-    //ar.print_to(git.env.err)
-    next(repo)
-
-class val GitCheckoutRepo is RepoOperation
-  let git: GitVCS
-  let ver: String
-  let next: RepoOperation
-
-  new val create(git': GitVCS, ver': String, next': RepoOperation) =>
-    git = git'
-    ver = ver'
-    next = next'
-
-  fun val apply(repo: Repo) =>
-    git.env.err.print("git checking out @" + ver + " into " + repo.workspace.path)
-    _reset_to_version(repo)
-
-  fun val _log_err(ar: ActionResult) =>
-    if ar.exit_code != 0 then
-      ar.print_to(git.env.err)
-    end
-
-  fun val _reset_to_version(repo: Repo) =>
-    //git reset --mixed <tree-ish>
-    let action = Action(git.prog,
-      recover ["-C"; repo.local.path; "reset"; "--mixed"; ver ] end,
-      git.env.vars)
-    Runner.run(action,
-      {(ar: ActionResult)(self=this) => self._log_err(ar); self._checkout_to_workspace(repo)} iso)
-
-  fun val _checkout_to_workspace(repo: Repo) =>
-    // Maybe: --recurse-submodules --quiet --verbose
-    //"git", "checkout-index", "-f", "-a", "--prefix="+path)
-    let action = Action(git.prog,
-      recover [
-        "-C"; repo.local.path
-        "checkout-index"
-        "-f"; "-a"
-        "--prefix=" + repo.workspace.path + "/"
-      ] end,
-      git.env.vars)
-    Runner.run(action,
-      {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
-
-  fun val _done(ar: ActionResult, repo: Repo) =>
-    // TODO: check ar.exit_code == 0 before proceeding
     //ar.print_to(git.env.err)
     next(repo)
 
@@ -134,7 +90,7 @@ class val GitQueryTags is RepoOperation
 
   fun val _parse_tags(ar: ActionResult, repo: Repo) =>
     //ar.print_to(git.env.err)
-    next(parse_tags(ar.stdout))
+    next(repo, parse_tags(ar.stdout))
 
   fun val parse_tags(stdout: String): Array[String] iso^ =>
     let tags = recover Array[String] end
@@ -152,3 +108,49 @@ class val GitQueryTags is RepoOperation
       end
     end
     consume tags
+
+class val GitCheckoutRepo is RepoOperation
+  let git: GitVCS
+  let rev: String
+  let next: RepoOperation
+
+  new val create(git': GitVCS, rev': String, next': RepoOperation) =>
+    git = git'
+    rev = rev'
+    next = next'
+
+  fun val apply(repo: Repo) =>
+    git.env.err.print("git checking out @" + rev + " into " + repo.workspace.path)
+    _reset_to_revision(repo)
+
+  fun val _log_err(ar: ActionResult) =>
+    if ar.exit_code != 0 then
+      ar.print_to(git.env.err)
+    end
+
+  fun val _reset_to_revision(repo: Repo) =>
+    //git reset --mixed <tree-ish>
+    let action = Action(git.prog,
+      recover ["-C"; repo.local.path; "reset"; "--mixed"; rev ] end,
+      git.env.vars)
+    Runner.run(action,
+      {(ar: ActionResult)(self=this) => self._log_err(ar); self._checkout_to_workspace(repo)} iso)
+
+  fun val _checkout_to_workspace(repo: Repo) =>
+    // Maybe: --recurse-submodules --quiet --verbose
+    //"git", "checkout-index", "-f", "-a", "--prefix="+path)
+    let action = Action(git.prog,
+      recover [
+        "-C"; repo.local.path
+        "checkout-index"
+        "-f"; "-a"
+        "--prefix=" + repo.workspace.path + "/"
+      ] end,
+      git.env.vars)
+    Runner.run(action,
+      {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
+
+  fun val _done(ar: ActionResult, repo: Repo) =>
+    // TODO: check ar.exit_code == 0 before proceeding
+    //ar.print_to(git.env.err)
+    next(repo)

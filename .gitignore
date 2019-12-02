@@ -3,3 +3,4 @@ corral/version.pony
 **/_repos
 **/_corral
 .vscode
+*.code-workspace
