@@ -60,7 +60,6 @@ actor _Updater
         // It won't get a lock. How should we handle/report the error?
       end
     end
-    //try_complete()
 
   fun load_dep(dep: Dep) ? =>
     let vcs = VCSForType(ctx.env, dep.vcs())?
@@ -114,7 +113,6 @@ actor _Updater
   be try_complete() =>
     if deps_to_load.size() > 0 then
       ctx.log.fine("try_complete still have deps to load: " + deps_to_load.size().string())
-      //try_complete()  // Still working, try again.
       load_queued_deps()
     else
       ctx.log.fine("try_complete done loading deps")
@@ -149,8 +147,6 @@ actor _Updater
       // https://github.com/ponylang/corral/issues/63
       if result.solution.size() == 1 then
         let rev: String = result.solution(0)?.version.string()
-        //dep.lock.revision = consume rev
-        //dep.lock_revision(consume rev)
         ctx.log.fine("solution for " + dep.locator.string() + ": " + rev)
         base_bundle.lock_revision(dep.locator.string(), rev)
       else
