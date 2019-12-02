@@ -22,7 +22,7 @@ primitive CheckFetchEmpty is Checker
 class TestFetchGithubDeep is UnitTest
   fun name(): String => "integration/fetch-github-deep"
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(5_000_000_000)
     Execute(h, recover [
       "fetch"
       "--bundle_dir"; Path.join(TestDir.path, "github-deep")
@@ -54,7 +54,7 @@ primitive CheckFetchGithubDeep is Checker
 class TestFetchRemoteGits is UnitTest
   fun name(): String => "integration/fetch-remote-gits"
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(10_000_000_000)
     Execute(h, recover [
       "fetch"
       "--bundle_dir"; Path.join(TestDir.path, "remote-gits")
