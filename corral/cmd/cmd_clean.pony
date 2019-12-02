@@ -5,31 +5,37 @@ use "../util"
 
 primitive CmdClean
   fun apply(ctx: Context, cmd: Command) =>
-    //ctx.log.info("clean: " + cmd.string())
+    let clean_repos = cmd.option("repos").bool()
+    let clean_all = cmd.option("all").bool()
 
-    match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
-    | let bundle: Bundle =>
-      try
-        let repos_dir = ctx.repo_cache
-        let corral_dir = bundle.corral_dirpath()?
+    ctx.uout.info(
+      "clean: repos:" + clean_repos.string() + " all:"
+        + clean_all.string())
 
-        let clean_repos = cmd.option("repos").bool()
-        let clean_all = cmd.option("all").bool()
-
-        ctx.env.out.print(
-          "\nclean: repos:" + clean_repos.string() + " all:"
-            + clean_all.string())
-
-        if (not clean_repos) or clean_all then
-          ctx.env.out.print("  cleaning corral: " + corral_dir.path)
-          corral_dir.remove()
-        end
-        if clean_repos or clean_all then
-          ctx.env.out.print("  cleaning repos: " + repos_dir.path)
-          repos_dir.remove()
-        end
+    if clean_repos or clean_all then
+      let repos_dir = ctx.repo_cache
+      if not ctx.nothing then
+        ctx.uout.info("clean: removing repos under: " + repos_dir.path)
+        repos_dir.remove()
+      else
+        ctx.uout.info("clean: would have removed repos under: " + repos_dir.path)
       end
-    | let err: Error =>
-      ctx.env.out.print(err.message)
-      ctx.env.exitcode(1)
+    end
+
+    if (not clean_repos) or clean_all then
+      match BundleFile.load_bundle(ctx.bundle_dir, ctx.log)
+      | let bundle: Bundle =>
+        try
+          let corral_dir = bundle.corral_dirpath()?
+          if not ctx.nothing then
+            ctx.uout.info("clean: removing corral: " + corral_dir.path)
+            corral_dir.remove()
+          else
+            ctx.uout.info("clean: would have removed corral: " + corral_dir.path)
+          end
+        end
+      | let err: Error =>
+        ctx.uout.err(err.message)
+        ctx.env.exitcode(1)
+      end
     end

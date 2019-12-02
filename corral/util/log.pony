@@ -1,37 +1,51 @@
 type LogLevel is
-  ( LvlFine
-  | LvlInfo
-  | LvlWarn
+  ( LvlNone
   | LvlErrr
-  | LvlNone )
+  | LvlWarn
+  | LvlInfo
+  | LvlFine
+  )
 
-primitive LvlFine
+primitive LvlNone
   fun apply(): U32 => 0
-  fun string(): String => "FINE"
+  fun string(): String => "-"
 
-primitive LvlInfo
+primitive LvlErrr
   fun apply(): U32 => 1
-  fun string(): String => "INFO"
+  fun string(): String => "ERRR"
 
 primitive LvlWarn
   fun apply(): U32 => 2
   fun string(): String => "WARN"
 
-primitive LvlErrr
+primitive LvlInfo
   fun apply(): U32 => 3
-  fun string(): String => "ERRR"
+  fun string(): String => "INFO"
 
-primitive LvlNone
+primitive LvlFine
   fun apply(): U32 => 4
-  fun string(): String => "-"
+  fun string(): String => "FINE"
+
+primitive Level
+  fun apply(lvl: U64): LogLevel =>
+    match lvl
+    | 0 => LvlNone
+    | 1 => LvlErrr
+    | 2 => LvlWarn
+    | 3 => LvlInfo
+    | 4 => LvlFine
+    else
+      LvlFine
+    end
 
 class val Log
   """
   A wrapped output stream for use in logging. It supports logging at four
-  levels: err, warn, info and fine.
+  levels: err, warn, info and fine. Plus setting None to turn off output.
   Log level is checked behind the call for convenience at the tradeoff of
-  performance. The formatter can also be selected to customize the log line
-  content and format.
+  performance.
+  The formatter can also be selected to customize the log line content and
+  format.
   """
   let _level: LogLevel
   let _out: OutStream
@@ -47,7 +61,7 @@ class val Log
     _formatter = formatter
 
   fun log(level: LogLevel, msg: String, loc: SourceLoc = __loc) =>
-    if (level() >= _level()) then
+    if (level() <= _level()) then
       _out.print(_formatter(level, msg, loc))
     end
 

@@ -7,18 +7,18 @@ class val Context
   """
   let env: Env
   let log: Log
-  let quiet: Bool
+  let uout: Log
   let nothing: Bool
   let bundle_dir: FilePath
   let repo_cache: FilePath
 
-  new val create(env': Env, log': Log,
-    quiet': Bool, nothing': Bool,
+  new val create(env': Env, log': Log, uout': Log,
+    nothing': Bool,
     bundle_dir': FilePath, repo_cache': FilePath)
   =>
     env = env'
     log = log'
-    quiet = quiet'
+    uout = uout'
     nothing = nothing'
     bundle_dir = bundle_dir'
     repo_cache = repo_cache'

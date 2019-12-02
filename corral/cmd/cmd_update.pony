@@ -10,15 +10,13 @@ use sv="../semver/version"
 
 primitive CmdUpdate
   fun apply(ctx: Context, cmd: Command) =>
-    ctx.log.info("update: " + cmd.string())
-
-    ctx.env.out.print("\nupdate:")
+    ctx.uout.info("update:")
 
     match recover BundleFile.load_bundle(ctx.bundle_dir, ctx.log) end
     | let bundle: Bundle iso =>
       _Updater(ctx).update_bundle_deps(consume bundle)
     | let err: Error =>
-      ctx.env.out.print(err.message)
+      ctx.uout.err(err.message)
       ctx.env.exitcode(1)
     end
 
@@ -34,10 +32,15 @@ actor _Updater
     let bundle: Bundle ref = consume bundle'
     for dep in bundle.deps.values() do
       try
-        update_dep(bundle, dep)?
-        //TODO: recursive
+        if not ctx.nothing then
+          update_dep(bundle, dep)?
+          ctx.uout.info("update: updated dep: " + dep.name() + " @ " + dep.version())
+          //TODO: recursive
+        else
+          ctx.uout.info("update: would have updated dep: " + dep.name() + " @ " + dep.version())
+        end
       else
-        ctx.log.err("Error updating dep " + dep.name())
+        ctx.uout.err("Error updating dep " + dep.name())
         // It won't get a lock. How should we handle the error?
       end
     end
@@ -85,7 +88,7 @@ actor _Updater
         try
           dep.bundle.save()?
         else
-          ctx.log.err("Error saving bundle")
+          ctx.uout.err("Error saving bundle")
         end
       end
     end
