@@ -8,13 +8,10 @@ class CmdInfo is CmdType
   new create(cmd: Command) => None
 
   fun apply(ctx: Context, project: Project) =>
-    ctx.uout.info("info: from dir " + project.dir.path)
+    ctx.uout.info("info: from " + project.dir.path)
 
     match project.load_bundle()
     | let bundle: Bundle =>
-      ctx.uout.info(
-        "info: from " + Files.bundle_filename()
-          + " in " + bundle.name())
       ctx.uout.info("info: " + bundle.info.json().string())
     | let err: Error =>
       ctx.uout.err(err.message)

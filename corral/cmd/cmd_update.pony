@@ -10,7 +10,7 @@ class CmdUpdate is CmdType
   new create(cmd: Command) => None
 
   fun apply(ctx: Context, project: Project) =>
-    ctx.uout.info("update:")
+    ctx.uout.info("update: updating from " + project.dir.path)
     match project.load_bundle()
     | let bundle: Bundle iso =>
       _Updater(ctx, project, consume bundle)
@@ -70,7 +70,12 @@ actor _Updater
 
     ctx.log.info("Loading dep: " + locator.path())
 
-    let checkout_op = vcs.checkout_op("master", {
+    let revision = Constraints.best_revision(
+      base_bundle.dep_revision(dep.locator.string()),
+      dep.revision(),
+      dep.version())
+
+    let checkout_op = vcs.checkout_op(revision, {
         (repo: Repo) =>
           self.load_transitive_dep(locator)
       } val)
@@ -88,15 +93,15 @@ actor _Updater
     sync_op(repo)
 
   be load_transitive_dep(locator: Locator) =>
-    ctx.log.info("Fetching transitive dep: " + locator.path())
+    ctx.log.info("Loading transitive dep: " + locator.path())
     try
       let bundle_dir = project.dep_bundle_root(locator)?
-      ctx.log.fine("Fetching dep's bundle from: " + bundle_dir.path)
+      ctx.log.fine("Loading dep's bundle from: " + bundle_dir.path)
       let dep_bundle: Bundle ref = Bundle.load(bundle_dir, ctx.log)?
-      ctx.log.fine("Fetched dep's bundle is: " + dep_bundle.name())
+      ctx.log.fine("Loading dep's bundle is: " + dep_bundle.name())
       load_bundle_deps(dep_bundle)
     else
-      ctx.uout.err("Error loading/fetching dep bundle: " + locator.flat_name())
+      ctx.uout.err("Error loading dep bundle: " + locator.flat_name())
       ctx.env.exitcode(1)
     end
 
@@ -134,22 +139,15 @@ actor _Updater
     end
 
   fun ref update_dep(dep: Dep, tags: Array[String] val) =>
-    try
-      // TODO: consider parsing version much earlier, maybe in Bundle.
-      // TODO: also consider allowing literal tags and not just constraints
-      // expressions.
-      // https://github.com/ponylang/corral/issues/26
-      let constraints = Constraints.parse(dep.data.version)
+    // TODO: consider parsing version much earlier, maybe in Bundle.
+    // https://github.com/ponylang/corral/issues/26
 
-      let result = Constraints.solve(constraints, tags, ctx.log)
-
-      // TODO: probably OK to have multiple solutions: choose 'best' with a strategy like 'latest'.
-      // https://github.com/ponylang/corral/issues/63
-      if result.solution.size() == 1 then
-        let rev: String = result.solution(0)?.version.string()
-        ctx.log.fine("solution for " + dep.locator.string() + ": " + rev)
-        base_bundle.lock_revision(dep.locator.string(), rev)
-      else
-        ctx.log.fine("no single solution for " + dep.locator.string() + ": " + result.solution.size().string())
+    let revision =
+      match Constraints.resolve_version(dep.data.version, tags, ctx.log)
+      | "" => Constraints.best_revision(
+        base_bundle.dep_revision(dep.locator.string()),
+        dep.revision(),
+        dep.version())
+      | let rev: String => rev
       end
-    end
+    base_bundle.lock_revision(dep.locator.string(), revision)

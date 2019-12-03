@@ -1,0 +1,8 @@
+{
+  "deps": [
+    {
+      "locator": "github.com/jemc/pony-inspect.git"
+    }
+  ],
+  "info": {}
+}
