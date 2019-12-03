@@ -4,7 +4,7 @@ use ".."
 use "../../util"
 
 class TestUpdateEmpty is UnitTest
-  fun name(): String => "integration/update-empty-deps"
+  fun name(): String => "integration/update/empty-deps"
   fun apply(h: TestHelper) =>
     h.long_test(2_000_000_000)
     Execute(h, recover [
@@ -19,7 +19,7 @@ class CheckUpdateEmpty is Checker
     h.complete(ar.exit_code == 0)
 
 class TestUpdateGithub is UnitTest
-  fun name(): String => "integration/update-github-leaf"
+  fun name(): String => "integration/update/github-leaf"
   fun apply(h: TestHelper) =>
     h.long_test(2_000_000_000)
     Execute(h, recover [

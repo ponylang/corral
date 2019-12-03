@@ -1,0 +1,8 @@
+{
+  "locks": [
+    {
+      "locator": "github.com/jemc/pony-inspect.git",
+      "revision": "master"
+    }
+  ]
+}

@@ -25,9 +25,8 @@ class val Locator is (su.ComparableMixin[Locator] & Hashable & Stringable)
         rp = parts(0)?
         vs = s
         let p = parts(1)?
-        bp = if (p.size() > 0) and (p(0)? == '/') then p.trim(1) else p end
-        // TODO: strip any leading scheme://
-        //Debug.out(" loc:: rp:" + rp + " vs:" + vs  + " bp:" + bp)
+        bp = if p.at("/") then p.trim(1) else p end
+        //Debug.out(" loc:: " + loc + " => rp:" + rp + " vs:" + vs  + " bp:" + bp)
         break
       end end
     end
@@ -59,7 +58,7 @@ class val Locator is (su.ComparableMixin[Locator] & Hashable & Stringable)
 
   fun is_vcs(): Bool => vcs_suffix != ""
 
-  fun is_local(): Bool => (repo_path == "") and (vcs_suffix == "")
+  fun is_local(): Bool => (repo_path == "") or repo_path.at(".") or repo_path.at("/")
 
   fun is_remote_vcs(): Bool => is_vcs() and not is_local()
 
@@ -83,28 +82,17 @@ class Dep
     lock = lock'
     locator = Locator(data.locator)
 
-  fun name(): String =>
-    locator.path()
+  fun name(): String => locator.path()
 
-  fun repo(): String =>
-    locator.repo_path + locator.vcs_suffix
+  fun repo(): String => locator.repo_path + locator.vcs_suffix
 
-  fun flat_repo(): String =>
-    _Flattened(repo())
+  fun flat_repo(): String => _Flattened(repo())
 
   fun version(): String => data.version
 
-  fun revision(): String =>
-    if lock.revision != "" then
-      lock.revision
-    elseif data.version != "" then
-      data.version
-    else
-      "master"
-    end
+  fun revision(): String => lock.revision
 
-  fun vcs(): String =>
-    locator.vcs_suffix.trim(1)
+  fun vcs(): String => locator.vcs_suffix.trim(1)
 
 primitive _Flattened
   fun apply(path: String): String val =>

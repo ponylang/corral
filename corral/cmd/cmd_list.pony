@@ -8,13 +8,10 @@ class CmdList is CmdType
   new create(cmd: Command) => None
 
   fun apply(ctx: Context, project: Project) =>
-    ctx.uout.info("list: from dir " + project.dir.path)
+    ctx.uout.info("list: from " + project.dir.path)
 
     match project.load_bundle()
     | let bundle: Bundle =>
-      ctx.uout.info(
-        "list: listing " + Files.bundle_filename() + " in " + bundle.name())
-
       let iter = project.transitive_deps(bundle).values()
       for d in iter do
         ctx.uout.info("  dep: " + d.name())

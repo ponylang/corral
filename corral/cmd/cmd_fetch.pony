@@ -10,7 +10,8 @@ class CmdFetch is CmdType
   new create(cmd: Command) => None
 
   fun apply(ctx: Context, project: Project) =>
-    ctx.uout.info("fetch:")
+    ctx.uout.info("fetch: fetching from " + project.dir.path)
+
     match project.load_bundle()
     | let base_bundle: Bundle iso =>
       _Fetcher(ctx, project, consume base_bundle)
@@ -52,20 +53,10 @@ actor _Fetcher
       let vcs = VCSForType(ctx.env, dep.vcs())?
       let repo = RepoForDep(ctx, project, dep)?
 
-      // Determine revision of the dep to fetch
-      // - If it's already resolved from a lock, use that.
-      // - Else, if the dep is a specific revision, use that.
-      // - Else, it is a constraint to solve but update should have done that,
-      //   so just use master for now.
-      // TODO https://github.com/ponylang/corral/issues/59
-
-      var revision = base_bundle.dep_revision(dep.locator.string())
-      if revision == "" then
-        revision = dep.revision()
-      end
-      if Constraints.parse(revision).size() > 0 then
-        revision = "master"  // TODO: hack until we can ensure revisions are all locked.
-      end
+      let revision = Constraints.best_revision(
+        base_bundle.dep_revision(dep.locator.string()),
+        dep.revision(),
+        dep.version())
 
       let self: _Fetcher tag = this
       let checkout_op = vcs.checkout_op(revision,
@@ -80,13 +71,17 @@ actor _Fetcher
 
   be fetch_transitive_dep(locator: Locator) =>
     ctx.log.info("Fetching transitive dep: " + locator.path())
+
+    let bundle_dir = try
+        project.dep_bundle_root(locator)?
+      else
+        ctx.log.err("Unexpected error making path for: " + locator.string())
+        return
+      end
     try
-      let bundle_dir = project.dep_bundle_root(locator)?
       ctx.log.fine("Fetching dep's bundle from: " + bundle_dir.path)
       let dep_bundle: Bundle val = Bundle.load(bundle_dir, ctx.log)?
-      ctx.log.fine("Fetched dep's bundle is: " + dep_bundle.name())
       fetch_bundle_deps(dep_bundle)
     else
-      ctx.uout.err("Error loading/fetching dep bundle: " + locator.flat_name())
-      ctx.env.exitcode(1)
+      ctx.uout.warn("No dep bundle for: " + locator.string())
     end

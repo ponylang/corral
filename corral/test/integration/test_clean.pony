@@ -4,7 +4,7 @@ use ".."
 use "../../util"
 
 class TestClean is UnitTest
-  fun name(): String => "integration/clean-github-deep"
+  fun name(): String => "integration/clean/github-deep"
 
   fun apply(h: TestHelper) =>
     h.long_test(2_000_000_000)

@@ -1,7 +1,7 @@
 {
   "deps": [
     {
-      "locator": "/Users/carl/ws/pony/cquinn/rfcs.git",
+      "locator": "../corral-test-repo.git/bundle3",
       "version": ">0.11.0 <1.0.0"
     }
   ]

@@ -1,7 +1,7 @@
 {
     "deps": [
         {
-            "locator": "github.com/cquinn/pony-repo2.git/bundle2b",
+            "locator": "github.com/ponylang/corral-test-repo.git/bundle3",
             "version": ">0.11.0 <1.0.0"
         },
         {

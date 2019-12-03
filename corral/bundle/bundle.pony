@@ -73,7 +73,7 @@ class Bundle
     ld.locator = locator
     ld.revision = revision
     let dep = Dep(this, dd, ld)
-    deps(dd.locator) = dep
+    deps(locator) = dep
     modified = true
     dep
 
