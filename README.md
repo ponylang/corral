@@ -36,12 +36,22 @@ Check out [Pony Package Dependency Management](doc/package_dependency_management
 
 ## Installation
 
-### Ponyup!
+### Linux
+
+Use [ponyup](https://github.com/ponylang/ponyup) to install corral.
 
 The following command will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default. This requires `ponyup`, our toolchain multiplexer, to be installed. If you don't have it installed, please follow the [instructions](https://github.com/ponylang/ponyup#installing-ponyup).
 
 ```bash
 ponyup update corral release
+```
+
+### macOS
+
+Use [homebrew](https://brew.sh) to install corral.
+
+```bash
+brew install corral
 ```
 
 ## Building From Source
