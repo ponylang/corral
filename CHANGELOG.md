@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add macOS releases via Homebrew ([PR #74](https://github.com/ponylang/corral/pull/74))
 
 ### Changed
 
