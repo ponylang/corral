@@ -23,8 +23,3 @@ actor Main is TestList
     test(integration.TestRun)
     test(integration.TestRunWithoutBundle)
     test(integration.TestClean)
-
-class TestDir
-  let path: String = "corral/test/testdata"
-  fun apply(auth: AmbientAuth, subpath: String): FilePath ? =>
-    FilePath(auth, path)?.join(subpath)?
