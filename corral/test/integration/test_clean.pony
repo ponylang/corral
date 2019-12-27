@@ -22,7 +22,6 @@ class TestClean is UnitTest
         "--all"
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        ar.print_to(h.env.err)
         h.assert_eq[I32](0, ar.exit_code)
         h.complete(ar.exit_code == 0)
       })

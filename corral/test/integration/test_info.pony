@@ -13,7 +13,6 @@ class TestInfo is UnitTest
         "--bundle_dir"; Data(h, "empty-deps")?.path
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        ar.print_to(h.env.err)
         h.assert_eq[I32](0, ar.exit_code)
         h.assert_true(ar.stdout.contains("info: {}"))
         h.complete(ar.exit_code == 0)

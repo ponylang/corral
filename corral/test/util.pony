@@ -3,8 +3,6 @@ use "files"
 use "ponytest"
 use "../util"
 
-use "debug"
-
 interface val Checker
   fun apply(h: TestHelper, ar: ActionResult)
 
@@ -43,10 +41,10 @@ class val DataClone
     _dir = _root.join(subdir)?
 
     Copy.tree(src_root, _root, subdir)?
-    h.env.err.print("cloned _root: " + _root.path)
+    //h.env.err.print("cloned _root: " + _root.path)
 
   fun cleanup(h: TestHelper) =>
-    h.env.err.print("cleaning up _root: " + _root.path)
+    //h.env.err.print("cleaning up _root: " + _root.path)
     _root.remove()
 
   fun dir(): String => _dir.path
@@ -70,21 +68,16 @@ primitive Copy
     let to_dir = to_root.join(dir_name)?
     to_dir.mkdir()
 
-    Debug("Copy.tree: from: " + from_dir.path + " to: " + to_dir.path)
-
     // Copy contents of from_dir into to_dir
     from_dir.walk({(dir_path: FilePath, dir_entries: Array[String] ref) =>
       try
         let path = Path.rel(from_dir.path, dir_path.path)?
         let to_path = to_dir.join(path)?
 
-        Debug("walk dir: " + dir_path.path)
         for entry in dir_entries.values() do
           let from_fp = dir_path.join(entry)?
           let info = FileInfo(from_fp)?
           let to_fp = to_path.join(entry)?
-          Debug("from: " + from_fp.path + " to: " + to_fp.path)
-
           if info.directory then
             to_fp.mkdir()
           else
