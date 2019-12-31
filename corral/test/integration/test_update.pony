@@ -5,42 +5,48 @@ use "../../util"
 
 class TestUpdateEmpty is UnitTest
   fun name(): String => "integration/update/empty-deps"
-  fun apply(h: TestHelper) =>
+  fun apply(h: TestHelper) ? =>
     h.long_test(2_000_000_000)
-    Execute(h, recover [
-      "update"
-      "--bundle_dir"; Path.join(TestDir.path, "empty-deps")
-    ] end, CheckUpdateEmpty)
-
-class CheckUpdateEmpty is Checker
-  fun tag apply(h: TestHelper, ar: ActionResult) =>
-    h.assert_eq[I32](0, ar.exit_code)
-    h.assert_true(ar.stdout.contains("update:"))
-    h.complete(ar.exit_code == 0)
+    Execute(h,
+      recover [
+        "update"
+        "--bundle_dir"; Data(h, "empty-deps")?.path
+      ] end,
+      {(h: TestHelper, ar: ActionResult) =>
+        h.assert_eq[I32](0, ar.exit_code)
+        h.assert_true(ar.stdout.contains("update:"))
+        h.complete(ar.exit_code == 0)
+      })
 
 class TestUpdateGithub is UnitTest
+  var data: (DataClone | DataNone) = DataNone
+
   fun name(): String => "integration/update/github-leaf"
+
+  fun ref set_up(h: TestHelper val) ? =>
+    data = DataClone(h, "github-leaf")?
+
+  fun tear_down(h: TestHelper val) => data.cleanup(h)
+
   fun apply(h: TestHelper) =>
     h.long_test(2_000_000_000)
-    Execute(h, recover [
-      "update"
-      "--bundle_dir"; Path.join(TestDir.path, "github-leaf")
-    ] end, CheckUpdateGithub)
+    Execute(h,
+      recover [
+        "update"
+        "--bundle_dir"; data.dir()
+      ] end,
+      {(h: TestHelper, ar: ActionResult)(data=data) =>
+        try
+          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_true(ar.stdout.contains("update:"))
 
-class CheckUpdateGithub is Checker
-  fun tag apply(h: TestHelper, ar: ActionResult) =>
-    try
-      h.assert_eq[I32](0, ar.exit_code)
-      h.assert_true(ar.stdout.contains("update:"))
+          // Check that lock was at least created.
+          let lock_file = data.dir_path("lock.json")?
+          h.assert_true(lock_file.exists())
 
-      // Check that lock was at least created.
-      let auth = h.env.root as AmbientAuth
-      let lock_file = TestDir(auth, "github-leaf/lock.json")?
-      h.assert_true(lock_file.exists())
-      lock_file.remove()
-      let repos_dir = TestDir(auth, "github-leaf/_repos")?
-      h.assert_true(repos_dir.exists())
-      repos_dir.remove()
+          let repos_dir = data.dir_path("_repos")?
+          h.assert_true(repos_dir.exists())
 
-      h.complete(ar.exit_code == 0)
-    end
+          h.complete(ar.exit_code == 0)
+        end
+      })
