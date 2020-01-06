@@ -1,3 +1,12 @@
 [submodule "corral/test/testdata/corral-test-repo"]
 	path = corral/test/testdata/corral-test-repo
 	url = https://github.com/ponylang/corral-test-repo
+	branch = 0.5.0
+[submodule "appdirs"]
+	path = appdirs
+	url = https://github.com/ponylang/appdirs.git
+	branch = 0.1.0
+[submodule "pony-semver"]
+	path = pony-semver
+	url = https://github.com/btab/pony-semver.git
+	branch = v0.1

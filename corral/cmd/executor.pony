@@ -1,7 +1,7 @@
 use "files"
+use "../appdirs"
 use "../bundle"
 use "../util"
-use "debug"
 
 primitive Executor
   """
@@ -15,8 +15,8 @@ primitive Executor
     log: Log,
     uout: Log,
     nothing: Bool,
-    bundle_dir_arg: String)
-    // TODO: add when we have the cli flag: repo_cache_str: String
+    bundle_dir_arg: String,
+    repo_cache_dir_arg: String)
   =>
     let auth = try
         env.root as AmbientAuth
@@ -90,10 +90,16 @@ primitive Executor
       end
 
     // Make a FilePath for the repo cache dir
-    let repo_cache = try
-        // TODO: move default repo_cache to user home and add flag
-        // https://github.com/ponylang/corral/issues/28
-        bundle_dir.join("_repos")?
+    let repo_cache =
+      try
+        let repo_dir = if repo_cache_dir_arg != "" then
+          repo_cache_dir_arg
+        else
+          let app_dirs = AppDirs(env.vars, "corral", None, None, false, true)
+          Paths.join([app_dirs.user_data_dir()?; "repos"])
+        end
+        log.info("repo_dir: " + repo_dir)
+        FilePath(auth, repo_dir)?
       else
         log.err("Internal error: could not access required directories")
         env.exitcode(2)

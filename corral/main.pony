@@ -49,4 +49,6 @@ actor Main
     // Hand off to Executor to resolve required dirs and execute the command
     Executor.execute(
       command, env, log, uout,
-      cmd.option("nothing").bool(), cmd.option("bundle_dir").string())
+      cmd.option("nothing").bool(),
+      cmd.option("bundle_dir").string(),
+      cmd.option("repo_cache_dir").string())

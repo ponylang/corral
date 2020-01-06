@@ -50,6 +50,11 @@ primitive CLI
           "The directory where the bundle's corral.json and lock.json are located."
           where short' = 'd',
           default' = "<cwd>")
+        OptionSpec.string(
+          "repo_cache_dir",
+          "The directory where corral caches shared, cloned repos."
+          where short' = 'r',
+          default' = "<user-data-dir>/corral/repos")
       ],
       [
         CommandSpec.leaf(
