@@ -1,11 +1,8 @@
 FROM ponylang/ponyc:release-alpine AS build
 
-WORKDIR /src/corral
-
-COPY Makefile LICENSE VERSION appdirs/ pony-semver/ /src/corral/
-
-WORKDIR /src/corral/corral
-
+COPY Makefile LICENSE VERSION /src/corral/
+COPY appdirs /src/corral/appdirs/
+COPY pony-semver /src/corral/pony-semver/
 COPY corral /src/corral/corral/
 
 WORKDIR /src/corral
