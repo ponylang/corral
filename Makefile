@@ -9,7 +9,7 @@ BUILD_DIR ?= build/$(config)
 SRC_DIR ?= corral
 binary := $(BUILD_DIR)/corral
 tests_binary := $(BUILD_DIR)/test
-SUBMODULES := pony-semver appdirs
+SUBMODULES := pony-semver/README.md appdirs/README.md
 
 ifdef config
   ifeq (,$(filter $(config),debug release))
