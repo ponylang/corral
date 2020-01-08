@@ -12,5 +12,7 @@ jobs:
       image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
     steps:
       - uses: actions/checkout@v1
+        with:
+          submodules: recursive
       - name: Test with against ponyc master
         run: make test

@@ -13,6 +13,8 @@ jobs:
       image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
       - uses: actions/checkout@v1
+        with:
+          submodules: recursive
       - name: Build and upload
         run: bash .ci-scripts/release/x86-64-unknown-linux-release.bash
         env:
@@ -23,6 +25,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
+        with:
+          submodules: recursive
       - name: brew install ponyc
         run: brew install ponyc
       - name: brew install dependencies
@@ -67,6 +71,8 @@ jobs:
     needs: [x86-64-unknown-linux-release, x86-64-apple-darwin-release, build-release-docker-images, homebrew]
     steps:
       - uses: actions/checkout@v1
+        with:
+          submodules: recursive
       - name: Trigger release announcement
         run: bash .ci-scripts/release/trigger-release-announcement.bash
         env:
