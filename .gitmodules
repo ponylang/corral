@@ -9,4 +9,4 @@
 [submodule "pony-semver"]
 	path = pony-semver
 	url = https://github.com/btab/pony-semver.git
-	branch = v0.1
+	branch = d9ffc7a43d317bf1a955e2638e525e8c3483f70d

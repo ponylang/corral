@@ -9,6 +9,7 @@ BUILD_DIR ?= build/$(config)
 SRC_DIR ?= corral
 binary := $(BUILD_DIR)/corral
 tests_binary := $(BUILD_DIR)/test
+SUBMODULES := pony-semver appdirs
 
 ifdef config
   ifeq (,$(filter $(config),debug release))
@@ -67,7 +68,7 @@ GEN_FILES = $(patsubst %.pony.in, %.pony, $(GEN_FILES_IN))
 %.pony: %.pony.in VERSION
 	sed s/%%VERSION%%/$(version)/ $< > $@
 
-$(binary): $(GEN_FILES) $(SOURCE_FILES) | $(BUILD_DIR)
+$(binary): $(GEN_FILES) $(SOURCE_FILES) $(SUBMODULES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) $(SRC_DIR) -o ${BUILD_DIR}
 
 install: $(binary)
@@ -75,7 +76,7 @@ install: $(binary)
 	mkdir -p $(DESTDIR)$(prefix)/bin
 	cp $^ $(DESTDIR)$(prefix)/bin
 
-$(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
+$(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(SUBMODULES) $(TEST_FILES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
 
 unit-tests: $(tests_binary)
@@ -93,5 +94,8 @@ all: test $(binary)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+$(SUBMODULES):
+	git submodule update --init
 
 .PHONY: all clean install test unittest integration

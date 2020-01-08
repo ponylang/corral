@@ -28,12 +28,14 @@ class TestUpdateGithub is UnitTest
 
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
-  fun apply(h: TestHelper) =>
+  fun apply(h: TestHelper) ? =>
     h.long_test(2_000_000_000)
+    let repos_dir = data.dir_path("_repos")?
     Execute(h,
       recover [
         "update"
         "--bundle_dir"; data.dir()
+        "--repo_cache_dir"; repos_dir.path
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
@@ -44,7 +46,6 @@ class TestUpdateGithub is UnitTest
           let lock_file = data.dir_path("lock.json")?
           h.assert_true(lock_file.exists())
 
-          let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.exists())
 
           h.complete(ar.exit_code == 0)

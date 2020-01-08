@@ -10,9 +10,11 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Add macOS releases via Homebrew ([PR #74](https://github.com/ponylang/corral/pull/74))
+- Add '--repo_cache_dir' to allow specification of the repo cache directory. ([PR #79](https://github.com/ponylang/corral/pull/79))
 
 ### Changed
 
+- The default repo cache directory has been moved from <bundle-dir>/_repos to '/corral/repos' under the platform-specific user data directory. E.g. `~/.local/share/corral/repos/` on Unix and macOS. ([PR #79](https://github.com/ponylang/corral/pull/79))
 
 ## [0.3.0] - 2019-12-21
 
@@ -40,4 +42,3 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Initial alpha release
-

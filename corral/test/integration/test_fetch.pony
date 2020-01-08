@@ -178,19 +178,20 @@ class TestFetchGithubDeep is UnitTest
 
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
-  fun apply(h: TestHelper) =>
+  fun apply(h: TestHelper) ? =>
     h.long_test(5_000_000_000)
+    let repos_dir = data.dir_path("_repos")?
     Execute(h,
       recover [
         "fetch"
         "--bundle_dir"; data.dir()
+        "--repo_cache_dir"; repos_dir.path
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code)
           h.assert_true(ar.stdout.contains("fetch:"))
 
-          let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.join("github_com_ponylang_corral_test_repo_git")?.exists())
 
           let corral_dir = data.dir_path("_corral")?
@@ -213,19 +214,20 @@ class TestFetchRemoteGits is UnitTest
 
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
-  fun apply(h: TestHelper) =>
+  fun apply(h: TestHelper) ? =>
     h.long_test(10_000_000_000)
+    let repos_dir = data.dir_path("_repos")?
     Execute(h,
       recover [
         "fetch"
         "--bundle_dir"; data.dir()
+        "--repo_cache_dir"; repos_dir.path
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code)
           h.assert_true(ar.stdout.contains("fetch:"))
 
-          let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.join("bitbucket_org_cquinn_pony_thing_git")?.exists())
           h.assert_true(repos_dir.join("github_com_ponylang_corral_test_repo_git")?.exists())
           h.assert_true(repos_dir.join("gitlab_com_cquinn1_justatest_git")?.exists())
