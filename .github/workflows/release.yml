@@ -55,7 +55,7 @@ jobs:
         with:
           formula-name: corral
         env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_RELEASE_TOKEN }
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_RELEASE_TOKEN }}
 
   trigger-release-announcement:
     name: Trigger release announcement
