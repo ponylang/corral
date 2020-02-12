@@ -54,12 +54,24 @@ class val GitSyncRepo is RepoOperation
     let action = Action(git.prog,
       recover ["clone"; "--no-checkout"; remote_uri; repo.local.path] end,
       git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
+    Runner.run(action, {(ar: ActionResult)(self=this) => 
+      self._log_err(ar)
+      if ar.exit_code != 0 then
+        git.env.exitcode(ar.exit_code)
+      end
+      self._done(ar, repo)
+    } iso)
 
   fun val _fetch(repo: Repo) =>
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "fetch"; "--tags"] end, git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
+    Runner.run(action, {(ar: ActionResult)(self=this) => 
+      self._log_err(ar)
+      if ar.exit_code != 0 then
+        git.env.exitcode(ar.exit_code)
+      end
+      self._done(ar, repo)
+    } iso)
 
   fun val _done(ar: ActionResult, repo: Repo) =>
     //ar.print_to(git.env.err)
@@ -85,8 +97,13 @@ class val GitQueryTags is RepoOperation
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "show-ref"] end,
       git.env.vars)
-    Runner.run(action,
-      {(ar: ActionResult)(self=this) => self._log_err(ar); self._parse_tags(ar, repo)} iso)
+    Runner.run(action, {(ar: ActionResult)(self=this) => 
+      self._log_err(ar)
+      if ar.exit_code != 0 then
+        git.env.exitcode(ar.exit_code)
+      end
+      self._parse_tags(ar, repo)
+    } iso)
 
   fun val _parse_tags(ar: ActionResult, repo: Repo) =>
     //ar.print_to(git.env.err)
@@ -133,8 +150,13 @@ class val GitCheckoutRepo is RepoOperation
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "reset"; "--mixed"; rev ] end,
       git.env.vars)
-    Runner.run(action,
-      {(ar: ActionResult)(self=this) => self._log_err(ar); self._checkout_to_workspace(repo)} iso)
+    Runner.run(action, {(ar: ActionResult)(self=this) =>
+      self._log_err(ar)
+      if ar.exit_code != 0 then
+        git.env.exitcode(ar.exit_code)
+      end
+      self._checkout_to_workspace(repo)
+    } iso)
 
   fun val _checkout_to_workspace(repo: Repo) =>
     // Maybe: --recurse-submodules --quiet --verbose
@@ -147,8 +169,13 @@ class val GitCheckoutRepo is RepoOperation
         "--prefix=" + repo.workspace.path + "/"
       ] end,
       git.env.vars)
-    Runner.run(action,
-      {(ar: ActionResult)(self=this) => self._log_err(ar); self._done(ar, repo)} iso)
+    Runner.run(action, {(ar: ActionResult)(self=this) => 
+      self._log_err(ar)
+      if ar.exit_code != 0 then
+        git.env.exitcode(ar.exit_code)
+      end
+      self._done(ar, repo)
+    } iso)
 
   fun val _done(ar: ActionResult, repo: Repo) =>
     // TODO: check ar.exit_code == 0 before proceeding
