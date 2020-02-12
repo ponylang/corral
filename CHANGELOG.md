@@ -6,17 +6,6 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
-
-### Added
-
-
-### Changed
-
-
-## [0.3.1] - 2020-02-12
-
-### Fixed
-
 - Pass exit codes from Runners to early exit corral with same code ([PR #80](https://github.com/ponylang/corral/pull/80))
 
 ### Added
