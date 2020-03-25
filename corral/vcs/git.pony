@@ -10,7 +10,7 @@ class val GitVCS is VCS
 
   new val create(env': Env) ? =>
     env = env'
-    prog = Program(env, "git")?
+    prog = Program(env, ifdef windows then "git.exe" else "git" end)?
 
   fun val sync_op(next: RepoOperation): RepoOperation =>
     GitSyncRepo(this, next)
@@ -54,7 +54,7 @@ class val GitSyncRepo is RepoOperation
     let action = Action(git.prog,
       recover ["clone"; "--no-checkout"; remote_uri; repo.local.path] end,
       git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => 
+    Runner.run(action, {(ar: ActionResult)(self=this) =>
       self._log_err(ar)
       if ar.exit_code != 0 then
         git.env.exitcode(ar.exit_code)
@@ -65,7 +65,7 @@ class val GitSyncRepo is RepoOperation
   fun val _fetch(repo: Repo) =>
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "fetch"; "--tags"] end, git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => 
+    Runner.run(action, {(ar: ActionResult)(self=this) =>
       self._log_err(ar)
       if ar.exit_code != 0 then
         git.env.exitcode(ar.exit_code)
@@ -97,7 +97,7 @@ class val GitQueryTags is RepoOperation
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "show-ref"] end,
       git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => 
+    Runner.run(action, {(ar: ActionResult)(self=this) =>
       self._log_err(ar)
       if ar.exit_code != 0 then
         git.env.exitcode(ar.exit_code)
@@ -161,6 +161,17 @@ class val GitCheckoutRepo is RepoOperation
   fun val _checkout_to_workspace(repo: Repo) =>
     // Maybe: --recurse-submodules --quiet --verbose
     //"git", "checkout-index", "-f", "-a", "--prefix="+path)
+    if not repo.workspace.exists() then
+      if not repo.workspace.mkdir(true) then
+        let ar = ActionResult.fail("Unable to create directory '" +
+          repo.workspace.path + "'")
+        _log_err(ar)
+        git.env.exitcode(ar.exit_code)
+        _done(ar, repo)
+        return
+      end
+    end
+
     let action = Action(git.prog,
       recover [
         "-C"; repo.local.path
@@ -169,7 +180,7 @@ class val GitCheckoutRepo is RepoOperation
         "--prefix=" + repo.workspace.path + "/"
       ] end,
       git.env.vars)
-    Runner.run(action, {(ar: ActionResult)(self=this) => 
+    Runner.run(action, {(ar: ActionResult)(self=this) =>
       self._log_err(ar)
       if ar.exit_code != 0 then
         git.env.exitcode(ar.exit_code)
