@@ -1,5 +1,5 @@
 Param(
-  [Parameter(Position=0, Mandatory=$true, HelpMessage="The action to take (build, test, install, clean).")]
+  [Parameter(Position=0, Mandatory=$true, HelpMessage="The action to take (build, test, install, package, clean).")]
   [string]
   $Command,
 
@@ -17,7 +17,7 @@ Param(
 
   [Parameter(HelpMessage="Directory to install to.")]
   [string]
-  $Destdir = ""
+  $Destdir = "build/install"
 )
 
 $ErrorActionPreference = "Stop"
@@ -144,15 +144,25 @@ switch ($Command.ToLower())
 
   "install"
   {
-    if ($Destdir -eq "") { throw "You must specify -DestDir for the install command." }
+    $binDir = Join-Path -Path $Destdir -ChildPath "bin"
 
-    if (-not (Test-Path $Destdir))
+    if (-not (Test-Path $binDir))
     {
-      mkdir "$Destdir"
+      mkdir "$binDir"
     }
 
     $corral = Join-Path -Path $buildDir -ChildPath "corral.exe"
-    Copy-Item -Path $corral -Destination $Destdir -Force
+    Copy-Item -Path $corral -Destination $binDir -Force
+    break
+  }
+
+  "package"
+  {
+    $binDir = Join-Path -Path $Destdir -ChildPath "bin"
+    $package = "corral-x86-64-pc-windows-msvc.zip"
+    Write-Output "Creating $package..."
+
+    Compress-Archive -Path $binDir -DestinationPath "$buildDir\..\$package" -Force
     break
   }
 
