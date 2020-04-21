@@ -17,8 +17,14 @@ class val Program
     path = if Path.is_abs(name) then
       FilePath(auth, name)?
     else
-      let evars = EnvVars(env.vars)
-      first_existing(auth, evars.get_or_else("PATH", ""), name)?
+      (let evars, let pathkey) =
+        ifdef windows then
+          // environment variables are case-insensitive on Windows
+          (EnvVars(env.vars, "", true), "path")
+        else
+          (EnvVars(env.vars), "PATH")
+        end
+      first_existing(auth, evars.get_or_else(pathkey, ""), name)?
     end
 
   fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
@@ -27,10 +33,17 @@ class val Program
     for bindir in Path.split_list(binpath).values() do
       try
         let bd = FilePath(auth', bindir)?
-        let bin = FilePath(bd, name)?
-        if bin.exists() then
-          // TODO: should also stat for executable. FileInfo(bin)
-          return bin
+        ifdef windows then
+          let bin_bare = FilePath(bd, name)?
+          if bin_bare.exists() then return bin_bare end
+          let bin_exe = FilePath(bd, name + ".exe")?
+          if bin_exe.exists() then return bin_exe end
+        else
+          let bin = FilePath(bd, name)?
+          if bin.exists() then
+            // TODO: should also stat for executable. FileInfo(bin)
+            return bin
+          end
         end
       end
     end
@@ -89,13 +102,23 @@ primitive Runner
   fun run(action: Action, result: {(ActionResult)} iso) =>
     let c = _Collector(consume result)
     let argv: Array[String] iso = recover argv.create(action.args.size()+1) end
-    argv.push(action.prog.path.path)
+    let appname =
+      ifdef windows then
+        if action.prog.path.path.contains(" ") then
+          "\"" + action.prog.path.path + "\""
+        else
+          action.prog.path.path
+        end
+      else
+        action.prog.path.path
+      end
+    argv.push(appname)
     argv.append(action.args)
     ProcessMonitor(
       action.prog.auth,
       action.prog.auth,
-      consume c, action.prog.path,
-      consume argv,
+      consume c,
+      action.prog.path, consume argv,
       action.vars).done_writing()
 
 class _Collector is ProcessNotify

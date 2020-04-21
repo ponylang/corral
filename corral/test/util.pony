@@ -10,8 +10,14 @@ interface val Checker
 primitive Execute
   fun apply(h: TestHelper, args: Array[String] val, checker: (Checker | None) = None) =>
     try
-      let evars = EnvVars(h.env.vars)
-      let corral_bin = evars.get_or_else("CORRAL_BIN", "corral")
+      (let evars, let corral_bin_key, let corral_default) =
+        ifdef windows then
+          // Environment variables on Windows are case-insensitive
+          (EnvVars(h.env.vars, "", true), "corral_bin", "corral.exe")
+        else
+          (EnvVars(h.env.vars), "CORRAL_BIN", "corral")
+        end
+      let corral_bin = evars.get_or_else(corral_bin_key, corral_default)
       let corral_prog = Program(h.env, corral_bin)?
       let corral_cmd = Action(corral_prog, args, h.env.vars)
       match checker

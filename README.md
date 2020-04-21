@@ -69,7 +69,16 @@ sudo make install
 
 ### From Source (Windows)
 
-TBD
+In PowerShell:
+
+```
+git clone https://github.com/ponylang/corral
+cd corral
+.\make.ps1 build
+.\make.ps1 test
+```
+
+You can make a debug build with `.\make.ps1 build -Config Debug`
 
 ## Create a project with dependencies
 
