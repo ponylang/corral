@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add Windows Support ([PR #83](https://github.com/ponylang/corral/pull/83))
 
 ### Changed
 
