@@ -110,6 +110,7 @@ function BuildTest
     }
   }
 
+  Write-Output "test.exe is built"
   return $testFile
 }
 
