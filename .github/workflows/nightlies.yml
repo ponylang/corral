@@ -47,6 +47,6 @@ jobs:
           .\make.ps1 -Command build;
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
-          cloudsmith push raw --version (Get-Date -Format "yyyyMMdd") --apiKey "$env:CLOUDSMITH_API_KEY" --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
+          $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --apiKey "$env:CLOUDSMITH_API_KEY" --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
