@@ -144,17 +144,7 @@ class _Collector is ProcessNotify
     _stderr.append(consume data)
 
   fun ref failed(process: ProcessMonitor ref, err: ProcessError) =>
-    let errmsg = match err
-      | ExecveError => "ProcessError: ExecveError"
-      | PipeError => "ProcessError: PipeError"
-      | ForkError => "ProcessError: ForkError"
-      | WaitpidError => "ProcessError: WaitpidError"
-      | WriteError => "ProcessError: WriteError"
-      | KillError => "ProcessError: KillError"
-      | Unsupported => "ProcessError: Unsupported"
-      | CapError =>  "ProcessError: CapError"
-      end
-    let cr = ActionResult.fail(errmsg)
+    let cr = ActionResult.fail(err.string())
     _result(cr)
 
   fun ref dispose(process: ProcessMonitor ref, child_exit_code: I32) =>
