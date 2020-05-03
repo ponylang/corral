@@ -47,10 +47,8 @@ class val DataClone
     _dir = _root.join(subdir)?
 
     Copy.tree(src_root, _root, subdir)?
-    //h.env.err.print("cloned _root: " + _root.path)
 
   fun cleanup(h: TestHelper) =>
-    //h.env.err.print("cleaning up _root: " + _root.path)
     _root.remove()
 
   fun dir(): String => _dir.path
