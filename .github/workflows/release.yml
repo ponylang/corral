@@ -23,8 +23,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
-      - name: brew install ponyc
-        run: brew install ponyc
+      - name: install ponyc
+        run: bash macOS-install-pony-tools.bash
       - name: brew install dependencies
         run: brew install coreutils python
       - name: pip install dependencies
