@@ -55,6 +55,9 @@ fi
 # allow above so we can display nice error messages for expected unset variables
 set -o nounset
 
+# add ponyup installed ponyc to our PATH
+export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
+
 # Compiler target parameters
 ARCH=x86-64
 
