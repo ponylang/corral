@@ -10,6 +10,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Add Windows Support ([PR #83](https://github.com/ponylang/corral/pull/83))
+- Add FreeBSD support ([PR #91](https://github.com/ponylang/corral/pull/91))
 
 ### Changed
 
