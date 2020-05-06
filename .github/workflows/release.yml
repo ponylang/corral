@@ -65,16 +65,6 @@ jobs:
       - name: Build and push
         run: bash .ci-scripts/release/build-docker-images-on-release.bash
 
-  homebrew:
-    name: Bump Homebrew formula
-    runs-on: ubuntu-latest
-    steps:
-      - uses: mislav/bump-homebrew-formula-action@eb843fa04b91b8bc5d4953899e3fff15c95f347c
-        with:
-          formula-name: corral
-        env:
-          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_RELEASE_TOKEN }}
-
   trigger-release-announcement:
     name: Trigger release announcement
     runs-on: ubuntu-latest
