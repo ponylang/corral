@@ -123,5 +123,12 @@ primitive CLI
           [
             ArgSpec.string_seq("args", "Arguments to run.")
           ])?
+        CommandSpec.leaf(
+          "exec",
+          "For executing shell commands which require user interaction",
+          Array[OptionSpec](),
+          [
+            ArgSpec.string_seq("args", "Arguments to run.")
+          ])?
       ])?
       .> add_help()?

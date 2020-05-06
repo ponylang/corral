@@ -37,7 +37,8 @@ actor Main
       | "corral/init" => CmdInit(cmd)
       | "corral/list" => CmdList(cmd)
       | "corral/remove" => CmdRemove(cmd)
-      | "corral/run" => CmdRun(cmd)
+      | "corral/run" => CmdRun(cmd, false)
+      | "corral/exec" => CmdRun(cmd, true)
       | "corral/update" => CmdUpdate(cmd)
       | "corral/version" => CmdVersion(cmd)
       else

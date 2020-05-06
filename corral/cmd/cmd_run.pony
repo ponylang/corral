@@ -5,10 +5,12 @@ use "../util"
 
 class CmdRun is CmdType
   let args: Array[String] val
+  let exec:Bool
 
-  new create(cmd: Command) =>
+  new create(cmd: Command, exec':Bool) =>
     let argss = cmd.arg("args").string_seq()
     args = recover val Array[String].create() .> append(argss) end
+    exec = exec'
 
   fun requires_bundle(): Bool => false
 
@@ -42,6 +44,29 @@ class CmdRun is CmdType
         else
           ctx.env.vars
         end
+      
+      // if we use the exec option, replace this process with the run command
+      // allows for use of things like corral run -- lldb ponyc
+      if exec then
+        ifdef posix then
+          let cargs = Array[Pointer[U8] tag](32)
+          for a in args.values() do
+            cargs.push(a.cstring())
+          end
+          cargs.push(Pointer[U8])
+  
+          let cvars = Array[Pointer[U8] tag](32)
+          for a in vars.values() do
+            cvars.push(a.cstring())
+          end
+          cvars.push(Pointer[U8])
+          
+          @execve[I32](prog.path.path.cstring(), cargs.cpointer(), cvars.cpointer())
+        else
+          ctx.uout.err("exec command is only supported on posix, switching to run command")
+        end
+      end
+      
       let a = Action(prog, recover args.slice(1) end, vars)
       if not ctx.nothing then
         Runner.run(a, {(result: ActionResult) => 
