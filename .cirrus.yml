@@ -42,7 +42,7 @@ task:
     - pkg update
     - pkg install -y bash gmake git py37-pip
     - pip install --upgrade cloudsmith-cli
-    - bash .ci-scripts/freebsd-install-pony-tools.sh
+    - bash .ci-scripts/freebsd-install-pony-tools.bash
 
   nightly_script:
     - bash .ci-scripts/release/x86-64-unknown-freebsd12.1-nightly.bash
@@ -68,7 +68,7 @@ task:
     - pkg update
     - pkg install -y bash cmake gmake libunwind git py37-pip
     - pip install --upgrade cloudsmith-cli
-    - bash .ci-scripts/freebsd-install-pony-tools.sh
+    - bash .ci-scripts/freebsd-install-pony-tools.bash
 
   release_script:
     - bash .ci-scripts/release/x86-64-unknown-freebsd12.1-release.bash
