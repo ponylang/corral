@@ -88,7 +88,7 @@ ASSET_DESCRIPTION="https://github.com/${GITHUB_REPOSITORY}"
 
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
-make install prefix="${BUILD_DIR}" arch=${ARCH} \
+gmake install prefix="${BUILD_DIR}" arch=${ARCH} \
   version="${APPLICATION_VERSION}"
 
 # Package it all up
