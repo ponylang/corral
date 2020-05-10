@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Nothing. Fixing bad 0.3.2 release issue.
 
 ### Changed
 
