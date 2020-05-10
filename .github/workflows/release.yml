@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ponylang/shared-docker-ci-release:20191107
-    needs: [x86-64-unknown-linux-release, x86-64-apple-darwin-release, build-release-docker-images, homebrew]
+    needs: [x86-64-unknown-linux-release, x86-64-apple-darwin-release, build-release-docker-images]
     steps:
       - uses: actions/checkout@v1
       - name: Trigger release announcement
