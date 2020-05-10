@@ -2,17 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.3.4] - 2020-05-10
 
 ### Added
 
 - Nothing. Fixing bad 0.3.2 release issue.
-
-### Changed
-
 
 ## [0.3.2] - 2020-05-10
 
