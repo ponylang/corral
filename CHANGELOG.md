@@ -2,18 +2,12 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.3.2] - 2020-05-10
 
 ### Added
 
 - Add Windows Support ([PR #83](https://github.com/ponylang/corral/pull/83))
 - Add FreeBSD support ([PR #91](https://github.com/ponylang/corral/pull/91))
-
-### Changed
-
 
 ## [0.3.1] - 2020-02-12
 
