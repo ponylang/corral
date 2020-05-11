@@ -72,27 +72,42 @@ class val ActionResult
   The results of an Action which includes its exit code, out and err streams as
   Strings, and and error message if the Action failed.
   """
-  let exit_code: I32
+  let exit_status: ProcessExitStatus
   let stdout: String
   let stderr: String
   let errmsg: String
 
-  new val ok(exit_code': I32, stdout': String, stderr': String) =>
-    exit_code = exit_code'
+  new val ok(exit_status': ProcessExitStatus, stdout': String, stderr': String) =>
+    exit_status = exit_status'
     stdout = stdout'
     stderr = stderr'
     errmsg = ""
 
-  new val fail(errmsg': String) =>
-    exit_code = -1
+  new val fail(errmsg': String, exit_status': ProcessExitStatus = Exited(-1)) =>
+    exit_status = exit_status'
     stdout = ""
     stderr = ""
     errmsg = errmsg'
 
+  fun val exit_code(): I32 =>
+    match exit_status
+    | let exited: Exited => exited.exit_code()
+    | let signaled: Signaled =>
+      // simulate bash signal to return code mapping
+      I32(128) + signaled.signal().i32()
+    end
+
   fun val print_to(out: OutStream) =>
-    out.print("  exit: " + exit_code.string())
+    out.print("  exit: " + exit_status.string())
     out.print("  out: " + stdout)
     out.print("  err: " + stderr)
+
+  fun successful(): Bool =>
+    match exit_status
+    | Exited(0) => true
+    else
+      false
+    end
 
 primitive Runner
   """
@@ -128,7 +143,6 @@ class _Collector is ProcessNotify
   """
   let _stdout: String iso = recover String end
   let _stderr: String iso = recover String end
-  var _exit_code: I32 = 0
   let _result: {(ActionResult)} iso
 
   new iso create(result: {(ActionResult)} iso) =>
@@ -147,8 +161,8 @@ class _Collector is ProcessNotify
     let cr = ActionResult.fail(err.string())
     _result(cr)
 
-  fun ref dispose(process: ProcessMonitor ref, child_exit_code: I32) =>
-    let cr = ActionResult.ok(child_exit_code,
+  fun ref dispose(process: ProcessMonitor ref, child_exit_status: ProcessExitStatus) =>
+    let cr = ActionResult.ok(child_exit_status,
       recover val _stdout.clone() end,
       recover val _stderr.clone() end)
     _result(cr)

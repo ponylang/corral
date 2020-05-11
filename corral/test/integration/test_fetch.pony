@@ -24,9 +24,9 @@ class TestFetchEmpty is UnitTest
         "--bundle_dir"; data.dir()
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
-        h.assert_eq[I32](0, ar.exit_code)
+        h.assert_eq[I32](0, ar.exit_code())
         h.assert_true(ar.stdout.contains("fetch:"))
-        h.complete(ar.exit_code == 0)
+        h.complete(ar.exit_code() == 0)
       }
     )
 
@@ -49,7 +49,7 @@ class TestFetchLocalDirect is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -58,7 +58,7 @@ class TestFetchLocalDirect is UnitTest
           let corral_dir = data.dir_path("_corral")?
           h.assert_false(corral_dir.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })
 
@@ -82,7 +82,7 @@ class TestFetchMutuallyRecursive is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -91,7 +91,7 @@ class TestFetchMutuallyRecursive is UnitTest
           let corral_dir = data.dir_path("_corral")?
           h.assert_false(corral_dir.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })
 
@@ -115,7 +115,7 @@ class TestFetchSelfReferential is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -124,7 +124,7 @@ class TestFetchSelfReferential is UnitTest
           let corral_dir = data.dir_path("_corral")?
           h.assert_false(corral_dir.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })
 
@@ -149,7 +149,7 @@ class TestFetchLocalGits is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -162,7 +162,7 @@ class TestFetchLocalGits is UnitTest
           h.assert_true(corral_dir.join("github_com_cquinn_pony_repo2_bundle2b/bundle2b/corral.json")?.exists())
           h.assert_true(corral_dir.join("gitlab_com_cquinn1_justatest/corral.json")?.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })
 
@@ -187,7 +187,7 @@ class TestFetchGithubDeep is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -198,7 +198,7 @@ class TestFetchGithubDeep is UnitTest
           h.assert_true(corral_dir.join("github_com_ponylang_corral_test_repo_bundle2/bundle2/corral.json")?.exists())
           h.assert_true(corral_dir.join("github_com_ponylang_corral_test_repo_bundle3/bundle3/corral.json")?.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })
 
@@ -222,7 +222,7 @@ class TestFetchRemoteGits is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
-          h.assert_eq[I32](0, ar.exit_code)
+          h.assert_eq[I32](0, ar.exit_code())
           h.assert_true(ar.stdout.contains("fetch:"))
 
           let repos_dir = data.dir_path("_repos")?
@@ -235,6 +235,6 @@ class TestFetchRemoteGits is UnitTest
           h.assert_true(corral_dir.join("github_com_ponylang_corral_test_repo_bundle3/bundle3/corral.json")?.exists())
           h.assert_true(corral_dir.join("gitlab_com_cquinn1_justatest/corral.json")?.exists())
 
-          h.complete(ar.exit_code == 0)
+          h.complete(ar.exit_code() == 0)
         end
       })

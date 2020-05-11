@@ -15,9 +15,9 @@ class TestRun is UnitTest
         "ponyc"; "-version"
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        h.assert_eq[I32](0, ar.exit_code)
+        h.assert_eq[I32](0, ar.exit_code())
         h.assert_true(ar.stdout.lower().contains("compiled with: "))
-        h.complete(ar.exit_code == 0)
+        h.complete(ar.exit_code() == 0)
       })
 
 class TestRunWithoutBundle is UnitTest
@@ -32,7 +32,7 @@ class TestRunWithoutBundle is UnitTest
         "ponyc"; "-version"
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        h.assert_eq[I32](0, ar.exit_code)
+        h.assert_eq[I32](0, ar.exit_code())
         h.assert_true(ar.stdout.lower().contains("compiled with: "))
-        h.complete(ar.exit_code == 0)
+        h.complete(ar.exit_code() == 0)
       })

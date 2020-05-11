@@ -44,10 +44,10 @@ class CmdRun is CmdType
         end
       let a = Action(prog, recover args.slice(1) end, vars)
       if not ctx.nothing then
-        Runner.run(a, {(result: ActionResult) => 
+        Runner.run(a, {(result: ActionResult) =>
           result.print_to(ctx.env.out)
-          if result.exit_code != 0 then
-            ctx.env.exitcode(result.exit_code)
+          if not result.successful() then
+            ctx.env.exitcode(result.exit_code())
           end
         })
       end
