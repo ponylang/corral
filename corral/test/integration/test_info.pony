@@ -13,9 +13,9 @@ class TestInfo is UnitTest
         "--bundle_dir"; Data(h, "empty-deps")?.path
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        h.assert_eq[I32](0, ar.exit_code)
+        h.assert_eq[I32](0, ar.exit_code())
         h.assert_true(ar.stdout.contains("info: {}"))
-        h.complete(ar.exit_code == 0)
+        h.complete(ar.exit_code() == 0)
       })
 
 class TestInfoWithoutBundle is UnitTest
@@ -28,6 +28,6 @@ class TestInfoWithoutBundle is UnitTest
         "--bundle_dir"; "nonexistant!"
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        h.assert_eq[I32](1, ar.exit_code)
-        h.complete(ar.exit_code == 1)
+        h.assert_eq[I32](1, ar.exit_code())
+        h.complete(ar.exit_code() == 1)
       })

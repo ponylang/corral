@@ -1,5 +1,6 @@
 use "files"
 use "../util"
+use "process"
 
 class val GitVCS is VCS
   """
@@ -43,11 +44,6 @@ class val GitSyncRepo is RepoOperation
       next(repo) // local repos don't need syncing
     end
 
-  fun val _log_err(ar: ActionResult) =>
-    if ar.exit_code != 0 then
-      ar.print_to(git.env.err)
-    end
-
   fun val _clone(repo: Repo) =>
     let remote_uri = "https://" + repo.remote
     // Maybe: --recurse-submodules --quiet --verbose
@@ -55,27 +51,28 @@ class val GitSyncRepo is RepoOperation
       recover ["clone"; "--no-checkout"; remote_uri; repo.local.path] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) =>
-      self._log_err(ar)
-      if ar.exit_code != 0 then
-        git.env.exitcode(ar.exit_code)
+      //ar.print_to(git.env.err)
+      if ar.successful() then
+        next(repo)
+      else
+        ar.print_to(git.env.err)
+        git.env.exitcode(ar.exit_code())
       end
-      self._done(ar, repo)
     } iso)
 
   fun val _fetch(repo: Repo) =>
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "fetch"; "--tags"] end, git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) =>
-      self._log_err(ar)
-      if ar.exit_code != 0 then
-        git.env.exitcode(ar.exit_code)
+      //ar.print_to(git.env.err)
+      if ar.successful() then
+        next(repo)
+      else
+        ar.print_to(git.env.err)
+        git.env.exitcode(ar.exit_code())
       end
-      self._done(ar, repo)
     } iso)
 
-  fun val _done(ar: ActionResult, repo: Repo) =>
-    //ar.print_to(git.env.err)
-    next(repo)
 
 class val GitQueryTags is RepoOperation
   let git: GitVCS
@@ -88,21 +85,18 @@ class val GitQueryTags is RepoOperation
   fun val apply(repo: Repo) =>
     _get_tags(repo)
 
-  fun val _log_err(ar: ActionResult) =>
-    if ar.exit_code != 0 then
-      ar.print_to(git.env.err)
-    end
 
   fun val _get_tags(repo: Repo) =>
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "show-ref"] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) =>
-      self._log_err(ar)
-      if ar.exit_code != 0 then
-        git.env.exitcode(ar.exit_code)
+      if ar.successful() then
+        self._parse_tags(ar, repo)
+      else
+        ar.print_to(git.env.err)
+        git.env.exitcode(ar.exit_code())
       end
-      self._parse_tags(ar, repo)
     } iso)
 
   fun val _parse_tags(ar: ActionResult, repo: Repo) =>
@@ -140,22 +134,18 @@ class val GitCheckoutRepo is RepoOperation
     git.env.err.print("git checking out @" + rev + " into " + repo.workspace.path)
     _reset_to_revision(repo)
 
-  fun val _log_err(ar: ActionResult) =>
-    if ar.exit_code != 0 then
-      ar.print_to(git.env.err)
-    end
-
   fun val _reset_to_revision(repo: Repo) =>
     //git reset --mixed <tree-ish>
     let action = Action(git.prog,
       recover ["-C"; repo.local.path; "reset"; "--mixed"; rev ] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) =>
-      self._log_err(ar)
-      if ar.exit_code != 0 then
-        git.env.exitcode(ar.exit_code)
+      if ar.successful() then
+        self._checkout_to_workspace(repo)
+      else
+        ar.print_to(git.env.err)
+        git.env.exitcode(ar.exit_code())
       end
-      self._checkout_to_workspace(repo)
     } iso)
 
   fun val _checkout_to_workspace(repo: Repo) =>
@@ -163,11 +153,10 @@ class val GitCheckoutRepo is RepoOperation
     //"git", "checkout-index", "-f", "-a", "--prefix="+path)
     if not repo.workspace.exists() then
       if not repo.workspace.mkdir(true) then
-        let ar = ActionResult.fail("Unable to create directory '" +
-          repo.workspace.path + "'")
-        _log_err(ar)
-        git.env.exitcode(ar.exit_code)
-        _done(ar, repo)
+        git.env.err.print(
+          "Unable to create directory '" + repo.workspace.path + "'")
+        git.env.exitcode(1)
+        // exit without advancing to the next operation
         return
       end
     end
@@ -181,11 +170,12 @@ class val GitCheckoutRepo is RepoOperation
       ] end,
       git.env.vars)
     Runner.run(action, {(ar: ActionResult)(self=this) =>
-      self._log_err(ar)
-      if ar.exit_code != 0 then
-        git.env.exitcode(ar.exit_code)
+      if ar.successful() then
+        self._done(ar, repo)
+      else
+        ar.print_to(git.env.err)
+        git.env.exitcode(ar.exit_code())
       end
-      self._done(ar, repo)
     } iso)
 
   fun val _done(ar: ActionResult, repo: Repo) =>
