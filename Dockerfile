@@ -13,7 +13,7 @@ WORKDIR /src/corral
 RUN make arch=x86-64 static=true linker=bfd \
  && make install
 
-FROM alpine:3.10
+FROM alpine:3.11
 
 COPY --from=build /usr/local/bin/corral /usr/local/bin/corral
 
