@@ -48,7 +48,16 @@ ponyup update corral release
 
 You will need `ponyc` in your PATH.
 
-### From Source (Unix/Linux)
+### From Source (FreeBSD)
+
+```bash
+git clone https://github.com/ponylang/corral
+cd corral
+gmake
+sudo gmake install
+```
+
+### From Source (Linux/macOS)
 
 ```bash
 git clone https://github.com/ponylang/corral
