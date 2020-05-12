@@ -68,7 +68,7 @@ task:
     - echo "FETCH_RETRY = 6" >> /usr/local/etc/pkg.conf
     - echo "IGNORE_OSVERSION = yes" >> /usr/local/etc/pkg.conf
     - pkg update
-    - pkg install -y bash cmake gmake libunwind git py37-pip
+    - pkg install -y bash gmake git py37-pip
     - pip install --upgrade cloudsmith-cli
     - bash .ci-scripts/freebsd-install-pony-tools.bash
 
