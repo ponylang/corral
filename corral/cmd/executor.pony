@@ -18,14 +18,6 @@ primitive Executor
     bundle_dir_arg: String)
     // TODO: add when we have the cli flag: repo_cache_str: String
   =>
-    let auth = try
-        env.root as AmbientAuth
-      else
-        log.err("Internal error: unable to get AmbientAuth.")
-        env.exitcode(2)
-        return
-      end
-
     // Resolve the bundle dir arg into a clean path string
     let bundle_dir_str =
       if bundle_dir_arg == "" then
@@ -37,9 +29,9 @@ primitive Executor
     // Search or resolve the dir path string into a FilePath if possible
     let bundle_dir_maybe =
       if bundle_dir_arg == "" then
-        BundleDir.find(auth, bundle_dir_str, log)
+        BundleDir.find(env.root, bundle_dir_str, log)
       else
-        BundleDir.resolve(auth, bundle_dir_str, log)
+        BundleDir.resolve(env.root, bundle_dir_str, log)
       end
 
     // Bail if the command requires bundle files but none were found

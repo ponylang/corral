@@ -13,9 +13,8 @@ class val Program
     env: Env,
     name: String) ?
   =>
-    auth = env.root as AmbientAuth
     path = if Path.is_abs(name) then
-      FilePath(auth, name)?
+      FilePath(env.root, name)?
     else
       (let evars, let pathkey) =
         ifdef windows then
@@ -24,7 +23,7 @@ class val Program
         else
           (EnvVars(env.vars), "PATH")
         end
-      first_existing(auth, evars.get_or_else(pathkey, ""), name)?
+      first_existing(env.root, evars.get_or_else(pathkey, ""), name)?
     end
 
   fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
