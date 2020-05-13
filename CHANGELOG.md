@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Bug introduced in Pony runtime by ponyc 0.35.0
 
 ### Added
 
