@@ -99,8 +99,19 @@ class val ActionResult
 
   fun val print_to(out: OutStream) =>
     out.print("  exit: " + exit_status.string())
-    out.print("  out: " + stdout)
-    out.print("  err: " + stderr)
+
+    ifdef windows then
+      let stdout' = stdout.clone()
+      stdout'.replace("\r", "")
+      out.print("  out:\n" + (consume stdout'))
+
+      let stderr' = stderr.clone()
+      stderr'.replace("\r", "")
+      out.print("  err:\n" + (consume stderr'))
+    else
+      out.print("  out: " + stdout)
+      out.print("  err: " + stderr)
+    end
 
   fun successful(): Bool =>
     match exit_status
