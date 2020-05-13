@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Remove extraneous CR in outputs on Windows ([PR #115](https://github.com/ponylang/corral/pull/115))
 
 ### Added
 
