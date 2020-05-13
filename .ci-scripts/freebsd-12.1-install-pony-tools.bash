@@ -7,5 +7,5 @@
 
 cd /tmp
 mkdir ponyc
-curl -O 'https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-x86-64-unknown-freebsd-12.1.tar.gz'
+curl -O 'https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-x86-64-unknown-freebsd-12.1.tar.gz'
 tar -xvf ponyc-x86-64-unknown-freebsd-12.1.tar.gz -C ponyc --strip-components=1
