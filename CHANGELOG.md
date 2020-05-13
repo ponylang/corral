@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Rename FreeBSD artifacts ([PR #111](https://github.com/ponylang/corral/pull/111))
 
 ## [0.3.4] - 2020-05-10
 
