@@ -2,14 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.3.5] - 2020-05-13
 
 ### Fixed
 
 - Bug introduced in Pony runtime by ponyc 0.35.0
-
-### Added
-
 
 ### Changed
 
