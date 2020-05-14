@@ -1,4 +1,5 @@
 use "cli"
+use "files"
 use "process"
 use "../bundle"
 use "../util"
@@ -24,7 +25,7 @@ class CmdRun is CmdType
         for d in iter do
           try
             ponypath'.append(project.dep_bundle_root(d.locator)?.path)
-            if iter.has_next() then ponypath'.push(':') end
+            if iter.has_next() then ponypath'.append(Path.list_sep()) end
           end
         end
         ponypath'
