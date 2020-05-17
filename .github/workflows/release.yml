@@ -73,7 +73,9 @@ jobs:
     needs: [x86-64-unknown-linux-release, x86-64-apple-darwin-release, x86-64-pc-windows-msvc-release,  build-release-docker-images]
     steps:
       - uses: actions/checkout@v1
-      - name: Trigger release announcement
-        run: bash .ci-scripts/release/trigger-release-announcement.bash
+      - name: Trigger
+        uses: ponylang/release-bot-action@0.1.0
+        with:
+          step: trigger-release-announcement
         env:
           RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
