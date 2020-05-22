@@ -4,6 +4,8 @@
 # Libressl is required by ponyup
 #
 
+# get the latest version of libressl
+brew update
 brew install libressl
 
 #
