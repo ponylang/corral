@@ -8,7 +8,11 @@ class CmdInfo is CmdType
 
   new create(cmd: Command) => None
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info("info: from " + project.dir.path)
 
     match project.load_bundle()

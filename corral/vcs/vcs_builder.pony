@@ -1,4 +1,7 @@
-class val VCSBuilder
+interface val VCSBuilder
+  fun val apply(kind: String): VCS ?
+
+class val CorralVCSBuilder
   let _env: Env
 
   new val create(env: Env) =>

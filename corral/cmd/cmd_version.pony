@@ -9,5 +9,9 @@ class CmdVersion is CmdType
 
   fun requires_bundle(): Bool => false
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info("version: " + Version())
