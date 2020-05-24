@@ -2,12 +2,13 @@ use "cli"
 use "files"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdList is CmdType
 
   new create(cmd: Command) => None
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("list: from " + project.dir.path)
 
     match project.load_bundle()

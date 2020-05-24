@@ -9,12 +9,12 @@ class CmdFetch is CmdType
 
   new create(cmd: Command) => None
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("fetch: fetching from " + project.dir.path)
 
     match project.load_bundle()
     | let base_bundle: Bundle iso =>
-      _Fetcher(ctx, project, consume base_bundle)
+      _Fetcher(ctx, project, consume base_bundle, vcs_builder)
     | let err: Error =>
       ctx.uout.err(err.message)
       ctx.env.exitcode(1)
@@ -26,10 +26,17 @@ actor _Fetcher
   let base_bundle: Bundle val
   let fetched: Set[Locator] = fetched.create()
 
-  new create(ctx': Context, project': Project, base_bundle': Bundle iso) =>
+  let _vcs_builder: VCSBuilder
+
+  new create(ctx': Context,
+    project': Project,
+    base_bundle': Bundle iso,
+    vcs_builder: VCSBuilder)
+  =>
     ctx = ctx'
     project = project'
     base_bundle = consume base_bundle'
+     _vcs_builder = vcs_builder
     ctx.log.info("Fetching direct deps of project bundle: " + base_bundle.name())
     fetch_bundle_deps(base_bundle)
 
@@ -50,7 +57,7 @@ actor _Fetcher
 
   fun fetch_dep(dep: Dep val) =>
     try
-      let vcs = VCSForType(ctx.env, dep.vcs())?
+      let vcs = _vcs_builder(dep.vcs())?
       let repo = RepoForDep(ctx, project, dep)?
 
       let revision = Constraints.best_revision(

@@ -9,11 +9,11 @@ class CmdUpdate is CmdType
 
   new create(cmd: Command) => None
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("update: updating from " + project.dir.path)
     match project.load_bundle()
     | let bundle: Bundle iso =>
-      _Updater(ctx, project, consume bundle)
+      _Updater(ctx, project, consume bundle, vcs_builder)
     | let err: Error =>
       ctx.uout.err(err.message)
       ctx.env.exitcode(1)
@@ -28,10 +28,17 @@ actor _Updater
   let deps_to_load: Map[Locator, Dep] ref = deps_to_load.create()
   let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
 
-  new create(ctx': Context, project': Project, base_bundle': Bundle iso) =>
+  let _vcs_builder: VCSBuilder
+
+  new create(ctx': Context,
+    project': Project,
+    base_bundle': Bundle iso,
+    vcs_builder: VCSBuilder)
+  =>
     ctx = ctx'
     project = project'
     base_bundle = consume base_bundle'
+    _vcs_builder = vcs_builder
     ctx.log.info("Updating direct deps of project bundle: " + base_bundle.name())
     load_bundle_deps(base_bundle)
 
@@ -62,7 +69,7 @@ actor _Updater
     end
 
   fun load_dep(dep: Dep) ? =>
-    let vcs = VCSForType(ctx.env, dep.vcs())?
+    let vcs = _vcs_builder(dep.vcs())?
     let repo = RepoForDep(ctx, project, dep)?
 
     let self: _Updater tag = this

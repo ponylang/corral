@@ -3,6 +3,7 @@ use "files"
 use "process"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdRun is CmdType
   let args: Array[String] val
@@ -13,7 +14,7 @@ class CmdRun is CmdType
 
   fun requires_bundle(): Bool => false
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("run: " + " ".join(args.values()))
 
     // Build a : separated path from bundle roots.

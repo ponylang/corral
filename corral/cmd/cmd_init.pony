@@ -2,6 +2,7 @@ use "cli"
 use "files"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdInit is CmdType
 
@@ -10,7 +11,7 @@ class CmdInit is CmdType
   fun requires_bundle(): Bool => false
   fun requires_no_bundle(): Bool => true
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("init: in " + project.dir.path)
 
     // TODO: try to read first to convert/update existing file(s)
