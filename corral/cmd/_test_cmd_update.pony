@@ -143,4 +143,4 @@ primitive _TestData
 
 primitive _TestRepoCache
   fun apply(auth: AmbientAuth): FilePath ? =>
-    FilePath(auth,"_test_cmd_update_repo_cache")?
+    FilePathS(auth,"_test_cmd_update_repo_cache")?
