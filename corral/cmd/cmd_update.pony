@@ -6,14 +6,18 @@ use "../util"
 use "../vcs"
 
 class CmdUpdate is CmdType
+  new create(cmd: Command) =>
+    None
 
-  new create(cmd: Command) => None
-
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    results_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info("update: updating from " + project.dir.path)
     match project.load_bundle()
     | let bundle: Bundle iso =>
-      _Updater(ctx, project, consume bundle, vcs_builder)
+      _Updater(ctx, project, consume bundle, vcs_builder, results_receiver)
     | let err: Error =>
       ctx.uout.err(err.message)
       ctx.env.exitcode(1)
@@ -29,16 +33,19 @@ actor _Updater
   let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
 
   let _vcs_builder: VCSBuilder
+  let _results_receiver: CmdResultReceiver
 
   new create(ctx': Context,
     project': Project,
     base_bundle': Bundle iso,
-    vcs_builder: VCSBuilder)
+    vcs_builder: VCSBuilder,
+    results_receiver: CmdResultReceiver)
   =>
     ctx = ctx'
     project = project'
     base_bundle = consume base_bundle'
     _vcs_builder = vcs_builder
+    _results_receiver = results_receiver
     ctx.log.info("Updating direct deps of project bundle: " + base_bundle.name())
     load_bundle_deps(base_bundle)
 
@@ -66,6 +73,9 @@ actor _Updater
         ctx.uout.err("Error loading dep " + dep.name())
         // It won't get a lock. How should we handle/report the error?
       end
+    end
+    if deps_to_load.size() == 0 then
+      _results_receiver.cmd_completed()
     end
 
   fun load_dep(dep: Dep) ? =>
@@ -140,6 +150,7 @@ actor _Updater
         else
           ctx.uout.err("Error saving project bundle")
         end
+        _results_receiver.cmd_completed()
         // All done, should quiesce now...
         ctx.log.fine("try_complete all done.")
       end

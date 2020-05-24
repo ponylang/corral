@@ -11,7 +11,11 @@ class CmdInit is CmdType
   fun requires_bundle(): Bool => false
   fun requires_no_bundle(): Bool => true
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info("init: in " + project.dir.path)
 
     // TODO: try to read first to convert/update existing file(s)

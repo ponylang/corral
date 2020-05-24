@@ -9,7 +9,11 @@ class CmdFetch is CmdType
 
   new create(cmd: Command) => None
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info("fetch: fetching from " + project.dir.path)
 
     match project.load_bundle()

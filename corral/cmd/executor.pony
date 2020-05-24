@@ -103,5 +103,5 @@ primitive Executor
 
     let context = Context(env, log, uout, nothing, repo_cache)
     let project = Project(auth, log, bundle_dir)
-    let vcs_builder = VCSBuilder(env)
-    command(context, project, vcs_builder)
+    let vcs_builder = CorralVCSBuilder(env)
+    command(context, project, vcs_builder, NoOpResultReceiver)

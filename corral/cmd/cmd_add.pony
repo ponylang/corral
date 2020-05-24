@@ -14,7 +14,11 @@ class CmdAdd is CmdType
     version = cmd.option("version").string()
     revision = cmd.option("revision").string()
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info(
       "add: adding: " + locator + " " + version + " " + revision)
 

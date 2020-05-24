@@ -1,6 +1,7 @@
 use "ponytest"
 use "files"
 use integration = "integration"
+use cmd = "../cmd"
 
 actor Main is TestList
   new create(env: Env) =>
@@ -23,3 +24,5 @@ actor Main is TestList
     test(integration.TestRun)
     test(integration.TestRunWithoutBundle)
     test(integration.TestClean)
+
+    cmd.Main.make().tests(test)

@@ -19,7 +19,11 @@ class CmdClean is CmdType
     // clean_corral
     true
 
-  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
+  fun apply(ctx: Context,
+    project: Project,
+    vcs_builder: VCSBuilder,
+    result_receiver: CmdResultReceiver)
+  =>
     ctx.uout.info(
       "clean: corral:" + clean_corral.string() +
       " repos:" + clean_repos.string())
