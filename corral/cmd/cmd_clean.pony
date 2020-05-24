@@ -2,6 +2,7 @@ use "cli"
 use "files"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdClean is CmdType
   let clean_repos: Bool
@@ -18,7 +19,7 @@ class CmdClean is CmdType
     // clean_corral
     true
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info(
       "clean: corral:" + clean_corral.string() +
       " repos:" + clean_repos.string())

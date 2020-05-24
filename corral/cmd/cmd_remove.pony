@@ -2,6 +2,7 @@ use "cli"
 use "json"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdRemove is CmdType
   let locator: String
@@ -9,7 +10,7 @@ class CmdRemove is CmdType
   new create(cmd: Command) =>
     locator = cmd.arg("locator").string()
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("remove: removing: " + locator)
 
     match project.load_bundle()

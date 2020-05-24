@@ -1,6 +1,7 @@
 use "cli"
 use ".."
 use "../bundle"
+use "../vcs"
 
 class CmdVersion is CmdType
 
@@ -8,5 +9,5 @@ class CmdVersion is CmdType
 
   fun requires_bundle(): Bool => false
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info("version: " + Version())

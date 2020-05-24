@@ -22,20 +22,6 @@ class val Repo
 
   fun is_remote(): Bool => remote != ""
 
-primitive VCSForType
-  """
-  This factory returns a VCS instance for any given VCS by name.
-  """
-  fun apply(env: Env, kind: String): VCS val ? =>
-    match kind
-    | "git" => GitVCS(env)?
-    | "hg"  => HgVCS
-    | "bzr" => BzrVCS
-    | "svn" => SvnVCS
-    else
-      NoneVCS
-    end
-
 interface val VCS
   """
   A Vcs provides functions to perform high-level VCS operations that commands

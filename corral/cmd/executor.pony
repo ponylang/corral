@@ -2,6 +2,7 @@ use "files"
 use "../bundle"
 use "../util"
 use "debug"
+use "../vcs"
 
 primitive Executor
   """
@@ -102,4 +103,5 @@ primitive Executor
 
     let context = Context(env, log, uout, nothing, repo_cache)
     let project = Project(auth, log, bundle_dir)
-    command(context, project)
+    let vcs_builder = VCSBuilder(env)
+    command(context, project, vcs_builder)

@@ -2,6 +2,7 @@ use "cli"
 use "json"
 use "../bundle"
 use "../util"
+use "../vcs"
 
 class CmdAdd is CmdType
   let locator: String
@@ -13,7 +14,7 @@ class CmdAdd is CmdType
     version = cmd.option("version").string()
     revision = cmd.option("revision").string()
 
-  fun apply(ctx: Context, project: Project) =>
+  fun apply(ctx: Context, project: Project, vcs_builder: VCSBuilder) =>
     ctx.uout.info(
       "add: adding: " + locator + " " + version + " " + revision)
 
