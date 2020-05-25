@@ -1,0 +1,11 @@
+{
+  "deps": [
+    {
+      "locator": "../bundle-transitive"
+    },
+    {
+      "locator": "../bundle-plain"
+    }
+  ],
+  "info": {}
+}
