@@ -39,7 +39,6 @@ class iso _TestMutuallyRecursive is UnitTest
     "cmd/update/" + __loc.type_name()
 
   fun apply(h: TestHelper) ? =>
-
     _OpsRecorderTestRunner(
       h,
       "mutually-recursive/foo",
