@@ -10,9 +10,9 @@ actor _TestCmdUpdate is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_TestEmptyDeps)
-    test(_TestRegression120)
     test(_TestMutuallyRecursive)
-
+    test(_TestRegression120)
+    test(_TestSelfReferential)
 class iso _TestEmptyDeps is UnitTest
   """
   Verify that when using an corral.json for with empty deps, that there
@@ -59,7 +59,6 @@ class iso _TestRegression120 is UnitTest
   based on timing. This test exists to prove that issue #120 is fixed and
   to prevent a similar bug from being introduced in the future.
   """
-
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
 
@@ -68,6 +67,19 @@ class iso _TestRegression120 is UnitTest
       h,
       "regression-120/bundle-entrypoint",
       _OpsRecorder(h, 4, 4, 4))?
+
+class iso _TestSelfReferential is UnitTest
+  """
+  Verify that a self reference in a corral.json results in only 1 operation
+  """
+  fun name(): String =>
+    "cmd/update/" + __loc.type_name()
+
+  fun apply(h: TestHelper) ? =>
+    _OpsRecorderTestRunner(
+      h,
+      "self-referential",
+      _OpsRecorder(h, 1, 1, 1))?
 
 primitive _OpsRecorderTestRunner
   fun apply(h: TestHelper, dep_path: String val, recorder: _OpsRecorder) ? =>
