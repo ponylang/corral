@@ -10,72 +10,96 @@ actor _TestCmdUpdate is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_TestEmptyDeps)
+    test(_TestMutuallyRecursive)
     test(_TestRegression120)
-
+    test(_TestSelfReferential)
 
 class iso _TestEmptyDeps is UnitTest
+  """
+  Verify that when using an corral.json for with empty deps, that there
+  are never any sync, tag query, or checkout operations executed.
+  """
+
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
 
   fun apply(h: TestHelper) ? =>
-    """
-    Verify that when using an corral.json for with empty deps, that there
-    are never any sync, tag query, or checkout operations executed.
-    """
-    let auth = h.env.root as AmbientAuth
-    let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
-    let fp: FilePath = _TestData.file_path_from(h, "empty-deps")?
-    let repo_cache = _TestRepoCache(auth)?
-    let ctx = Context(h.env, log, log, false, repo_cache)
-    let project = Project(auth, log, fp)
-    let bundle = Bundle.load(fp, log)?
-    let recorder = _OpsRecorder(h, 0, 0, 0)
-    let vcs_builder: VCSBuilder = _TestCmdUpdateVCSBuilder(recorder)
+    _OpsRecorderTestRunner(
+      h,
+      "empty-deps",
+      _OpsRecorder(h, 0, 0, 0))?
 
-    let updater = _Updater(ctx, project, consume bundle, vcs_builder, recorder)
+class iso _TestMutuallyRecursive is UnitTest
+  """
+  Verify that when using mutually recursive corral.json files that we
+  execute the correct number of operations
+  """
 
-    // when updater is finished, it will send a `cmd_completed` message to
-    // _OpsRecorder which will trigger pass/fail
-    h.long_test(2_000_000_000)
+  fun name(): String =>
+    "cmd/update/" + __loc.type_name()
 
+  fun apply(h: TestHelper) ? =>
+    _OpsRecorderTestRunner(
+      h,
+      "mutually-recursive/foo",
+      _OpsRecorder(h, 2, 2, 2))?
 
 class iso _TestRegression120 is UnitTest
+  """
+  Issue #120 identified a problem with transitive dependencies that resulted
+  in too many operations being performaned across the loading of all
+  dependencies.
+
+  The test as currently constituted, consists of a bundles with 2
+  dependencies. One of those has 2 more in a transitive fashion, that should
+  result in 4 syncs and corresponding actions happening. However, due to a
+  bug in _Updater, it currently does 11.
+
+  With a real VCS like Git, the number that results from it is variable
+  based on timing. This test exists to prove that issue #120 is fixed and
+  to prevent a similar bug from being introduced in the future.
+  """
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
 
   fun apply(h: TestHelper) ? =>
-    """
-    Issue #120 identified a problem with transitive dependencies that resulted
-    in too many operations being performaned across the loading of all
-    dependencies.
+    _OpsRecorderTestRunner(
+      h,
+      "regression-120/bundle-entrypoint",
+      _OpsRecorder(h, 4, 4, 4))?
 
-    The test as currently constituted, consists of a bundles with 2
-    dependencies. One of those has 2 more in a transitive fashion, that should
-    result in 4 syncs and corresponding actions happening. However, due to a
-    bug in _Updater, it currently does 11.
+class iso _TestSelfReferential is UnitTest
+  """
+  Verify that a self reference in a corral.json results in only 1 operation
+  """
+  fun name(): String =>
+    "cmd/update/" + __loc.type_name()
 
-    With a real VCS like Git, the number that results from it is variable
-    based on timing. This test exists to prove that issue #120 is fixed and
-    to prevent a similar bug from being introduced in the future.
+  fun apply(h: TestHelper) ? =>
+    _OpsRecorderTestRunner(
+      h,
+      "self-referential",
+      _OpsRecorder(h, 1, 1, 1))?
+
+primitive _OpsRecorderTestRunner
+  fun apply(h: TestHelper, dep_path: String val, recorder: _OpsRecorder) ? =>
     """
-    // given
+    Runs an _OpsRecorder test.
+    """
     let auth = h.env.root as AmbientAuth
     let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
-    let fp: FilePath = _TestData.file_path_from(h, "regression-120/bundle-entrypoint")?
+    let fp: FilePath = _TestData.file_path_from(h, dep_path)?
     let repo_cache = _TestRepoCache(auth)?
     let ctx = Context(h.env, log, log, false, repo_cache)
     let project = Project(auth, log, fp)
     let bundle = Bundle.load(fp, log)?
-    let recorder = _OpsRecorder(h, 4, 4, 4)
     let vcs_builder: VCSBuilder = _TestCmdUpdateVCSBuilder(recorder)
 
-    // when
     let updater = _Updater(ctx, project, consume bundle, vcs_builder, recorder)
 
     // when updater is finished, it will send a `cmd_completed` message to
     // _OpsRecorder which will trigger pass/fail
     h.long_test(2_000_000_000)
-
 
 actor _OpsRecorder is CmdResultReceiver
   let _h: TestHelper
