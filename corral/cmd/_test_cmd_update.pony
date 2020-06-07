@@ -12,7 +12,6 @@ actor _TestCmdUpdate is TestList
     test(_TestEmptyDeps)
     test(_TestRegression120)
 
-
 class iso _TestEmptyDeps is UnitTest
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
@@ -22,22 +21,10 @@ class iso _TestEmptyDeps is UnitTest
     Verify that when using an corral.json for with empty deps, that there
     are never any sync, tag query, or checkout operations executed.
     """
-    let auth = h.env.root as AmbientAuth
-    let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
-    let fp: FilePath = _TestData.file_path_from(h, "empty-deps")?
-    let repo_cache = _TestRepoCache(auth)?
-    let ctx = Context(h.env, log, log, false, repo_cache)
-    let project = Project(auth, log, fp)
-    let bundle = Bundle.load(fp, log)?
-    let recorder = _OpsRecorder(h, 0, 0, 0)
-    let vcs_builder: VCSBuilder = _TestCmdUpdateVCSBuilder(recorder)
-
-    let updater = _Updater(ctx, project, consume bundle, vcs_builder, recorder)
-
-    // when updater is finished, it will send a `cmd_completed` message to
-    // _OpsRecorder which will trigger pass/fail
-    h.long_test(2_000_000_000)
-
+    _OpsRecorderTestRunner(
+      h,
+      "empty-deps",
+      _OpsRecorder(h, 0, 0, 0))?
 
 class iso _TestRegression120 is UnitTest
   fun name(): String =>
@@ -58,24 +45,30 @@ class iso _TestRegression120 is UnitTest
     based on timing. This test exists to prove that issue #120 is fixed and
     to prevent a similar bug from being introduced in the future.
     """
-    // given
+    _OpsRecorderTestRunner(
+      h,
+      "regression-120/bundle-entrypoint",
+      _OpsRecorder(h, 4, 4, 4))?
+
+primitive _OpsRecorderTestRunner
+  fun apply(h: TestHelper, dep_path: String val, recorder: _OpsRecorder) ? =>
+    """
+    Runs an _OpsRecorder test.
+    """
     let auth = h.env.root as AmbientAuth
     let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
-    let fp: FilePath = _TestData.file_path_from(h, "regression-120/bundle-entrypoint")?
+    let fp: FilePath = _TestData.file_path_from(h, dep_path)?
     let repo_cache = _TestRepoCache(auth)?
     let ctx = Context(h.env, log, log, false, repo_cache)
     let project = Project(auth, log, fp)
     let bundle = Bundle.load(fp, log)?
-    let recorder = _OpsRecorder(h, 4, 4, 4)
     let vcs_builder: VCSBuilder = _TestCmdUpdateVCSBuilder(recorder)
 
-    // when
     let updater = _Updater(ctx, project, consume bundle, vcs_builder, recorder)
 
     // when updater is finished, it will send a `cmd_completed` message to
     // _OpsRecorder which will trigger pass/fail
     h.long_test(2_000_000_000)
-
 
 actor _OpsRecorder is CmdResultReceiver
   let _h: TestHelper
