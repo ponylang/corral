@@ -2,19 +2,13 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.3.6] - 2020-06-07
 
 ### Fixed
 
 - Remove extraneous CR in outputs on Windows ([PR #115](https://github.com/ponylang/corral/pull/115))
 - Use correct path separator in PONYPATH on Windows ([PR #117](https://github.com/ponylang/corral/pull/117))
 - Don't update dependencies more than once ([PR #132](https://github.com/ponylang/corral/pull/132))
-
-### Added
-
-
-### Changed
-
 
 ## [0.3.5] - 2020-05-13
 
