@@ -13,6 +13,7 @@ actor _TestCmdUpdate is TestList
     test(_TestMutuallyRecursive)
     test(_TestRegression120)
     test(_TestSelfReferential)
+
 class iso _TestEmptyDeps is UnitTest
   """
   Verify that when using an corral.json for with empty deps, that there
