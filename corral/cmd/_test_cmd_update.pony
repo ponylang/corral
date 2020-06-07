@@ -11,40 +11,59 @@ actor _TestCmdUpdate is TestList
   fun tag tests(test: PonyTest) =>
     test(_TestEmptyDeps)
     test(_TestRegression120)
+    test(_TestMutuallyRecursive)
 
 class iso _TestEmptyDeps is UnitTest
+  """
+  Verify that when using an corral.json for with empty deps, that there
+  are never any sync, tag query, or checkout operations executed.
+  """
+
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
 
   fun apply(h: TestHelper) ? =>
-    """
-    Verify that when using an corral.json for with empty deps, that there
-    are never any sync, tag query, or checkout operations executed.
-    """
     _OpsRecorderTestRunner(
       h,
       "empty-deps",
       _OpsRecorder(h, 0, 0, 0))?
 
-class iso _TestRegression120 is UnitTest
+class iso _TestMutuallyRecursive is UnitTest
+  """
+  Verify that when using mutually recursive corral.json files that we
+  execute the correct number of operations
+  """
+
   fun name(): String =>
     "cmd/update/" + __loc.type_name()
 
   fun apply(h: TestHelper) ? =>
-    """
-    Issue #120 identified a problem with transitive dependencies that resulted
-    in too many operations being performaned across the loading of all
-    dependencies.
 
-    The test as currently constituted, consists of a bundles with 2
-    dependencies. One of those has 2 more in a transitive fashion, that should
-    result in 4 syncs and corresponding actions happening. However, due to a
-    bug in _Updater, it currently does 11.
+    _OpsRecorderTestRunner(
+      h,
+      "mutually-recursive/foo",
+      _OpsRecorder(h, 2, 2, 2))?
 
-    With a real VCS like Git, the number that results from it is variable
-    based on timing. This test exists to prove that issue #120 is fixed and
-    to prevent a similar bug from being introduced in the future.
-    """
+class iso _TestRegression120 is UnitTest
+  """
+  Issue #120 identified a problem with transitive dependencies that resulted
+  in too many operations being performaned across the loading of all
+  dependencies.
+
+  The test as currently constituted, consists of a bundles with 2
+  dependencies. One of those has 2 more in a transitive fashion, that should
+  result in 4 syncs and corresponding actions happening. However, due to a
+  bug in _Updater, it currently does 11.
+
+  With a real VCS like Git, the number that results from it is variable
+  based on timing. This test exists to prove that issue #120 is fixed and
+  to prevent a similar bug from being introduced in the future.
+  """
+
+  fun name(): String =>
+    "cmd/update/" + __loc.type_name()
+
+  fun apply(h: TestHelper) ? =>
     _OpsRecorderTestRunner(
       h,
       "regression-120/bundle-entrypoint",
