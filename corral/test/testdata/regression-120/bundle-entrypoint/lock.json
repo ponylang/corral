@@ -1,0 +1,20 @@
+{
+  "locks": [
+    {
+      "locator": "../bundle-transitive-sub-2",
+      "revision": "master"
+    },
+    {
+      "locator": "../bundle-transitive",
+      "revision": "master"
+    },
+    {
+      "locator": "../bundle-plain",
+      "revision": "master"
+    },
+    {
+      "locator": "../bundle-transitive-sub-1",
+      "revision": "master"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "locks": [
+    {
+      "locator": "bundle-transitive"
+    },
+    {
+      "locator": "bundle-plain"
+    }
+  ]
+}
