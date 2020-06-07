@@ -26,11 +26,13 @@ class CmdUpdate is CmdType
 actor _Updater
   let ctx: Context
   let project: Project
-  let base_bundle: Bundle ref
+  let base_bundle: Bundle val
+  let updated: Set[Locator] = updated.create()
 
-  let deps_seen: Map[Locator, Dep] ref = deps_seen.create()
-  let deps_to_load: Map[Locator, Dep] ref = deps_to_load.create()
-  let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
+
+//  let deps_seen: Map[Locator, Dep] ref = deps_seen.create()
+//  let deps_to_load: Map[Locator, Dep] ref = deps_to_load.create()
+//  let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
 
   let _vcs_builder: VCSBuilder
   let _results_receiver: CmdResultReceiver
@@ -47,9 +49,63 @@ actor _Updater
     _vcs_builder = vcs_builder
     _results_receiver = results_receiver
     ctx.log.info("Updating direct deps of project bundle: " + base_bundle.name())
-    load_bundle_deps(base_bundle)
+    //load_bundle_deps(base_bundle)
+    update_bundle_deps(base_bundle)
 
-  fun ref load_bundle_deps(bundle: Bundle) =>
+  fun ref update_bundle_deps(bundle: Bundle val) =>
+    for dep in bundle.deps.values() do
+      if not ctx.nothing then
+        if not updated.contains(dep.locator) then
+          updated.set(dep.locator)
+          update_dep(dep)
+          ctx.uout.info("update: updating dep: " + dep.name() + " @ " + dep.version())
+        else
+          ctx.uout.info("update: skipping seen dep: " + dep.name() + " @ " + dep.version())
+        end
+      else
+        ctx.uout.info("update: would have updated dep: " + dep.name() + " @ " + dep.version())
+      end
+    end
+    _results_receiver.cmd_completed()
+
+  fun update_dep(dep: Dep val) =>
+    try
+      let vcs = _vcs_builder(dep.vcs())?
+      let repo = RepoForDep(ctx, project, dep)?
+
+      let locator: Locator = dep.locator
+      let revision = Constraints.best_revision(
+        base_bundle.dep_revision(dep.locator.string()),
+        dep.revision(),
+        dep.version())
+
+      ctx.log.info("Updating dep: " + locator.path())
+
+      let self: _Updater tag = this
+      let checkout_op = vcs.checkout_op(revision, {
+          (repo: Repo) =>
+            self.update_transitive_dep(locator)
+        } val)
+      let update_op = vcs.sync_op(checkout_op)
+
+      update_op(repo)
+
+  /*    let tag_query_op = vcs.tag_query_op({
+          (repo: Repo, tags: Array[String] val) =>
+            self.collect_dep_tags(locator, tags)
+            checkout_op(repo)
+        } val)
+
+      let sync_handler = {(repo: Repo) =>
+          tag_query_op(repo)
+        } val
+      let sync_op = vcs.sync_op(sync_handler)
+      sync_op(repo)*/
+    else
+      ctx.uout.err("Error updating dep: " + dep.name() + " @ " + dep.version())
+    end
+
+/*  fun ref load_bundle_deps(bundle: Bundle) =>
     for dep in bundle.deps.values() do
       if not ctx.nothing then
         if not deps_seen.contains(dep.locator) then
@@ -63,9 +119,9 @@ actor _Updater
         ctx.uout.info("update: would have loaded dep: " + dep.name() + " @ " + dep.version())
       end
     end
-    load_queued_deps()
+    load_queued_deps()*/
 
-  fun ref load_queued_deps() =>
+/*  fun ref load_queued_deps() =>
     for dep in deps_to_load.values() do
       try
         load_dep(dep)?
@@ -107,9 +163,26 @@ actor _Updater
         tag_query_op(repo)
       } val
     let sync_op = vcs.sync_op(sync_handler)
-    sync_op(repo)
+    sync_op(repo)*/
 
-  be load_transitive_dep(locator: Locator) =>
+  be update_transitive_dep(locator: Locator) =>
+    ctx.log.info("Updating transitive dep: " + locator.path())
+
+    let bundle_dir = try
+        project.dep_bundle_root(locator)?
+      else
+        ctx.log.err("Unexpected error making path for: " + locator.string())
+        return
+      end
+    try
+      ctx.log.fine("Updating dep's bundle from: " + bundle_dir.path)
+      let dep_bundle: Bundle val = Bundle.load(bundle_dir, ctx.log)?
+      update_bundle_deps(dep_bundle)
+    else
+      ctx.uout.warn("No dep bundle for: " + locator.string())
+    end
+
+/*  be load_transitive_dep(locator: Locator) =>
     ctx.log.info("Loading transitive dep: " + locator.path())
     try
       let bundle_dir = project.dep_bundle_root(locator)?
@@ -120,8 +193,9 @@ actor _Updater
     else
       ctx.uout.err("Error loading dep bundle: " + locator.flat_name())
       ctx.env.exitcode(1)
-    end
+    end*/
 
+/*
   be collect_dep_tags(locator: Locator, tags: Array[String] val) =>
     ctx.log.info("Collected " + tags.size().string() + " tags for dep: " + locator.path())
     try
@@ -169,3 +243,4 @@ actor _Updater
       | let rev: String => rev
       end
     base_bundle.lock_revision(dep.locator.string(), revision)
+*/
