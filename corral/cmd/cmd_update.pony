@@ -30,6 +30,7 @@ actor _Updater
 
   let deps_seen: Map[Locator, Dep] ref = deps_seen.create()
   let deps_to_load: Map[Locator, Dep] ref = deps_to_load.create()
+  let deps_loading: Map[Locator, Dep] ref = deps_loading.create()
   let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
 
   let _vcs_builder: VCSBuilder
@@ -67,18 +68,20 @@ actor _Updater
 
   fun ref load_queued_deps() =>
     for dep in deps_to_load.values() do
-      try
-        load_dep(dep)?
-      else
-        ctx.uout.err("Error loading dep " + dep.name())
-        // It won't get a lock. How should we handle/report the error?
+      if not deps_loading.contains(dep.locator) then
+        try
+          load_dep(dep)?
+        else
+          ctx.uout.err("Error loading dep " + dep.name())
+          // It won't get a lock. How should we handle/report the error?
+        end
       end
     end
     if deps_to_load.size() == 0 then
       _results_receiver.cmd_completed()
     end
 
-  fun load_dep(dep: Dep) ? =>
+  fun ref load_dep(dep: Dep) ? =>
     let vcs = _vcs_builder(dep.vcs())?
     let repo = RepoForDep(ctx, project, dep)?
 
@@ -109,6 +112,8 @@ actor _Updater
     let sync_op = vcs.sync_op(sync_handler)
     sync_op(repo)
 
+    deps_loading(locator) = dep
+
   be load_transitive_dep(locator: Locator) =>
     ctx.log.info("Loading transitive dep: " + locator.path())
     try
@@ -127,6 +132,7 @@ actor _Updater
     try
       // If this remove fails, it just means another path got here first.
       (_, let dep) = deps_to_load.remove(locator)?
+      deps_loading.remove(locator)?
       ctx.log.fine("tags for " + dep.locator.string() + ": " + tags.size().string())
       dep_tags(locator) = tags
     end
