@@ -18,7 +18,7 @@ class CmdFetch is CmdType
 
     match project.load_bundle()
     | let base_bundle: Bundle iso =>
-      _Fetcher(ctx, project, consume base_bundle, vcs_builder)
+      _Fetcher(ctx, project, consume base_bundle, vcs_builder, result_receiver)
     | let err: Error =>
       ctx.uout.err(err.message)
       ctx.env.exitcode(1)
@@ -31,16 +31,19 @@ actor _Fetcher
   let fetched: Set[Locator] = fetched.create()
 
   let _vcs_builder: VCSBuilder
+  let _results_receiver: CmdResultReceiver
 
   new create(ctx': Context,
     project': Project,
     base_bundle': Bundle iso,
-    vcs_builder: VCSBuilder)
+    vcs_builder: VCSBuilder,
+    results_receiver: CmdResultReceiver)
   =>
     ctx = ctx'
     project = project'
     base_bundle = consume base_bundle'
      _vcs_builder = vcs_builder
+     _results_receiver = results_receiver
     ctx.log.info("Fetching direct deps of project bundle: " + base_bundle.name())
     fetch_bundle_deps(base_bundle)
 
@@ -58,6 +61,7 @@ actor _Fetcher
         ctx.uout.info("fetch: would have fetched dep: " + dep.name() + " @ " + dep.version())
       end
     end
+    _results_receiver.cmd_completed()
 
   fun fetch_dep(dep: Dep val) =>
     try

@@ -9,3 +9,4 @@ actor Main is TestList
 
   fun tag tests(test: PonyTest) =>
    _TestCmdUpdate.make().tests(test)
+   _TestCmdFetch.make().tests(test)
