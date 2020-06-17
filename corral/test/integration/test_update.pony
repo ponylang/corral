@@ -10,6 +10,7 @@ class TestUpdateEmpty is UnitTest
     Execute(h,
       recover [
         "update"
+        "--verbose"
         "--bundle_dir"; Data(h, "empty-deps")?.path
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
@@ -33,6 +34,7 @@ class TestUpdateGithub is UnitTest
     Execute(h,
       recover [
         "update"
+        "--verbose"
         "--bundle_dir"; data.dir()
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
