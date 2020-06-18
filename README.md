@@ -1,3 +1,14 @@
+[![GitHub license](https://img.shields.io/github/license/ponylang/corral?color=2f4f4f)](https://github.com/ponylang/corral/blob/master/LICENSE)
+[![Actions Status](https://github.com/ponylang/corral/workflows/vs-ponyc-latest/badge.svg)](https://github.com/ponylang/corral/actions)
+[![GitHub release](https://img.shields.io/github/v/release/ponylang/corral)](https://github.com/ponylang/corral/releases)
+[![GitHub contributors](https://img.shields.io/github/contributors/ponylang/corral)](https://github.com/ponylang/corral/graphs/contributors)
+[![PR's Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://github.com/ponylang/corral/pull/new)
+
+[![GitHub issues open](https://img.shields.io/github/issues/ponylang/corral)](https://github.com/ponylang/corral/issues?q=is%3Aissue+label%3A%22help+wanted%22+is%3Aopen)
+[![GitHub issues help wanted](https://img.shields.io/github/labels/ponylang/corral/help%20wanted)](https://github.com/ponylang/corral/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+[![GitHub issues triggers release](https://img.shields.io/github/issues/ponylang/corral/triggers%20release?color=008b8b)](https://github.com/ponylang/corral/issues?q=is%3Aissue+is%3Aopen+label%3A%22triggers+release%22)
+[![GitHub issues good first](https://img.shields.io/github/issues/ponylang/corral/good%20first%20issue?color=228b22)](https://github.com/ponylang/corral/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
 # Corral
 
 A Pony dependency management command-line tool.
@@ -9,8 +20,6 @@ Keep your ponies in a corral to prevent them from getting lost.
 </a>
 
 ## Status
-
-[![Actions Status](https://github.com/ponylang/corral/workflows/vs-ponyc-latest/badge.svg)](https://github.com/ponylang/corral/actions)
 
 Corral is alpha level software. We advise you use [stable](https://github.com/ponylang/pony-stable) for your dependency management needs. We are looking for help building out Corral and would love if you help out with any of the [open issues](https://github.com/ponylang/corral/issues).
 
