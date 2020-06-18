@@ -25,21 +25,23 @@ actor Main
 
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()
-    let ulvl = if verbose then LvlFine elseif quiet then LvlWarn else LvlInfo end
+    let ulvl = if verbose then LvlFine else LvlWarn end
+    let ulvl_info = if quiet then LvlWarn else LvlInfo end
     let uout = Log(ulvl, env.out, SimpleLogFormatter)
+    let uout_info = Log(ulvl_info, env.out, SimpleLogFormatter)
 
     // Create the specific command object
-    let command: CmdType = match cmd.fullname()
-      | "corral/add" => CmdAdd(cmd)
-      | "corral/clean" => CmdClean(cmd)
-      | "corral/fetch" => CmdFetch(cmd)
-      | "corral/info" => CmdInfo(cmd)
-      | "corral/init" => CmdInit(cmd)
-      | "corral/list" => CmdList(cmd)
-      | "corral/remove" => CmdRemove(cmd)
-      | "corral/run" => CmdRun(cmd)
-      | "corral/update" => CmdUpdate(cmd)
-      | "corral/version" => CmdVersion(cmd)
+    let command: (CmdType, Log) = match cmd.fullname()
+      | "corral/add" => (CmdAdd(cmd), uout)
+      | "corral/clean" => (CmdClean(cmd), uout)
+      | "corral/fetch" => (CmdFetch(cmd), uout)
+      | "corral/info" => (CmdInfo(cmd), uout_info)
+      | "corral/init" => (CmdInit(cmd), uout)
+      | "corral/list" => (CmdList(cmd), uout_info)
+      | "corral/remove" => (CmdRemove(cmd), uout)
+      | "corral/run" => (CmdRun(cmd), uout)
+      | "corral/update" => (CmdUpdate(cmd), uout)
+      | "corral/version" => (CmdVersion(cmd), uout_info)
       else
         log.err("Internal error: unexpected command: " + cmd.fullname())
         env.exitcode(2)
@@ -48,5 +50,5 @@ actor Main
 
     // Hand off to Executor to resolve required dirs and execute the command
     Executor.execute(
-      command, env, log, uout,
+      command._1, env, log, command._2,
       cmd.option("nothing").bool(), cmd.option("bundle_dir").string())

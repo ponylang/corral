@@ -21,6 +21,7 @@ class TestFetchEmpty is UnitTest
     Execute(h,
       recover [
         "fetch"
+        "--verbose"
         "--bundle_dir"; data.dir()
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
@@ -183,6 +184,7 @@ class TestFetchGithubDeep is UnitTest
     Execute(h,
       recover [
         "fetch"
+        "--verbose"
         "--bundle_dir"; data.dir()
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
@@ -218,6 +220,7 @@ class TestFetchRemoteGits is UnitTest
     Execute(h,
       recover [
         "fetch"
+        "--verbose"
         "--bundle_dir"; data.dir()
       ] end,
       {(h: TestHelper, ar: ActionResult)(data=data) =>
