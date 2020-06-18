@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Make corral less verbose ([PR #137](https://github.com/ponylang/corral/pull/137))
 
 ## [0.3.6] - 2020-06-07
 
