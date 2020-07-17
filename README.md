@@ -81,6 +81,23 @@ You can make a debug build with `.\make.ps1 build -Config Debug`
 
 ## Create a project with dependencies
 
+### Using Corral for first time?
+```bash
+mkdir myproject && cd myproject
+corral init
+corral add github.com/jemc/pony-inspect.git
+
+echo '
+use "inspect"
+actor Main
+  new create(env: Env) =>
+    env.out.print(Inspect("Hello, World!"))
+' > main.pony
+
+corral fetch
+corral run --ponyc .
+```
+
 ### GitHub or GitLab or Bitbucket
 
 Use a bundle from the internet.
