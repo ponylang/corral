@@ -81,18 +81,18 @@ You can make a debug build with `.\make.ps1 build -Config Debug`
 
 ## Getting started using Corral
 
-After instllation, make sure Corral's current path is also set in your PATH environment variable. This will make it easier by not entering the full path each time when you use one of Corral commands in your projects.
+After installation, make sure Corral's current path is also set in your PATH environment variable. This will make it easier by not entering the full path each time when you use one of Corral commands in your projects.
 
 Follow these steps to create your first project using Corral.
 
-1. Create an empty folder and switch to this directory. This will be our example project to use Corral
+1. Create the project. Make an empty folder and switch to this directory. This will be our example project to use Corral
 
 ```bash
 mkdir myproject
 cd myproject
 ```
 
-2. Initialize Corral. It will create `corral.json` and `lock.json` files. At this moment they won't have much information since you haven't added any dependency yet.
+2. Initialize Corral. It will create `corral.json` and `lock.json` files. At this moment they won't have much information since you haven't added any dependencies yet.
 
 ```bash
 corral init
@@ -104,7 +104,7 @@ corral init
 corral add github.com/jemc/pony-inspect.git
 ```
 
-4. Use that dependency in your code. Create a file `main.pony` with following code.
+4. Use a dependency. Create a file `main.pony` with following code.
 
 ```pony
 use "inspect"
@@ -114,7 +114,7 @@ actor Main
     env.out.print(Inspect("Hello, World!"))
 ```
 
-5. Fetch dependencies. The example Pony code is using `Inspect` type which is defined in the dependency which you have just added. Pony needs to have the source code of `Inspect` type to compile successfully. By fetching, Corral retrieves the source and make it available when compiling the source code 
+5. Fetch dependencies. The example Pony code is using `Inspect` type which is defined in the dependency which you have just added. Pony needs to have the source code of `Inspect` type to compile successfully. By fetching, Corral retrieves the source and makes it available when compiling the source code 
 
 ```bash
 corral fetch
