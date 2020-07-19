@@ -76,22 +76,22 @@ It is recommended that `lock.json` be checked in along with `corral.json` so tha
 corral update
 ```
 
-```bash
+```console
 git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
 git checking out @master into _corral/github_com_jemc_pony_inspect
 ```
 
 ## Fetch dependencies
 
-This step will fetch dependencies using the current revisions in the `lock.json` file, or latest constrained version if there is no locked revision. This operation can be done after a new clone, or pull or other changes to the `lock.json` file to ensure that the checked out dependencies are present and up to date.
+This step will fetch dependencies using the current revisions in the `lock.json` file, or latest constrained version if there is no locked revision. This operation can be done after a new clone, or pull other changes to the `lock.json` file to ensure that the checked out dependencies are present and up to date.
 
-Remote repos will be cloned into the *repo_cache* (<project>/_repo) and checked-out revisions will be placed in the *corral_dir* (<project>/_corral).
+Remote repos will be cloned into the *repo_cache* `_repos/` and checked-out revisions will be placed in the *corral_dir* `_corral`.
 
 ```bash
 corral fetch
 ```
 
-```bash
+```console
 git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
 git checking out @master into _corral/github_com_jemc_pony_inspect
 ```
@@ -105,7 +105,7 @@ You can run any custom command here - not just `ponyc`.
 corral run -- ponyc --debug
 ```
 
-```bash
+```console
 run: ponyc --debug
   exit: 0
   out:
