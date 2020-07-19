@@ -38,7 +38,9 @@ Check out [Pony Package Dependency Management](doc/package_dependency_management
 
 Use [ponyup](https://github.com/ponylang/ponyup) to install corral.
 
-The following command will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default. This requires `ponyup`, our toolchain multiplexer, to be installed. If you don't have it installed, please follow the [instructions](https://github.com/ponylang/ponyup#installing-ponyup).
+The following command is assuming that `ponyup`, our toolchain multiplexer, is already installed on your machine and `~/.pony/ponyup/bin` is already added to your $PATH environment variable. If you don't have it installed, please follow the [instructions](https://github.com/ponylang/ponyup#installing-ponyup).
+
+It will download the latest release of `corral` and install it to `~/.pony/ponyup/bin` by default. 
 
 ```bash
 ponyup update corral release
@@ -46,164 +48,61 @@ ponyup update corral release
 
 ## Building From Source
 
-You will need `ponyc` in your PATH.
+See [BUILD.md](BUILD.md)
 
-### From Source (FreeBSD)
+## Getting started using Corral
 
-```bash
-git clone https://github.com/ponylang/corral
-cd corral
-gmake
-sudo gmake install
-```
+After installation, add Corral's current path to $PATH environment variable if you haven't already and follow these steps to create your first project using Corral.
 
-### From Source (Linux/macOS)
+1. Create the project. Make an empty folder and switch to this directory. This will be our example project to use Corral
 
 ```bash
-git clone https://github.com/ponylang/corral
-cd corral
-make
-sudo make install
+mkdir myproject
+cd myproject
 ```
 
-### From Source (Windows)
-
-In PowerShell:
-
-```
-git clone https://github.com/ponylang/corral
-cd corral
-.\make.ps1 build
-.\make.ps1 test
-```
-
-You can make a debug build with `.\make.ps1 build -Config Debug`
-
-## Create a project with dependencies
-
-### GitHub or GitLab or Bitbucket
-
-Use a bundle from the internet.
+2. Initialize Corral. It will create `corral.json` and `lock.json` files. At this moment they won't have much information since you haven't added any dependencies yet.
 
 ```bash
-mkdir myproject && cd myproject
+corral init
+```
 
-corral add github.com/jemc/pony-inspect.git
+3. Add a dependency. This is the way to tell Corral that your project depends on this and you want to include it when building your project.
 
-echo '
-use "inspect"
+```bash
+corral add github.com/ponylang/valbytes.git
+```
+
+4. Use a dependency. Create a file `main.pony` with following code.
+
+```pony
+use "valbytes"
+
 actor Main
   new create(env: Env) =>
-    env.out.print(Inspect("Hello, World!"))
-' > main.pony
+    var buf: ByteArrays = ByteArrays
+    buf = buf + "!!" + "Hello," + " " + "World!"
+    let greetings = buf.drop(2).string()
+    env.out.print(greetings)
 ```
 
-This form works the same way for gitlab.com and bitbucket.com.
-
-You can also include additional bundle paths after the repo, such as:
-`github.com/ponylang/corral-test-repo.git/bundle1`
-
-In addition, you can specify version constraints using this form:
-`--version='>=1.1.0 <2.0.0`
-or specific tags or commits like `--version='1.2.3'` or `--version=c061655c`.
-
-### Local git Bundle
-
-Use a bundle from a local repo that might have private changes or is not yet pushed.
-
-```bash
-mkdir myproject && cd myproject
-
-corral add ../pony-inspect.git
-
-echo '
-use "inspect"
-actor Main
-  new create(env: Env) =>
-    env.out.print(Inspect("Hello, World!"))
-' > main.pony
-```
-
-The bundle path and version specification work the same as remote git.
-
-### Local Direct Bundle
-
-Use a bundle from local code that you are working on live.
-
-```bash
-mkdir myproject && cd myproject
-
-corral add ../pony-inspect
-
-echo '
-use "inspect"
-actor Main
-  new create(env: Env) =>
-    env.out.print(Inspect("Hello, World!"))
-' > main.pony
-```
-
-The bundle path works the same as remote git, but versions are not applicable as the local bundle directory is referenced directly.
-
-## Update Dependency Revisions
-
-This step will fetch all dependencies, including transitive dependencies, and then it will calculate the best revisions for each and write them to the `lock.json` file. This file can also be edited by hand, or the update command run periodically to refresh dependencies to the latest constrained versions.
-
-It is recommended that `lock.json` be checked in along with `corral.json` so that subsequent builds of the shared project use the same revisions for reproducability.
-
-```bash
-corral update
-```
-
-```bash
-git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
-git checking out @master into _corral/github_com_jemc_pony_inspect
-```
-
-## Fetch dependencies
-
-This step will fetch dependencies using the current revisions in the `lock.json` file, or latest constrained version if there is no locked revision. This operation can be done after a new clone, or pull or other changes to the `lock.json` file to ensure that the checked out dependencies are present and up to date.
-
-Remote repos will be cloned into the *repo_cache* (<project>/_repo) and checked-out revisions will be placed in the *corral_dir* (<project>/_corral).
+5. Fetch dependencies. The example Pony code is using `ByteArrays` type which is defined in the dependency which you have just added. Pony needs to have the source code of `ByteArrays` type to compile successfully. By fetching, Corral retrieves the source and makes it available when compiling the source code 
 
 ```bash
 corral fetch
 ```
 
-```bash
-git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
-git checking out @master into _corral/github_com_jemc_pony_inspect
-```
-
-## Compile With a Corral
-
-The local paths to the dependency's bundle directories will be included in the `PONYPATH` environment variable, and available for use in the `ponyc` invocation.
-You can run any custom command here - not just `ponyc`.
+6. Build the project. Corral will now use this information to build the project. The command below act as a wrapper for `ponyc`
 
 ```bash
-corral run -- ponyc --debug
+corral run -- ponyc
 ```
 
-```bash
-run: ponyc --debug
-  exit: 0
-  out:
-  err: Building builtin -> /usr/local/Cellar/ponyc/0.33.0/packages/builtin
-Building . -> /Users/carl/ws/pony/cquinn/corral/corral/test/testdata/readme
-Building inspect -> /Users/carl/ws/pony/cquinn/corral/corral/test/testdata/readme/_corral/github_com_jemc_pony_inspect/inspect
-Building format -> /usr/local/Cellar/ponyc/0.33.0/packages/format
-Building collections -> /usr/local/Cellar/ponyc/0.33.0/packages/collections
-Building ponytest -> /usr/local/Cellar/ponyc/0.33.0/packages/ponytest
-Building time -> /usr/local/Cellar/ponyc/0.33.0/packages/time
-Building random -> /usr/local/Cellar/ponyc/0.33.0/packages/random
-Generating
- Reachability
- Selector painting
- Data prototypes
- Data types
- Function prototypes
- Functions
- Descriptors
-Writing ./readme.o
-Linking ./readme
-```
+If there are no errors generated then an executable `myproject` will be created in the same folder.
+
+You will also notice that there are two new folders `_corral` and `_repos` in your project folder now. They were generated by the `corral fetch` command. Please make sure to include them in your `.gitignore` file as there is no need to keep them in a versioning system since they are maintained by Corral itself.
+
+
+## Documentation
+
+See [DOCS.md](DOCS.md)
