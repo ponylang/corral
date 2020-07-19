@@ -70,20 +70,23 @@ corral init
 3. Add a dependency. This is the way to tell Corral that your project depends on this and you want to include it when building your project.
 
 ```bash
-corral add github.com/jemc/pony-inspect.git
+corral add github.com/ponylang/valbytes.git
 ```
 
 4. Use a dependency. Create a file `main.pony` with following code.
 
 ```pony
-use "inspect"
+use "valbytes"
 
 actor Main
   new create(env: Env) =>
-    env.out.print(Inspect("Hello, World!"))
+    var buf: ByteArrays = ByteArrays
+    buf = buf + "!!" + "Hello," + " " + "World!"
+    let greetings = buf.drop(2).string()
+    env.out.print(greetings)
 ```
 
-5. Fetch dependencies. The example Pony code is using `Inspect` type which is defined in the dependency which you have just added. Pony needs to have the source code of `Inspect` type to compile successfully. By fetching, Corral retrieves the source and makes it available when compiling the source code 
+5. Fetch dependencies. The example Pony code is using `ByteArrays` type which is defined in the dependency which you have just added. Pony needs to have the source code of `ByteArrays` type to compile successfully. By fetching, Corral retrieves the source and makes it available when compiling the source code 
 
 ```bash
 corral fetch
