@@ -96,3 +96,7 @@ corral run -- ponyc
 ```
 
 If there are no errors generated then an executable `myproject` will be created in the same folder.
+
+## Documentation
+
+See [DOCS.md](DOCS.md)
