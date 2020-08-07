@@ -3,10 +3,10 @@
   "info": {},
   "scripts": {
     "windows": {
-      "post_fetch": "PowerShell.exe -File .\\test.ps1"
+      "post_fetch": "PowerShell.exe -File test.ps1"
     },
     "posix": {
-      "post_fetch": "/bin/sh .\\test.sh"
+      "post_fetch": "/bin/sh test.sh"
     }
   }
 }

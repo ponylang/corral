@@ -56,7 +56,7 @@ class TestUpdateGithub is UnitTest
 class TestUpdateScripts is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
-  fun name(): String => "integration/update/scripts-windows"
+  fun name(): String => "integration/update/scripts"
 
   fun ref set_up(h: TestHelper val) ? =>
     data = DataClone(h, [ "scripts"; "scripted" ])?
@@ -67,7 +67,7 @@ class TestUpdateScripts is UnitTest
   fun apply(h: TestHelper) =>
     h.long_test(2_000_000_000)
     Execute(h,
-      recover [ "update"; "--bundle_dir"; data.dir() ] end,
+      recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
         ifdef windows then
