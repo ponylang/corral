@@ -1,0 +1,8 @@
+{
+  "deps": [
+    {
+      "locator": "../scripted"
+    }
+  ],
+  "info": {}
+}

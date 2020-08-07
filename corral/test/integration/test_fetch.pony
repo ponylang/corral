@@ -129,6 +129,31 @@ class TestFetchSelfReferential is UnitTest
         end
       })
 
+class TestFetchScripts is UnitTest
+  var data: (DataClone | DataNone) = DataNone
+
+  fun name(): String => "integration/fetch/scripts"
+
+  fun ref set_up(h: TestHelper val) ? =>
+    data = DataClone(h, [ "scripts"; "scripted" ])?
+
+  fun tear_down(h: TestHelper val) =>
+    data.cleanup(h)
+
+  fun apply(h: TestHelper) =>
+    h.long_test(2_000_000_000)
+    Execute(h,
+      recover [ "fetch"; "--bundle_dir"; data.dir() ] end,
+      {(h: TestHelper, ar: ActionResult) =>
+        h.assert_eq[I32](0, ar.exit_code())
+        ifdef windows then
+          h.assert_true(ar.stdout.contains("Success Windows!"))
+        else
+          h.assert_true(ar.stdout.contains("Success POSIX!"))
+        end
+        h.complete(ar.exit_code() == 0)
+      })
+
 // Local VCS
 
 class TestFetchLocalGits is UnitTest

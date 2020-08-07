@@ -25,4 +25,7 @@ actor Main is TestList
     test(integration.TestRunWithoutBundle)
     test(integration.TestClean)
 
+    test(integration.TestFetchScripts)
+    test(integration.TestUpdateScripts)
+
     cmd.Main.make().tests(test)

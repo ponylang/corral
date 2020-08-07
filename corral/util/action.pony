@@ -57,15 +57,18 @@ class val Action
   let prog: Program val
   let args: Array[String] val
   let vars: Array[String] val
+  let cwd: (FilePath | None)
 
   new val create(
     prog': Program val,
     args': Array[String] val,
-    vars': Array[String] val = recover val Array[String] end)
+    vars': Array[String] val = recover val Array[String] end,
+    cwd': (FilePath | None) = None)
   =>
     prog = prog'
     args = args'
     vars = vars'
+    cwd = cwd'
 
 class val ActionResult
   """
@@ -140,12 +143,15 @@ primitive Runner
       end
     argv.push(appname)
     argv.append(action.args)
-    ProcessMonitor(
+    let pm = ProcessMonitor(
       action.prog.auth,
       action.prog.auth,
       consume c,
-      action.prog.path, consume argv,
-      action.vars).done_writing()
+      action.prog.path,
+      consume argv,
+      action.vars,
+      try action.cwd as FilePath end)
+    pm.done_writing()
 
 class _Collector is ProcessNotify
   """
