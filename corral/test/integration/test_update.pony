@@ -65,7 +65,7 @@ class TestUpdateScripts is UnitTest
     data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(8_000_000_000)
     Execute(h,
       recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>
