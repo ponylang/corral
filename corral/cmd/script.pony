@@ -16,9 +16,9 @@ primitive PostFetchScript
           scripts.posix as ScriptCommandData val
         end
 
-      let post_fetch = platform_scripts.post_fetch
-      if post_fetch.size() > 0 then
-        let argv = post_fetch.split(" ")
+      let post_fetch_or_update = platform_scripts.post_fetch_or_update
+      if post_fetch_or_update.size() > 0 then
+        let argv = post_fetch_or_update.split(" ")
         if argv.size() > 0 then
           let program = Program(ctx.env, argv.shift()?)?
           let action = Action(program, consume argv, ctx.env.vars,
@@ -26,14 +26,14 @@ primitive PostFetchScript
           Runner.run(action, {(result: ActionResult) =>
             match result.exit_status
             | let exited: Exited =>
-              ctx.uout.fine("Succeeded: '" + post_fetch + "' in '" +
+              ctx.uout.fine("Succeeded: '" + post_fetch_or_update + "' in '" +
                 repo.workspace.path + "'")
               ctx.uout.fine(result.stdout)
               return
             else
               None
             end
-            ctx.uout.err("Failed: '" + post_fetch + "' in '" +
+            ctx.uout.err("Failed: '" + post_fetch_or_update + "' in '" +
               repo.workspace.path + "'")
             ctx.uout.err(result.stderr)
           })

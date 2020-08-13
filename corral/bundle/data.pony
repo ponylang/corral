@@ -83,14 +83,14 @@ class ScriptsData
     jo
 
 class ScriptCommandData
-  var post_fetch: String
+  var post_fetch_or_update: String
 
   new create(jo: JsonObject box) =>
-    post_fetch = Json.string(jo, "post_fetch")
+    post_fetch_or_update = Json.string(jo, "post_fetch_or_update")
 
   fun json(): JsonObject ref =>
     let jo = JsonObject
-    Json.set_string(jo, "post_fetch", post_fetch)
+    Json.set_string(jo, "post_fetch_or_update", post_fetch_or_update)
     jo
 
 class DepData
