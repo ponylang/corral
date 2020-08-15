@@ -13,6 +13,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Changed
 
 - Make corral less verbose ([PR #137](https://github.com/ponylang/corral/pull/137))
+- Update Dockerfile to use Alpine 3.12 ([PR #153](https://github.com/ponylang/corral/pull/153))
 
 ## [0.3.6] - 2020-06-07
 
