@@ -46,7 +46,7 @@ class val DataClone
     _root = FilePath.mkdtemp(auth, "test_scratch.")?
 
     let subdirs': Array[String] val =
-      match subdirs
+      match consume subdirs
       | let a: Array[String] val => a
       | let s: String => recover val [ s ] end
       else
