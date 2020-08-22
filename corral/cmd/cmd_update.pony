@@ -111,6 +111,7 @@ actor _Updater
       } val
     let sync_op = vcs.sync_op(sync_handler)
     sync_op(repo)
+    PostFetchScript(ctx, repo)
 
     deps_loading(locator) = dep
 

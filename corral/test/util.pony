@@ -39,14 +39,30 @@ class val DataClone
   let _root: FilePath
   let _dir: FilePath
 
-  new val create(h: TestHelper, subdir: String = "") ? =>
+  new val create(h: TestHelper, subdirs: (Array[String] val | String | None) = None) ? =>
     let auth = h.env.root as AmbientAuth
     let src_root = FilePath(auth, "corral/test/testdata")?
 
     _root = FilePath.mkdtemp(auth, "test_scratch.")?
-    _dir = _root.join(subdir)?
 
-    Copy.tree(src_root, _root, subdir)?
+    let subdirs': Array[String] val =
+      match consume subdirs
+      | let a: Array[String] val => a
+      | let s: String => recover val [ s ] end
+      else
+        recover val Array[String] end
+      end
+
+    _dir =
+      try
+        _root.join(subdirs'(0)?)?
+      else
+        _root.join("")?
+      end
+
+    for subdir in subdirs'.values() do
+      Copy.tree(src_root, _root, subdir)?
+    end
 
   fun cleanup(h: TestHelper) =>
     _root.remove()

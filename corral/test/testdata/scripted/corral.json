@@ -1,0 +1,12 @@
+{
+  "deps": [],
+  "info": {},
+  "scripts": {
+    "windows": {
+      "post_fetch_or_update": "PowerShell.exe -File test.ps1"
+    },
+    "posix": {
+      "post_fetch_or_update": "/bin/sh test.sh"
+    }
+  }
+}

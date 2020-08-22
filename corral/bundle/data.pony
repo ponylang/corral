@@ -3,6 +3,7 @@ use "json"
 class BundleData
   let info: InfoData
   let deps: Array[DepData]
+  let scripts: (ScriptsData | None)
 
   new create(jo: JsonObject box) =>
     // TODO: iterate over jo's map and verify we just have "info" or "deps"
@@ -17,6 +18,9 @@ class BundleData
       let bd = DepData(bjo)
       deps.push(bd)
     end
+
+    let scripts_obj = Json.objekt(jo, "scripts")
+    scripts = if scripts_obj.data.size() > 0 then ScriptsData(scripts_obj) else None end
 
 /*
   TODO: Currently in Bundle.bundle_json()
@@ -52,6 +56,41 @@ class InfoData
     Json.set_string(jo, "homepage", homepage)
     Json.set_string(jo, "license", license)
     Json.set_string(jo, "version", version)
+    jo
+
+class ScriptsData
+  var windows: (ScriptCommandData | None) = None
+  var posix: (ScriptCommandData | None) = None
+
+  new create(jo: JsonObject box) =>
+    let win_obj = Json.objekt(jo, "windows")
+    if win_obj.data.size() > 0 then
+      windows = ScriptCommandData(win_obj)
+    end
+    let posix_obj = Json.objekt(jo, "posix")
+    if posix_obj.data.size() > 0 then
+      posix = ScriptCommandData(posix_obj)
+    end
+
+  fun json(): JsonObject ref =>
+    let jo = JsonObject
+    try
+      jo.data("windows") = (windows as this->ScriptCommandData).json()
+    end
+    try
+      jo.data("posix") = (posix as this->ScriptCommandData).json()
+    end
+    jo
+
+class ScriptCommandData
+  var post_fetch_or_update: String
+
+  new create(jo: JsonObject box) =>
+    post_fetch_or_update = Json.string(jo, "post_fetch_or_update")
+
+  fun json(): JsonObject ref =>
+    let jo = JsonObject
+    Json.set_string(jo, "post_fetch_or_update", post_fetch_or_update)
     jo
 
 class DepData

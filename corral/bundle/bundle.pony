@@ -12,6 +12,7 @@ class Bundle
   let log: Log
   let info: InfoData
   let deps: Map[String, Dep ref] = deps.create()
+  let scripts: (ScriptsData | None)
   var modified: Bool = false
 
   new iso create(dir': FilePath, log': Log) =>
@@ -19,6 +20,7 @@ class Bundle
     log = log'
     info = InfoData(JsonObject)
     log.info("Created bundle in " + dir.path)
+    scripts = None
     modified = true
 
   new iso load(dir': FilePath, log': Log) ? =>
@@ -36,6 +38,7 @@ class Bundle
         error
       end
     info = data.info
+    scripts = data.scripts
 
     let lm = Map[String, LockData]
     try
@@ -111,6 +114,9 @@ class Bundle
       deps_array.data.push(d.data.json())
     end
     jo.data("deps") = deps_array
+    try
+      jo.data("scripts") = (scripts as this->ScriptsData).json()
+    end
     jo
 
   fun lock_json(): JsonObject =>
