@@ -12,19 +12,18 @@ Keep your ponies in a corral to prevent them from getting lost.
 
 [![Actions Status](https://github.com/ponylang/corral/workflows/vs-ponyc-latest/badge.svg)](https://github.com/ponylang/corral/actions)
 
-Corral is alpha level software. We advise you use [stable](https://github.com/ponylang/pony-stable) for your dependency management needs. We are looking for help building out Corral and would love if you help out with any of the [open issues](https://github.com/ponylang/corral/issues).
+Corral is beta level software.
 
 ## About Corral
 
-Corral is a dependency management tool for [Pony](https://www.ponylang.io). Our goal with Corral is to start from scratch and come up with a full featured replacement for [stable](https://github.com/ponylang/pony-stable), the current dependency management tool for Pony. Corral builds on the work done in stable and adds some new things:
+Corral is a dependency management tool for [Pony](https://www.ponylang.io). Corral:
 
-* Uses Pony cli package for command line parsing.
 * Provides extensibility for VCS and Commands.
 * Supports semver version constraints on dependencies.
 * Supports transitive dependencies.
 * Supports revision locking on dependencies using a lock.json file.
-* Uses the Pony process package for running external tools like Git and ponyc.
 * Uses a distinct shared VCS repo pool from per-project dependency workspace tree.
+* Uses the Pony process package for running external tools like Git and ponyc.
 
 ### Design
 
