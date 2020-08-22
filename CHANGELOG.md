@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add the ability to run a script after fetching or updating a dependency ([PR #151](https://github.com/ponylang/corral/pull/151))
 
 ### Changed
 
