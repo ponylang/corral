@@ -5,14 +5,17 @@ This is a survey of package and dependency management tools in a few languages, 
 ## Other Languages
 
 We can learn a lot by looking at other languages and their package managers. The Go community did an interesting comparison that can be found here:
-- https://docs.google.com/document/d/19HNnqMsETTdwwQd0I0zq2rg1IrJtaoFEA1B1OpJGNUg/edit
+
+- [https://docs.google.com/document/d/19HNnqMsETTdwwQd0I0zq2rg1IrJtaoFEA1B1OpJGNUg/edit](https://docs.google.com/document/d/19HNnqMsETTdwwQd0I0zq2rg1IrJtaoFEA1B1OpJGNUg/edit)
 
 And Rust has a nice way of specifying version constraints:
-- http://doc.crates.io/specifying-dependencies.html
+
+- [http://doc.crates.io/specifying-dependencies.html](http://doc.crates.io/specifying-dependencies.html)
 
 Go has gone through quite an evolution and eventually settled on a versioned module system:
-- https://go.googlesource.com/proposal/+/master/design/24301-versioned-go.md
-- https://github.com/golang/go/wiki/Modules
+
+- [https://go.googlesource.com/proposal/+/master/design/24301-versioned-go.md](https://go.googlesource.com/proposal/+/master/design/24301-versioned-go.md)
+- [https://github.com/golang/go/wiki/Modules](https://github.com/golang/go/wiki/Modules)
 
 ## Pony and Go
 
@@ -33,41 +36,42 @@ Go calls one aspect of their approach to managing dependent sources "vendoring" 
 The most popular dependency management tools in the Go ecosystem, plus Pony Stable:
 
 - Glide
-  - https://github.com/Masterminds/glide
+  - [https://github.com/Masterminds/glide](https://github.com/Masterminds/glide)
   - Mature and most popular
   - Very complete, supports semantic versions and ranges
   - A bit complex? Seems to have evolved and simplified since Go 1.6
   - Model: Packages contain Subpackages
 
 - Govendor
-  - https://github.com/kardianos/govendor
-  - https://github.com/kardianos/govendor/blob/master/doc/whitepaper.md
+  - [https://github.com/kardianos/govendor](https://github.com/kardianos/govendor)
+  - [https://github.com/kardianos/govendor/blob/master/doc/whitepaper.md](https://github.com/kardianos/govendor/blob/master/doc/whitepaper.md)
   - Mature and popular
   - Simple and easy to use, mixes well with the older GOPATH model
   - Missing some glide features like versioning constraints
   - Model: ? contains Packages. Maybe. Or is it flat?
 
 - Golang go dep (experiment)
-  - https://github.com/golang/dep
+  - [https://github.com/golang/dep](https://github.com/golang/dep)
   - Young but was intended to combine the community tools
   - Simplified command set: init, ensure, status, prune
   - Heavily relies on deriving project paths from package imports in source
   - Model: Projects contain Packages
 
 - Golang Modules: go mod
-  - https://github.com/golang/go/wiki/Modules
+  - [https://github.com/golang/go/wiki/Modules](https://github.com/golang/go/wiki/Modules)
   - Integrated into the standard language tooling
   - In the process of being adopted, is the default but users can opt out for one more rev
   - Can derive project paths from package imports in source
   - Model: Projects contain Packages
 
 - Pony Stable
-  - https://github.com/ponylang/pony-stable
+  - [https://github.com/ponylang/pony-stable](https://github.com/ponylang/pony-stable)
   - What Pony has now, and a great model to start with
   - Model: Bundles contain Packages
 
 This is a good feature matrix of the Go tools from the Glide repo:
-- https://github.com/Masterminds/glide/wiki/Go-Package-Manager-Comparison
+
+- [https://github.com/Masterminds/glide/wiki/Go-Package-Manager-Comparison](https://github.com/Masterminds/glide/wiki/Go-Package-Manager-Comparison)
 
 ## Models
 
@@ -99,6 +103,7 @@ They all have a similar model and comparable workflows.
 ## Commands and Workflows
 
 ### Getting started
+
 - create, init (glide)
   - Initialize a new project, creating a glide.yaml file.
 - init (govendor)
@@ -149,7 +154,7 @@ Stable creates the bundle.json on first add
   - Graph prints the module requirement graph (with replacements applied) in text form.
 - why (go mod)
   - Why shows a shortest path in the import graph from the main module to each of the listed packages.
-- - (stable)
+- (stable)
   - The bundle.json can be examined by hand.
 
 ### Adding packages to the working set
@@ -183,7 +188,7 @@ Stable creates the bundle.json on first add
 - tidy (go mod)
   - Tidy makes sure go.mod matches the source code in the module.
   - It adds any missing modules necessary to build the current module's packages and dependencies, and it removes unused modules that don't provide any relevant packages.
-- - (stable)
+- (stable)
   - See fetch below.
 
 ### Removing packages from the working set
@@ -199,7 +204,7 @@ Stable creates the bundle.json on first add
   - Prune the vendor tree of unused packages. (May be removed)
 - tidy (go mod)
   - (see above)
-- - (stable)
+- (stable)
   - The bundle.json can be edited by hand.
 
 ### Aliases or mirrors
@@ -247,7 +252,7 @@ Stable creates the bundle.json on first add
 - shell (govendor)
   - Run a "shell" to make multiple subcommands more efficient for large projects.
   - More like a repl for other govendor commands
-- - (go mod)
+- (go mod)
   - Standard go tools implicitly use the module system.
 - env (stable)
   - Execute the following shell command inside an environment with $PONYPATH set to include deps directories

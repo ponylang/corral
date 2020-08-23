@@ -13,28 +13,28 @@ On Pony and Corral and package dependency mananagement things we could change.
 - Relative uses. Packages in a bundle should use relative paths to use their sibling packages. This should always result in unambiguous usage of the package from the same version of the same bundle.
 
 - Corralled bundles would have their own corral.json that would supply the bundle details for resolving all the transitive package usages in the bundle project.
-   - The PONYPATH could have a form where we provided different roots for different bundles being compiled. For example, compiling bundle alpha that depends on bundles beta and gamma, and each of those in turn depend on a bundle delta that could be the same, or different version, or completely different but with the same package names.
-   - alpha/
-      - corral.json
-      - _corral/
-         - alpha/
-            - beta/
-               - pkg1 (delta is .corral/beta/delta)
-               - pkg2 (delta is .corral/beta/delta)
-            - gamma/
-               - pkg3 (delta is .corral/gamma/delta)
-               - pkg4 (delta is .corral/gamma/delta)
+  - The PONYPATH could have a form where we provided different roots for different bundles being compiled. For example, compiling bundle alpha that depends on bundles beta and gamma, and each of those in turn depend on a bundle delta that could be the same, or different version, or completely different but with the same package names.
+  - alpha/
+    - corral.json
+    - _corral/
+      - alpha/
         - beta/
-            - delta/
-                - pkg5
-                - pkg6
+          - pkg1 (delta is .corral/beta/delta)
+          - pkg2 (delta is .corral/beta/delta)
         - gamma/
-            - delta/
-                - pkg5’
-                - pkg7
-    - PONYPATH=...:alpha@~/alpha/_corral/alpha:beta@~/alpha/_corral/beta:gamma@~/alpha/_corral/gamma
-        - Qualified paths would include a bundle-name@path.
-        - Ponyc would only use this package root path when the bundle being compiled was bundle-name.
-        - Ponyc determines the current package’s bundle by walking up the package path until a dir path segment matched one of the bundle-names in the qualified path.
-    - An alternative form would be to leave off the bundle-name before the @, and just assume the last segment in the @path was the bundle-name.
-        - PONYPATH=...:@~/alpha/_corral/alpha:@~/alpha/_corral/beta:@~/alpha/_corral/gamma
+          - pkg3 (delta is .corral/gamma/delta)
+          - pkg4 (delta is .corral/gamma/delta)
+      - beta/
+        - delta/
+          - pkg5
+          - pkg6
+      - gamma/
+        - delta/
+          - pkg5’
+          - pkg7
+  - PONYPATH=...:alpha@~/alpha/_corral/alpha:beta@~/alpha/_corral/beta:gamma@~/alpha/_corral/gamma
+    - Qualified paths would include a bundle-name@path.
+    - Ponyc would only use this package root path when the bundle being compiled was bundle-name.
+    - Ponyc determines the current package’s bundle by walking up the package path until a dir path segment matched one of the bundle-names in the qualified path.
+  - An alternative form would be to leave off the bundle-name before the @, and just assume the last segment in the @path was the bundle-name.
+    - PONYPATH=...:@~/alpha/_corral/alpha:@~/alpha/_corral/beta:@~/alpha/_corral/gamma
