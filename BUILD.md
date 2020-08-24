@@ -2,7 +2,7 @@
 
 You will need `ponyc` in your PATH.
 
-### From Source (FreeBSD)
+## From Source (FreeBSD)
 
 ```bash
 git clone https://github.com/ponylang/corral
@@ -20,11 +20,11 @@ make
 sudo make install
 ```
 
-### From Source (Windows)
+## From Source (Windows)
 
 In PowerShell:
 
-```
+```powershell
 git clone https://github.com/ponylang/corral
 cd corral
 .\make.ps1 build
