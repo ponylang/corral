@@ -70,12 +70,14 @@ actor _Fetcher
         dep.version())
 
       let self: _Fetcher tag = this
-      let checkout_op = vcs.checkout_op(revision,
-        {(repo: Repo) => self.fetch_transitive_dep(dep.locator) })
+      let checkout_op = vcs.checkout_op(revision, {
+          (repo: Repo) => 
+            self.fetch_transitive_dep(dep.locator) 
+            PostFetchScript(ctx, repo)
+        } val)
       let fetch_op = vcs.sync_op(checkout_op)
 
       fetch_op(repo)
-      PostFetchScript(ctx, repo)
     else
       ctx.uout.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
     end

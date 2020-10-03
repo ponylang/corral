@@ -98,6 +98,7 @@ actor _Updater
     let checkout_op = vcs.checkout_op(revision, {
         (repo: Repo) =>
           self.load_transitive_dep(locator)
+          PostFetchScript(ctx, repo)
       } val)
 
     let tag_query_op = vcs.tag_query_op({
@@ -111,7 +112,6 @@ actor _Updater
       } val
     let sync_op = vcs.sync_op(sync_handler)
     sync_op(repo)
-    PostFetchScript(ctx, repo)
 
     deps_loading(locator) = dep
 
