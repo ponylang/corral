@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Run PostFetchScript after fetch completion ([PR #160](https://github.com/ponylang/corral/pull/160))
 
 ### Added
 
