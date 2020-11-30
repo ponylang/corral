@@ -169,10 +169,10 @@ class _Collector is ProcessNotify
     None
 
   fun ref stdout(process: ProcessMonitor ref, data: Array[U8] iso) =>
-    _stdout.append(consume data)
+    _stdout.append(String.from_iso_array(consume data))
 
   fun ref stderr(process: ProcessMonitor ref, data: Array[U8] iso) =>
-    _stderr.append(consume data)
+    _stderr.append(String.from_iso_array(consume data))
 
   fun ref failed(process: ProcessMonitor ref, err: ProcessError) =>
     let cr = ActionResult.fail(err.string())

@@ -14,7 +14,11 @@ primitive Json
     | let e: FileErrNo => return e
     end
     let content: String = file.read_string(file.size())
-    //log.fine("Read: " + content + ".")
+    if file.errno() isnt FileOK then
+      log.err("Read File Error: ")
+      return JsonError
+    end
+    log.fine("Read: " + content + ". Size: " +file.size().string())
     let json: JsonDoc ref = JsonDoc
     try
       json.parse(content)?
