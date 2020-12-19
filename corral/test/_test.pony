@@ -29,3 +29,6 @@ actor Main is TestList
     test(integration.TestUpdateScripts)
 
     cmd.Main.make().tests(test)
+
+  fun @runtime_override_defaults(rto: RuntimeOptions) =>
+    rto.ponynoblock = true
