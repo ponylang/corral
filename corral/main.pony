@@ -52,3 +52,6 @@ actor Main
     Executor.execute(
       command._1, env, log, command._2,
       cmd.option("nothing").bool(), cmd.option("bundle_dir").string())
+
+  fun @runtime_override_defaults(rto: RuntimeOptions) =>
+    rto.ponynoblock = true
