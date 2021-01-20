@@ -1,16 +1,16 @@
-name: vs-ponyc-latest
+name: ponyc update breakage test
 
 on:
-  schedule:
-    - cron: "0 2 * * *"
+  repository_dispatch:
+    types: [shared-docker-linux-builders-updated]
 
 jobs:
-  vs-ponyc-master:
-    name: Verify master against ponyc master
+  vs-latest-ponyc:
+    name: Verify master against the latest ponyc
     runs-on: ubuntu-latest
     container:
       image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
     steps:
       - uses: actions/checkout@v1
-      - name: Test with against ponyc master
-        run: make test
+      - name: Test
+        run: make test config=debug
