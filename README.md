@@ -4,8 +4,6 @@
 
 ## Status
 
-[![Actions Status](https://github.com/ponylang/corral/workflows/vs-ponyc-latest/badge.svg)](https://github.com/ponylang/corral/actions)
-
 Corral is beta level software.
 
 ## About Corral
