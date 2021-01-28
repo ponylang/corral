@@ -2,7 +2,7 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.4.1] - 2021-01-28
 
 ### Fixed
 
@@ -12,9 +12,6 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Add documentation_url to `info` section of `corral.json` ([PR #166](https://github.com/ponylang/corral/pull/166))
-
-### Changed
-
 
 ## [0.4.0] - 2020-08-22
 
