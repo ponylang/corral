@@ -4,7 +4,7 @@ Corral was executing the bundle scripts while the git repository was being fetch
 
 The fix waits for the repository to be successfully fetched before executing the bundle scripts.
 
-## Don't remember empty optional fields from corral.json
+## Don't remove empty optional fields from corral.json
 
 Empty "info" object fields were previously removed from corral.json. This made it hard to know what additional information you should be providing as a library author.
 
