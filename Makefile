@@ -81,10 +81,10 @@ $(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
 	${PONYC} $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
 
 unit-tests: $(tests_binary)
-	$^ --exclude=integration
+	$^ --exclude=integration --ponymaxthreads=1
 
 integration: $(binary) $(tests_binary)
-	CORRAL_BIN=$$(pwd)/$(binary) $(tests_binary) --only=integration --sequential
+	CORRAL_BIN=$$(pwd)/$(binary) $(tests_binary) --only=integration --sequential --ponymaxthreads=1
 
 test: unit-tests integration
 
