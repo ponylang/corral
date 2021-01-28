@@ -42,6 +42,7 @@ The `corral.json` file is managed by the Corral tool, but can also be edited by 
   - **name**: The name of the bundle, which should be its canonical location. [is this redundant with its implicit location?]
   - **description**: More text description about the bundle.
   - **homepage**: URL of the bundle home page.
+  - **documentation_url**: URL of the documentation for the bundle
   - **license**: License type, e.g. BSD, MIT, Apache, etc., or URL to it.
   - **version**: The version of this bundle.
      [TODO: is this redundant with the tags + revision/commits? I think so.]
