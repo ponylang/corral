@@ -49,9 +49,7 @@ primitive Json
     end
 
   fun set_string(jo: JsonObject, name: String, value: String) =>
-    if value != "" then
-      jo.data(name) = value
-    end
+    jo.data(name) = value
 
   fun string_must(jt: JsonType box, name: String): String ? =>
     (jt as JsonObject box).data(name)? as String
