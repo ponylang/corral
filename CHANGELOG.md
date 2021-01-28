@@ -11,6 +11,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add documentation_url to `info` section of `corral.json` ([PR #166](https://github.com/ponylang/corral/pull/166))
 
 ### Changed
 
