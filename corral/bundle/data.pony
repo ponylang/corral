@@ -39,6 +39,7 @@ class InfoData
   var name: String
   var description: String
   var homepage: String
+  var documentation_url: String
   var license: String
   var version: String
 
@@ -46,6 +47,7 @@ class InfoData
     name = Json.string(jo, "name")
     description = Json.string(jo, "description")
     homepage = Json.string(jo, "homepage")
+    documentation_url =  Json.string(jo, "documentation_url")
     license = Json.string(jo, "license")
     version = Json.string(jo, "version")
 
@@ -54,6 +56,7 @@ class InfoData
     Json.set_string(jo, "name", name)
     Json.set_string(jo, "description", description)
     Json.set_string(jo, "homepage", homepage)
+    Json.set_string(jo, "documentation_url", documentation_url)
     Json.set_string(jo, "license", license)
     Json.set_string(jo, "version", version)
     jo
