@@ -2,6 +2,7 @@ use "json"
 
 class BundleData
   let info: InfoData
+  let packages: Array[String]
   let deps: Array[DepData]
   let scripts: (ScriptsData | None)
 
@@ -9,6 +10,13 @@ class BundleData
     // TODO: iterate over jo's map and verify we just have "info" or "deps"
     // https://github.com/ponylang/corral/issues/64
     info = InfoData(Json.objekt(jo, "info"))
+
+    packages = Array[String]
+    let packages_array = Json.array(jo, "packages")
+    for pjt in packages_array.data.values() do
+      let s = try pjt as String else "" end
+      packages.push(s)
+    end
 
     deps = Array[DepData]
     let bundles_array = Json.array(jo, "deps")

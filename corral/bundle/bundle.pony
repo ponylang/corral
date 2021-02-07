@@ -11,6 +11,7 @@ class Bundle
   let dir: FilePath
   let log: Log
   let info: InfoData
+  let packages: Array[String]
   let deps: Map[String, Dep ref] = deps.create()
   let scripts: (ScriptsData | None)
   var modified: Bool = false
@@ -19,6 +20,7 @@ class Bundle
     dir = dir'
     log = log'
     info = InfoData(JsonObject)
+    packages = Array[String]
     log.info("Created bundle in " + dir.path)
     scripts = None
     modified = true
@@ -39,6 +41,7 @@ class Bundle
       end
     info = data.info
     scripts = data.scripts
+    packages = data.packages
 
     let lm = Map[String, LockData]
     try
@@ -109,11 +112,19 @@ class Bundle
   fun bundle_json(): JsonObject =>
     let jo: JsonObject = JsonObject
     jo.data("info") = info.json()
+
+    let packages_array = recover ref JsonArray end
+    for p in packages.values() do
+      packages_array.data.push(p)
+    end
+    jo.data("packages") = packages_array
+
     let deps_array = recover ref JsonArray end
     for d in deps.values() do
       deps_array.data.push(d.data.json())
     end
     jo.data("deps") = deps_array
+
     try
       jo.data("scripts") = (scripts as this->ScriptsData).json()
     end
