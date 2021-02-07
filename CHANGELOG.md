@@ -2,17 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.4.2] - 2021-02-07
 
 ### Added
 
 - Add new `packages` field to corral.json ([PR #167](https://github.com/ponylang/corral/pull/167))
-
-### Changed
-
 
 ## [0.4.1] - 2021-01-28
 
