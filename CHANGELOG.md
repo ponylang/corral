@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add new `packages` field to corral.json ([PR #167](https://github.com/ponylang/corral/pull/167))
 
 ### Changed
 
