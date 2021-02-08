@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Switch default branch to use when none is supplied to 'main` ([PR #171](https://github.com/ponylang/corral/pull/171))
 
 ## [0.4.2] - 2021-02-07
 
