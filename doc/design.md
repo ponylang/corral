@@ -99,7 +99,7 @@ The `lock.json` file contains:
 
 - add : Adds one or more bundles to the corral.
   - At minimum the bundle location must be specified
-  - Version constraints may be specified; default is to just use `master@head`.
+  - Version constraints may be specified; default is to just use `main@head`.
   - Package list may be specified; default is to include all packages from the bundle.
 
 - remove : Removes one or more bundles from the corral.

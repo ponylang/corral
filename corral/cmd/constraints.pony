@@ -60,7 +60,7 @@ primitive Constraints
     else
       try
         Constraints._parse_constraints(version)?
-        "master" // Is a constraint: use master until update.
+        "master" // Is a constraint: use main until update.
       else
         if version != "" then
           version  // Version is not a constraint, use that.

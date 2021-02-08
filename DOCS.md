@@ -78,7 +78,7 @@ corral update
 
 ```console
 git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
-git checking out @master into _corral/github_com_jemc_pony_inspect
+git checking out @main into _corral/github_com_jemc_pony_inspect
 ```
 
 ## Fetch dependencies
@@ -93,7 +93,7 @@ corral fetch
 
 ```console
 git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
-git checking out @master into _corral/github_com_jemc_pony_inspect
+git checking out @main into _corral/github_com_jemc_pony_inspect
 ```
 
 ## Compile With a Corral
