@@ -34,18 +34,6 @@ As documented above, a release is started by pushing a tag of the form `release-
 
 The release process can be manually restarted from here by pushing a tag of the form `x.y.z`. The pushed tag must be on the commit to build the release artifacts from. During the normal process, that commit is the same as the one that `release-x.y.z`.
 
-### Updating Homebrew
-
-Fork the [homebrew-core repo](https://github.com/Homebrew/homebrew-core) and then clone it locally. You are going to be editing "Formula/corral.rb". If you already have a local copy of homebrew-core, make sure you sync up with the main Homebrew repo otherwise you might change an older version of the formula and end up with merge conflicts.
-
-Make sure you do your changes on a branch:
-
-* git checkout -b corral-0.3.1
-
-HomeBrew has [directions](https://github.com/Homebrew/homebrew-core/blob/main/CONTRIBUTING.md#submit-a-123-version-upgrade-for-the-foo-formula) on what specifically you need to update in a formula to account for an upgrade. If you are on macOS and are unsure of how to get the SHA of the release .tar.gz, download the release file (make sure it does unzip it) and run `shasum -a 256 corral-0.3.1.tar.gz`. If you are on macOS, its quite possible it will try to unzip the file on your. In Safari, right clicking and selecting "Download Linked File" will get your the complete .tar.gz.
-
-After updating the corral formula, push to your fork and open a PR against homebrew-core. According to the homebrew team, their preferred naming for such PRs is `corral 0.3.1` that is, the name of the formula being updated followed by the new version number.
-
 ## Announce release
 
 The release process can be manually restarted from here by push a tag of the form `announce-x.y.z`. The tag must be on a commit that is after "Release x.y.z" commit that was generated during the `Start a release` portion of the process.
