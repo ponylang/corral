@@ -71,6 +71,7 @@ class TestUpdateScripts is UnitTest
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
         ifdef windows then
+          @printf[I32]("stdout: %s\n".cstring(), ar.stdout.cstring())
           h.assert_true(ar.stdout.contains("Success Windows!"))
         else
           h.assert_true(ar.stdout.contains("Success POSIX!"))
