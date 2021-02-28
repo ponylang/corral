@@ -92,6 +92,7 @@ integration: $(binary) $(tests_binary)
 test: unit-tests integration
 
 clean:
+	rm -rf $(docs_dir)
 	rm -rf $(BUILD_DIR)
 
 $(docs_dir): $(SOURCE_FILES)
