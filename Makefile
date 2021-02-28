@@ -5,10 +5,13 @@ arch ?=
 static ?= false
 linker ?=
 
+BUNDLE := corral
+
 BUILD_DIR ?= build/$(config)
 SRC_DIR ?= corral
 binary := $(BUILD_DIR)/corral
 tests_binary := $(BUILD_DIR)/test
+docs_dir := build/$(BUNDLE)-docs
 
 ifdef config
   ifeq (,$(filter $(config),debug release))
@@ -90,6 +93,12 @@ test: unit-tests integration
 
 clean:
 	rm -rf $(BUILD_DIR)
+
+$(docs_dir): $(SOURCE_FILES)
+	rm -rf $(docs_dir)
+	$(PONYC) --docs-public --pass=docs --output build $(SRC_DIR)
+
+docs: $(docs_dir)
 
 all: test $(binary)
 

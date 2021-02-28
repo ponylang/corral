@@ -1,0 +1,21 @@
+name: Manually generate documentation
+
+on:
+  workflow_dispatch
+
+jobs:
+  generate-documentation:
+    name: Generate documentation for release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Generate documentation and upload
+        uses: ponylang/library-documentation-action@0.1.5
+        with:
+          site_url: "https://ponylang.github.io/corral/"
+          library_name: "corral"
+          docs_build_dir: "build/corral-docs"
+          git_user_name: "Ponylang Main Bot"
+          git_user_email: "ponylang.main@gmail.com"
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
