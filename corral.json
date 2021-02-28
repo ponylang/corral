@@ -1,0 +1,20 @@
+{
+  "packages": [
+    "corral",
+    "corral/bundle",
+    "corral/cmd",
+    "corral/semver",
+    "corral/test",
+    "corral/util",
+    "corral/vcs"
+  ],
+  "deps": [],
+  "info": {
+    "description": "Dependency management for Pony",
+    "homepage": "https://github.com/ponylang/corral",
+    "license": "BSD-2-Clause",
+    "documentation_url": "https://ponylang.github.io/corral/",
+    "version": "0.5.0",
+    "name": "corral"
+  }
+}

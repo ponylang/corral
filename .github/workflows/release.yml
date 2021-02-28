@@ -65,10 +65,31 @@ jobs:
       - name: Build and push
         run: bash .ci-scripts/release/build-docker-images-on-release.bash
 
+  generate-documentation:
+    name: Generate documentation for release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Generate documentation and upload
+        uses: ponylang/library-documentation-action@0.1.5
+        with:
+          site_url: "https://ponylang.github.io/corral/"
+          library_name: "corral"
+          docs_build_dir: "build/corral-docs"
+          git_user_name: "Ponylang Main Bot"
+          git_user_email: "ponylang.main@gmail.com"
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+
   trigger-release-announcement:
     name: Trigger release announcement
     runs-on: ubuntu-latest
-    needs: [x86-64-unknown-linux-release, x86-64-apple-darwin-release, x86-64-pc-windows-msvc-release,  build-release-docker-images]
+    needs:
+      - x86-64-unknown-linux-release
+      - x86-64-apple-darwin-release
+      - x86-64-pc-windows-msvc-release
+      - build-release-docker-images
+      - generate_documentation
     steps:
       - uses: actions/checkout@v1
       - name: Trigger
