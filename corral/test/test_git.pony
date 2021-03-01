@@ -1,5 +1,9 @@
 use "ponytest"
 use "../vcs"
+use "../util"
+
+actor _GitParseTagsResultReceiver is RepoOperationResultReceiver
+  be reportError(repo: Repo, actionResult: ActionResult) => None
 
 class TestGitParseTags is UnitTest
   fun name(): String => "git/parse-tags"
@@ -27,7 +31,7 @@ class TestGitParseTags is UnitTest
 
     let git = GitVCS(h.env)?
     let rcv = {(repo: Repo, tags: Array[String] val) => None}
-    let res = GitQueryTags(git, consume rcv).parse_tags(stdout)
+    let res = GitQueryTags(git, _GitParseTagsResultReceiver.create(), consume rcv).parse_tags(stdout)
     for pair in expect.pairs() do
       (let i: USize, let expected: String) = pair
       h.assert_eq[String](expected, res(i)?)

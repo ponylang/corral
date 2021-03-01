@@ -151,13 +151,13 @@ class val _RecordedVCS is VCS
   new val create(recorder: _OpsRecorder) =>
     _recorder = recorder
 
-  fun val sync_op(next: RepoOperation): RepoOperation =>
+  fun val sync_op(resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation =>
     _RecordedSync(_recorder, next)
 
-  fun val tag_query_op(receiver: TagListReceiver): RepoOperation =>
+  fun val tag_query_op(resultReceiver: RepoOperationResultReceiver, receiver: TagListReceiver): RepoOperation =>
     _RecordedTagQuery(_recorder, receiver)
 
-  fun val checkout_op(rev: String, next: RepoOperation): RepoOperation =>
+  fun val checkout_op(rev: String, resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation =>
     _RecordedCheckout(_recorder, next)
 
 

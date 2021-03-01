@@ -23,7 +23,7 @@ class CmdUpdate is CmdType
       ctx.env.exitcode(1)
     end
 
-actor _Updater
+actor _Updater is RepoOperationResultReceiver
   let ctx: Context
   let project: Project
   let base_bundle: Bundle ref
@@ -81,6 +81,11 @@ actor _Updater
       _results_receiver.cmd_completed()
     end
 
+  be reportError(repo: Repo, actionResult : ActionResult) =>
+    ctx.env.err.print("Error loading dep: " + repo.string())
+    actionResult.print_to(ctx.env.err)
+    ctx.env.exitcode(actionResult.exit_code())
+
   fun ref load_dep(dep: Dep) ? =>
     let vcs = _vcs_builder(dep.vcs())?
     let repo = RepoForDep(ctx, project, dep)?
@@ -95,13 +100,13 @@ actor _Updater
       dep.revision(),
       dep.version())
 
-    let checkout_op = vcs.checkout_op(revision, {
+    let checkout_op = vcs.checkout_op(revision, this, {
         (repo: Repo) =>
           self.load_transitive_dep(locator)
           PostFetchScript(ctx, repo)
       } val)
 
-    let tag_query_op = vcs.tag_query_op({
+    let tag_query_op = vcs.tag_query_op(this, {
         (repo: Repo, tags: Array[String] val) =>
           self.collect_dep_tags(locator, tags)
           checkout_op(repo)
@@ -110,7 +115,7 @@ actor _Updater
     let sync_handler = {(repo: Repo) =>
         tag_query_op(repo)
       } val
-    let sync_op = vcs.sync_op(sync_handler)
+    let sync_op = vcs.sync_op(this, sync_handler)
     sync_op(repo)
 
     deps_loading(locator) = dep

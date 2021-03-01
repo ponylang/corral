@@ -13,22 +13,24 @@ class val GitVCS is VCS
     env = env'
     prog = Program(env, ifdef windows then "git.exe" else "git" end)?
 
-  fun val sync_op(next: RepoOperation): RepoOperation =>
-    GitSyncRepo(this, next)
+  fun val sync_op(resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation =>
+    GitSyncRepo(this, resultReceiver, next)
 
-  fun val tag_query_op(next: TagListReceiver): RepoOperation =>
-    GitQueryTags(this, next)
+  fun val tag_query_op(resultReceiver: RepoOperationResultReceiver, next: TagListReceiver): RepoOperation =>
+    GitQueryTags(this, resultReceiver, next)
 
-  fun val checkout_op(rev: String, next: RepoOperation): RepoOperation =>
-    GitCheckoutRepo(this, rev, next)
+  fun val checkout_op(rev: String, resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation =>
+    GitCheckoutRepo(this, rev, resultReceiver, next)
 
 class val GitSyncRepo is RepoOperation
   let git: GitVCS
   let next: RepoOperation
+  let resultReceiver: RepoOperationResultReceiver
 
-  new val create(git': GitVCS, next': RepoOperation) =>
+  new val create(git': GitVCS, resultReceiver': RepoOperationResultReceiver, next': RepoOperation) =>
     git = git'
     next = next'
+    resultReceiver = resultReceiver'
 
   fun val apply(repo: Repo) =>
     if repo.is_remote() then
@@ -55,8 +57,7 @@ class val GitSyncRepo is RepoOperation
       if ar.successful() then
         next(repo)
       else
-        ar.print_to(git.env.err)
-        git.env.exitcode(ar.exit_code())
+        resultReceiver.reportError(repo, ar)
       end
     } iso)
 
@@ -68,8 +69,7 @@ class val GitSyncRepo is RepoOperation
       if ar.successful() then
         next(repo)
       else
-        ar.print_to(git.env.err)
-        git.env.exitcode(ar.exit_code())
+        resultReceiver.reportError(repo, ar)
       end
     } iso)
 
@@ -77,14 +77,15 @@ class val GitSyncRepo is RepoOperation
 class val GitQueryTags is RepoOperation
   let git: GitVCS
   let next: TagListReceiver
+  let resultReceiver : RepoOperationResultReceiver
 
-  new val create(git': GitVCS, next': TagListReceiver) =>
+  new val create(git': GitVCS, resultReceiver': RepoOperationResultReceiver, next': TagListReceiver) =>
     git = git'
     next = next'
+    resultReceiver = resultReceiver'
 
   fun val apply(repo: Repo) =>
     _get_tags(repo)
-
 
   fun val _get_tags(repo: Repo) =>
     let action = Action(git.prog,
@@ -94,8 +95,7 @@ class val GitQueryTags is RepoOperation
       if ar.successful() then
         self._parse_tags(ar, repo)
       else
-        ar.print_to(git.env.err)
-        git.env.exitcode(ar.exit_code())
+        resultReceiver.reportError(repo, ar)
       end
     } iso)
 
@@ -124,11 +124,13 @@ class val GitCheckoutRepo is RepoOperation
   let git: GitVCS
   let rev: String
   let next: RepoOperation
+  let resultReceiver: RepoOperationResultReceiver
 
-  new val create(git': GitVCS, rev': String, next': RepoOperation) =>
+  new val create(git': GitVCS, rev': String, resultReceiver': RepoOperationResultReceiver, next': RepoOperation) =>
     git = git'
     rev = rev'
     next = next'
+    resultReceiver = resultReceiver'
 
   fun val apply(repo: Repo) =>
     git.env.err.print("git checking out @" + rev + " into " + repo.workspace.path)
@@ -143,8 +145,7 @@ class val GitCheckoutRepo is RepoOperation
       if ar.successful() then
         self._checkout_to_workspace(repo)
       else
-        ar.print_to(git.env.err)
-        git.env.exitcode(ar.exit_code())
+        resultReceiver.reportError(repo, ar)
       end
     } iso)
 
@@ -153,9 +154,9 @@ class val GitCheckoutRepo is RepoOperation
     //"git", "checkout-index", "-f", "-a", "--prefix="+path)
     if not repo.workspace.exists() then
       if not repo.workspace.mkdir(true) then
-        git.env.err.print(
-          "Unable to create directory '" + repo.workspace.path + "'")
-        git.env.exitcode(1)
+        resultReceiver.reportError(repo, ActionResult.fail(
+          "Unable to create directory '" + repo.workspace.path + "'"
+        ))
         // exit without advancing to the next operation
         return
       end
@@ -173,8 +174,7 @@ class val GitCheckoutRepo is RepoOperation
       if ar.successful() then
         self._done(ar, repo)
       else
-        ar.print_to(git.env.err)
-        git.env.exitcode(ar.exit_code())
+        resultReceiver.reportError(repo, ar)
       end
     } iso)
 

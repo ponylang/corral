@@ -266,3 +266,28 @@ class TestFetchRemoteGits is UnitTest
           h.complete(ar.exit_code() == 0)
         end
       })
+
+
+class TestFetchBadGitReference is UnitTest
+  var data: (DataClone | DataNone) = DataNone
+
+  fun name(): String => "integration/fetch/bad-git-reference"
+
+  fun ref set_up(h: TestHelper val) ? =>
+    data = DataClone(h, "bad-git-reference")?
+
+  fun tear_down(h: TestHelper val) => data.cleanup(h)
+
+  fun apply(h: TestHelper) ? =>
+    h.long_test(10_000_000_000)
+    Execute(h,
+      recover [
+        "fetch"
+        "--verbose"
+        "--bundle_dir"; Data(h, "bad-git-reference")?.path
+      ] end,
+      {(h: TestHelper, ar: ActionResult)(data=data) =>
+        h.assert_eq[I32](128, ar.exit_code())
+
+        h.complete(true)
+      })

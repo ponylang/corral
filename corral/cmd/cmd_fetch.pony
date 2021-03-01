@@ -24,11 +24,12 @@ class CmdFetch is CmdType
       ctx.env.exitcode(1)
     end
 
-actor _Fetcher
+actor _Fetcher is RepoOperationResultReceiver
   let ctx: Context
   let project: Project
   let base_bundle: Bundle val
   let fetched: Set[Locator] = fetched.create()
+  let repo_to_dep: Map[String, Dep val] = repo_to_dep.create()
 
   let _vcs_builder: VCSBuilder
 
@@ -59,10 +60,20 @@ actor _Fetcher
       end
     end
 
-  fun fetch_dep(dep: Dep val) =>
+  be reportError(repo: Repo, actionResult : ActionResult) =>
+    try
+      let dep = repo_to_dep(repo.string())?
+      ctx.env.err.print("Error loading dep: " + dep.name())
+      actionResult.print_to(ctx.env.err)
+      ctx.env.exitcode(actionResult.exit_code())
+    end
+
+  fun ref fetch_dep(dep: Dep val) =>
     try
       let vcs = _vcs_builder(dep.vcs())?
       let repo = RepoForDep(ctx, project, dep)?
+
+      repo_to_dep(repo.string()) = dep
 
       let revision = Constraints.best_revision(
         base_bundle.dep_revision(dep.locator.string()),
@@ -70,12 +81,12 @@ actor _Fetcher
         dep.version())
 
       let self: _Fetcher tag = this
-      let checkout_op = vcs.checkout_op(revision, {
+      let checkout_op = vcs.checkout_op(revision, this, {
           (repo: Repo) => 
             self.fetch_transitive_dep(dep.locator) 
             PostFetchScript(ctx, repo)
         } val)
-      let fetch_op = vcs.sync_op(checkout_op)
+      let fetch_op = vcs.sync_op(this, checkout_op)
 
       fetch_op(repo)
     else
