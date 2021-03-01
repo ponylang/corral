@@ -81,3 +81,25 @@ class TestUpdateScripts is UnitTest
         end
         h.complete(ar.exit_code() == 0)
       })
+
+
+class TestUpdateBadGitReference is UnitTest
+  var data: (DataClone | DataNone) = DataNone
+
+  fun name(): String => "integration/update/bad-git-reference"
+
+  fun ref set_up(h: TestHelper val) ? =>
+    data = DataClone(h, "bad-git-reference")?
+
+  fun tear_down(h: TestHelper val) =>
+    data.cleanup(h)
+
+  fun apply(h: TestHelper) =>
+    h.long_test(32_000_000_000)
+    Execute(h,
+      recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
+      {(h: TestHelper, ar: ActionResult) =>
+        h.assert_eq[I32](128, ar.exit_code())
+
+        h.complete(true)
+      })

@@ -1,4 +1,5 @@
 use "files"
+use "../util"
 
 class val Repo
   """
@@ -27,9 +28,9 @@ interface val VCS
   A Vcs provides functions to perform high-level VCS operations that commands
   use to work with repos.
   """
-  fun val sync_op(next: RepoOperation): RepoOperation
-  fun val tag_query_op(receiver: TagListReceiver): RepoOperation
-  fun val checkout_op(rev: String, next: RepoOperation): RepoOperation
+  fun val sync_op(resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation
+  fun val tag_query_op(resultReceiver: RepoOperationResultReceiver, receiver: TagListReceiver): RepoOperation
+  fun val checkout_op(rev: String, resultReceiver: RepoOperationResultReceiver, next: RepoOperation): RepoOperation
 
 interface val RepoOperation
   """
@@ -38,6 +39,9 @@ interface val RepoOperation
   single given Repo and are initiated with apply().
   """
   fun val apply(repo: Repo)
+
+interface tag RepoOperationResultReceiver
+  be reportError(repo: Repo, actionResult: ActionResult)
 
 interface val TagListReceiver
   fun apply(repo: Repo, tags: Array[String] val)
