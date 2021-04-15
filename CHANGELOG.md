@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Switch supported FreeBSD to 13.0 ([PR #183](https://github.com/ponylang/corral/pull/183))
 
 ## [0.5.0] - 2021-02-27
 
