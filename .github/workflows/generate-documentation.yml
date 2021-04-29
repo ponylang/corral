@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate documentation and upload
-        uses: ponylang/library-documentation-action@0.1.5
+        uses: docker://ponylang/library-documentation-action:0.1.6
         with:
           site_url: "https://ponylang.github.io/corral/"
           library_name: "corral"
