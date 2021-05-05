@@ -44,7 +44,7 @@ class CmdRun is CmdType
     try
       let prog = Program(ctx.env, args(0)?)?
       let vars = if ponypath.size() > 0 then
-          recover val ["PONYPATH=" + ponypath] .> append(ctx.env.vars) end
+          recover val [as String: "PONYPATH=" + ponypath] .> append(ctx.env.vars) end
         else
           ctx.env.vars
         end

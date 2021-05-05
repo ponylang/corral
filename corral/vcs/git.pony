@@ -47,7 +47,7 @@ class val GitSyncRepo is RepoOperation
     end
 
   fun val _clone(repo: Repo) =>
-    let remote_uri = "https://" + repo.remote
+    let remote_uri = recover val "https://" + repo.remote end
     // Maybe: --recurse-submodules --quiet --verbose
     let action = Action(git.prog,
       recover ["clone"; "--no-checkout"; remote_uri; repo.local.path] end,
