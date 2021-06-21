@@ -89,7 +89,7 @@ jobs:
       - x86-64-apple-darwin-release
       - x86-64-pc-windows-msvc-release
       - build-release-docker-images
-      - generate_documentation
+      - generate-documentation
     steps:
       - uses: actions/checkout@v1
       - name: Trigger
