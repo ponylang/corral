@@ -1414,6 +1414,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../corral-vcs-RepoOperationResultReceiver/" title="interface RepoOperationResultReceiver" class="md-nav__link">
+      interface RepoOperationResultReceiver
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../corral-vcs-TagListReceiver/" title="interface TagListReceiver" class="md-nav__link">
       interface TagListReceiver
     </a>
@@ -1804,7 +1816,7 @@
                 
                 
                 <h1 id="tagqueryprinter">TagQueryPrinter<a class="headerlink" href="#tagqueryprinter" title="Permanent link">&para;</a></h1>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L45">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L49">[Source]</a></span></p>
 <pre><code class="language-pony">class ref TagQueryPrinter is
   TagListReceiver val
 </code></pre>
@@ -1815,7 +1827,7 @@
 <hr />
 <h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
 <h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L47">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L51">[Source]</a></span></p>
 <pre><code class="language-pony">new ref create(
   out': OutStream tag)
 : TagQueryPrinter ref^
@@ -1831,11 +1843,11 @@
 <hr />
 <h2 id="public-fields">Public fields<a class="headerlink" href="#public-fields" title="Permanent link">&para;</a></h2>
 <h3 id="let-out-outstream-tag">let out: <a href="https://stdlib.ponylang.io/builtin-OutStream/">OutStream</a> tag<a class="headerlink" href="#let-out-outstream-tag" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L46">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L50">[Source]</a></span></p>
 <hr />
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <h3 id="apply">apply<a class="headerlink" href="#apply" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L48">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L52">[Source]</a></span></p>
 <pre><code class="language-pony">fun box apply(
   repo: Repo val,
   tags: Array[String val] val)

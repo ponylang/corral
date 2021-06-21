@@ -1414,6 +1414,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../corral-vcs-RepoOperationResultReceiver/" title="interface RepoOperationResultReceiver" class="md-nav__link">
+      interface RepoOperationResultReceiver
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../corral-vcs-TagListReceiver/" title="interface TagListReceiver" class="md-nav__link">
       interface TagListReceiver
     </a>
@@ -1853,11 +1865,13 @@
 <h3 id="sync_op">sync_op<a class="headerlink" href="#sync_op" title="Permanent link">&para;</a></h3>
 <p><span class="source-link"><a href="src/corral-vcs/bzr.md#L7">[Source]</a></span></p>
 <pre><code class="language-pony">fun val sync_op(
+  resultReceiver: RepoOperationResultReceiver tag,
   next: RepoOperation val)
 : RepoOperation val
 </code></pre>
 <h4 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h4>
 <ul>
+<li>resultReceiver: <a href="../corral-vcs-RepoOperationResultReceiver/">RepoOperationResultReceiver</a> tag</li>
 <li>next: <a href="../corral-vcs-RepoOperation/">RepoOperation</a> val</li>
 </ul>
 <h4 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h4>
@@ -1868,11 +1882,13 @@
 <h3 id="tag_query_op">tag_query_op<a class="headerlink" href="#tag_query_op" title="Permanent link">&para;</a></h3>
 <p><span class="source-link"><a href="src/corral-vcs/bzr.md#L9">[Source]</a></span></p>
 <pre><code class="language-pony">fun val tag_query_op(
+  resultReceiver: RepoOperationResultReceiver tag,
   next: TagListReceiver val)
 : RepoOperation val
 </code></pre>
 <h4 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h4>
 <ul>
+<li>resultReceiver: <a href="../corral-vcs-RepoOperationResultReceiver/">RepoOperationResultReceiver</a> tag</li>
 <li>next: <a href="../corral-vcs-TagListReceiver/">TagListReceiver</a> val</li>
 </ul>
 <h4 id="returns_2">Returns<a class="headerlink" href="#returns_2" title="Permanent link">&para;</a></h4>
@@ -1884,12 +1900,14 @@
 <p><span class="source-link"><a href="src/corral-vcs/bzr.md#L11">[Source]</a></span></p>
 <pre><code class="language-pony">fun val checkout_op(
   rev: String val,
+  resultReceiver: RepoOperationResultReceiver tag,
   next: RepoOperation val)
 : RepoOperation val
 </code></pre>
 <h4 id="parameters_2">Parameters<a class="headerlink" href="#parameters_2" title="Permanent link">&para;</a></h4>
 <ul>
 <li>rev: <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val</li>
+<li>resultReceiver: <a href="../corral-vcs-RepoOperationResultReceiver/">RepoOperationResultReceiver</a> tag</li>
 <li>next: <a href="../corral-vcs-RepoOperation/">RepoOperation</a> val</li>
 </ul>
 <h4 id="returns_3">Returns<a class="headerlink" href="#returns_3" title="Permanent link">&para;</a></h4>

@@ -1546,6 +1546,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../corral-vcs-RepoOperationResultReceiver/" title="interface RepoOperationResultReceiver" class="md-nav__link">
+      interface RepoOperationResultReceiver
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../corral-vcs-TagListReceiver/" title="interface TagListReceiver" class="md-nav__link">
       interface TagListReceiver
     </a>
@@ -1840,13 +1852,13 @@
                 
                 
                 <h1 id="repo">Repo<a class="headerlink" href="#repo" title="Permanent link">&para;</a></h1>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L3">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L4">[Source]</a></span></p>
 <p>Generalized details for any kind of VCS repo.</p>
 <pre><code class="language-pony">class val Repo
 </code></pre>
 <h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
 <h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L11">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L12">[Source]</a></span></p>
 <pre><code class="language-pony">new val create(
   remote': String val,
   local': FilePath val,
@@ -1866,17 +1878,17 @@
 <hr />
 <h2 id="public-fields">Public fields<a class="headerlink" href="#public-fields" title="Permanent link">&para;</a></h2>
 <h3 id="let-remote-string-val">let remote: <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val<a class="headerlink" href="#let-remote-string-val" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L7">[Source]</a></span></p>
-<hr />
-<h3 id="let-local-filepath-val">let local: <a href="https://stdlib.ponylang.io/files-FilePath/">FilePath</a> val<a class="headerlink" href="#let-local-filepath-val" title="Permanent link">&para;</a></h3>
 <p><span class="source-link"><a href="src/corral-vcs/vcs.md#L8">[Source]</a></span></p>
 <hr />
-<h3 id="let-workspace-filepath-val">let workspace: <a href="https://stdlib.ponylang.io/files-FilePath/">FilePath</a> val<a class="headerlink" href="#let-workspace-filepath-val" title="Permanent link">&para;</a></h3>
+<h3 id="let-local-filepath-val">let local: <a href="https://stdlib.ponylang.io/files-FilePath/">FilePath</a> val<a class="headerlink" href="#let-local-filepath-val" title="Permanent link">&para;</a></h3>
 <p><span class="source-link"><a href="src/corral-vcs/vcs.md#L9">[Source]</a></span></p>
+<hr />
+<h3 id="let-workspace-filepath-val">let workspace: <a href="https://stdlib.ponylang.io/files-FilePath/">FilePath</a> val<a class="headerlink" href="#let-workspace-filepath-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L10">[Source]</a></span></p>
 <hr />
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <h3 id="string">string<a class="headerlink" href="#string" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L20">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L21">[Source]</a></span></p>
 <pre><code class="language-pony">fun box string()
 : String val
 </code></pre>
@@ -1886,7 +1898,7 @@
 </ul>
 <hr />
 <h3 id="is_remote">is_remote<a class="headerlink" href="#is_remote" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L23">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/vcs.md#L24">[Source]</a></span></p>
 <pre><code class="language-pony">fun box is_remote()
 : Bool val
 </code></pre>

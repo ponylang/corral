@@ -1414,6 +1414,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../corral-vcs-RepoOperationResultReceiver/" title="interface RepoOperationResultReceiver" class="md-nav__link">
+      interface RepoOperationResultReceiver
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../corral-vcs-TagListReceiver/" title="interface TagListReceiver" class="md-nav__link">
       interface TagListReceiver
     </a>
@@ -1622,6 +1634,15 @@
 </li>
           
         
+          
+            <li class="md-nav__item">
+    <a href="#let-resultreceiver-repooperationresultreceiver-tag" title="let resultReceiver: RepoOperationResultReceiver tag" class="md-nav__link">
+    let resultReceiver: RepoOperationResultReceiver tag
+  </a>
+  
+</li>
+          
+        
       </ul>
     </nav>
   
@@ -1783,6 +1804,15 @@
 </li>
           
         
+          
+            <li class="md-nav__item">
+    <a href="#let-resultreceiver-repooperationresultreceiver-tag" title="let resultReceiver: RepoOperationResultReceiver tag" class="md-nav__link">
+    let resultReceiver: RepoOperationResultReceiver tag
+  </a>
+  
+</li>
+          
+        
       </ul>
     </nav>
   
@@ -1851,15 +1881,17 @@
 <hr />
 <h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
 <h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/git.md#L81">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/git.md#L82">[Source]</a></span></p>
 <pre><code class="language-pony">new val create(
   git': GitVCS val,
+  resultReceiver': RepoOperationResultReceiver tag,
   next': TagListReceiver val)
 : GitQueryTags val^
 </code></pre>
 <h4 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">&para;</a></h4>
 <ul>
 <li>git': <a href="../corral-vcs-GitVCS/">GitVCS</a> val</li>
+<li>resultReceiver': <a href="../corral-vcs-RepoOperationResultReceiver/">RepoOperationResultReceiver</a> tag</li>
 <li>next': <a href="../corral-vcs-TagListReceiver/">TagListReceiver</a> val</li>
 </ul>
 <h4 id="returns">Returns<a class="headerlink" href="#returns" title="Permanent link">&para;</a></h4>
@@ -1874,9 +1906,12 @@
 <h3 id="let-next-taglistreceiver-val">let next: <a href="../corral-vcs-TagListReceiver/">TagListReceiver</a> val<a class="headerlink" href="#let-next-taglistreceiver-val" title="Permanent link">&para;</a></h3>
 <p><span class="source-link"><a href="src/corral-vcs/git.md#L79">[Source]</a></span></p>
 <hr />
+<h3 id="let-resultreceiver-repooperationresultreceiver-tag">let resultReceiver: <a href="../corral-vcs-RepoOperationResultReceiver/">RepoOperationResultReceiver</a> tag<a class="headerlink" href="#let-resultreceiver-repooperationresultreceiver-tag" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="src/corral-vcs/git.md#L80">[Source]</a></span></p>
+<hr />
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <h3 id="apply">apply<a class="headerlink" href="#apply" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-vcs/git.md#L85">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-vcs/git.md#L87">[Source]</a></span></p>
 <pre><code class="language-pony">fun val apply(
   repo: Repo val)
 : None val
