@@ -1,4 +1,5 @@
 use "files"
+use "logger"
 use "ponytest"
 use "../bundle"
 use "../util"
@@ -7,7 +8,7 @@ class TestBundle is UnitTest
   fun name(): String => "bundle/bundle"
 
   fun apply(h: TestHelper) ? =>
-    let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
+    let log = StringLogger(Error, h.env.err, SimpleLogFormatter)
 
     h.assert_error(_BundleLoad(Data(h, "notfound!")?, log), "nonexistant directory")
     h.assert_error(_BundleLoad(Data(h, "empty-dir")?, log), "no bundle.json")
@@ -26,9 +27,9 @@ class TestBundle is UnitTest
 
 class _BundleLoad is ITest
   let path: FilePath
-  let log: Log
+  let log: Logger[String]
 
-  new create(path': FilePath, log': Log) =>
+  new create(path': FilePath, log': Logger[String]) =>
     path = path'
     log = log'
 
@@ -36,9 +37,9 @@ class _BundleLoad is ITest
 
 class _BundleCreate is ITest
   let path: FilePath
-  let log: Log
+  let log: Logger[String]
 
-  new create(path': FilePath, log': Log) =>
+  new create(path': FilePath, log': Logger[String]) =>
     path = path'
     log = log'
 

@@ -1,7 +1,7 @@
 use "cli"
 use "files"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdInfo is CmdType
@@ -13,12 +13,12 @@ class CmdInfo is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("info: from " + project.dir.path)
+    ctx.uout(Info) and ctx.uout.log("info: from " + project.dir.path)
 
     match project.load_bundle()
     | let bundle: Bundle =>
-      ctx.uout.info("info: " + bundle.info.json().string())
-    | let err: Error =>
-      ctx.uout.err(err.message)
+      ctx.uout(Info) and ctx.uout.log("info: " + bundle.info.json().string())
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end

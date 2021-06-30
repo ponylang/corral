@@ -1,7 +1,7 @@
 use "cli"
 use "files"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdInit is CmdType
@@ -16,7 +16,7 @@ class CmdInit is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("init: in " + project.dir.path)
+    ctx.uout(Info) and ctx.uout.log("init: in " + project.dir.path)
 
     // TODO: try to read first to convert/update existing file(s)
     // TODO: might want to fail if files exist.
@@ -25,15 +25,15 @@ class CmdInit is CmdType
       try
         if not ctx.nothing then
           bundle.save()?
-          ctx.uout.info("init: created: " + bundle.name())
+          ctx.uout(Info) and ctx.uout.log("init: created: " + bundle.name())
         else
-          ctx.uout.info("init: would have created: " + bundle.name())
+          ctx.uout(Info) and ctx.uout.log("init: would have created: " + bundle.name())
         end
       else
-        ctx.uout.err("init: could not create: " + bundle.name())
+        ctx.uout(Error) and ctx.uout.log("init: could not create: " + bundle.name())
         ctx.env.exitcode(1)
       end
-    | let err: Error =>
-      ctx.uout.err(err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end

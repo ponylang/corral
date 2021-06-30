@@ -1,7 +1,7 @@
 use "cli"
 use "files"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdList is CmdType
@@ -13,25 +13,25 @@ class CmdList is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("list: from " + project.dir.path)
+    ctx.uout(Info) and ctx.uout.log("list: from " + project.dir.path)
 
     match project.load_bundle()
     | let bundle: Bundle =>
       let iter = project.transitive_deps(bundle).values()
       for d in iter do
-        ctx.uout.info("  dep: " + d.name())
-        ctx.uout.info("    vcs: " + d.vcs())
-        ctx.uout.info("    ver: " + d.data.version)
-        ctx.uout.info("    rev: " + d.lock.revision)
+        ctx.uout(Info) and ctx.uout.log("  dep: " + d.name())
+        ctx.uout(Info) and ctx.uout.log("    vcs: " + d.vcs())
+        ctx.uout(Info) and ctx.uout.log("    ver: " + d.data.version)
+        ctx.uout(Info) and ctx.uout.log("    rev: " + d.lock.revision)
         try
-          ctx.uout.info("  dep_root: " + project.dep_bundle_root(d.locator)?.path)
+          ctx.uout(Info) and ctx.uout.log("  dep_root: " + project.dep_bundle_root(d.locator)?.path)
         end
         if iter.has_next() then
-          ctx.uout.info("")
+          ctx.uout(Info) and ctx.uout.log("")
         end
       end
 
-    | let err: Error =>
-      ctx.uout.err("list: " + err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log("list: " + err)
       ctx.env.exitcode(1)
     end

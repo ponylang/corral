@@ -1,4 +1,5 @@
 use "files"
+use "logger"
 use "../bundle"
 use "../vcs"
 
@@ -7,7 +8,7 @@ primitive RepoForDep
 
     let auth = ctx.env.root as AmbientAuth
 
-    ctx.log.info("dep is_vcs:" + dep.locator.is_vcs().string() +
+    ctx.log(Info) and ctx.log.log("dep is_vcs:" + dep.locator.is_vcs().string() +
       " is_local:" + dep.locator.is_local().string() +
       " locator: " + dep.locator.string())
 
@@ -32,5 +33,5 @@ primitive RepoForDep
           error // Should never happen
         end
       end
-    ctx.log.info("Repo for dep: " + dep.name() + " is " + repo.string())
+    ctx.log(Info) and ctx.log.log("Repo for dep: " + dep.name() + " is " + repo.string())
     repo

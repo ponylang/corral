@@ -1,6 +1,7 @@
 use "cli"
 use "collections"
 use "files"
+use "logger"
 use "../bundle"
 use "../util"
 use "../vcs"
@@ -14,13 +15,13 @@ class CmdFetch is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("fetch: fetching from " + project.dir.path)
+    ctx.uout(Info) and ctx.uout.log("fetch: fetching from " + project.dir.path)
 
     match project.load_bundle()
     | let base_bundle: Bundle iso =>
       _Fetcher(ctx, project, consume base_bundle, vcs_builder)
-    | let err: Error =>
-      ctx.uout.err(err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end
 
@@ -42,7 +43,7 @@ actor _Fetcher is RepoOperationResultReceiver
     project = project'
     base_bundle = consume base_bundle'
      _vcs_builder = vcs_builder
-    ctx.log.info("Fetching direct deps of project bundle: " + base_bundle.name())
+    ctx.log(Info) and ctx.log.log("Fetching direct deps of project bundle: " + base_bundle.name())
     fetch_bundle_deps(base_bundle)
 
   fun ref fetch_bundle_deps(bundle: Bundle val) =>
@@ -51,16 +52,16 @@ actor _Fetcher is RepoOperationResultReceiver
         if not fetched.contains(dep.locator) then
           fetched.set(dep.locator)
           fetch_dep(dep)
-          ctx.uout.info("fetch: fetching dep: " + dep.name() + " @ " + dep.version())
+          ctx.uout(Info) and ctx.uout.log("fetch: fetching dep: " + dep.name() + " @ " + dep.version())
         else
-          ctx.uout.info("fetch: skipping seen dep: " + dep.name() + " @ " + dep.version())
+          ctx.uout(Info) and ctx.uout.log("fetch: skipping seen dep: " + dep.name() + " @ " + dep.version())
         end
       else
-        ctx.uout.info("fetch: would have fetched dep: " + dep.name() + " @ " + dep.version())
+        ctx.uout(Info) and ctx.uout.log("fetch: would have fetched dep: " + dep.name() + " @ " + dep.version())
       end
     end
 
-  be reportError(repo: Repo, actionResult : ActionResult) =>
+  be reportError(repo: Repo, actionResult: ActionResult) =>
     try
       let dep = repo_to_dep(repo.string())?
       ctx.env.err.print("Error loading dep: " + dep.name())
@@ -90,22 +91,22 @@ actor _Fetcher is RepoOperationResultReceiver
 
       fetch_op(repo)
     else
-      ctx.uout.err("Error fetching dep: " + dep.name() + " @ " + dep.version())
+      ctx.uout(Error) and ctx.uout.log("Error fetching dep: " + dep.name() + " @ " + dep.version())
     end
 
   be fetch_transitive_dep(locator: Locator) =>
-    ctx.log.info("Fetching transitive dep: " + locator.path())
+    ctx.log(Info) and ctx.log.log("Fetching transitive dep: " + locator.path())
 
     let bundle_dir = try
         project.dep_bundle_root(locator)?
       else
-        ctx.log.err("Unexpected error making path for: " + locator.string())
+        ctx.log(Error) and ctx.log.log("Unexpected error making path for: " + locator.string())
         return
       end
     try
-      ctx.log.fine("Fetching dep's bundle from: " + bundle_dir.path)
+      ctx.log(Fine) and ctx.log.log("Fetching dep's bundle from: " + bundle_dir.path)
       let dep_bundle: Bundle val = Bundle.load(bundle_dir, ctx.log)?
       fetch_bundle_deps(dep_bundle)
     else
-      ctx.uout.warn("No dep bundle for: " + locator.string())
+      ctx.uout(Warn) and ctx.uout.log("No dep bundle for: " + locator.string())
     end

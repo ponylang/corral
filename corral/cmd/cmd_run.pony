@@ -1,5 +1,6 @@
 use "cli"
 use "files"
+use "logger"
 use "process"
 use "../bundle"
 use "../util"
@@ -19,7 +20,7 @@ class CmdRun is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("run: " + " ".join(args.values()))
+    ctx.uout(Info) and ctx.uout.log("run: " + " ".join(args.values()))
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
@@ -34,12 +35,12 @@ class CmdRun is CmdType
           end
         end
         ponypath'
-      | let err: Error =>
-        ctx.uout.warn("run: continuing without a corral.json")
+      | let err: String =>
+        ctx.uout(Warn) and ctx.uout.log("run: continuing without a corral.json")
         String
       end
     end
-    ctx.log.info("run ponypath: " + ponypath)
+    ctx.log(Info) and ctx.log.log("run ponypath: " + ponypath)
 
     try
       let prog = Program(ctx.env, args(0)?)?
@@ -58,7 +59,7 @@ class CmdRun is CmdType
         })
       end
     else
-      ctx.uout.err("run: " + "couldn't run program: " + " ".join(args.values()))
+      ctx.uout(Error) and ctx.uout.log("run: " + "couldn't run program: " + " ".join(args.values()))
       ctx.env.exitcode(1)
       return
     end

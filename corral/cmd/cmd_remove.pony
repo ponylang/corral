@@ -1,7 +1,7 @@
 use "cli"
 use "json"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdRemove is CmdType
@@ -15,29 +15,29 @@ class CmdRemove is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("remove: removing: " + locator)
+    ctx.uout(Info) and ctx.uout.log("remove: removing: " + locator)
 
     match project.load_bundle()
     | let bundle: Bundle =>
       try
         bundle.remove_dep(locator)?
       else
-        ctx.uout.err("remove: dep not found in: " + bundle.name())
+        ctx.uout(Error) and ctx.uout.log("remove: dep not found in: " + bundle.name())
         ctx.env.exitcode(1)
         return
       end
       try
         if not ctx.nothing then
           bundle.save()?
-          ctx.uout.info("remove: removed: " + locator)
+          ctx.uout(Info) and ctx.uout.log("remove: removed: " + locator)
         else
-          ctx.uout.info("remove: would have removed: " + locator)
+          ctx.uout(Info) and ctx.uout.log("remove: would have removed: " + locator)
         end
       else
-        ctx.uout.err("remove: could not update: " + bundle.name())
+        ctx.uout(Error) and ctx.uout.log("remove: could not update: " + bundle.name())
         ctx.env.exitcode(1)
       end
-    | let err: Error =>
-      ctx.uout.err(err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end

@@ -1,7 +1,6 @@
 use "collections"
 use "files"
 use "json"
-use "../util"
 use su="../semver/utils"
 
 class Dep
