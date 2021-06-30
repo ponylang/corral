@@ -1,7 +1,7 @@
 use "cli"
 use "files"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdClean is CmdType
@@ -24,17 +24,17 @@ class CmdClean is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info(
+    ctx.uout(Info) and ctx.uout.log(
       "clean: corral:" + clean_corral.string() +
       " repos:" + clean_repos.string())
 
     if clean_repos then
       let repos_dir = ctx.repo_cache
       if not ctx.nothing then
-        ctx.uout.info("clean: removing repos under: " + repos_dir.path)
+        ctx.uout(Info) and ctx.uout.log("clean: removing repos under: " + repos_dir.path)
         repos_dir.remove()
       else
-        ctx.uout.info("clean: would have removed repos under: " + repos_dir.path)
+        ctx.uout(Info) and ctx.uout.log("clean: would have removed repos under: " + repos_dir.path)
       end
     end
 
@@ -44,14 +44,14 @@ class CmdClean is CmdType
         try
           let corral_dir = project.corral_dirpath()?
           if not ctx.nothing then
-            ctx.uout.info("clean: removing corral: " + corral_dir.path)
+            ctx.uout(Info) and ctx.uout.log("clean: removing corral: " + corral_dir.path)
             corral_dir.remove()
           else
-            ctx.uout.info("clean: would have removed corral: " + corral_dir.path)
+            ctx.uout(Info) and ctx.uout.log("clean: would have removed corral: " + corral_dir.path)
           end
         end
-      | let err: Error =>
-        ctx.uout.err(err.message)
+      | let err: String =>
+        ctx.uout(Error) and ctx.uout.log(err)
         ctx.env.exitcode(1)
       end
     end

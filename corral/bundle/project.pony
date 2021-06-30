@@ -1,7 +1,7 @@
 use "collections"
 use "files"
 use "json"
-use "../util"
+use "logger"
 
 primitive Files
   fun tag bundle_filename(): String => "corral.json"
@@ -13,10 +13,10 @@ primitive BundleDir
   Locates project bundle directories either by direct resolving of bundle
   files, or searching up the directory tree until the files are found.
   """
-  fun find(auth: AmbientAuth, dir: String, log: Log): (FilePath | None) =>
+  fun find(auth: AmbientAuth, dir: String, log: Logger[String]): (FilePath | None) =>
     var dir' = dir
     while dir'.size() > 0 do
-      log.info("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
+      log(Info) and log.log("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
       try
         let dir_path = FilePath(auth, dir')?
         let bundle_file = dir_path.join(Files.bundle_filename())?
@@ -26,11 +26,11 @@ primitive BundleDir
       end
       dir' = Path.split(dir')._1
     end
-    log.info(Files.bundle_filename() + " not found, looked last in: '" + dir' + "'")
+    log(Info) and log.log(Files.bundle_filename() + " not found, looked last in: '" + dir' + "'")
     None
 
-  fun resolve(auth: AmbientAuth, dir: String, log: Log): (FilePath | None) =>
-    log.info("Checking for " + Files.bundle_filename() + " in: '" + dir + "'")
+  fun resolve(auth: AmbientAuth, dir: String, log: Logger[String]): (FilePath | None) =>
+    log(Info) and log.log("Checking for " + Files.bundle_filename() + " in: '" + dir + "'")
     try
       let dir_path = FilePath(auth, dir)?
       let bundle_file = dir_path.join(Files.bundle_filename())?
@@ -38,7 +38,7 @@ primitive BundleDir
         return dir_path
       end
     end
-    log.info(Files.bundle_filename() + " not found")
+    log(Info) and log.log(Files.bundle_filename() + " not found")
     None
 
 class val Project
@@ -47,22 +47,22 @@ class val Project
   project.
   """
   let auth: AmbientAuth
-  let log: Log
+  let log: Logger[String]
   let dir: FilePath
 
-  new val create(auth': AmbientAuth, log': Log, dir': FilePath) =>
+  new val create(auth': AmbientAuth, log': Logger[String], dir': FilePath) =>
     auth = auth'
     log = log'
     dir = dir'
 
-  fun val load_bundle(): (Bundle iso^ | Error) =>
+  fun val load_bundle(): (Bundle iso^ | String) =>
     try
       Bundle.load(dir, log)?
     else
-      Error("Error loading bundle files in " + dir.path)
+      "Error loading bundle files in " + dir.path
     end
 
-  fun create_bundle(): (Bundle iso^ | Error) =>
+  fun create_bundle(): (Bundle iso^ | String) =>
     Bundle.create(dir, log)
 
   fun corral_dirpath(): FilePath ? => dir.join(Files.corral_dirname())?
@@ -106,6 +106,6 @@ class val Project
           _transitive_deps(dbundle, tran_deps)
         end
       else
-        log.err("Project: error finding/loading bundle for dep: " + dep.name())
+        log(Error) and log.log("Project: error finding/loading bundle for dep: " + dep.name())
       end
     end

@@ -1,12 +1,12 @@
 use "collections"
+use "logger"
 use sr="../semver/range"
 use ss="../semver/solver"
 use sv="../semver/version"
-use "../util"
 
 primitive Constraints
 
-  fun resolve_version(version: String, tags: Array[String] val, log: Log): String
+  fun resolve_version(version: String, tags: Array[String] val, log: Logger[String]): String
   =>
     """
     Returns the best revision given a version string and an array of tag
@@ -28,18 +28,18 @@ primitive Constraints
 
     try
       if (result.solution.size() == 0) or (result.is_err()) then
-        log.warn("no solution for " + version + ": " + result.err)
+        log(Warn) and log.log("no solution for " + version + ": " + result.err)
         ""
       elseif result.solution.size() == 1 then
         let rev: String = result.solution(0)?.version.string()
-        log.fine("single solution for " + version + ": " + rev)
+        log(Fine) and log.log("single solution for " + version + ": " + rev)
         rev
       else
-        log.fine("multiple solutions for " + version + ": " + result.solution.size().string())
+        log(Fine) and log.log("multiple solutions for " + version + ": " + result.solution.size().string())
         let max_heap = MaxHeap[ss.Artifact box](result.solution.size())
         max_heap.append(result.solution) // Could use itertools.map() to get a String iter
         let rev_arti = max_heap.pop()?
-        log.fine("  selected: " + rev_arti.string())
+        log(Fine) and log.log("  selected: " + rev_arti.string())
         rev_arti.string()
       end
     else
@@ -105,16 +105,16 @@ primitive Constraints
     end
     error
 
-  fun _solve_constraints(constraints: Array[ss.Constraint], tags: Array[String] val, log: Log): ss.Result
+  fun _solve_constraints(constraints: Array[ss.Constraint], tags: Array[String] val, log: Logger[String]): ss.Result
   =>
     let source: ss.InMemArtifactSource = source.create()
     for tg in tags.values() do
-      log.fine("  tag:" + tg)
+      log(Fine) and log.log("  tag:" + tg)
       let artifact = ss.Artifact("A", sv.ParseVersion(tg))
       source.add(artifact)
     end
     let result = ss.Solver(source).solve(constraints.values())
     if result.is_err() then
-      log.fine("result err: " + result.err)
+      log(Fine) and log.log("result err: " + result.err)
     end
     result

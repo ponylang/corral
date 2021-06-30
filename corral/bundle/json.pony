@@ -1,44 +1,44 @@
 use "files"
 use "json"
-use "../util"
+use "logger"
 
 primitive JsonError
 
 primitive Json
-  fun load_object(file_path: FilePath, log: Log)
+  fun load_object(file_path: FilePath, log: Logger[String])
     : (JsonObject | FileErrNo | JsonError)
   =>
-    //log.fine("Reading json from: " + file_path.path)
+    //log(Fine) and log.log("Reading json from: " + file_path.path)
     let file = match OpenFile(file_path)
     | let f: File => f
     | let e: FileErrNo => return e
     end
     let content: String = file.read_string(file.size())
-    //log.fine("Read: " + content + ".")
+    //log(Fine) and log.log("Read: " + content + ".")
     let json: JsonDoc ref = JsonDoc
     try
       json.parse(content)?
       json.data as JsonObject
     else
       (let err_line, let err_message) = json.parse_report()
-      log.err(
+      log(Error) and log.log(
         "JSON error at: " + file.path.path + ":" + err_line.string() + " : "
           + err_message)
       JsonError
     end
 
-  fun write_object(jo: JsonObject, file_path: FilePath, log: Log) =>
-    log.fine("Going to write " + file_path.path)
+  fun write_object(jo: JsonObject, file_path: FilePath, log: Logger[String]) =>
+    log(Fine) and log.log("Going to write " + file_path.path)
     try
       let file = CreateFile(file_path) as File
-      log.info("Writing " + file.path.path)
+      log(Info) and log.log("Writing " + file.path.path)
       file.set_length(0)
       let json: JsonDoc = JsonDoc
       json.data = jo
       file.print(json.string("  ", true))
       file.dispose()
     else
-      log.err("Error writing " + file_path.path + ".")
+      log(Error) and log.log("Error writing " + file_path.path + ".")
     end
 
   fun string(jt: JsonType box, name: String): String =>

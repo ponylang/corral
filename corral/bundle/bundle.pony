@@ -1,7 +1,7 @@
 use "collections"
 use "files"
 use "json"
-use "../util"
+use "logger"
 
 class Bundle
   """
@@ -9,34 +9,34 @@ class Bundle
   those files.
   """
   let dir: FilePath
-  let log: Log
+  let log: Logger[String]
   let info: InfoData
   let packages: Array[String]
   let deps: Map[String, Dep ref] = deps.create()
   let scripts: (ScriptsData | None)
   var modified: Bool = false
 
-  new iso create(dir': FilePath, log': Log) =>
+  new iso create(dir': FilePath, log': Logger[String]) =>
     dir = dir'
     log = log'
     info = InfoData(JsonObject)
     packages = Array[String]
-    log.info("Created bundle in " + dir.path)
+    log(Info) and log.log("Created bundle in " + dir.path)
     scripts = None
     modified = true
 
-  new iso load(dir': FilePath, log': Log) ? =>
+  new iso load(dir': FilePath, log': Logger[String]) ? =>
     dir = dir'
     log = log'
 
-    log.fine("Loading bundle: " + dir.join(Files.bundle_filename())?.path)
+    log(Fine) and log.log("Loading bundle: " + dir.join(Files.bundle_filename())?.path)
     let data = match Json.load_object(dir.join(Files.bundle_filename())?, log)
       | let jo: JsonObject => BundleData(jo)
       | let fe: FileErrNo =>
-        log.fine("Bundle file not present for: " + Path.base(dir.path))
+        log(Fine) and log.log("Bundle file not present for: " + Path.base(dir.path))
         error
       | let je: JsonError =>
-        log.err("Bundle file unparseable for: " + Path.base(dir.path))
+        log(Error) and log.log("Bundle file unparseable for: " + Path.base(dir.path))
         error
       end
     info = data.info
@@ -48,21 +48,21 @@ class Bundle
       let locks_data = match Json.load_object(dir.join(Files.lock_filename())?, log)
         | let jo: JsonObject => LocksData(jo)
         | let fe: FileErrNo =>
-          log.fine("Lock file not present for: " + Path.base(dir.path))
+          log(Fine) and log.log("Lock file not present for: " + Path.base(dir.path))
           error
         | let je: JsonError =>
-          log.err("Lock file unparseable for: " + Path.base(dir.path))
+          log(Error) and log.log("Lock file unparseable for: " + Path.base(dir.path))
           error
         end
       for l in locks_data.locks.values() do
-        log.fine("Loaded " + name() + " lock: " + l.locator + " : " + l.revision)
+        log(Fine) and log.log("Loaded " + name() + " lock: " + l.locator + " : " + l.revision)
         lm(l.locator) = l
       end
     end
     for dd in data.deps.values() do
       let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData.none()))
       deps(d.data.locator) = d
-      log.fine("Loaded " + name() + " dep: " + d.name())
+      log(Fine) and log.log("Loaded " + name() + " dep: " + d.name())
     end
 
   fun name(): String => Path.base(dir.path)
@@ -84,7 +84,7 @@ class Bundle
     dep
 
   fun ref remove_dep(locator: String) ? =>
-    log.fine("Removing " + locator + " from " + "|".join(deps.keys()))
+    log(Fine) and log.log("Removing " + locator + " from " + "|".join(deps.keys()))
     deps.remove(locator)?
     modified = true
 

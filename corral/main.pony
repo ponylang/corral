@@ -1,6 +1,7 @@
 use "cli"
-use "util"
 use "cmd"
+use "logger"
+use "util"
 
 actor Main
   new create(env: Env) =>
@@ -12,7 +13,7 @@ actor Main
         if exit_code == 0 then
           env.out.print(msg)
         else
-          Log(LvlErrr, env.err, LevelLogFormatter).err(msg)
+          StringLogger(Error, env.err).log(msg)
           env.out.print(CLI.help())
           env.exitcode(exit_code.i32())
         end
@@ -21,17 +22,17 @@ actor Main
 
     // Setup options and helpers used by commands
     let debug = cmd.option("debug").u64()
-    let log = Log(Level(debug), env.err, LevelLogFormatter)
+    let log = StringLogger(Fine, env.err)
 
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()
-    let ulvl = if verbose then LvlFine else LvlWarn end
-    let ulvl_info = if quiet then LvlWarn else LvlInfo end
-    let uout = Log(ulvl, env.out, SimpleLogFormatter)
-    let uout_info = Log(ulvl_info, env.out, SimpleLogFormatter)
+    let ulvl = if verbose then Fine else Warn end
+    let ulvl_info = if quiet then Warn else Info end
+    let uout = StringLogger(ulvl, env.out, SimpleLogFormatter)
+    let uout_info = StringLogger(ulvl_info, env.out, SimpleLogFormatter)
 
     // Create the specific command object
-    let command: (CmdType, Log) = match cmd.fullname()
+    let command: (CmdType, Logger[String]) = match cmd.fullname()
       | "corral/add" => (CmdAdd(cmd), uout)
       | "corral/clean" => (CmdClean(cmd), uout)
       | "corral/fetch" => (CmdFetch(cmd), uout)
@@ -43,7 +44,7 @@ actor Main
       | "corral/update" => (CmdUpdate(cmd), uout)
       | "corral/version" => (CmdVersion(cmd), uout_info)
       else
-        log.err("Internal error: unexpected command: " + cmd.fullname())
+        log(Error) and log.log("Internal error: unexpected command: " + cmd.fullname())
         env.exitcode(2)
         return
       end

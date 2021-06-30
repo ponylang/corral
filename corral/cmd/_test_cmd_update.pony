@@ -1,4 +1,5 @@
 use "files"
+use "logger"
 use "ponytest"
 use "../bundle"
 use "../util"
@@ -87,7 +88,7 @@ primitive _OpsRecorderTestRunner
     Runs an _OpsRecorder test.
     """
     let auth = h.env.root as AmbientAuth
-    let log = Log(LvlNone, h.env.err, SimpleLogFormatter)
+    let log = StringLogger(Error, h.env.err, SimpleLogFormatter)
     let fp: FilePath = _TestData.file_path_from(h, dep_path)?
     let repo_cache = _TestRepoCache(auth)?
     let ctx = Context(h.env, log, log, false, repo_cache)

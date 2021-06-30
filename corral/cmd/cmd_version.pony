@@ -1,4 +1,5 @@
 use "cli"
+use "logger"
 use ".."
 use "../bundle"
 use "../vcs"
@@ -14,4 +15,4 @@ class CmdVersion is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("version: " + Version())
+    ctx.uout(Info) and ctx.uout.log("version: " + Version())

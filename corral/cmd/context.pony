@@ -1,20 +1,20 @@
 use "files"
-use "../util"
+use "logger"
 
 class val Context
   """
   Context holds options and environment for all commands.
   """
   let env: Env
-  let log: Log
-  let uout: Log
+  let log: Logger[String]
+  let uout: Logger[String]
   let nothing: Bool
   let repo_cache: FilePath
 
   new val create(
     env': Env,
-    log': Log,
-    uout': Log,
+    log': Logger[String],
+    uout': Logger[String],
     nothing': Bool,
     repo_cache': FilePath)
   =>

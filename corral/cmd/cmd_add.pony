@@ -1,7 +1,7 @@
 use "cli"
 use "json"
+use "logger"
 use "../bundle"
-use "../util"
 use "../vcs"
 
 class CmdAdd is CmdType
@@ -19,7 +19,7 @@ class CmdAdd is CmdType
     vcs_builder: VCSBuilder,
     result_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info(
+    ctx.uout(Info) and ctx.uout.log(
       "add: adding: " + locator + " " + version + " " + revision)
 
     match project.load_bundle()
@@ -28,18 +28,18 @@ class CmdAdd is CmdType
         let dep = bundle.add_dep(locator, version, revision)
         if not ctx.nothing then
           bundle.save()?
-          ctx.uout.info(
+          ctx.uout(Info) and ctx.uout.log(
             "add: added dep: " + dep.data.json().string() + " " + dep.lock.json().string())
           //bundle.fetch() // TODO: maybe just fetch this one new dep
         else
-          ctx.uout.info(
+          ctx.uout(Info) and ctx.uout.log(
             "add: would have added dep: " + dep.data.json().string() + " " + dep.lock.json().string())
         end
       else
-        ctx.uout.warn("add: could not update " + bundle.name())
+        ctx.uout(Warn) and ctx.uout.log("add: could not update " + bundle.name())
         ctx.env.exitcode(1)
       end
-    | let err: Error =>
-      ctx.uout.err(err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end

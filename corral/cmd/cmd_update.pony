@@ -1,6 +1,7 @@
 use "cli"
 use "collections"
 use "files"
+use "logger"
 use "../bundle"
 use "../util"
 use "../vcs"
@@ -14,12 +15,12 @@ class CmdUpdate is CmdType
     vcs_builder: VCSBuilder,
     results_receiver: CmdResultReceiver)
   =>
-    ctx.uout.info("update: updating from " + project.dir.path)
+    ctx.uout(Info) and ctx.uout.log("update: updating from " + project.dir.path)
     match project.load_bundle()
     | let bundle: Bundle iso =>
       _Updater(ctx, project, consume bundle, vcs_builder, results_receiver)
-    | let err: Error =>
-      ctx.uout.err(err.message)
+    | let err: String =>
+      ctx.uout(Error) and ctx.uout.log(err)
       ctx.env.exitcode(1)
     end
 
@@ -47,21 +48,21 @@ actor _Updater is RepoOperationResultReceiver
     base_bundle = consume base_bundle'
     _vcs_builder = vcs_builder
     _results_receiver = results_receiver
-    ctx.log.info("Updating direct deps of project bundle: " + base_bundle.name())
+    ctx.log(Info) and ctx.log.log("Updating direct deps of project bundle: " + base_bundle.name())
     load_bundle_deps(base_bundle)
 
   fun ref load_bundle_deps(bundle: Bundle) =>
     for dep in bundle.deps.values() do
       if not ctx.nothing then
         if not deps_seen.contains(dep.locator) then
-          ctx.uout.info("update: will load dep: " + dep.name() + " @ " + dep.version())
+          ctx.uout(Info) and ctx.uout.log("update: will load dep: " + dep.name() + " @ " + dep.version())
           deps_seen(dep.locator) = dep
           deps_to_load(dep.locator) = dep
         else
-          ctx.uout.info("update: skipping seen dep: " + dep.name() + " @ " + dep.version())
+          ctx.uout(Info) and ctx.uout.log("update: skipping seen dep: " + dep.name() + " @ " + dep.version())
         end
       else
-        ctx.uout.info("update: would have loaded dep: " + dep.name() + " @ " + dep.version())
+        ctx.uout(Info) and ctx.uout.log("update: would have loaded dep: " + dep.name() + " @ " + dep.version())
       end
     end
     load_queued_deps()
@@ -72,7 +73,7 @@ actor _Updater is RepoOperationResultReceiver
         try
           load_dep(dep)?
         else
-          ctx.uout.err("Error loading dep " + dep.name())
+          ctx.uout(Error) and ctx.uout.log("Error loading dep " + dep.name())
           // It won't get a lock. How should we handle/report the error?
         end
       end
@@ -81,7 +82,7 @@ actor _Updater is RepoOperationResultReceiver
       _results_receiver.cmd_completed()
     end
 
-  be reportError(repo: Repo, actionResult : ActionResult) =>
+  be reportError(repo: Repo, actionResult: ActionResult) =>
     ctx.env.err.print("Error loading dep: " + repo.string())
     actionResult.print_to(ctx.env.err)
     ctx.env.exitcode(actionResult.exit_code())
@@ -93,7 +94,7 @@ actor _Updater is RepoOperationResultReceiver
     let self: _Updater tag = this
     let locator: Locator = dep.locator
 
-    ctx.log.info("Loading dep: " + locator.path())
+    ctx.log(Info) and ctx.log.log("Loading dep: " + locator.path())
 
     let revision = Constraints.best_revision(
       base_bundle.dep_revision(dep.locator.string()),
@@ -121,35 +122,35 @@ actor _Updater is RepoOperationResultReceiver
     deps_loading(locator) = dep
 
   be load_transitive_dep(locator: Locator) =>
-    ctx.log.info("Loading transitive dep: " + locator.path())
+    ctx.log(Info) and ctx.log.log("Loading transitive dep: " + locator.path())
     try
       let bundle_dir = project.dep_bundle_root(locator)?
-      ctx.log.fine("Loading dep's bundle from: " + bundle_dir.path)
+      ctx.log(Fine) and ctx.log.log("Loading dep's bundle from: " + bundle_dir.path)
       let dep_bundle: Bundle ref = Bundle.load(bundle_dir, ctx.log)?
-      ctx.log.fine("Loading dep's bundle is: " + dep_bundle.name())
+      ctx.log(Fine) and ctx.log.log("Loading dep's bundle is: " + dep_bundle.name())
       load_bundle_deps(dep_bundle)
     else
-      ctx.uout.err("Error loading dep bundle: " + locator.flat_name())
+      ctx.uout(Error) and ctx.uout.log("Error loading dep bundle: " + locator.flat_name())
       ctx.env.exitcode(1)
     end
 
   be collect_dep_tags(locator: Locator, tags: Array[String] val) =>
-    ctx.log.info("Collected " + tags.size().string() + " tags for dep: " + locator.path())
+    ctx.log(Info) and ctx.log.log("Collected " + tags.size().string() + " tags for dep: " + locator.path())
     try
       // If this remove fails, it just means another path got here first.
       (_, let dep) = deps_to_load.remove(locator)?
       deps_loading.remove(locator)?
-      ctx.log.fine("tags for " + dep.locator.string() + ": " + tags.size().string())
+      ctx.log(Fine) and ctx.log.log("tags for " + dep.locator.string() + ": " + tags.size().string())
       dep_tags(locator) = tags
     end
     try_complete()
 
   be try_complete() =>
     if deps_to_load.size() > 0 then
-      ctx.log.fine("try_complete still have deps to load: " + deps_to_load.size().string())
+      ctx.log(Fine) and ctx.log.log("try_complete still have deps to load: " + deps_to_load.size().string())
       load_queued_deps()
     else
-      ctx.log.fine("try_complete done loading deps")
+      ctx.log(Fine) and ctx.log.log("try_complete done loading deps")
       if dep_tags.size() > 0 then
         for loc in dep_tags.keys() do
           try
@@ -160,11 +161,11 @@ actor _Updater is RepoOperationResultReceiver
         try
           base_bundle.save()?
         else
-          ctx.uout.err("Error saving project bundle")
+          ctx.uout(Error) and ctx.uout.log("Error saving project bundle")
         end
         _results_receiver.cmd_completed()
         // All done, should quiesce now...
-        ctx.log.fine("try_complete all done.")
+        ctx.log(Fine) and ctx.log.log("try_complete all done.")
       end
     end
 

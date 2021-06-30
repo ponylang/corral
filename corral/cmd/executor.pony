@@ -1,6 +1,6 @@
 use "files"
+use "logger"
 use "../bundle"
-use "../util"
 use "debug"
 use "../vcs"
 
@@ -13,8 +13,8 @@ primitive Executor
   fun execute(
     command: CmdType,
     env: Env,
-    log: Log,
-    uout: Log,
+    log: Logger[String],
+    uout: Logger[String],
     nothing: Bool,
     bundle_dir_arg: String)
     // TODO: add when we have the cli flag: repo_cache_str: String
@@ -22,7 +22,7 @@ primitive Executor
     let auth = try
         env.root as AmbientAuth
       else
-        log.err("Internal error: unable to get AmbientAuth.")
+        log(Error) and log.log("Internal error: unable to get AmbientAuth.")
         env.exitcode(2)
         return
       end
@@ -46,9 +46,9 @@ primitive Executor
     // Bail if the command requires bundle files but none were found
     if command.requires_bundle() and (bundle_dir_maybe is None) then
       if bundle_dir_arg == "" then
-        uout.err("Error: required bundle files not found in or above current directory: " + bundle_dir_str)
+        uout(Error) and uout.log("Error: required bundle files not found in or above current directory: " + bundle_dir_str)
       else
-        uout.err("Error: required bundle files not found in given directory: " + bundle_dir_str)
+        uout(Error) and uout.log("Error: required bundle files not found in given directory: " + bundle_dir_str)
       end
       env.exitcode(1)
       return
@@ -59,9 +59,9 @@ primitive Executor
     if command.requires_no_bundle() then
       if not (bundle_dir_maybe is None) then
         if bundle_dir_arg == "" then
-          uout.err("Error: unexpected bundle files found in or above current directory: " + bundle_dir_str)
+          uout(Error) and uout.log("Error: unexpected bundle files found in or above current directory: " + bundle_dir_str)
         else
-          uout.err("Error: unexpected bundle files found in given directory: " + bundle_dir_str)
+          uout(Error) and uout.log("Error: unexpected bundle files found in given directory: " + bundle_dir_str)
         end
         env.exitcode(1)
         return
@@ -70,7 +70,7 @@ primitive Executor
           let fp = FilePath(auth, bundle_dir_str)?
           if not FileInfo(fp)?.directory then error end
         else
-          uout.err("Error: could not access directory for new bundle: " + bundle_dir_str)
+          uout(Error) and uout.log("Error: could not access directory for new bundle: " + bundle_dir_str)
           env.exitcode(1)
           return
         end
@@ -84,7 +84,7 @@ primitive Executor
       | None => try
           FilePath(auth, bundle_dir_str)?  // placeholder for create
         else
-          log.err("Internal error: unexpected state.")
+          log(Error) and log.log("Internal error: unexpected state.")
           env.exitcode(2)
           return
         end
@@ -96,7 +96,7 @@ primitive Executor
         // https://github.com/ponylang/corral/issues/28
         bundle_dir.join("_repos")?
       else
-        log.err("Internal error: could not access required directories")
+        log(Error) and log.log("Internal error: could not access required directories")
         env.exitcode(2)
         return
       end

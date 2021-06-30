@@ -1,4 +1,4 @@
-
+use "logger"
 use "process"
 use "../bundle"
 use "../util"
@@ -26,16 +26,16 @@ primitive PostFetchScript
           Runner.run(action, {(result: ActionResult) =>
             match result.exit_status
             | let exited: Exited =>
-              ctx.uout.fine("Succeeded: '" + post_fetch_or_update + "' in '" +
-                repo.workspace.path + "'")
-              ctx.uout.fine(result.stdout)
+              ctx.uout(Fine) and ctx.uout.log("Succeeded: '" +
+                post_fetch_or_update + "' in '" + repo.workspace.path + "'")
+              ctx.uout(Fine) and ctx.uout.log(result.stdout)
               return
             else
               None
             end
-            ctx.uout.err("Failed: '" + post_fetch_or_update + "' in '" +
-              repo.workspace.path + "'")
-            ctx.uout.err(result.stderr)
+            ctx.uout(Error) and ctx.uout.log("Failed: '" +
+              post_fetch_or_update + "' in '" + repo.workspace.path + "'")
+            ctx.uout(Error) and ctx.uout.log(result.stderr)
           })
         end
       end
