@@ -24,7 +24,6 @@ class val Locator is (su.ComparableMixin[Locator] & Hashable & Stringable)
         vs = s
         let p = parts(1)?
         bp = if p.at("/") then p.trim(1) else p end
-        //Debug.out(" loc:: " + loc + " => rp:" + rp + " vs:" + vs  + " bp:" + bp)
         break
       end end
     end
