@@ -57,7 +57,7 @@ fi
 set -o nounset
 
 # add hard way installed ponyc to our PATH
-export PATH="/tmp/ponyc/bin/:$PATH"
+export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
 
 TODAY=$(date +%Y%m%d)
 

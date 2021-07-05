@@ -18,7 +18,7 @@ task:
     - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
 
   test_script:
-    - export PATH="/tmp/ponyc/bin/:$PATH"
+    - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - gmake test
 
 #
