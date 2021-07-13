@@ -13,7 +13,7 @@ actor Main
         if exit_code == 0 then
           env.out.print(msg)
         else
-          StringLogger(Error, env.err).log(msg)
+          StringLogger(Error, env.err, SimpleLogFormatter).log(msg)
           env.out.print(CLI.help())
           env.exitcode(exit_code.i32())
         end
@@ -22,7 +22,7 @@ actor Main
 
     // Setup options and helpers used by commands
     let debug = cmd.option("debug").u64()
-    let log = StringLogger(Fine, env.err)
+    let log = StringLogger(DebugLevel(debug), env.err, SimpleLogFormatter)
 
     let quiet = cmd.option("quiet").bool()
     let verbose = cmd.option("verbose").bool()

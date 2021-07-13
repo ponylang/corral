@@ -27,7 +27,7 @@ primitive CLI
       [
         OptionSpec.u64(
           "debug",
-          "Configure debug output: 0=off, 1=err, 2=warn, 3=info, 4=fine."
+          "Configure debug output: 0=err, 1=warn, 2=info, 3=fine."
           where short'='g',
           default' = 0)
         OptionSpec.bool(
