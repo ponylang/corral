@@ -434,7 +434,6 @@ actor ProcessMonitor
       (_read_buf, let len, let errno) =
         pipe.read(_read_buf = recover Array[U8] end, _read_len)
 
-      @printf("%s\n".cstring(), _read_buf.cpointer())
       let next = _read_buf.space()
       match len
       | -1 =>
@@ -444,9 +443,12 @@ actor ProcessMonitor
         pipe.close()
         return
       | 0  =>
+       @printf("0 string\n".cstring())
         pipe.close()
         return
       end
+
+      @printf("%s\n".cstring(), _read_buf.cpointer())
 
       _read_len = _read_len + len.usize()
 
