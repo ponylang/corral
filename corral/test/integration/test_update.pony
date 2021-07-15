@@ -74,7 +74,7 @@ class TestUpdateScripts is UnitTest
           h.assert_true(ar.stdout.contains("Success Windows!"))
           //if not ar.stdout.contains("Success Windows!") then
             @printf("stdout length: |%d|\n".cstring(), ar.stdout.size())
-            @printf("stdout: |%s|\n".cstring(), ar.stdout.cstring())
+            @printf("stdout: |%s|\n".cstring(), ar.stderr.cstring())
             @printf("stdout length: |%d|\n".cstring(), ar.stdout.size())
           //end
         else
