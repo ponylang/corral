@@ -448,12 +448,14 @@ actor ProcessMonitor
         return
       end
 
-      @printf("%s\n".cstring(), _read_buf.cpointer())
 
       _read_len = _read_len + len.usize()
 
       let data = _read_buf = recover Array[U8] .> undefined(next) end
       data.truncate(_read_len)
+
+      @printf("%s\n".cstring(), data.cpointer())
+
 
       match pipe.near_fd
       | _stdout.near_fd =>
