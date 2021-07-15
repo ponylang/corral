@@ -73,7 +73,6 @@ class TestUpdateScripts is UnitTest
         ifdef windows then
         //@printf("h\n".cstring())
           h.assert_true(ar.stdout.contains("Success Windows!"))
-          h.fail(ar.stdout)
         //@printf("\n".cstring())
           //if not ar.stdout.contains("Success Windows!") then
             //@printf("h\n".cstring())
@@ -84,6 +83,8 @@ class TestUpdateScripts is UnitTest
         else
           h.assert_true(ar.stdout.contains("Success POSIX!"))
         end
+          h.fail(ar.stdout)
+
         h.complete(ar.exit_code() == 0)
         //@printf("h\n".cstring())
       })
