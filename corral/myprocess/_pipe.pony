@@ -192,7 +192,7 @@ class _Pipe
       // Read up to the bytes available
       var bytes_read: U32 = 0
       let ok = @ReadFile(hnd, read_buf.cpointer(offset),
-          1, addressof bytes_read, USize(0))
+          bytes_to_read, addressof bytes_read, USize(0))
       let winerr = @GetLastError()
       if not ok then
         if (winerr == _ERRORBROKENPIPE()) then
