@@ -172,6 +172,7 @@ class _Pipe
       if not okp then
         if (winerrp == _ERRORBROKENPIPE()) then
           // Pipe is done & ready to close.
+          @printf("peek broken pipe\n".cstring())
           return (consume read_buf, 0, 0)
         elseif (winerrp == _ERRORNODATA()) then
           // We are using a non-blocking read. That will return a _ERRORNODATA
@@ -180,6 +181,7 @@ class _Pipe
           return (consume read_buf, -1, _EAGAIN())
         else
           // Some other error, map to invalid arg
+          @printf("other peek error\n".cstring())
           return (consume read_buf, -1, _EINVAL())
         end
       elseif bytes_avail == 0 then
@@ -197,9 +199,11 @@ class _Pipe
       if not ok then
         if (winerr == _ERRORBROKENPIPE()) then
           // Pipe is done & ready to close.
+          @printf("read broken pipe\n".cstring())
           (consume read_buf, 0, 0)
         else
           // Some other error, map to invalid arg
+          @printf("read other\n".cstring())
           (consume read_buf, -1, _EINVAL())
         end
       else

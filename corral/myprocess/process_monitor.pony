@@ -100,7 +100,7 @@ use "backpressure"
 use "collections"
 use "files"
 use "time"
-
+use @printf[I32](fmt: Pointer[U8] tag, ...)
 
 type ProcessMonitorAuth is (AmbientAuth | StartProcessAuth)
 
@@ -434,6 +434,7 @@ actor ProcessMonitor
       (_read_buf, let len, let errno) =
         pipe.read(_read_buf = recover Array[U8] end, _read_len)
 
+      @printf("%s\n".cstring(), _read_buf.cpointer())
       let next = _read_buf.space()
       match len
       | -1 =>
