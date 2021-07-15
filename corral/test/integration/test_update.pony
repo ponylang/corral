@@ -73,7 +73,7 @@ class TestUpdateScripts is UnitTest
         ifdef windows then
         //@printf("h\n".cstring())
           h.assert_true(ar.stdout.contains("Success Windows!"))
-          @printf("\n".cstring())
+          //@printf("\n".cstring())
           //if not ar.stdout.contains("Success Windows!") then
             //@printf("h\n".cstring())
             //@printf("stdout length: |%d|\n".cstring(), ar.stdout.size())
