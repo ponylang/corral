@@ -82,6 +82,7 @@ class TestUpdateScripts is UnitTest
           h.assert_true(ar.stdout.contains("Success POSIX!"))
         end
         h.complete(ar.exit_code() == 0)
+        @printf("h\n".cstring())
       })
 
 
