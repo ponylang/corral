@@ -1,7 +1,7 @@
 use "cli"
 use "files"
 use "logger"
-use "process"
+use "../myprocess"
 use "../bundle"
 use "../util"
 use "../vcs"

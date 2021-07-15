@@ -1,6 +1,6 @@
 use "files"
 use "../util"
-use "process"
+use "../myprocess"
 
 class val GitVCS is VCS
   """

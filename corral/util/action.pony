@@ -1,6 +1,6 @@
 use "cli"  // EnvVars
 use "files"
-use "process"
+use "../myprocess"
 
 class val Program
   """
