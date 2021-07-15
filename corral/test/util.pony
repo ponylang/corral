@@ -121,3 +121,5 @@ primitive Copy
     while from_file.errno() is FileOK do
       to_file.write(from_file.read(65536))
     end
+    from_file.dispose()
+    to_file.dispose()
