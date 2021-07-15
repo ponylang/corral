@@ -2,6 +2,7 @@ use "files"
 use "ponytest"
 use ".."
 use "../../util"
+use @printf[I32](fmt: Pointer[U8] tag, ...)
 
 class TestInfo is UnitTest
   fun name(): String => "integration/info"
@@ -14,6 +15,7 @@ class TestInfo is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
+        @printf("%s\n".cstring(), ar.stdout.cstring())
         h.assert_true(ar.stdout.contains("info: {"))
         h.assert_true(ar.stdout.contains("\"description\":\"\""))
         h.assert_true(ar.stdout.contains("\"homepage\":\"\""))
