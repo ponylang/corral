@@ -46,6 +46,7 @@ task:
     - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
 
   nightly_script:
+    - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-nightly.bash
 
 #
@@ -73,4 +74,5 @@ task:
     - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
 
   release_script:
+    - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-release.bash
