@@ -1,5 +1,18 @@
 #!/bin/bash
 
+case "${1}" in
+"release")
+  ;;
+"nightly")
+  ;;
+*)
+  echo "invalid ponyc version"
+  echo "Options:"
+  echo "release"
+  echo "nightly"
+  exit 1
+esac
+
 #
 # Libressl is required by ponyup
 #
@@ -16,4 +29,4 @@ curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/ponylang/
 
 export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
 
-ponyup update ponyc release
+ponyup update ponyc "${1}"

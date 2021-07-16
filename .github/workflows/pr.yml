@@ -36,8 +36,8 @@ jobs:
       - name: Verify CHANGELOG
         run: changelog-tool verify
 
-  vs-ponyc-release:
-    name: Verify PR builds most recent ponyc release
+  linux:
+    name: Verify PR builds most recent ponyc release on Linux
     runs-on: ubuntu-latest
     container:
       image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
@@ -46,7 +46,21 @@ jobs:
       - name: Test with most recent ponyc release
         run: make test
 
-  vs-ponyc-release-windows:
+  macos:
+    name: Verify PR builds most recent ponyc release on macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: install ponyc
+        run: bash .ci-scripts/macOS-install-pony-tools.bash release
+      - name: brew install dependencies
+        run: brew install coreutils
+      - name: Test with most recent ponyc release
+        run: |
+          export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
+          make test
+
+  windows:
     name: Verify PR builds most recent ponyc release on Windows
     runs-on: windows-latest
     steps:

@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: install ponyc
-        run: bash .ci-scripts/macOS-install-pony-tools.bash
+        run: bash .ci-scripts/macOS-install-pony-tools.bash release
       - name: brew install dependencies
         run: brew install coreutils
       - name: pip install dependencies
