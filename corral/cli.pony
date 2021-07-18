@@ -123,5 +123,12 @@ primitive CLI
           [
             ArgSpec.string_seq("args", "Arguments to run.")
           ])?
+        CommandSpec.leaf(
+          "pack",
+          "Creates a distributable version of a pony library bundle.",
+          Array[OptionSpec](),
+          [
+            ArgSpec.string("output", "Directory to create the packed library bundle in")
+          ])?
       ])?
       .> add_help()?

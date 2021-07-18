@@ -1,9 +1,14 @@
 {
   "packages": [
     "corral",
+    "corral/archive",
     "corral/bundle",
     "corral/cmd",
-    "corral/semver",
+    "corral/mort",
+    "corral/semver/range",
+    "corral/semver/solver",
+    "corral/semver/utils",
+    "corral/semver/version",
     "corral/test",
     "corral/util",
     "corral/vcs"

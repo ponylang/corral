@@ -39,6 +39,7 @@ actor Main
       | "corral/info" => (CmdInfo(cmd), uout_info)
       | "corral/init" => (CmdInit(cmd), uout)
       | "corral/list" => (CmdList(cmd), uout_info)
+      | "corral/pack" => (CmdPack(cmd), uout)
       | "corral/remove" => (CmdRemove(cmd), uout)
       | "corral/run" => (CmdRun(cmd), uout)
       | "corral/update" => (CmdUpdate(cmd), uout)
