@@ -100,6 +100,7 @@ class Bundle
     """Records the revision for a dep into this bundle's lock."""
     try
       let dep = deps(locator)?
+      dep.lock.locator = locator
       dep.lock.revision = revision
     else
       let dd = DepData.none()
