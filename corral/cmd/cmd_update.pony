@@ -33,7 +33,7 @@ actor _Updater is RepoOperationResultReceiver
   let deps_to_load: Map[Locator, Dep] ref = deps_to_load.create()
   let deps_loading: Map[Locator, Dep] ref = deps_loading.create()
   let dep_tags: Map[Locator, Array[String] val] ref = dep_tags.create()
-
+  let co_revisions: Map[Locator, String] ref = co_revisions.create()
   let _vcs_builder: VCSBuilder
   let _results_receiver: CmdResultReceiver
 
@@ -100,6 +100,8 @@ actor _Updater is RepoOperationResultReceiver
       base_bundle.dep_revision(dep.locator.string()),
       dep.revision(),
       dep.version())
+
+    co_revisions(locator) = revision
 
     let checkout_op = vcs.checkout_op(revision, this, {
         (repo: Repo) =>
@@ -172,7 +174,6 @@ actor _Updater is RepoOperationResultReceiver
   fun ref update_dep(dep: Dep, tags: Array[String] val) =>
     // TODO: consider parsing version much earlier, maybe in Bundle.
     // https://github.com/ponylang/corral/issues/26
-
     let revision =
       match Constraints.resolve_version(dep.data.version, tags, ctx.log)
       | "" => Constraints.best_revision(
@@ -181,4 +182,13 @@ actor _Updater is RepoOperationResultReceiver
         dep.version())
       | let rev: String => rev
       end
+
     base_bundle.lock_revision(dep.locator.string(), revision)
+
+    try
+      if revision != co_revisions(dep.locator)? then
+        // what we have checked out is incorrect.
+        // we need to run another checkout
+        load_dep(dep)?
+      end
+    end
