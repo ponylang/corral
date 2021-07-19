@@ -30,7 +30,7 @@ class TestUpdateGithub is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(10_000_000_000)
     Execute(h,
       recover [
         "update"
