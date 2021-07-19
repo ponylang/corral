@@ -15,6 +15,7 @@ task:
     - echo "IGNORE_OSVERSION = yes" >> /usr/local/etc/pkg.conf
     - pkg update
     - pkg install -y bash git gmake
+    - export TERM=ANSI
     - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
 
   test_script:
