@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Fix bug that prevented lock.json from being populated ([PR #193](https://github.com/ponylang/corral/pull/193))
 
 ### Added
 
