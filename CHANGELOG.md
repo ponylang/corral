@@ -2,13 +2,19 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [0.5.2] - 2021-07-28
+## [unreleased] - unreleased
 
 ### Fixed
 
 - Fix bug that prevented lock.json from being populated ([PR #193](https://github.com/ponylang/corral/pull/193))
 - Fixed bug where `corral update` would result in incorrect code in the corral ([PR #194](https://github.com/ponylang/corral/pull/194))
 - Fixed bug where checked out code not matching revision ([PR #198](https://github.com/ponylang/corral/pull/198))
+
+### Added
+
+
+### Changed
+
 
 ## [0.5.1] - 2021-06-21
 
