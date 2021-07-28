@@ -66,29 +66,14 @@ actor Main
 
 The bundle path works the same as remote git, but versions are not applicable as the local bundle directory is referenced directly.
 
-## Update Dependency Revisions
+## Fetch Dependencies and Update Revisions
 
 This step will fetch all dependencies, including transitive dependencies, and then it will calculate the best revisions for each and write them to the `lock.json` file. This file can also be edited by hand, or the update command run periodically to refresh dependencies to the latest constrained versions.
 
-It is recommended that `lock.json` be checked in along with `corral.json` so that subsequent builds of the shared project use the same revisions for reproducability.
+It is recommended that `lock.json` be checked in along with `corral.json` so that subsequent builds of the shared project use the same revisions for reproducibility.
 
 ```bash
 corral update
-```
-
-```console
-git cloning github.com/jemc/pony-inspect.git into _repos/github_com_jemc_pony_inspect_git
-git checking out @main into _corral/github_com_jemc_pony_inspect
-```
-
-## Fetch dependencies
-
-This step will fetch dependencies using the current revisions in the `lock.json` file, or latest constrained version if there is no locked revision. This operation can be done after a new clone, or pull other changes to the `lock.json` file to ensure that the checked out dependencies are present and up to date.
-
-Remote repos will be cloned into the *repo_cache* `_repos/` and checked-out revisions will be placed in the *corral_dir* `_corral`.
-
-```bash
-corral fetch
 ```
 
 ```console

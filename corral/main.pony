@@ -35,7 +35,7 @@ actor Main
     let command: (CmdType, Logger[String]) = match cmd.fullname()
       | "corral/add" => (CmdAdd(cmd), uout)
       | "corral/clean" => (CmdClean(cmd), uout)
-      | "corral/fetch" => (CmdFetch(cmd), uout)
+      | "corral/fetch" => (CmdUpdate(cmd), uout)
       | "corral/info" => (CmdInfo(cmd), uout_info)
       | "corral/init" => (CmdInit(cmd), uout)
       | "corral/list" => (CmdList(cmd), uout_info)
