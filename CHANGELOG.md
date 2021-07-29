@@ -2,17 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.5.3] - 2021-07-29
 
 ### Fixed
 
 - Don't error out if a transitive dependency doesn't have a corral.json ([PR #199](https://github.com/ponylang/corral/pull/199))
-
-### Added
-
-
-### Changed
-
 
 ## [0.5.2] - 2021-07-28
 
