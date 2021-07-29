@@ -125,15 +125,21 @@ actor _Updater is RepoOperationResultReceiver
 
   be load_transitive_dep(locator: Locator) =>
     ctx.log(Info) and ctx.log.log("Loading transitive dep: " + locator.path())
+
+    let bundle_dir = try
+      project.dep_bundle_root(locator)?
+    else
+        ctx.log(Error) and ctx.log.log("Unexpected error making path for: " + locator.string())
+        return
+    end
+
     try
-      let bundle_dir = project.dep_bundle_root(locator)?
       ctx.log(Fine) and ctx.log.log("Loading dep's bundle from: " + bundle_dir.path)
       let dep_bundle: Bundle ref = Bundle.load(bundle_dir, ctx.log)?
       ctx.log(Fine) and ctx.log.log("Loading dep's bundle is: " + dep_bundle.name())
       load_bundle_deps(dep_bundle)
     else
-      ctx.uout(Error) and ctx.uout.log("Error loading dep bundle: " + locator.flat_name())
-      ctx.env.exitcode(1)
+      ctx.uout(Warn) and ctx.uout.log("No dep bundle for: " + locator.flat_name())
     end
 
   be collect_dep_tags(locator: Locator, tags: Array[String] val) =>
