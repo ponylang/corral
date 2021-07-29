@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Don't error out if a transitive dependency doesn't have a corral.json ([PR #199](https://github.com/ponylang/corral/pull/199))
 
 ### Added
 
