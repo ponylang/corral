@@ -90,7 +90,7 @@ primitive _OpsRecorderTestRunner
     let auth = h.env.root as AmbientAuth
     let log = StringLogger(Error, h.env.err, SimpleLogFormatter)
     let fp: FilePath = _TestData.file_path_from(h, dep_path)?
-    let repo_cache = _TestRepoCache(auth)?
+    let repo_cache = _TestRepoCache(auth)
     let ctx = Context(h.env, log, log, false, repo_cache)
     let project = Project(auth, log, fp)
     let bundle = Bundle.load(fp, log)?
@@ -204,8 +204,8 @@ class val _RecordedCheckout is RepoOperation
 primitive _TestData
   fun file_path_from(h: TestHelper, subdir: String = ""): FilePath ? =>
     let auth = h.env.root as AmbientAuth
-    FilePath(auth, "corral/test/testdata")?.join(subdir)?
+    FilePath(auth, "corral/test/testdata").join(subdir)?
 
 primitive _TestRepoCache
-  fun apply(auth: AmbientAuth): FilePath ? =>
-    FilePath(auth,"_test_cmd_update_repo_cache")?
+  fun apply(auth: AmbientAuth): FilePath =>
+    FilePath(auth,"_test_cmd_update_repo_cache")

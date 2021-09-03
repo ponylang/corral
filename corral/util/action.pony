@@ -15,7 +15,7 @@ class val Program
   =>
     auth = env.root as AmbientAuth
     path = if Path.is_abs(name) then
-      FilePath(auth, name)?
+      FilePath(auth, name)
     else
       (let evars, let pathkey) =
         ifdef windows then
@@ -32,14 +32,14 @@ class val Program
   =>
     for bindir in Path.split_list(binpath).values() do
       try
-        let bd = FilePath(auth', bindir)?
+        let bd = FilePath(auth', bindir)
         ifdef windows then
-          let bin_bare = FilePath(bd, name)?
+          let bin_bare = FilePath.from(bd, name)?
           if bin_bare.exists() then return bin_bare end
-          let bin_exe = FilePath(bd, name + ".exe")?
+          let bin_exe = FilePath.from(bd, name + ".exe")?
           if bin_exe.exists() then return bin_exe end
         else
-          let bin = FilePath(bd, name)?
+          let bin = FilePath.from(bd, name)?
           if bin.exists() then
             // TODO: should also stat for executable. FileInfo(bin)
             return bin
