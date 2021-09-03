@@ -18,7 +18,7 @@ primitive BundleDir
     while dir'.size() > 0 do
       log(Info) and log.log("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
       try
-        let dir_path = FilePath(auth, dir')?
+        let dir_path = FilePath(auth, dir')
         let bundle_file = dir_path.join(Files.bundle_filename())?
         if bundle_file.exists() then
           return dir_path
@@ -32,7 +32,7 @@ primitive BundleDir
   fun resolve(auth: AmbientAuth, dir: String, log: Logger[String]): (FilePath | None) =>
     log(Info) and log.log("Checking for " + Files.bundle_filename() + " in: '" + dir + "'")
     try
-      let dir_path = FilePath(auth, dir)?
+      let dir_path = FilePath(auth, dir)
       let bundle_file = dir_path.join(Files.bundle_filename())?
       if bundle_file.exists() then
         return dir_path
@@ -81,7 +81,7 @@ class val Project
 
   fun dep_bundle_root(locator: Locator): FilePath ? =>
     let root = if locator.is_local_direct() then
-      FilePath(auth, Path.join(dir.path, locator.bundle_path))?
+      FilePath(auth, Path.join(dir.path, locator.bundle_path))
     else
       corral_dirpath()?.join(Path.join(locator.flat_name(), locator.bundle_path))?
     end

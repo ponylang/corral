@@ -67,7 +67,7 @@ primitive Executor
         return
       else
         try
-          let fp = FilePath(auth, bundle_dir_str)?
+          let fp = FilePath(auth, bundle_dir_str)
           if not FileInfo(fp)?.directory then error end
         else
           uout(Error) and uout.log("Error: could not access directory for new bundle: " + bundle_dir_str)
@@ -81,13 +81,7 @@ primitive Executor
     let bundle_dir: FilePath =
       match bundle_dir_maybe
       | let fp: FilePath => fp
-      | None => try
-          FilePath(auth, bundle_dir_str)?  // placeholder for create
-        else
-          log(Error) and log.log("Internal error: unexpected state.")
-          env.exitcode(2)
-          return
-        end
+      | None => FilePath(auth, bundle_dir_str)  // placeholder for create
       end
 
     // Make a FilePath for the repo cache dir

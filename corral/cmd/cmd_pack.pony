@@ -23,7 +23,7 @@ class CmdPack is CmdType
     match project.load_bundle()
     | let bundle: Bundle =>
       try
-        let path = FilePath(project.auth, _output)?
+        let path = FilePath(project.auth, _output)
         if not path.mkdir() then
           ctx.uout(Error) and
             ctx.uout.log("pack: unable to create " + _output)
@@ -31,7 +31,7 @@ class CmdPack is CmdType
 
         let car_name: String = bundle.info.name + "-" + bundle.info.version + ".car"
         let car_path = Path.join(_output, car_name)
-        let car_file_path = FilePath(project.auth, car_path)?
+        let car_file_path = FilePath(project.auth, car_path)
 
         let corral_file = project.dir.join(Files.bundle_filename())?
 
@@ -40,7 +40,7 @@ class CmdPack is CmdType
 
         let sorted_packages = Sort[Array[String], String](bundle.packages)
         for package in sorted_packages.values() do
-          encoder.add(FilePath(project.dir, package)?)?
+          encoder.add(FilePath.from(project.dir, package)?)?
         end
 
         encoder.write(car_file_path)?

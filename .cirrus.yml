@@ -15,7 +15,7 @@ task:
     - echo "IGNORE_OSVERSION = yes" >> /usr/local/etc/pkg.conf
     - pkg update
     - pkg install -y bash git gmake
-    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
+    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash release
 
   test_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
@@ -47,7 +47,7 @@ task:
 
   nightly_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
-    - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-nightly.bash
+    - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-nightly.bash release
 
 #
 # Release build tasks
@@ -71,7 +71,7 @@ task:
     - pkg update
     - pkg install -y bash gmake git py38-pip
     - pip install --upgrade cloudsmith-cli
-    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
+    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash release
 
   release_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
