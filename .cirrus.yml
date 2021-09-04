@@ -43,7 +43,7 @@ task:
     - pkg update
     - pkg install -y bash gmake git py38-pip
     - pip install --upgrade cloudsmith-cli
-    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash
+    - bash .ci-scripts/freebsd-13.0-install-pony-tools.bash release
 
   nightly_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
