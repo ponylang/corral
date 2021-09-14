@@ -5,7 +5,7 @@ use "../../util"
 class TestHelp is UnitTest
   fun name(): String => "integration/help"
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover ["help"] end,
       {(h: TestHelper, ar: ActionResult) =>

@@ -6,7 +6,7 @@ use "../../util"
 class TestUpdateEmpty is UnitTest
   fun name(): String => "integration/update/empty-deps"
   fun apply(h: TestHelper) ? =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -30,7 +30,7 @@ class TestUpdateLocalDirect is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -63,7 +63,7 @@ class TestUpdateMutuallyRecursive is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
 
     Execute(h,
       recover [
@@ -97,7 +97,7 @@ class TestUpdateSelfReferential is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -130,7 +130,7 @@ class TestUpdateGithub is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -165,7 +165,7 @@ class TestUpdateScripts is UnitTest
     data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(32_000_000_000)
+    h.long_test(330_000_000_000)
     Execute(h,
       recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>
@@ -263,7 +263,7 @@ class TestUpdateBadGitReference is UnitTest
     data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(32_000_000_000)
+    h.long_test(330_000_000_000)
     Execute(h,
       recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>

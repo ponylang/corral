@@ -6,7 +6,7 @@ use "../../util"
 class TestRun is UnitTest
   fun name(): String => "integration/run"
   fun apply(h: TestHelper) ? =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "run"
@@ -23,7 +23,7 @@ class TestRun is UnitTest
 class TestRunWithoutBundle is UnitTest
   fun name(): String => "integration/run/without-bundle"
   fun apply(h: TestHelper) =>
-    h.long_test(2_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "run"
