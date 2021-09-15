@@ -165,7 +165,7 @@ class TestUpdateScripts is UnitTest
     data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(330_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>
@@ -189,7 +189,7 @@ class TestUpdateGithubDeep is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(5_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -225,7 +225,7 @@ class TestUpdateRemoteGits is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(10_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [
         "update"
@@ -263,7 +263,7 @@ class TestUpdateBadGitReference is UnitTest
     data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(330_000_000_000)
+    h.long_test(30_000_000_000)
     Execute(h,
       recover [ "update"; "--verbose"; "--bundle_dir"; data.dir() ] end,
       {(h: TestHelper, ar: ActionResult) =>
