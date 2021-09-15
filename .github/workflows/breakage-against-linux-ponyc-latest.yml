@@ -1,0 +1,27 @@
+name: ponyc update breakage test
+
+on:
+  repository_dispatch:
+    types: [shared-docker-linux-builders-updated]
+
+jobs:
+  linux:
+    name: Verify main against the latest ponyc on Linux
+    runs-on: ubuntu-latest
+    container:
+      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Test
+        run: make test config=debug
+      - name: Send alert on failure
+        if: ${{ failure() }}
+        uses: zulip/github-actions-zulip@35d7ad8e98444f894dcfe1d4e17332581d28ebeb
+        with:
+          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
+          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
+          organization-url: 'https://ponylang.zulipchat.com/'
+          to: notifications
+          type: stream
+          topic: ${{ github.repository }} scheduled job failure
+          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
