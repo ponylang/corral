@@ -1,10 +1,11 @@
-name: macOS ponyc update breakage test
+name: Windows ponyc update breakage test
 
 on:
   repository_dispatch:
     types: [ponyc-windows-nightly-released]
 
-   windows:
+jobs:
+  windows:
     name: Verify main against the latest ponyc on Windows
     runs-on: windows-latest
     steps:
