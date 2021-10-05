@@ -2,18 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
-
-### Added
-
+## [0.5.4] - 2021-10-05
 
 ### Changed
 
 - Update to compile with Pony 0.44.0 ([PR #200](https://github.com/ponylang/corral/pull/200))
-
 
 ## [0.5.3] - 2021-07-29
 
