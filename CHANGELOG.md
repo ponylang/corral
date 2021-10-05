@@ -12,6 +12,8 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Update to compile with Pony 0.44.0 ([PR #200](https://github.com/ponylang/corral/pull/200))
+
 
 ## [0.5.3] - 2021-07-29
 
