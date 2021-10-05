@@ -1,383 +1,383 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://ponylang.github.io/corral/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-Main/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-CLI/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-archive--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-archive-ArchiveEncoder/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-archive-ArchiveDecoder/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Files/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-BundleDir/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Project/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Locator/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-JsonError/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Json/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Dep/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-BundleData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-InfoData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-ScriptsData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-ScriptCommandData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-DepData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-LocksData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-LockData/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-bundle-Bundle/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-PostFetchScript/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdResultReceiver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-NoOpResultReceiver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-RepoForDep/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-Executor/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-Context/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-Constraints/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdVersion/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdUpdate/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdType/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdRun/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdRemove/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdPack/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdList/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdInit/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdInfo/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdClean/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-cmd-CmdAdd/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-mort--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-mort-Unreachable/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-range--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-range-RangeBoundsAreEqual/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-range-RangeBound/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-range-Range/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-Solver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-Result/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-InMemArtifactSource/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-Constraint/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-ArtifactSource/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-solver-Artifact/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-utils--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-utils-Strings/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-utils-EmptyIterator/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-utils-ZipIterator/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-utils-ComparableMixin/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-Version/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-ValidateFields/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-PreReleaseField/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-ParseVersion/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-Consts/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-semver-version-CompareVersions/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-DebugLevel/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-SimpleLogFormatter/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-Copy/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-Program/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-Action/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-ActionResult/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-util-Runner/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs--index/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-VCSBuilder/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-CorralVCSBuilder/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-Repo/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-VCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-RepoOperation/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-RepoOperationResultReceiver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-TagListReceiver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-TagQueryPrinter/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-SvnVCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-NoneVCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-NoOperation/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-NoOperationRcv/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-NoReceiver/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-HgVCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-GitVCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-GitSyncRepo/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-GitQueryTags/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-GitCheckoutRepo/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
      <loc>https://ponylang.github.io/corral/corral-vcs-BzrVCS/</loc>
-     <lastmod>2021-07-29</lastmod>
+     <lastmod>2021-10-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
