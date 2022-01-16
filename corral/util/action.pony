@@ -13,7 +13,7 @@ class val Program
     env: Env,
     name: String) ?
   =>
-    auth = env.root as AmbientAuth
+    auth = env.root
     path = if Path.is_abs(name) then
       FilePath(auth, name)
     else

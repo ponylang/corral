@@ -6,7 +6,7 @@ use "../vcs"
 primitive RepoForDep
   fun apply(ctx: Context, project: Project box, dep: Dep box): Repo ? =>
 
-    let auth = ctx.env.root as AmbientAuth
+    let auth = ctx.env.root
 
     ctx.log(Info) and ctx.log.log("dep is_vcs:" + dep.locator.is_vcs().string() +
       " is_local:" + dep.locator.is_local().string() +

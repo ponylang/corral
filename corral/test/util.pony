@@ -31,8 +31,7 @@ primitive Execute
 
 primitive Data
   fun apply(h: TestHelper, subdir: String = ""): FilePath ? =>
-    let auth = h.env.root as AmbientAuth
-    FilePath(auth, "corral/test/testdata").join(subdir)?
+    FilePath(h.env.root, "corral/test/testdata").join(subdir)?
 
 
 class val DataClone
@@ -40,7 +39,7 @@ class val DataClone
   let _dir: FilePath
 
   new val create(h: TestHelper, subdirs: (Array[String] val | String | None) = None) ? =>
-    let auth = h.env.root as AmbientAuth
+    let auth = h.env.root
     let src_root = FilePath(auth, "corral/test/testdata")
 
     _root = FilePath.mkdtemp(auth, "test_scratch.")?
