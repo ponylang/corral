@@ -3,7 +3,7 @@ use "ponytest"
 use ".."
 use "../../util"
 
-class TestClean is UnitTest
+class \nodoc\ TestClean is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/clean/github-deep"

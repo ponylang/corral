@@ -3,7 +3,7 @@ use "ponytest"
 use ".."
 use "../../util"
 
-class TestRun is UnitTest
+class  \nodoc\ TestRun is UnitTest
   fun name(): String => "integration/run"
   fun apply(h: TestHelper) ? =>
     h.long_test(30_000_000_000)
@@ -20,7 +20,7 @@ class TestRun is UnitTest
         h.complete(ar.exit_code() == 0)
       })
 
-class TestRunWithoutBundle is UnitTest
+class  \nodoc\ TestRunWithoutBundle is UnitTest
   fun name(): String => "integration/run/without-bundle"
   fun apply(h: TestHelper) =>
     h.long_test(30_000_000_000)

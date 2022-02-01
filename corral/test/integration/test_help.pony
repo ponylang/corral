@@ -2,7 +2,7 @@ use "ponytest"
 use ".."
 use "../../util"
 
-class TestHelp is UnitTest
+class  \nodoc\ TestHelp is UnitTest
   fun name(): String => "integration/help"
   fun apply(h: TestHelper) =>
     h.long_test(30_000_000_000)

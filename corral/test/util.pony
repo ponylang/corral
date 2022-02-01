@@ -3,11 +3,11 @@ use "files"
 use "ponytest"
 use "../util"
 
-interface val Checker
+interface  \nodoc\ val Checker
   fun apply(h: TestHelper, ar: ActionResult)
 
 
-primitive Execute
+primitive \nodoc\ Execute
   fun apply(h: TestHelper, args: Array[String] val, checker: (Checker | None) = None) =>
     try
       (let evars, let corral_bin_key, let corral_default) =
@@ -29,12 +29,12 @@ primitive Execute
     end
 
 
-primitive Data
+primitive \nodoc\ Data
   fun apply(h: TestHelper, subdir: String = ""): FilePath ? =>
     FilePath(h.env.root, "corral/test/testdata").join(subdir)?
 
 
-class val DataClone
+class \nodoc\ val DataClone
   let _root: FilePath
   let _dir: FilePath
 
@@ -71,7 +71,7 @@ class val DataClone
   fun dir_path(subdir: String): FilePath ? => _dir.join(subdir)?
 
 
-class val DataNone
+class \nodoc\ val DataNone
   fun cleanup(h: TestHelper) => None
   fun dir(): String => ""
   fun dir_path(subdir: String): FilePath ? => error
