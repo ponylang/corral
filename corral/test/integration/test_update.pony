@@ -3,7 +3,7 @@ use "ponytest"
 use ".."
 use "../../util"
 
-class TestUpdateEmpty is UnitTest
+class  \nodoc\ TestUpdateEmpty is UnitTest
   fun name(): String => "integration/update/empty-deps"
   fun apply(h: TestHelper) ? =>
     h.long_test(30_000_000_000)
@@ -19,7 +19,7 @@ class TestUpdateEmpty is UnitTest
         h.complete(ar.exit_code() == 0)
       })
 
-class TestUpdateLocalDirect is UnitTest
+class  \nodoc\ TestUpdateLocalDirect is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/local-direct"
@@ -52,7 +52,7 @@ class TestUpdateLocalDirect is UnitTest
         end
       })
 
-class TestUpdateMutuallyRecursive is UnitTest
+class  \nodoc\ TestUpdateMutuallyRecursive is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/mutually-recursive"
@@ -86,7 +86,7 @@ class TestUpdateMutuallyRecursive is UnitTest
         end
       })
 
-class TestUpdateSelfReferential is UnitTest
+class  \nodoc\ TestUpdateSelfReferential is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/self-referential"
@@ -119,7 +119,7 @@ class TestUpdateSelfReferential is UnitTest
         end
       })
 
-class TestUpdateGithub is UnitTest
+class  \nodoc\ TestUpdateGithub is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/github-leaf"
@@ -153,7 +153,7 @@ class TestUpdateGithub is UnitTest
         end
       })
 
-class TestUpdateScripts is UnitTest
+class  \nodoc\ TestUpdateScripts is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/scripts"
@@ -178,7 +178,7 @@ class TestUpdateScripts is UnitTest
         h.complete(ar.exit_code() == 0)
       })
 
-class TestUpdateGithubDeep is UnitTest
+class  \nodoc\ TestUpdateGithubDeep is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/github-deep"
@@ -214,7 +214,7 @@ class TestUpdateGithubDeep is UnitTest
       })
 
 
-class TestUpdateRemoteGits is UnitTest
+class  \nodoc\ TestUpdateRemoteGits is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/remote-gits"
@@ -251,7 +251,7 @@ class TestUpdateRemoteGits is UnitTest
         end
       })
 
-class TestUpdateBadGitReference is UnitTest
+class  \nodoc\ TestUpdateBadGitReference is UnitTest
   var data: (DataClone | DataNone) = DataNone
 
   fun name(): String => "integration/update/bad-git-reference"

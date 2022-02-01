@@ -4,7 +4,7 @@ use "ponytest"
 use "../bundle"
 use "../util"
 
-class TestBundle is UnitTest
+class  \nodoc\ TestBundle is UnitTest
   fun name(): String => "bundle/bundle"
 
   fun apply(h: TestHelper) ? =>
@@ -25,7 +25,7 @@ class TestBundle is UnitTest
     //h.assert_error(_BundleCreate("notfound"))?, log), "create in nonexistant directory")
     //h.assert_no_error(_BundleCreate(DataDir("empty")?, log), "create in directory with no bunde.json")
 
-class _BundleLoad is ITest
+class  \nodoc\ _BundleLoad is ITest
   let path: FilePath
   let log: Logger[String]
 
@@ -35,7 +35,7 @@ class _BundleLoad is ITest
 
   fun apply() ? => Bundle.load(path, log)?
 
-class _BundleCreate is ITest
+class  \nodoc\ _BundleCreate is ITest
   let path: FilePath
   let log: Logger[String]
 

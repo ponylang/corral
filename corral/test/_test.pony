@@ -3,7 +3,7 @@ use "files"
 use integration = "integration"
 use cmd = "../cmd"
 
-actor Main is TestList
+actor \nodoc\ Main is TestList
   new create(env: Env) =>
     PonyTest(env, this)
     env.err.print("Test Main CWD is: " + Path.cwd())

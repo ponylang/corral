@@ -2,10 +2,10 @@ use "ponytest"
 use "../vcs"
 use "../util"
 
-actor _GitParseTagsResultReceiver is RepoOperationResultReceiver
+actor \nodoc\ _GitParseTagsResultReceiver is RepoOperationResultReceiver
   be reportError(repo: Repo, actionResult: ActionResult) => None
 
-class TestGitParseTags is UnitTest
+class \nodoc\ TestGitParseTags is UnitTest
   fun name(): String => "git/parse-tags"
 
   fun apply(h: TestHelper) ? =>
