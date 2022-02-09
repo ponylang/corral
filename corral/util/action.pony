@@ -36,6 +36,10 @@ class val Program
         ifdef windows then
           let bin_bare = FilePath.from(bd, name)?
           if bin_bare.exists() then return bin_bare end
+          let bin_bat = FilePath.from(bd, name + ".bat")?
+          if bin_bat.exists() then return bin_bat end
+          let bin_ps1 = FilePath.from(bd, name + ".ps1")?
+          if bin_ps1.exists() then return bin_ps1 end
           let bin_exe = FilePath.from(bd, name + ".exe")?
           if bin_exe.exists() then return bin_exe end
         else
