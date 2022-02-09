@@ -36,14 +36,14 @@ class val Locator is (su.ComparableMixin[Locator] & Hashable & Stringable)
 
   fun path(): String =>
     """Returns a unique name for this locator without the vcs suffix."""
-    Path.join(repo_path, bundle_path)
+    Path.to_slash(Path.join(repo_path, bundle_path))
 
   fun flat_name(): String =>
     _Flattened(path())
 
   fun string(): String iso^ =>
     """Returns the full string for of this locator."""
-    Path.join(repo_path + vcs_suffix, bundle_path).clone()
+    Path.to_slash(Path.join(repo_path + vcs_suffix, bundle_path)).clone()
 
   fun compare(that: Locator box): Compare =>
     if (repo_path != that.repo_path) then return repo_path.compare(that.repo_path) end
