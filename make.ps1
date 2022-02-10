@@ -1,7 +1,7 @@
 Param(
-  [Parameter(Position=0, Mandatory=$true, HelpMessage="The action to take (build, test, install, package, clean).")]
+  [Parameter(Position=0, HelpMessage="The action to take (build, test, install, package, clean).")]
   [string]
-  $Command,
+  $Command = 'build',
 
   [Parameter(HelpMessage="The build configuration (Release, Debug).")]
   [string]
@@ -84,7 +84,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc.exe "$configFlag" --cpu "$Arch" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
