@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Avoid using backslashes in locator paths ([PR #215](https://github.com/ponylang/corral/pull/215))
 
 ### Added
 
