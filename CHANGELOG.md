@@ -10,6 +10,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Support for using ponyup on Windows ([PR #213](https://github.com/ponylang/corral/pull/213))
 
 ### Changed
 
