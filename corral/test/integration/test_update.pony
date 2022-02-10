@@ -146,6 +146,18 @@ class  \nodoc\ TestUpdateGithub is UnitTest
           let lock_file = data.dir_path("lock.json")?
           h.assert_true(lock_file.exists())
 
+          // Check for backslashes in locators
+          with file = File.open(lock_file) do
+            for line in file.lines() do
+              if line.contains("locator") and line.contains("\\") then
+                h.fail("lock file locator contains backslashes")
+                h.complete(false)
+                return
+              end
+            end
+          end
+
+          // Check for the _repos dir
           let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.exists())
 
