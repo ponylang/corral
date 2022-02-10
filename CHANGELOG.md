@@ -2,7 +2,7 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.5.5] - 2022-02-10
 
 ### Fixed
 
@@ -11,9 +11,6 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Support for using ponyup on Windows ([PR #213](https://github.com/ponylang/corral/pull/213))
-
-### Changed
-
 
 ## [0.5.4] - 2021-10-05
 
