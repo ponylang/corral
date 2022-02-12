@@ -26,6 +26,10 @@ actor \nodoc\ Main is TestList
     test(integration.TestUpdateSelfReferential)
     test(integration.TestRun)
     test(integration.TestRunWithoutBundle)
+    test(integration.TestRunNoArgs)
+    test(integration.TestRunBinaryNotFound)
+    test(integration.TestRunBinaryNotFoundAbsolute)
+    test(integration.TestRunBinaryInParentFolder)
     test(integration.TestClean)
 
     test(integration.TestUpdateScripts)

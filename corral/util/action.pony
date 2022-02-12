@@ -17,37 +17,41 @@ class val Program
     path = if Path.is_abs(name) then
       FilePath(auth, name)
     else
-      (let evars, let pathkey) =
-        ifdef windows then
-          // environment variables are case-insensitive on Windows
-          (EnvVars(env.vars, "", true), "path")
-        else
-          (EnvVars(env.vars), "PATH")
-        end
-      first_existing(auth, evars.get_or_else(pathkey, ""), name)?
+      let cwd = Path.cwd()
+      // first try to resolve the binary with the current directory as base
+      try
+        first_existing(auth, cwd, name)?
+      else
+        // then try with $PATH entries
+        (let evars, let pathkey) =
+          ifdef windows then
+            // environment variables are case-insensitive on Windows
+            (EnvVars(env.vars, "", true), "path")
+          else
+            (EnvVars(env.vars), "PATH")
+          end
+        first_existing(auth, evars.get_or_else(pathkey, ""), name)?
+      end
     end
 
   fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
     : FilePath ?
   =>
     for bindir in Path.split_list(binpath).values() do
-      try
-        let bd = FilePath(auth', bindir)
-        ifdef windows then
-          let bin_bare = FilePath.from(bd, name)?
-          if bin_bare.exists() then return bin_bare end
-          let bin_bat = FilePath.from(bd, name + ".bat")?
-          if bin_bat.exists() then return bin_bat end
-          let bin_ps1 = FilePath.from(bd, name + ".ps1")?
-          if bin_ps1.exists() then return bin_ps1 end
-          let bin_exe = FilePath.from(bd, name + ".exe")?
-          if bin_exe.exists() then return bin_exe end
-        else
-          let bin = FilePath.from(bd, name)?
-          if bin.exists() then
-            // TODO: should also stat for executable. FileInfo(bin)
-            return bin
-          end
+      ifdef windows then
+        let bin_bare = FilePath.create(auth', Path.join(bindir, name))
+        if bin_bare.exists() then return bin_bare end
+        let bin_bat = FilePath.create(auth', Path.join(bindir, name + ".bat"))
+        if bin_bat.exists() then return bin_bat end
+        let bin_ps1 = FilePath.create(auth', Path.join(bindir, name + ".ps1"))
+        if bin_ps1.exists() then return bin_ps1 end
+        let bin_exe = FilePath.create(auth', Path.join(bindir, name + ".exe"))
+        if bin_exe.exists() then return bin_exe end
+      else
+        let bin = FilePath.create(auth', Path.join(bindir, name))
+        if bin.exists() then
+          // TODO: should also stat for executable. FileInfo(bin)
+          return bin
         end
       end
     end
@@ -82,18 +86,23 @@ class val ActionResult
   let exit_status: ProcessExitStatus
   let stdout: String
   let stderr: String
-  let errmsg: String
+  let errmsg: (String | None)
 
   new val ok(exit_status': ProcessExitStatus, stdout': String, stderr': String) =>
     exit_status = exit_status'
     stdout = stdout'
     stderr = stderr'
-    errmsg = ""
+    errmsg = None
 
-  new val fail(errmsg': String, exit_status': ProcessExitStatus = Exited(-1)) =>
+  new val fail(
+    errmsg': String,
+    exit_status': ProcessExitStatus = Exited(-1),
+    stdout': String = "",
+    stderr': String = ""
+  ) =>
     exit_status = exit_status'
-    stdout = ""
-    stderr = ""
+    stdout = stdout'
+    stderr = stderr'
     errmsg = errmsg'
 
   fun val exit_code(): I32 =>
@@ -105,19 +114,24 @@ class val ActionResult
     end
 
   fun val print_to(out: OutStream) =>
-    out.print("  exit: " + exit_status.string())
+    match errmsg
+    | None =>
+      out.print("  exit: " + exit_status.string())
 
-    ifdef windows then
-      let stdout' = stdout.clone()
-      stdout'.replace("\r", "")
-      out.print("  out:\n" + (consume stdout'))
+      ifdef windows then
+        let stdout' = stdout.clone()
+        stdout'.replace("\r", "")
+        out.print("  out:\n" + (consume stdout'))
 
-      let stderr' = stderr.clone()
-      stderr'.replace("\r", "")
-      out.print("  err:\n" + (consume stderr'))
-    else
-      out.print("  out: " + stdout)
-      out.print("  err: " + stderr)
+        let stderr' = stderr.clone()
+        stderr'.replace("\r", "")
+        out.print("  err:\n" + (consume stderr'))
+      else
+        out.print("  out: " + stdout)
+        out.print("  err: " + stderr)
+      end
+    | let err: String =>
+      out.print("  failed: " + err)
     end
 
   fun successful(): Bool =>
@@ -179,7 +193,12 @@ class _Collector is ProcessNotify
     _stderr.append(consume data)
 
   fun ref failed(process: ProcessMonitor ref, err: ProcessError) =>
-    let cr = ActionResult.fail(err.string())
+    let cr = ActionResult.fail(
+      err.string()
+      where
+        stdout' = recover val _stdout.clone() end,
+        stderr' = recover val _stderr.clone() end
+    )
     _result(cr)
 
   fun ref dispose(process: ProcessMonitor ref, child_exit_status: ProcessExitStatus) =>
