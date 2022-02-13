@@ -36,6 +36,7 @@ class \nodoc\ TestRunWithoutBundle is UnitTest
         h.assert_true(ar.stdout.lower().contains("compiled with: "))
         h.complete(ar.exit_code() == 0)
       })
+
 class \nodoc\ TestRunNoArgs is UnitTest
   fun name(): String => "integration/run/no-args"
   fun apply(h: TestHelper) ? =>
