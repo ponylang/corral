@@ -2,18 +2,12 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.5.6] - 2022-02-13
 
 ### Fixed
 
 - Improved error messages for `corral run` ([PR #216](https://github.com/ponylang/corral/pull/216))
 - Fix resolving relative paths with `corral run` ([PR #216](https://github.com/ponylang/corral/pull/216))
-
-### Added
-
-
-### Changed
-
 
 ## [0.5.5] - 2022-02-10
 
