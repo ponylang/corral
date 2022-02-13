@@ -73,17 +73,17 @@ class \nodoc\ TestRunBinaryNotFoundAbsolute is UnitTest
   fun name(): String => "integration/run/binary-not-found-absolute"
   fun apply(h: TestHelper) ? =>
     h.long_test(30_000_000_000)
+    let path = Path.join("/path/to", "grmpf_i_do_not_exist_anywhere")
     Execute(h,
       recover [
         "run"
         "--bundle_dir"; Data(h, "empty-deps")?.path
         "--"
-        "/path/to/grmpf_i_do_not_exist_anywhere"
+        path
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
-        ar.print_to(h.env.out)
         h.assert_ne[I32](0, ar.exit_code())
-        h.assert_true(ar.stdout.lower().contains("/path/to/grmpf_i_do_not_exist_anywhere does not exist or is a directory"))
+        h.assert_true(ar.stdout.lower().contains(path + " does not exist or is a directory"))
         h.complete(ar.exit_code() != 0)
       })
 
