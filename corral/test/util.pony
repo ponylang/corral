@@ -1,9 +1,11 @@
 use "cli"
 use "files"
+use "strings"
 use "ponytest"
 use "../util"
 
-interface  \nodoc\ val Checker
+
+interface \nodoc\ val Checker
   fun apply(h: TestHelper, ar: ActionResult)
 
 
@@ -75,3 +77,28 @@ class \nodoc\ val DataNone
   fun cleanup(h: TestHelper) => None
   fun dir(): String => ""
   fun dir_path(subdir: String): FilePath ? => error
+
+primitive RelativePathToPonyc
+  fun apply(h: TestHelper): String ? =>
+    var cwd = Path.cwd()
+    var ponyc_rel_path: String trn = recover trn String.create() end
+    let env = EnvVars(h.env.vars)
+    let path =
+      ifdef windows then
+        env("path")?
+      else
+        env("PATH")?
+      end
+    for bindir in Path.split_list(path).values() do
+      let ponyc_path = FilePath(h.env.root, Path.join(bindir, "ponyc"))
+      if ponyc_path.exists() then
+        let prefix: String val = CommonPrefix([cwd; ponyc_path.path])
+        while cwd.size() > prefix.size() do
+          cwd = Path.dir(cwd)
+          ponyc_rel_path = ponyc_rel_path + ".." + Path.sep()
+        end
+        ponyc_rel_path = ponyc_rel_path + ponyc_path.path.substring(prefix.size().isize())
+        return (consume ponyc_rel_path)
+      end
+    end
+    error

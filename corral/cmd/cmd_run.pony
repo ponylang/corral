@@ -42,24 +42,34 @@ class CmdRun is CmdType
     end
     ctx.log(Info) and ctx.log.log("run ponypath: " + ponypath)
 
-    try
-      let prog = Program(ctx.env, args(0)?)?
-      let vars = if ponypath.size() > 0 then
-          recover val [as String: "PONYPATH=" + ponypath] .> append(ctx.env.vars) end
-        else
-          ctx.env.vars
-        end
-      let a = Action(prog, recover args.slice(1) end, vars)
-      if not ctx.nothing then
-        Runner.run(a, {(result: ActionResult) =>
-          result.print_to(ctx.env.out)
-          if not result.successful() then
-            ctx.env.exitcode(result.exit_code())
-          end
-        })
+    let binary =
+      try
+        args(0)?
+      else
+        ctx.uout(Error) and ctx.uout.log("run: no run command provided")
+        ctx.env.exitcode(1)
+        return
       end
-    else
-      ctx.uout(Error) and ctx.uout.log("run: " + "couldn't run program: " + " ".join(args.values()))
-      ctx.env.exitcode(1)
-      return
+    let prog =
+      try
+        Program(ctx.env, binary)?
+      else
+        ctx.uout(Error) and ctx.uout.log("run: unable to find binary \"" + binary + "\" either in current directory or on $PATH.")
+        ctx.env.exitcode(1)
+        return
+      end
+
+    let vars = if ponypath.size() > 0 then
+        recover val [as String: "PONYPATH=" + ponypath] .> append(ctx.env.vars) end
+      else
+        ctx.env.vars
+      end
+    let a = Action(prog, recover args.slice(1) end, vars)
+    if not ctx.nothing then
+      Runner.run(a, {(result: ActionResult) =>
+        result.print_to(ctx.env.out)
+        if not result.successful() then
+          ctx.env.exitcode(result.exit_code())
+        end
+      })
     end
