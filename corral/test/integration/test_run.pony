@@ -82,9 +82,9 @@ class \nodoc\ TestRunBinaryNotFoundAbsolute is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         ar.print_to(h.env.out)
-        h.assert_eq[I32](255, ar.exit_code())
+        h.assert_ne[I32](0, ar.exit_code())
         h.assert_true(ar.stdout.lower().contains("/path/to/grmpf_i_do_not_exist_anywhere does not exist or is a directory"))
-        h.complete(ar.exit_code() == 255)
+        h.complete(ar.exit_code() != 0)
       })
 
 class \nodoc\ TestRunBinaryInParentFolder is UnitTest
