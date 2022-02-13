@@ -8,7 +8,6 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 - Improved error messages for `corral run` ([PR #216](https://github.com/ponylang/corral/pull/216))
 
-
 ### Added
 
 
