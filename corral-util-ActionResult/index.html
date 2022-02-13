@@ -1393,8 +1393,8 @@
         
           
             <li class="md-nav__item">
-    <a href="#let-errmsg-string-val" title="let errmsg: String val" class="md-nav__link">
-    let errmsg: String val
+    <a href="#let-errmsg-string-val-none-val" title="let errmsg: (String val | None val)" class="md-nav__link">
+    let errmsg: (String val | None val)
   </a>
   
 </li>
@@ -1833,8 +1833,8 @@
         
           
             <li class="md-nav__item">
-    <a href="#let-errmsg-string-val" title="let errmsg: String val" class="md-nav__link">
-    let errmsg: String val
+    <a href="#let-errmsg-string-val-none-val" title="let errmsg: (String val | None val)" class="md-nav__link">
+    let errmsg: (String val | None val)
   </a>
   
 </li>
@@ -1906,14 +1906,14 @@
                 
                 
                 <h1 id="actionresult">ActionResult<a class="headerlink" href="#actionresult" title="Permanent link">&para;</a></h1>
-<p><span class="source-link"><a href="src/corral-util/action.md#L77">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L81">[Source]</a></span></p>
 <p>The results of an Action which includes its exit code, out and err streams as
 Strings, and and error message if the Action failed.</p>
 <pre><code class="language-pony">class val ActionResult
 </code></pre>
 <h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
 <h3 id="ok">ok<a class="headerlink" href="#ok" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L87">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L91">[Source]</a></span></p>
 <pre><code class="language-pony">new val ok(
   exit_status': (Exited val | Signaled val),
   stdout': String val,
@@ -1932,16 +1932,20 @@ Strings, and and error message if the Action failed.</p>
 </ul>
 <hr />
 <h3 id="fail">fail<a class="headerlink" href="#fail" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L93">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L97">[Source]</a></span></p>
 <pre><code class="language-pony">new val fail(
   errmsg': String val,
-  exit_status': (Exited val | Signaled val) = call)
+  exit_status': (Exited val | Signaled val) = call,
+  stdout': String val = &quot;&quot;,
+  stderr': String val = &quot;&quot;)
 : ActionResult val^
 </code></pre>
 <h4 id="parameters_1">Parameters<a class="headerlink" href="#parameters_1" title="Permanent link">&para;</a></h4>
 <ul>
 <li>errmsg': <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val</li>
 <li>exit_status': (<a href="https://stdlib.ponylang.io/process-Exited/">Exited</a> val | <a href="https://stdlib.ponylang.io/process-Signaled/">Signaled</a> val) = call</li>
+<li>stdout': <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val = ""</li>
+<li>stderr': <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val = ""</li>
 </ul>
 <h4 id="returns_1">Returns<a class="headerlink" href="#returns_1" title="Permanent link">&para;</a></h4>
 <ul>
@@ -1950,20 +1954,20 @@ Strings, and and error message if the Action failed.</p>
 <hr />
 <h2 id="public-fields">Public fields<a class="headerlink" href="#public-fields" title="Permanent link">&para;</a></h2>
 <h3 id="let-exit_status-exited-val-signaled-val">let exit_status: (<a href="https://stdlib.ponylang.io/process-Exited/">Exited</a> val | <a href="https://stdlib.ponylang.io/process-Signaled/">Signaled</a> val)<a class="headerlink" href="#let-exit_status-exited-val-signaled-val" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L82">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L86">[Source]</a></span></p>
 <hr />
 <h3 id="let-stdout-string-val">let stdout: <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val<a class="headerlink" href="#let-stdout-string-val" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L83">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L87">[Source]</a></span></p>
 <hr />
 <h3 id="let-stderr-string-val">let stderr: <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val<a class="headerlink" href="#let-stderr-string-val" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L84">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L88">[Source]</a></span></p>
 <hr />
-<h3 id="let-errmsg-string-val">let errmsg: <a href="https://stdlib.ponylang.io/builtin-String/">String</a> val<a class="headerlink" href="#let-errmsg-string-val" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L85">[Source]</a></span></p>
+<h3 id="let-errmsg-string-val-none-val">let errmsg: (<a href="https://stdlib.ponylang.io/builtin-String/">String</a> val | <a href="https://stdlib.ponylang.io/builtin-None/">None</a> val)<a class="headerlink" href="#let-errmsg-string-val-none-val" title="Permanent link">&para;</a></h3>
+<p><span class="source-link"><a href="src/corral-util/action.md#L89">[Source]</a></span></p>
 <hr />
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <h3 id="exit_code">exit_code<a class="headerlink" href="#exit_code" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L99">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L108">[Source]</a></span></p>
 <pre><code class="language-pony">fun val exit_code()
 : I32 val
 </code></pre>
@@ -1973,7 +1977,7 @@ Strings, and and error message if the Action failed.</p>
 </ul>
 <hr />
 <h3 id="print_to">print_to<a class="headerlink" href="#print_to" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L107">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L116">[Source]</a></span></p>
 <pre><code class="language-pony">fun val print_to(
   out: OutStream tag)
 : None val
@@ -1988,7 +1992,7 @@ Strings, and and error message if the Action failed.</p>
 </ul>
 <hr />
 <h3 id="successful">successful<a class="headerlink" href="#successful" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L123">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L137">[Source]</a></span></p>
 <pre><code class="language-pony">fun box successful()
 : Bool val
 </code></pre>

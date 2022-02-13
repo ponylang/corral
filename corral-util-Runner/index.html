@@ -1786,14 +1786,14 @@
                 
                 
                 <h1 id="runner">Runner<a class="headerlink" href="#runner" title="Permanent link">&para;</a></h1>
-<p><span class="source-link"><a href="src/corral-util/action.md#L130">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L144">[Source]</a></span></p>
 <p>Run an Action using ProcessMonitor, and pass the resulting ActionResult to a
 given lambda.</p>
 <pre><code class="language-pony">primitive val Runner
 </code></pre>
 <h2 id="constructors">Constructors<a class="headerlink" href="#constructors" title="Permanent link">&para;</a></h2>
 <h3 id="create">create<a class="headerlink" href="#create" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L130">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L144">[Source]</a></span></p>
 <pre><code class="language-pony">new val create()
 : Runner val^
 </code></pre>
@@ -1804,7 +1804,7 @@ given lambda.</p>
 <hr />
 <h2 id="public-functions">Public Functions<a class="headerlink" href="#public-functions" title="Permanent link">&para;</a></h2>
 <h3 id="run">run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L135">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L149">[Source]</a></span></p>
 <pre><code class="language-pony">fun box run(
   action: Action val,
   result: {(ActionResult)} iso)
@@ -1821,7 +1821,7 @@ given lambda.</p>
 </ul>
 <hr />
 <h3 id="eq">eq<a class="headerlink" href="#eq" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L135">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L149">[Source]</a></span></p>
 <pre><code class="language-pony">fun box eq(
   that: Runner val)
 : Bool val
@@ -1836,7 +1836,7 @@ given lambda.</p>
 </ul>
 <hr />
 <h3 id="ne">ne<a class="headerlink" href="#ne" title="Permanent link">&para;</a></h3>
-<p><span class="source-link"><a href="src/corral-util/action.md#L135">[Source]</a></span></p>
+<p><span class="source-link"><a href="src/corral-util/action.md#L149">[Source]</a></span></p>
 <pre><code class="language-pony">fun box ne(
   that: Runner val)
 : Bool val
