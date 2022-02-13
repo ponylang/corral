@@ -1,5 +1,5 @@
 Param(
-  [Parameter(Position=0, HelpMessage="The action to take (build, test, install, package, clean).")]
+  [Parameter(Position=0, HelpMessage="The action to take (build, test, buildtest, install, package, clean).")]
   [string]
   $Command = 'build',
 
@@ -104,8 +104,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$Arch`" --output `"$buildDir`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" "$testDir"
+      Write-Output "ponyc `"$configFlag`" --cpu `"$Arch`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }
@@ -119,6 +119,12 @@ switch ($Command.ToLower())
   "build"
   {
     BuildCorral
+    break
+  }
+
+  "buildtest"
+  {
+    BuildTest
     break
   }
 
@@ -169,6 +175,6 @@ switch ($Command.ToLower())
 
   default
   {
-    throw "Unknown command '$Command'; must be one of (build, test, install, clean)"
+    throw "Unknown command '$Command'; must be one of (build, test, buildtest, install, package, clean)"
   }
 }
