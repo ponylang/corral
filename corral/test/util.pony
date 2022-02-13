@@ -78,7 +78,6 @@ class \nodoc\ val DataNone
   fun dir(): String => ""
   fun dir_path(subdir: String): FilePath ? => error
 
-
 primitive RelativePathToPonyc
   fun apply(h: TestHelper): String ? =>
     var cwd = Path.cwd()
@@ -103,6 +102,3 @@ primitive RelativePathToPonyc
       end
     end
     error
-
-
-
