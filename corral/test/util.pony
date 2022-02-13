@@ -103,6 +103,3 @@ primitive RelativePathToPonyc
       end
     end
     error
-
-
-
