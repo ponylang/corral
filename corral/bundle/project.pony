@@ -1,7 +1,7 @@
 use "collections"
 use "files"
 use "json"
-use "logger"
+use "../logger"
 
 primitive Files
   fun tag bundle_filename(): String => "corral.json"

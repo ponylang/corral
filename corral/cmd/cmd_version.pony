@@ -1,5 +1,5 @@
 use "cli"
-use "logger"
+use "../logger"
 use ".."
 use "../bundle"
 use "../vcs"

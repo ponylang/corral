@@ -1,4 +1,4 @@
-use "logger"
+use "../logger"
 
 primitive DebugLevel
   fun apply(lvl: U64): LogLevel =>

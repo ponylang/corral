@@ -1,6 +1,6 @@
 use "cli"
 use "files"
-use "logger"
+use "../logger"
 use "../bundle"
 use "../vcs"
 
