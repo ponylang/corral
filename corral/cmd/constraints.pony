@@ -1,5 +1,5 @@
 use "collections"
-use "logger"
+use "../logger"
 use sr="../semver/range"
 use ss="../semver/solver"
 use sv="../semver/version"

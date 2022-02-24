@@ -1,4 +1,4 @@
-use "logger"
+use "../logger"
 use "process"
 use "../bundle"
 use "../util"

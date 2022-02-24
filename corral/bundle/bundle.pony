@@ -1,7 +1,7 @@
 use "collections"
 use "files"
 use "json"
-use "logger"
+use "../logger"
 
 class Bundle
   """

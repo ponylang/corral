@@ -1,7 +1,7 @@
 use "cli"
 use "collections"
 use "files"
-use "logger"
+use "../logger"
 use "../bundle"
 use "../util"
 use "../vcs"

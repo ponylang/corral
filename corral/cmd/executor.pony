@@ -1,5 +1,5 @@
 use "files"
-use "logger"
+use "../logger"
 use "../bundle"
 use "debug"
 use "../vcs"

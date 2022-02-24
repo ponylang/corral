@@ -1,6 +1,6 @@
 use "cli"
 use "json"
-use "logger"
+use "../logger"
 use "../bundle"
 use "../vcs"
 

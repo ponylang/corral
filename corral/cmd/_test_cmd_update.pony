@@ -1,5 +1,5 @@
 use "files"
-use "logger"
+use "../logger"
 use "ponytest"
 use "../bundle"
 use "../util"

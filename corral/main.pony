@@ -1,6 +1,6 @@
 use "cli"
 use "cmd"
-use "logger"
+use "./logger"
 use "util"
 
 actor Main
