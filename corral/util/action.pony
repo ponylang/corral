@@ -1,3 +1,4 @@
+use "backpressure"
 use "cli"  // EnvVars
 use "files"
 use "process"
@@ -6,21 +7,25 @@ class val Program
   """
   A Program encapsulates an executable program and authority to execute it.
   """
-  let auth: AmbientAuth
+  let process_auth: StartProcessAuth
+  let backpressure_auth: ApplyReleaseBackpressureAuth
   let path: FilePath
 
   new val create(
     env: Env,
     name: String) ?
   =>
-    auth = env.root
+    let file_auth = FileAuth(env.root)
+    process_auth = StartProcessAuth(env.root)
+    backpressure_auth = ApplyReleaseBackpressureAuth(env.root)
+
     path = if Path.is_abs(name) then
-      FilePath(auth, name)
+      FilePath(file_auth, name)
     else
       let cwd = Path.cwd()
       // first try to resolve the binary with the current directory as base
       try
-        first_existing(auth, cwd, name)?
+        first_existing(file_auth, cwd, name)?
       else
         // then try with $PATH entries
         (let evars, let pathkey) =
@@ -30,11 +35,11 @@ class val Program
           else
             (EnvVars(env.vars), "PATH")
           end
-        first_existing(auth, evars.get_or_else(pathkey, ""), name)?
+        first_existing(file_auth, evars.get_or_else(pathkey, ""), name)?
       end
     end
 
-  fun tag first_existing(auth': AmbientAuth, binpath: String, name: String)
+  fun tag first_existing(auth': FileAuth, binpath: String, name: String)
     : FilePath ?
   =>
     for bindir in Path.split_list(binpath).values() do
@@ -162,8 +167,8 @@ primitive Runner
     argv.push(appname)
     argv.append(action.args)
     let pm = ProcessMonitor(
-      action.prog.auth,
-      action.prog.auth,
+      action.prog.process_auth,
+      action.prog.backpressure_auth,
       consume c,
       action.prog.path,
       consume argv,

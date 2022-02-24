@@ -87,7 +87,7 @@ primitive _OpsRecorderTestRunner
     """
     Runs an _OpsRecorder test.
     """
-    let auth = h.env.root
+    let auth = FileAuth(h.env.root)
     let log = StringLogger(Error, h.env.err, SimpleLogFormatter)
     let fp: FilePath = _TestData.file_path_from(h, dep_path)?
     let repo_cache = _TestRepoCache(auth)
@@ -203,8 +203,8 @@ class val _RecordedCheckout is RepoOperation
 
 primitive _TestData
   fun file_path_from(h: TestHelper, subdir: String = ""): FilePath ? =>
-    FilePath(h.env.root, "corral/test/testdata").join(subdir)?
+    FilePath(FileAuth(h.env.root), "corral/test/testdata").join(subdir)?
 
 primitive _TestRepoCache
-  fun apply(auth: AmbientAuth): FilePath =>
+  fun apply(auth: FileAuth): FilePath =>
     FilePath(auth,"_test_cmd_update_repo_cache")

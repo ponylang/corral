@@ -33,7 +33,7 @@ primitive \nodoc\ Execute
 
 primitive \nodoc\ Data
   fun apply(h: TestHelper, subdir: String = ""): FilePath ? =>
-    FilePath(h.env.root, "corral/test/testdata").join(subdir)?
+    FilePath(FileAuth(h.env.root), "corral/test/testdata").join(subdir)?
 
 
 class \nodoc\ val DataClone
@@ -41,7 +41,7 @@ class \nodoc\ val DataClone
   let _dir: FilePath
 
   new val create(h: TestHelper, subdirs: (Array[String] val | String | None) = None) ? =>
-    let auth = h.env.root
+    let auth = FileAuth(h.env.root)
     let src_root = FilePath(auth, "corral/test/testdata")
 
     _root = FilePath.mkdtemp(auth, "test_scratch.")?
@@ -90,7 +90,8 @@ primitive RelativePathToPonyc
         env("PATH")?
       end
     for bindir in Path.split_list(path).values() do
-      let ponyc_path = FilePath(h.env.root, Path.join(bindir, "ponyc"))
+      let ponyc_path = FilePath(
+        FileAuth(h.env.root), Path.join(bindir, "ponyc"))
       if ponyc_path.exists() then
         let prefix: String val = CommonPrefix([cwd; ponyc_path.path])
         while cwd.size() > prefix.size() do

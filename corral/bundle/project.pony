@@ -13,7 +13,7 @@ primitive BundleDir
   Locates project bundle directories either by direct resolving of bundle
   files, or searching up the directory tree until the files are found.
   """
-  fun find(auth: AmbientAuth, dir: String, log: Logger[String]): (FilePath | None) =>
+  fun find(auth: FileAuth, dir: String, log: Logger[String]): (FilePath | None) =>
     var dir' = dir
     while dir'.size() > 0 do
       log(Info) and log.log("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
@@ -29,7 +29,7 @@ primitive BundleDir
     log(Info) and log.log(Files.bundle_filename() + " not found, looked last in: '" + dir' + "'")
     None
 
-  fun resolve(auth: AmbientAuth, dir: String, log: Logger[String]): (FilePath | None) =>
+  fun resolve(auth: FileAuth, dir: String, log: Logger[String]): (FilePath | None) =>
     log(Info) and log.log("Checking for " + Files.bundle_filename() + " in: '" + dir + "'")
     try
       let dir_path = FilePath(auth, dir)
@@ -46,11 +46,11 @@ class val Project
   Project assists with the performing operations on bundles and deps of a
   project.
   """
-  let auth: AmbientAuth
+  let auth: FileAuth
   let log: Logger[String]
   let dir: FilePath
 
-  new val create(auth': AmbientAuth, log': Logger[String], dir': FilePath) =>
+  new val create(auth': FileAuth, log': Logger[String], dir': FilePath) =>
     auth = auth'
     log = log'
     dir = dir'

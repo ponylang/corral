@@ -40,7 +40,7 @@ jobs:
     name: Verify PR builds most recent ponyc release on Linux
     runs-on: ubuntu-latest
     container:
-      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
+      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
     steps:
       - uses: actions/checkout@v2
       - name: Test with most recent ponyc release
@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install ponyc
-        run: bash .ci-scripts/macOS-install-pony-tools.bash release
+        run: bash .ci-scripts/macOS-install-pony-tools.bash nightly
       - name: brew install dependencies
         run: brew install coreutils
       - name: Test with most recent ponyc release
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Test with most recent ponyc release
         run: |
-          Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
+          Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command test 2>&1

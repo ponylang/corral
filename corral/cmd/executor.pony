@@ -19,7 +19,7 @@ primitive Executor
     bundle_dir_arg: String)
     // TODO: add when we have the cli flag: repo_cache_str: String
   =>
-    let auth = env.root
+    let auth = FileAuth(env.root)
 
     // Resolve the bundle dir arg into a clean path string
     let bundle_dir_str =
