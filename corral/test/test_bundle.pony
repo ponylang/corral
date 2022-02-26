@@ -1,6 +1,6 @@
 use "files"
 use "../logger"
-use "ponytest"
+use "pony_test"
 use "../bundle"
 use "../util"
 

@@ -1,4 +1,4 @@
-use "ponytest"
+use "pony_test"
 use "promises"
 
 actor \nodoc\ Main is TestList

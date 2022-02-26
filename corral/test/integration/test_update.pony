@@ -1,5 +1,5 @@
 use "files"
-use "ponytest"
+use "pony_test"
 use ".."
 use "../../util"
 

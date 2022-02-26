@@ -1,4 +1,4 @@
-use "ponytest"
+use "pony_test"
 use "files"
 use integration = "integration"
 use cmd = "../cmd"

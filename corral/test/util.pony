@@ -1,7 +1,7 @@
 use "cli"
 use "files"
 use "strings"
-use "ponytest"
+use "pony_test"
 use "../util"
 
 
