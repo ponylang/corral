@@ -2,18 +2,12 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.5.7] - 2022-02-26
 
 ### Fixed
 
 - Update to work with object capabilities changes in Pony 0.49.0 ([PR #219](https://github.com/ponylang/corral/pull/219))
 - Update to address PonyTest package being renamed ([PR #220](https://github.com/ponylang/corral/pull/220))
-
-### Added
-
-
-### Changed
-
 
 ## [0.5.6] - 2022-02-13
 
