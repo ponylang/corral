@@ -9,7 +9,7 @@ jobs:
     name: Build and upload x86-64-unknown-linux-nightly to Cloudsmith
     runs-on: ubuntu-latest
     container:
-      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
       - uses: actions/checkout@v2
       - name: Build and upload
@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install ponyc
-        run: bash .ci-scripts/macOS-install-pony-tools.bash nightly
+        run: bash .ci-scripts/macOS-install-pony-tools.bash release
       - name: brew install dependencies
         run: brew install coreutils
       - name: pip install dependencies
@@ -65,7 +65,7 @@ jobs:
       - name: Build and upload
         run: |
           python.exe -m pip install --upgrade cloudsmith-cli
-          Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
+          Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command build;
