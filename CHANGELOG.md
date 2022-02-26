@@ -7,6 +7,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Fixed
 
 - Update to work with object capabilities changes in Pony 0.49.0 ([PR #219](https://github.com/ponylang/corral/pull/219))
+- Update to address PonyTest package being renamed ([PR #220](https://github.com/ponylang/corral/pull/220))
 
 ### Added
 
