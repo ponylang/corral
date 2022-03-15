@@ -7,7 +7,7 @@ on:
 jobs:
   windows:
     name: Verify main against the latest ponyc on Windows
-    runs-on: windows-latest
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - name: Test with most recent ponyc nightly
