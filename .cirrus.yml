@@ -21,6 +21,21 @@ task:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - gmake test
 
+task:
+  only_if: $CIRRUS_PR != ''
+
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode:13.3.1
+
+  name: "PR: arm64-apple-darwin"
+
+  install_script:
+    - bash .ci-scripts/MacOS-arm64-install-pony-tools.bash release
+
+  test_script:
+    - export PATH="/tmp/ponyc/bin/:$PATH"
+    - make test
+
 #
 # Nightly build tasks
 #
@@ -49,6 +64,25 @@ task:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-nightly.bash release
 
+task:
+  only_if: $CIRRUS_CRON == "nightly"
+
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode:13.3.1
+
+  name: "nightly: arm64-apple-darwin"
+
+  environment:
+    CLOUDSMITH_API_KEY: ENCRYPTED[fd6a633b6b830c0558d7553d2b1e899b48a47f82037c764ac15febb69a49a53e7415573562f89675ecca9d4e8d6c4969]
+    GITHUB_REPOSITORY: ponylang/corral
+
+  install_script:
+    - bash .ci-scripts/MacOS-arm64-install-pony-tools.bash release
+
+  nightly_script:
+    - export PATH="/tmp/ponyc/bin/:$PATH"
+    - bash .ci-scripts/release/arm64-apple-darwin-nightly.bash
+
 #
 # Release build tasks
 #
@@ -76,3 +110,4 @@ task:
   release_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
     - bash .ci-scripts/release/x86-64-unknown-freebsd-13.0-release.bash
+
