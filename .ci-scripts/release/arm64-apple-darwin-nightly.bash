@@ -59,13 +59,12 @@ set -o nounset
 TODAY=$(date +%Y%m%d)
 
 # Compiler target parameters
-MACHINE=arm64
-PROCESSOR=armv8
+ARCH=arm64
 
 # Triple construction
 VENDOR=apple
 OS=darwin
-TRIPLE=${MACHINE}-${VENDOR}-${OS}
+TRIPLE=${ARCH}-${VENDOR}-${OS}
 
 # Build parameters
 BUILD_PREFIX=$(mktemp -d)
@@ -87,7 +86,7 @@ ASSET_DESCRIPTION="https://github.com/${GITHUB_REPOSITORY}"
 
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
-make install prefix="${BUILD_DIR}" arch=${PROCESSOR} \
+make install prefix="${BUILD_DIR}" arch=${ARCH} \
   version="${APPLICATION_VERSION}"
 
 # Package it all up
