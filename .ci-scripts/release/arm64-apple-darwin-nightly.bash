@@ -60,6 +60,7 @@ TODAY=$(date +%Y%m%d)
 
 # Compiler target parameters
 ARCH=arm64
+CPU=apple-m1
 
 # Triple construction
 VENDOR=apple
@@ -86,7 +87,7 @@ ASSET_DESCRIPTION="https://github.com/${GITHUB_REPOSITORY}"
 
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
-make install prefix="${BUILD_DIR}" arch=${ARCH} \
+make install prefix="${BUILD_DIR}" arch=${CPU} \
   version="${APPLICATION_VERSION}"
 
 # Package it all up
