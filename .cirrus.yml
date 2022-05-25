@@ -77,12 +77,12 @@ task:
     GITHUB_REPOSITORY: ponylang/corral
 
   install_script:
-    - bash .ci-scripts/MacOS-arm64-install-pony-tools.bash release
     - brew install coreutils
     - pip3 install --upgrade cloudsmith-cli
+    - bash .ci-scripts/MacOS-arm64-install-pony-tools.bash release
 
   nightly_script:
-    - export PATH="/tmp/ponyc/bin/:$PATH"
+    - export PATH="/tmp/ponyc/bin/:/Users/admin/Library/Python/3.8/bin:$PATH"
     - bash .ci-scripts/release/arm64-apple-darwin-nightly.bash
 
 #
