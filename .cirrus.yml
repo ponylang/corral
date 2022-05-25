@@ -31,6 +31,10 @@ task:
 
   install_script:
     - bash .ci-scripts/MacOS-arm64-install-pony-tools.bash release
+    - brew install coreutils
+    - pip3 install --upgrade cloudsmith-cli
+    - which cloudsmith
+    - echo $PATH
 
   test_script:
     - export PATH="/tmp/ponyc/bin/:$PATH"
