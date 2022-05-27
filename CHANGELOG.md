@@ -2,17 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
-
-### Fixed
-
+## [0.6.0] - 2022-05-27
 
 ### Added
 
 - Add prebuilt corral binaries for MacOS on Apple Silicon ([PR #224](https://github.com/ponylang/corral/pull/224))
-
-### Changed
-
 
 ## [0.5.7] - 2022-02-26
 
