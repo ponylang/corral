@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add prebuilt corral binaries for MacOS on Apple Silicon ([PR #224](https://github.com/ponylang/corral/pull/224))
 
 ### Changed
 
