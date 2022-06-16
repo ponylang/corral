@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Update Dockerfile to use Alpine 3.16 as base ([PR #225](https://github.com/ponylang/corral/pull/225))
 
 ## [0.6.0] - 2022-05-27
 
