@@ -54,7 +54,7 @@ jobs:
         run: pip3 install --upgrade cloudsmith-cli
       - name: Build and upload
         run: |
-          export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
+          export PATH="$HOME/.local/share/ponyup/bin/:/Library/Frameworks/Python.framework/Versions/3.11/bin/:$PATH"
           bash .ci-scripts/release/x86-64-apple-darwin-release.bash
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
