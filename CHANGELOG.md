@@ -13,6 +13,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Changed
 
 - Update Dockerfile to use Alpine 3.16 as base ([PR #225](https://github.com/ponylang/corral/pull/225))
+- Switch supported FreeBSD version to 13.1 ([PR #226](https://github.com/ponylang/corral/pull/226))
 
 ## [0.6.0] - 2022-05-27
 
