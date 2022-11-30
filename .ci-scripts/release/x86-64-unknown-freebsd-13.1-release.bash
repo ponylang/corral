@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# x86-64-unknown-freebsd-13.0 release:
+# x86-64-unknown-freebsd-13.1 release:
 #
 # - Builds release package
 # - Uploads to Cloudsmith
@@ -56,19 +56,17 @@ fi
 # allow above so we can display nice error messages for expected unset variables
 set -o nounset
 
-TODAY=$(date +%Y%m%d)
-
 # Compiler target parameters
 ARCH=x86-64
 
 # Triple construction
 VENDOR=unknown
-OS=freebsd-13.0
+OS=freebsd-13.1
 TRIPLE=${ARCH}-${VENDOR}-${OS}
 
 # Build parameters
 BUILD_PREFIX=$(mktemp -d)
-APPLICATION_VERSION="nightly-${TODAY}"
+APPLICATION_VERSION=$(cat VERSION)
 BUILD_DIR=${BUILD_PREFIX}/${APPLICATION_VERSION}
 
 # Asset information
@@ -76,9 +74,9 @@ PACKAGE_DIR=$(mktemp -d)
 PACKAGE=${APPLICATION_NAME}-${TRIPLE}
 
 # Cloudsmith configuration
-CLOUDSMITH_VERSION=${TODAY}
+CLOUDSMITH_VERSION=$(cat VERSION)
 ASSET_OWNER=ponylang
-ASSET_REPO=nightlies
+ASSET_REPO=releases
 ASSET_PATH=${ASSET_OWNER}/${ASSET_REPO}
 ASSET_FILE=${PACKAGE_DIR}/${PACKAGE}.tar.gz
 ASSET_SUMMARY="${APPLICATION_SUMMARY}"
