@@ -13,7 +13,7 @@ task:
   install_script:
     - echo "FETCH_RETRY = 6" >> /usr/local/etc/pkg.conf
     - pkg install -y bash git gmake
-    - bash .ci-scripts/freebsd-install-pony-tools.bash nightly
+    - bash .ci-scripts/freebsd-install-pony-tools.bash release
 
   test_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
@@ -55,7 +55,7 @@ task:
     - python3 -m ensurepip --upgrade
     - python3 -m pip install cloudsmith-cli
     - pkg install -y bash gmake git
-    - bash .ci-scripts/freebsd-install-pony-tools.bash nightly
+    - bash .ci-scripts/freebsd-install-pony-tools.bash release
 
   nightly_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
@@ -103,7 +103,7 @@ task:
     - python3 -m ensurepip --upgrade
     - python3 -m pip install cloudsmith-cli
     - pkg install -y bash gmake git
-    - bash .ci-scripts/freebsd-install-pony-tools.bash nightly
+    - bash .ci-scripts/freebsd-install-pony-tools.bash release
 
   release_script:
     - export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
