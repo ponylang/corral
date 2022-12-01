@@ -1,40 +1,17 @@
 
-
-
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
       
       
         <link rel="canonical" href="https://ponylang.github.io/corral/src/corral/cli/">
       
-      
-      
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
-      <link rel="shortcut icon" href="../../../assets/images/logo.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-ponylang-0.2.8">
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
@@ -42,84 +19,118 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/application.b80b25f7.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.2505c338.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
-      <script src="../../../assets/javascripts/modernizr.0b5df86e.js"></script>
+      <link rel="stylesheet" href="../../../assets/ponylang.css">
     
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
-      <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
       
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
-      
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     
     
     
   </head>
   
-    <body dir="ltr">
   
-    <svg class="md-svg">
-      <defs>
-        
-        
-      </defs>
-    </svg>
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="ponylang" data-md-color-primary="brown" data-md-color-accent="amber">
+  
+    
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
     
     
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-          <a href="https://ponylang.github.io/corral/" title="corral" class="md-header-nav__button md-logo">
-          
-            <img src="../../../assets/images/logo.png" width="24" height="24">
-          
-        </a>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="corral" class="md-header__button md-logo" aria-label="corral" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            corral
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
-              <span class="md-header-nav__topic">
-                corral
-              </span>
-              <span class="md-header-nav__topic">
-                Cli
-              </span>
+              Cli
             
-          
+          </span>
         </div>
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        
-          
-            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-            
-<div class="md-search" data-md-component="search" role="dialog">
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
-      </button>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Type to start searching
+            Initializing search
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -127,33 +138,39 @@
     </div>
   </div>
 </div>
-          
-        
-      </div>
-      
-    </div>
+    
+    
   </nav>
+  
 </header>
     
-    <div class="md-container">
+    <div class="md-container" data-md-component="container">
+      
       
         
+          
+        
       
-      
-      <main class="md-main">
-        <div class="md-main__inner md-grid" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <span class="md-nav__button md-logo">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="corral" class="md-nav__button md-logo" aria-label="corral" data-md-component="logo">
       
-        <img src="../../../assets/images/logo.png" width="48" height="48">
-      
-    </span>
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
     corral
   </label>
   
@@ -163,1560 +180,1893 @@
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../../.." title="corral" class="md-nav__link">
-      corral
-    </a>
-  </li>
-
-    
-      
-      
-      
-
-
-  <li class="md-nav__item md-nav__item--nested">
-    
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
-    
-    <label class="md-nav__link" for="nav-2">
-      package corral
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-2">
-        package corral
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-Main/" title="actor Main" class="md-nav__link">
-      actor Main
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-CLI/" title="primitive CLI" class="md-nav__link">
-      primitive CLI
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        corral
+      </a>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
-    
-    <label class="md-nav__link" for="nav-3">
-      package corral/archive
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-3">
-        package corral/archive
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          package corral
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          package corral
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-CLI/" class="md-nav__link">
+        primitive CLI
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-Main/" class="md-nav__link">
+        actor Main
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-archive--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-archive-ArchiveEncoder/" title="class ArchiveEncoder" class="md-nav__link">
-      class ArchiveEncoder
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-archive-ArchiveDecoder/" title="primitive ArchiveDecoder" class="md-nav__link">
-      primitive ArchiveDecoder
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
-    
-    <label class="md-nav__link" for="nav-4">
-      package corral/bundle
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-4">
-        package corral/bundle
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          package corral/archive
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/archive" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/archive
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-archive--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-archive-ArchiveDecoder/" class="md-nav__link">
+        primitive ArchiveDecoder
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-archive-ArchiveEncoder/" class="md-nav__link">
+        class ArchiveEncoder
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Files/" title="primitive Files" class="md-nav__link">
-      primitive Files
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-BundleDir/" title="primitive BundleDir" class="md-nav__link">
-      primitive BundleDir
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Project/" title="class Project" class="md-nav__link">
-      class Project
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Locator/" title="class Locator" class="md-nav__link">
-      class Locator
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-JsonError/" title="primitive JsonError" class="md-nav__link">
-      primitive JsonError
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Json/" title="primitive Json" class="md-nav__link">
-      primitive Json
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Dep/" title="class Dep" class="md-nav__link">
-      class Dep
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-BundleData/" title="class BundleData" class="md-nav__link">
-      class BundleData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-InfoData/" title="class InfoData" class="md-nav__link">
-      class InfoData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-ScriptsData/" title="class ScriptsData" class="md-nav__link">
-      class ScriptsData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-ScriptCommandData/" title="class ScriptCommandData" class="md-nav__link">
-      class ScriptCommandData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-DepData/" title="class DepData" class="md-nav__link">
-      class DepData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-LocksData/" title="class LocksData" class="md-nav__link">
-      class LocksData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-LockData/" title="class LockData" class="md-nav__link">
-      class LockData
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-bundle-Bundle/" title="class Bundle" class="md-nav__link">
-      class Bundle
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
-    
-    <label class="md-nav__link" for="nav-5">
-      package corral/cmd
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-5">
-        package corral/cmd
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          package corral/bundle
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/bundle" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/bundle
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Bundle/" class="md-nav__link">
+        class Bundle
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-BundleData/" class="md-nav__link">
+        class BundleData
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-BundleDir/" class="md-nav__link">
+        primitive BundleDir
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Dep/" class="md-nav__link">
+        class Dep
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-DepData/" class="md-nav__link">
+        class DepData
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-PostFetchScript/" title="primitive PostFetchScript" class="md-nav__link">
-      primitive PostFetchScript
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Files/" class="md-nav__link">
+        primitive Files
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-InfoData/" class="md-nav__link">
+        class InfoData
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Json/" class="md-nav__link">
+        primitive Json
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdResultReceiver/" title="interface CmdResultReceiver" class="md-nav__link">
-      interface CmdResultReceiver
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-JsonError/" class="md-nav__link">
+        primitive JsonError
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Locator/" class="md-nav__link">
+        class Locator
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-LockData/" class="md-nav__link">
+        class LockData
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-NoOpResultReceiver/" title="primitive NoOpResultReceiver" class="md-nav__link">
-      primitive NoOpResultReceiver
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-LocksData/" class="md-nav__link">
+        class LocksData
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-Project/" class="md-nav__link">
+        class Project
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-ScriptCommandData/" class="md-nav__link">
+        class ScriptCommandData
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-RepoForDep/" title="primitive RepoForDep" class="md-nav__link">
-      primitive RepoForDep
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-bundle-ScriptsData/" class="md-nav__link">
+        class ScriptsData
+      </a>
+    </li>
+  
+
+            
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-Executor/" title="primitive Executor" class="md-nav__link">
-      primitive Executor
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-Context/" title="class Context" class="md-nav__link">
-      class Context
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-Constraints/" title="primitive Constraints" class="md-nav__link">
-      primitive Constraints
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdVersion/" title="class CmdVersion" class="md-nav__link">
-      class CmdVersion
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdUpdate/" title="class CmdUpdate" class="md-nav__link">
-      class CmdUpdate
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdType/" title="trait CmdType" class="md-nav__link">
-      trait CmdType
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdRun/" title="class CmdRun" class="md-nav__link">
-      class CmdRun
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdRemove/" title="class CmdRemove" class="md-nav__link">
-      class CmdRemove
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdPack/" title="class CmdPack" class="md-nav__link">
-      class CmdPack
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdList/" title="class CmdList" class="md-nav__link">
-      class CmdList
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdInit/" title="class CmdInit" class="md-nav__link">
-      class CmdInit
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdInfo/" title="class CmdInfo" class="md-nav__link">
-      class CmdInfo
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdClean/" title="class CmdClean" class="md-nav__link">
-      class CmdClean
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-CmdAdd/" title="class CmdAdd" class="md-nav__link">
-      class CmdAdd
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-cmd-Main/" title="actor Main" class="md-nav__link">
-      actor Main
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
-    
-    <label class="md-nav__link" for="nav-6">
-      package corral/logger
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-6">
-        package corral/logger
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          package corral/cmd
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/cmd" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/cmd
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdAdd/" class="md-nav__link">
+        class CmdAdd
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdClean/" class="md-nav__link">
+        class CmdClean
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdInfo/" class="md-nav__link">
+        class CmdInfo
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdInit/" class="md-nav__link">
+        class CmdInit
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdList/" class="md-nav__link">
+        class CmdList
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-LogLevel/" title="type LogLevel" class="md-nav__link">
-      type LogLevel
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdPack/" class="md-nav__link">
+        class CmdPack
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdRemove/" class="md-nav__link">
+        class CmdRemove
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdResultReceiver/" class="md-nav__link">
+        interface CmdResultReceiver
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-Fine/" title="primitive Fine" class="md-nav__link">
-      primitive Fine
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdRun/" class="md-nav__link">
+        class CmdRun
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdType/" class="md-nav__link">
+        trait CmdType
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdUpdate/" class="md-nav__link">
+        class CmdUpdate
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-Info/" title="primitive Info" class="md-nav__link">
-      primitive Info
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-CmdVersion/" class="md-nav__link">
+        class CmdVersion
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-Constraints/" class="md-nav__link">
+        primitive Constraints
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-Context/" class="md-nav__link">
+        class Context
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-Warn/" title="primitive Warn" class="md-nav__link">
-      primitive Warn
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-Executor/" class="md-nav__link">
+        primitive Executor
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-Main/" class="md-nav__link">
+        actor Main
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-NoOpResultReceiver/" class="md-nav__link">
+        primitive NoOpResultReceiver
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-Error/" title="primitive Error" class="md-nav__link">
-      primitive Error
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-PostFetchScript/" class="md-nav__link">
+        primitive PostFetchScript
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-cmd-RepoForDep/" class="md-nav__link">
+        primitive RepoForDep
+      </a>
+    </li>
+  
+
+            
           
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-Logger/" title="class Logger" class="md-nav__link">
-      class Logger
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-StringLogger/" title="primitive StringLogger" class="md-nav__link">
-      primitive StringLogger
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-LogFormatter/" title="interface LogFormatter" class="md-nav__link">
-      interface LogFormatter
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-logger-DefaultLogFormatter/" title="primitive DefaultLogFormatter" class="md-nav__link">
-      primitive DefaultLogFormatter
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
-    
-    <label class="md-nav__link" for="nav-7">
-      package corral/mort
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-7">
-        package corral/mort
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          package corral/logger
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/logger" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/logger
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-DefaultLogFormatter/" class="md-nav__link">
+        primitive DefaultLogFormatter
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-Error/" class="md-nav__link">
+        primitive Error
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-mort--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-Fine/" class="md-nav__link">
+        primitive Fine
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-Info/" class="md-nav__link">
+        primitive Info
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-LogFormatter/" class="md-nav__link">
+        interface LogFormatter
+      </a>
+    </li>
+  
 
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-LogLevel/" class="md-nav__link">
+        type LogLevel
+      </a>
+    </li>
+  
 
-  <li class="md-nav__item">
-    <a href="../../../corral-mort-Unreachable/" title="primitive Unreachable" class="md-nav__link">
-      primitive Unreachable
-    </a>
-  </li>
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-Logger/" class="md-nav__link">
+        class Logger
+      </a>
+    </li>
+  
 
-        
-      </ul>
-    </nav>
-  </li>
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-StringLogger/" class="md-nav__link">
+        primitive StringLogger
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-logger-Warn/" class="md-nav__link">
+        primitive Warn
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
-    
-    <label class="md-nav__link" for="nav-8">
-      package corral/semver/range
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-8">
-        package corral/semver/range
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          package corral/mort
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/mort" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/mort
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-mort--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-mort-Unreachable/" class="md-nav__link">
+        primitive Unreachable
+      </a>
+    </li>
+  
+
+            
           
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-range--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-range-RangeBoundsAreEqual/" title="primitive RangeBoundsAreEqual" class="md-nav__link">
-      primitive RangeBoundsAreEqual
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-range-RangeBound/" title="type RangeBound" class="md-nav__link">
-      type RangeBound
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-range-Range/" title="class Range" class="md-nav__link">
-      class Range
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
-    
-    <label class="md-nav__link" for="nav-9">
-      package corral/semver/solver
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-9">
-        package corral/semver/solver
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          package corral/semver/range
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/semver/range" data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/semver/range
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-range--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-range-Range/" class="md-nav__link">
+        class Range
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-range-RangeBound/" class="md-nav__link">
+        type RangeBound
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-range-RangeBoundsAreEqual/" class="md-nav__link">
+        primitive RangeBoundsAreEqual
+      </a>
+    </li>
+  
+
+            
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-Solver/" title="class Solver" class="md-nav__link">
-      class Solver
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-Result/" title="class Result" class="md-nav__link">
-      class Result
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-InMemArtifactSource/" title="class InMemArtifactSource" class="md-nav__link">
-      class InMemArtifactSource
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-Constraint/" title="class Constraint" class="md-nav__link">
-      class Constraint
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-ArtifactSource/" title="interface ArtifactSource" class="md-nav__link">
-      interface ArtifactSource
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-solver-Artifact/" title="class Artifact" class="md-nav__link">
-      class Artifact
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-10" type="checkbox" id="nav-10">
-    
-    <label class="md-nav__link" for="nav-10">
-      package corral/semver/utils
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-10">
-        package corral/semver/utils
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          package corral/semver/solver
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/semver/solver" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/semver/solver
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-Artifact/" class="md-nav__link">
+        class Artifact
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-ArtifactSource/" class="md-nav__link">
+        interface ArtifactSource
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-utils--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-Constraint/" class="md-nav__link">
+        class Constraint
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-InMemArtifactSource/" class="md-nav__link">
+        class InMemArtifactSource
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-Result/" class="md-nav__link">
+        class Result
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-utils-Strings/" title="primitive Strings" class="md-nav__link">
-      primitive Strings
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-solver-Solver/" class="md-nav__link">
+        class Solver
+      </a>
+    </li>
+  
+
+            
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-utils-EmptyIterator/" title="class EmptyIterator" class="md-nav__link">
-      class EmptyIterator
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-utils-ZipIterator/" title="class ZipIterator" class="md-nav__link">
-      class ZipIterator
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-utils-ComparableMixin/" title="interface ComparableMixin" class="md-nav__link">
-      interface ComparableMixin
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-11" type="checkbox" id="nav-11">
-    
-    <label class="md-nav__link" for="nav-11">
-      package corral/semver/version
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-11">
-        package corral/semver/version
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          package corral/semver/utils
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/semver/utils" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/semver/utils
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-utils--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-utils-ComparableMixin/" class="md-nav__link">
+        interface ComparableMixin
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-utils-EmptyIterator/" class="md-nav__link">
+        class EmptyIterator
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-utils-Strings/" class="md-nav__link">
+        primitive Strings
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-utils-ZipIterator/" class="md-nav__link">
+        class ZipIterator
+      </a>
+    </li>
+  
+
+            
           
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-Version/" title="class Version" class="md-nav__link">
-      class Version
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-ValidateFields/" title="primitive ValidateFields" class="md-nav__link">
-      primitive ValidateFields
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-PreReleaseField/" title="type PreReleaseField" class="md-nav__link">
-      type PreReleaseField
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-ParseVersion/" title="primitive ParseVersion" class="md-nav__link">
-      primitive ParseVersion
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-Consts/" title="primitive Consts" class="md-nav__link">
-      primitive Consts
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-semver-version-CompareVersions/" title="primitive CompareVersions" class="md-nav__link">
-      primitive CompareVersions
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
-    
-    <label class="md-nav__link" for="nav-12">
-      package corral/util
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-12">
-        package corral/util
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11">
+          package corral/semver/version
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/semver/version" data-md-level="1">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/semver/version
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-CompareVersions/" class="md-nav__link">
+        primitive CompareVersions
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-Consts/" class="md-nav__link">
+        primitive Consts
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-ParseVersion/" class="md-nav__link">
+        primitive ParseVersion
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-PreReleaseField/" class="md-nav__link">
+        type PreReleaseField
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-ValidateFields/" class="md-nav__link">
+        primitive ValidateFields
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-DebugLevel/" title="primitive DebugLevel" class="md-nav__link">
-      primitive DebugLevel
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-semver-version-Version/" class="md-nav__link">
+        class Version
+      </a>
+    </li>
+  
+
+            
           
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-SimpleLogFormatter/" title="primitive SimpleLogFormatter" class="md-nav__link">
-      primitive SimpleLogFormatter
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-Copy/" title="primitive Copy" class="md-nav__link">
-      primitive Copy
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-Program/" title="class Program" class="md-nav__link">
-      class Program
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-Action/" title="class Action" class="md-nav__link">
-      class Action
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-ActionResult/" title="class ActionResult" class="md-nav__link">
-      class ActionResult
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-util-Runner/" title="primitive Runner" class="md-nav__link">
-      primitive Runner
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
       
       
       
 
-
-  <li class="md-nav__item md-nav__item--nested">
+  
+  
+  
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-13" type="checkbox" id="nav-13">
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_12" type="checkbox" id="__nav_12" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12">
+          package corral/util
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/util" data-md-level="1">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/util
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-Action/" class="md-nav__link">
+        class Action
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-ActionResult/" class="md-nav__link">
+        class ActionResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-Copy/" class="md-nav__link">
+        primitive Copy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-DebugLevel/" class="md-nav__link">
+        primitive DebugLevel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-Program/" class="md-nav__link">
+        class Program
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-Runner/" class="md-nav__link">
+        primitive Runner
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-util-SimpleLogFormatter/" class="md-nav__link">
+        primitive SimpleLogFormatter
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
     
-    <label class="md-nav__link" for="nav-13">
-      package corral/vcs
-    </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
-      <label class="md-nav__title" for="nav-13">
-        package corral/vcs
-      </label>
-      <ul class="md-nav__list" data-md-scrollfix>
-        
-        
-          
-          
-          
+      
+      
+      
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs--index/" title="Package" class="md-nav__link">
-      Package
-    </a>
-  </li>
-
-        
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_13" type="checkbox" id="__nav_13" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13">
+          package corral/vcs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="package corral/vcs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          package corral/vcs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs--index/" class="md-nav__link">
+        Package
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-BzrVCS/" class="md-nav__link">
+        primitive BzrVCS
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-CorralVCSBuilder/" class="md-nav__link">
+        class CorralVCSBuilder
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-VCSBuilder/" title="interface VCSBuilder" class="md-nav__link">
-      interface VCSBuilder
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-GitCheckoutRepo/" class="md-nav__link">
+        class GitCheckoutRepo
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-GitQueryTags/" class="md-nav__link">
+        class GitQueryTags
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-GitSyncRepo/" class="md-nav__link">
+        class GitSyncRepo
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-CorralVCSBuilder/" title="class CorralVCSBuilder" class="md-nav__link">
-      class CorralVCSBuilder
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-GitVCS/" class="md-nav__link">
+        class GitVCS
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-HgVCS/" class="md-nav__link">
+        primitive HgVCS
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-NoOperation/" class="md-nav__link">
+        class NoOperation
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-Repo/" title="class Repo" class="md-nav__link">
-      class Repo
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-NoOperationRcv/" class="md-nav__link">
+        class NoOperationRcv
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-NoReceiver/" class="md-nav__link">
+        class NoReceiver
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-NoneVCS/" class="md-nav__link">
+        primitive NoneVCS
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-VCS/" title="interface VCS" class="md-nav__link">
-      interface VCS
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-Repo/" class="md-nav__link">
+        class Repo
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-RepoOperation/" class="md-nav__link">
+        interface RepoOperation
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-RepoOperationResultReceiver/" class="md-nav__link">
+        interface RepoOperationResultReceiver
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-RepoOperation/" title="interface RepoOperation" class="md-nav__link">
-      interface RepoOperation
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-SvnVCS/" class="md-nav__link">
+        primitive SvnVCS
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-TagListReceiver/" class="md-nav__link">
+        interface TagListReceiver
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-TagQueryPrinter/" class="md-nav__link">
+        class TagQueryPrinter
+      </a>
+    </li>
+  
 
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-RepoOperationResultReceiver/" title="interface RepoOperationResultReceiver" class="md-nav__link">
-      interface RepoOperationResultReceiver
-    </a>
-  </li>
-
-        
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-VCS/" class="md-nav__link">
+        interface VCS
+      </a>
+    </li>
+  
+
+            
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../corral-vcs-VCSBuilder/" class="md-nav__link">
+        interface VCSBuilder
+      </a>
+    </li>
+  
+
+            
           
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-TagListReceiver/" title="interface TagListReceiver" class="md-nav__link">
-      interface TagListReceiver
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-TagQueryPrinter/" title="class TagQueryPrinter" class="md-nav__link">
-      class TagQueryPrinter
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-SvnVCS/" title="primitive SvnVCS" class="md-nav__link">
-      primitive SvnVCS
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-NoneVCS/" title="primitive NoneVCS" class="md-nav__link">
-      primitive NoneVCS
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-NoOperation/" title="class NoOperation" class="md-nav__link">
-      class NoOperation
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-NoOperationRcv/" title="class NoOperationRcv" class="md-nav__link">
-      class NoOperationRcv
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-NoReceiver/" title="class NoReceiver" class="md-nav__link">
-      class NoReceiver
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-HgVCS/" title="primitive HgVCS" class="md-nav__link">
-      primitive HgVCS
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-GitVCS/" title="class GitVCS" class="md-nav__link">
-      class GitVCS
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-GitSyncRepo/" title="class GitSyncRepo" class="md-nav__link">
-      class GitSyncRepo
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-GitQueryTags/" title="class GitQueryTags" class="md-nav__link">
-      class GitQueryTags
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-GitCheckoutRepo/" title="class GitCheckoutRepo" class="md-nav__link">
-      class GitCheckoutRepo
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../../corral-vcs-BzrVCS/" title="primitive BzrVCS" class="md-nav__link">
-      primitive BzrVCS
-    </a>
-  </li>
-
-        
-      </ul>
-    </nav>
-  </li>
+        </ul>
+      </nav>
+    </li>
+  
 
     
   </ul>
@@ -1726,193 +2076,352 @@
               </div>
             
             
-          
-          <div class="md-content">
-            <article class="md-content__inner md-typeset">
               
                 
-                
-                  <h1>Cli</h1>
-                
-                <pre><code class="language-pony-full-source">use &quot;cli&quot;
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-primitive CLI
-  fun parse(
-    args: Array[String] box,
-    envs: (Array[String] box | None))
-    : (Command | (U8, String))
-  =&gt;
-    try
-      match CommandParser(spec()?).parse(args, envs)
-      | let c: Command =&gt; c
-      | let h: CommandHelp =&gt; (0, h.help_string())
-      | let e: SyntaxError =&gt; (1, e.string())
-      end
-    else
-      (2, &quot;Internal error: invalid command spec&quot;)
-    end
-
-  fun help(): String =&gt;
-    try Help.general(spec()?).help_string() else &quot;&quot; end
-
-  fun spec(): CommandSpec ?
-  =&gt;
-    CommandSpec.parent(
-      &quot;corral&quot;,
-      &quot;&quot;,
-      [
-        OptionSpec.u64(
-          &quot;debug&quot;,
-          &quot;Configure debug output: 0=err, 1=warn, 2=info, 3=fine.&quot;
-          where short'='g',
-          default' = 0)
-        OptionSpec.bool(
-          &quot;quiet&quot;,
-          &quot;Quiet output.&quot;
-          where short'='q',
-          default' = false)
-        OptionSpec.bool(
-          &quot;nothing&quot;,
-          &quot;Don't actually apply changes.&quot;
-          where short' = 'n',
-          default' = false)
-        OptionSpec.bool(
-          &quot;verbose&quot;,
-          &quot;Verbose output.&quot;
-          where short'='v',
-          default' = false)
-        OptionSpec.string(
-          &quot;bundle_dir&quot;,
-          &quot;The directory where the bundle's corral.json and lock.json are located.&quot;
-          where short' = 'd',
-          default' = &quot;&lt;cwd&gt;&quot;)
-      ],
-      [
-        CommandSpec.leaf(
-          &quot;version&quot;,
-          &quot;Show the version and exit&quot;)?
-        CommandSpec.leaf(
-          &quot;init&quot;,
-          &quot;Initializes the corral.json and lock.json files with&quot;
-            + &quot; skeletal information.&quot;
-        )?
-        CommandSpec.leaf(
-          &quot;info&quot;,
-          &quot;Prints all or specific information about the bundle from&quot;
-            + &quot; corral.json.&quot;)?
-        CommandSpec.leaf(
-          &quot;add&quot;,
-          &quot;Adds a remote VCS, local VCS or local direct dependency.&quot;,
-          [
-            OptionSpec.string(
-              &quot;version&quot;,
-              &quot;Version constraint&quot;
-              where short' = 'v',
-              default' = &quot;&quot;)
-            OptionSpec.string(
-              &quot;revision&quot;,
-              &quot;Specific revision: tag, branch, commit&quot;
-              where short' = 'r',
-              default' = &quot;&quot;)
-          ],
-          [
-            ArgSpec.string(&quot;locator&quot;, &quot;Organization/repository name.&quot;)
-          ])?
-        CommandSpec.leaf(
-          &quot;remove&quot;,
-          &quot;Removes one or more deps from the bundle.&quot;,
-          Array[OptionSpec](),
-          [
-            ArgSpec.string(&quot;locator&quot;, &quot;Organization/repository name.&quot;)
-          ])?
-        CommandSpec.leaf(
-          &quot;list&quot;,
-          &quot;Lists the deps and packages, including corral details.&quot;)?
-        CommandSpec.leaf(
-          &quot;clean&quot;,
-          &quot;Cleans repo cache and working corral. Default is to clean&quot;
-            + &quot; only the working corral.&quot;,
-          [
-            OptionSpec.bool(
-              &quot;all&quot;,
-              &quot;Clean both repo cache and working corral.&quot;
-              where short' = 'a',
-              default' = false)
-            OptionSpec.bool(
-              &quot;repos&quot;,
-              &quot;Clean repo cache only.&quot;
-              where short' = 'r',
-              default' = false)
-          ])?
-        CommandSpec.leaf(
-          &quot;update&quot;,
-          &quot;Updates one or more or all of the deps in the corral to their&quot;
-            + &quot; best revisions.&quot;)?
-        CommandSpec.leaf(
-          &quot;fetch&quot;,
-          &quot;Fetches one or more or all of the deps into the corral.&quot;)?
-        CommandSpec.leaf(
-          &quot;run&quot;,
-          &quot;Runs a shell command inside an environment with the corral on&quot;
-            + &quot; the PONYPATH.&quot;,
-          Array[OptionSpec](),
-          [
-            ArgSpec.string_seq(&quot;args&quot;, &quot;Arguments to run.&quot;)
-          ])?
-        CommandSpec.leaf(
-          &quot;pack&quot;,
-          &quot;Creates a distributable version of a pony library bundle.&quot;,
-          Array[OptionSpec](),
-          [
-            ArgSpec.string(&quot;output&quot;, &quot;Directory to create the packed library bundle in&quot;)
-          ])?
-      ])?
-      .&gt; add_help()?
-
-</code></pre>
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
                   
-                
-              
-              
-                
 
 
-              
-            </article>
-          </div>
+  <h1>Cli</h1>
+
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#L-0-1">  1</a></span>
+<span class="normal"><a href="#L-0-2">  2</a></span>
+<span class="normal"><a href="#L-0-3">  3</a></span>
+<span class="normal"><a href="#L-0-4">  4</a></span>
+<span class="normal"><a href="#L-0-5">  5</a></span>
+<span class="normal"><a href="#L-0-6">  6</a></span>
+<span class="normal"><a href="#L-0-7">  7</a></span>
+<span class="normal"><a href="#L-0-8">  8</a></span>
+<span class="normal"><a href="#L-0-9">  9</a></span>
+<span class="normal"><a href="#L-0-10"> 10</a></span>
+<span class="normal"><a href="#L-0-11"> 11</a></span>
+<span class="normal"><a href="#L-0-12"> 12</a></span>
+<span class="normal"><a href="#L-0-13"> 13</a></span>
+<span class="normal"><a href="#L-0-14"> 14</a></span>
+<span class="normal"><a href="#L-0-15"> 15</a></span>
+<span class="normal"><a href="#L-0-16"> 16</a></span>
+<span class="normal"><a href="#L-0-17"> 17</a></span>
+<span class="normal"><a href="#L-0-18"> 18</a></span>
+<span class="normal"><a href="#L-0-19"> 19</a></span>
+<span class="normal"><a href="#L-0-20"> 20</a></span>
+<span class="normal"><a href="#L-0-21"> 21</a></span>
+<span class="normal"><a href="#L-0-22"> 22</a></span>
+<span class="normal"><a href="#L-0-23"> 23</a></span>
+<span class="normal"><a href="#L-0-24"> 24</a></span>
+<span class="normal"><a href="#L-0-25"> 25</a></span>
+<span class="normal"><a href="#L-0-26"> 26</a></span>
+<span class="normal"><a href="#L-0-27"> 27</a></span>
+<span class="normal"><a href="#L-0-28"> 28</a></span>
+<span class="normal"><a href="#L-0-29"> 29</a></span>
+<span class="normal"><a href="#L-0-30"> 30</a></span>
+<span class="normal"><a href="#L-0-31"> 31</a></span>
+<span class="normal"><a href="#L-0-32"> 32</a></span>
+<span class="normal"><a href="#L-0-33"> 33</a></span>
+<span class="normal"><a href="#L-0-34"> 34</a></span>
+<span class="normal"><a href="#L-0-35"> 35</a></span>
+<span class="normal"><a href="#L-0-36"> 36</a></span>
+<span class="normal"><a href="#L-0-37"> 37</a></span>
+<span class="normal"><a href="#L-0-38"> 38</a></span>
+<span class="normal"><a href="#L-0-39"> 39</a></span>
+<span class="normal"><a href="#L-0-40"> 40</a></span>
+<span class="normal"><a href="#L-0-41"> 41</a></span>
+<span class="normal"><a href="#L-0-42"> 42</a></span>
+<span class="normal"><a href="#L-0-43"> 43</a></span>
+<span class="normal"><a href="#L-0-44"> 44</a></span>
+<span class="normal"><a href="#L-0-45"> 45</a></span>
+<span class="normal"><a href="#L-0-46"> 46</a></span>
+<span class="normal"><a href="#L-0-47"> 47</a></span>
+<span class="normal"><a href="#L-0-48"> 48</a></span>
+<span class="normal"><a href="#L-0-49"> 49</a></span>
+<span class="normal"><a href="#L-0-50"> 50</a></span>
+<span class="normal"><a href="#L-0-51"> 51</a></span>
+<span class="normal"><a href="#L-0-52"> 52</a></span>
+<span class="normal"><a href="#L-0-53"> 53</a></span>
+<span class="normal"><a href="#L-0-54"> 54</a></span>
+<span class="normal"><a href="#L-0-55"> 55</a></span>
+<span class="normal"><a href="#L-0-56"> 56</a></span>
+<span class="normal"><a href="#L-0-57"> 57</a></span>
+<span class="normal"><a href="#L-0-58"> 58</a></span>
+<span class="normal"><a href="#L-0-59"> 59</a></span>
+<span class="normal"><a href="#L-0-60"> 60</a></span>
+<span class="normal"><a href="#L-0-61"> 61</a></span>
+<span class="normal"><a href="#L-0-62"> 62</a></span>
+<span class="normal"><a href="#L-0-63"> 63</a></span>
+<span class="normal"><a href="#L-0-64"> 64</a></span>
+<span class="normal"><a href="#L-0-65"> 65</a></span>
+<span class="normal"><a href="#L-0-66"> 66</a></span>
+<span class="normal"><a href="#L-0-67"> 67</a></span>
+<span class="normal"><a href="#L-0-68"> 68</a></span>
+<span class="normal"><a href="#L-0-69"> 69</a></span>
+<span class="normal"><a href="#L-0-70"> 70</a></span>
+<span class="normal"><a href="#L-0-71"> 71</a></span>
+<span class="normal"><a href="#L-0-72"> 72</a></span>
+<span class="normal"><a href="#L-0-73"> 73</a></span>
+<span class="normal"><a href="#L-0-74"> 74</a></span>
+<span class="normal"><a href="#L-0-75"> 75</a></span>
+<span class="normal"><a href="#L-0-76"> 76</a></span>
+<span class="normal"><a href="#L-0-77"> 77</a></span>
+<span class="normal"><a href="#L-0-78"> 78</a></span>
+<span class="normal"><a href="#L-0-79"> 79</a></span>
+<span class="normal"><a href="#L-0-80"> 80</a></span>
+<span class="normal"><a href="#L-0-81"> 81</a></span>
+<span class="normal"><a href="#L-0-82"> 82</a></span>
+<span class="normal"><a href="#L-0-83"> 83</a></span>
+<span class="normal"><a href="#L-0-84"> 84</a></span>
+<span class="normal"><a href="#L-0-85"> 85</a></span>
+<span class="normal"><a href="#L-0-86"> 86</a></span>
+<span class="normal"><a href="#L-0-87"> 87</a></span>
+<span class="normal"><a href="#L-0-88"> 88</a></span>
+<span class="normal"><a href="#L-0-89"> 89</a></span>
+<span class="normal"><a href="#L-0-90"> 90</a></span>
+<span class="normal"><a href="#L-0-91"> 91</a></span>
+<span class="normal"><a href="#L-0-92"> 92</a></span>
+<span class="normal"><a href="#L-0-93"> 93</a></span>
+<span class="normal"><a href="#L-0-94"> 94</a></span>
+<span class="normal"><a href="#L-0-95"> 95</a></span>
+<span class="normal"><a href="#L-0-96"> 96</a></span>
+<span class="normal"><a href="#L-0-97"> 97</a></span>
+<span class="normal"><a href="#L-0-98"> 98</a></span>
+<span class="normal"><a href="#L-0-99"> 99</a></span>
+<span class="normal"><a href="#L-0-100">100</a></span>
+<span class="normal"><a href="#L-0-101">101</a></span>
+<span class="normal"><a href="#L-0-102">102</a></span>
+<span class="normal"><a href="#L-0-103">103</a></span>
+<span class="normal"><a href="#L-0-104">104</a></span>
+<span class="normal"><a href="#L-0-105">105</a></span>
+<span class="normal"><a href="#L-0-106">106</a></span>
+<span class="normal"><a href="#L-0-107">107</a></span>
+<span class="normal"><a href="#L-0-108">108</a></span>
+<span class="normal"><a href="#L-0-109">109</a></span>
+<span class="normal"><a href="#L-0-110">110</a></span>
+<span class="normal"><a href="#L-0-111">111</a></span>
+<span class="normal"><a href="#L-0-112">112</a></span>
+<span class="normal"><a href="#L-0-113">113</a></span>
+<span class="normal"><a href="#L-0-114">114</a></span>
+<span class="normal"><a href="#L-0-115">115</a></span>
+<span class="normal"><a href="#L-0-116">116</a></span>
+<span class="normal"><a href="#L-0-117">117</a></span>
+<span class="normal"><a href="#L-0-118">118</a></span>
+<span class="normal"><a href="#L-0-119">119</a></span>
+<span class="normal"><a href="#L-0-120">120</a></span>
+<span class="normal"><a href="#L-0-121">121</a></span>
+<span class="normal"><a href="#L-0-122">122</a></span>
+<span class="normal"><a href="#L-0-123">123</a></span>
+<span class="normal"><a href="#L-0-124">124</a></span>
+<span class="normal"><a href="#L-0-125">125</a></span>
+<span class="normal"><a href="#L-0-126">126</a></span>
+<span class="normal"><a href="#L-0-127">127</a></span>
+<span class="normal"><a href="#L-0-128">128</a></span>
+<span class="normal"><a href="#L-0-129">129</a></span>
+<span class="normal"><a href="#L-0-130">130</a></span>
+<span class="normal"><a href="#L-0-131">131</a></span>
+<span class="normal"><a href="#L-0-132">132</a></span>
+<span class="normal"><a href="#L-0-133">133</a></span>
+<span class="normal"><a href="#L-0-134">134</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="L-0-1" name="L-0-1"></a><span class="k">use</span> <span class="s">&quot;cli&quot;</span>
+<a id="L-0-2" name="L-0-2"></a>
+<a id="L-0-3" name="L-0-3"></a><span class="k">primitive</span> <span class="nc">CLI</span>
+<a id="L-0-4" name="L-0-4"></a>  <span class="k">fun</span> <span class="nf">parse</span><span class="p">(</span>
+<a id="L-0-5" name="L-0-5"></a>    <span class="n">args</span><span class="p">:</span> <span class="nb nb-Type">Array</span><span class="p">[</span><span class="nb nb-Type">String</span><span class="p">]</span> <span class="k">box</span><span class="p">,</span>
+<a id="L-0-6" name="L-0-6"></a>    <span class="n">envs</span><span class="p">:</span> <span class="p">(</span><span class="nb nb-Type">Array</span><span class="p">[</span><span class="nb nb-Type">String</span><span class="p">]</span> <span class="k">box</span> <span class="p">|</span> <span class="nb nb-Type">None</span><span class="p">))</span>
+<a id="L-0-7" name="L-0-7"></a>    <span class="p">:</span> <span class="p">(</span><span class="n n-Type">Command</span> <span class="p">|</span> <span class="p">(</span><span class="nb nb-Type">U8</span><span class="p">,</span> <span class="nb nb-Type">String</span><span class="p">))</span>
+<a id="L-0-8" name="L-0-8"></a>  <span class="p">=&gt;</span>
+<a id="L-0-9" name="L-0-9"></a>    <span class="k">try</span>
+<a id="L-0-10" name="L-0-10"></a>      <span class="k">match</span> <span class="n n-Type">CommandParser</span><span class="p">(</span><span class="n">spec</span><span class="p">()?).</span><span class="n">parse</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">envs</span><span class="p">)</span>
+<a id="L-0-11" name="L-0-11"></a>      <span class="p">|</span> <span class="k">let</span> <span class="n">c</span><span class="p">:</span> <span class="n n-Type">Command</span> <span class="p">=&gt;</span> <span class="n">c</span>
+<a id="L-0-12" name="L-0-12"></a>      <span class="p">|</span> <span class="k">let</span> <span class="n">h</span><span class="p">:</span> <span class="n n-Type">CommandHelp</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="p">.</span><span class="n">help_string</span><span class="p">())</span>
+<a id="L-0-13" name="L-0-13"></a>      <span class="p">|</span> <span class="k">let</span> <span class="n">e</span><span class="p">:</span> <span class="n n-Type">SyntaxError</span> <span class="p">=&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">e</span><span class="p">.</span><span class="n">string</span><span class="p">())</span>
+<a id="L-0-14" name="L-0-14"></a>      <span class="k">end</span>
+<a id="L-0-15" name="L-0-15"></a>    <span class="k">else</span>
+<a id="L-0-16" name="L-0-16"></a>      <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Internal error: invalid command spec&quot;</span><span class="p">)</span>
+<a id="L-0-17" name="L-0-17"></a>    <span class="k">end</span>
+<a id="L-0-18" name="L-0-18"></a>
+<a id="L-0-19" name="L-0-19"></a>  <span class="k">fun</span> <span class="nf">help</span><span class="p">():</span> <span class="nb nb-Type">String</span> <span class="p">=&gt;</span>
+<a id="L-0-20" name="L-0-20"></a>    <span class="k">try</span> <span class="n n-Type">Help</span><span class="p">.</span><span class="n">general</span><span class="p">(</span><span class="n">spec</span><span class="p">()?).</span><span class="n">help_string</span><span class="p">()</span> <span class="k">else</span> <span class="s">&quot;&quot;</span> <span class="k">end</span>
+<a id="L-0-21" name="L-0-21"></a>
+<a id="L-0-22" name="L-0-22"></a>  <span class="k">fun</span> <span class="nf">spec</span><span class="p">():</span> <span class="n n-Type">CommandSpec</span> <span class="p">?</span>
+<a id="L-0-23" name="L-0-23"></a>  <span class="p">=&gt;</span>
+<a id="L-0-24" name="L-0-24"></a>    <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">parent</span><span class="p">(</span>
+<a id="L-0-25" name="L-0-25"></a>      <span class="s">&quot;corral&quot;</span><span class="p">,</span>
+<a id="L-0-26" name="L-0-26"></a>      <span class="s">&quot;&quot;</span><span class="p">,</span>
+<a id="L-0-27" name="L-0-27"></a>      <span class="p">[</span>
+<a id="L-0-28" name="L-0-28"></a>        <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">u64</span><span class="p">(</span>
+<a id="L-0-29" name="L-0-29"></a>          <span class="s">&quot;debug&quot;</span><span class="p">,</span>
+<a id="L-0-30" name="L-0-30"></a>          <span class="s">&quot;Configure debug output: 0=err, 1=warn, 2=info, 3=fine.&quot;</span>
+<a id="L-0-31" name="L-0-31"></a>          <span class="k">where</span> <span class="n">short&#39;</span><span class="o">=</span><span class="sc">&#39;g&#39;</span><span class="p">,</span>
+<a id="L-0-32" name="L-0-32"></a>          <span class="n">default&#39;</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+<a id="L-0-33" name="L-0-33"></a>        <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">bool</span><span class="p">(</span>
+<a id="L-0-34" name="L-0-34"></a>          <span class="s">&quot;quiet&quot;</span><span class="p">,</span>
+<a id="L-0-35" name="L-0-35"></a>          <span class="s">&quot;Quiet output.&quot;</span>
+<a id="L-0-36" name="L-0-36"></a>          <span class="k">where</span> <span class="n">short&#39;</span><span class="o">=</span><span class="sc">&#39;q&#39;</span><span class="p">,</span>
+<a id="L-0-37" name="L-0-37"></a>          <span class="n">default&#39;</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<a id="L-0-38" name="L-0-38"></a>        <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">bool</span><span class="p">(</span>
+<a id="L-0-39" name="L-0-39"></a>          <span class="s">&quot;nothing&quot;</span><span class="p">,</span>
+<a id="L-0-40" name="L-0-40"></a>          <span class="s">&quot;Don&#39;t actually apply changes.&quot;</span>
+<a id="L-0-41" name="L-0-41"></a>          <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;n&#39;</span><span class="p">,</span>
+<a id="L-0-42" name="L-0-42"></a>          <span class="n">default&#39;</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<a id="L-0-43" name="L-0-43"></a>        <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">bool</span><span class="p">(</span>
+<a id="L-0-44" name="L-0-44"></a>          <span class="s">&quot;verbose&quot;</span><span class="p">,</span>
+<a id="L-0-45" name="L-0-45"></a>          <span class="s">&quot;Verbose output.&quot;</span>
+<a id="L-0-46" name="L-0-46"></a>          <span class="k">where</span> <span class="n">short&#39;</span><span class="o">=</span><span class="sc">&#39;v&#39;</span><span class="p">,</span>
+<a id="L-0-47" name="L-0-47"></a>          <span class="n">default&#39;</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<a id="L-0-48" name="L-0-48"></a>        <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span>
+<a id="L-0-49" name="L-0-49"></a>          <span class="s">&quot;bundle_dir&quot;</span><span class="p">,</span>
+<a id="L-0-50" name="L-0-50"></a>          <span class="s">&quot;The directory where the bundle&#39;s corral.json and lock.json are located.&quot;</span>
+<a id="L-0-51" name="L-0-51"></a>          <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;d&#39;</span><span class="p">,</span>
+<a id="L-0-52" name="L-0-52"></a>          <span class="n">default&#39;</span> <span class="o">=</span> <span class="s">&quot;&lt;cwd&gt;&quot;</span><span class="p">)</span>
+<a id="L-0-53" name="L-0-53"></a>      <span class="p">],</span>
+<a id="L-0-54" name="L-0-54"></a>      <span class="p">[</span>
+<a id="L-0-55" name="L-0-55"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-56" name="L-0-56"></a>          <span class="s">&quot;version&quot;</span><span class="p">,</span>
+<a id="L-0-57" name="L-0-57"></a>          <span class="s">&quot;Show the version and exit&quot;</span><span class="p">)?</span>
+<a id="L-0-58" name="L-0-58"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-59" name="L-0-59"></a>          <span class="s">&quot;init&quot;</span><span class="p">,</span>
+<a id="L-0-60" name="L-0-60"></a>          <span class="s">&quot;Initializes the corral.json and lock.json files with&quot;</span>
+<a id="L-0-61" name="L-0-61"></a>            <span class="o">+</span> <span class="s">&quot; skeletal information.&quot;</span>
+<a id="L-0-62" name="L-0-62"></a>        <span class="p">)?</span>
+<a id="L-0-63" name="L-0-63"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-64" name="L-0-64"></a>          <span class="s">&quot;info&quot;</span><span class="p">,</span>
+<a id="L-0-65" name="L-0-65"></a>          <span class="s">&quot;Prints all or specific information about the bundle from&quot;</span>
+<a id="L-0-66" name="L-0-66"></a>            <span class="o">+</span> <span class="s">&quot; corral.json.&quot;</span><span class="p">)?</span>
+<a id="L-0-67" name="L-0-67"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-68" name="L-0-68"></a>          <span class="s">&quot;add&quot;</span><span class="p">,</span>
+<a id="L-0-69" name="L-0-69"></a>          <span class="s">&quot;Adds a remote VCS, local VCS or local direct dependency.&quot;</span><span class="p">,</span>
+<a id="L-0-70" name="L-0-70"></a>          <span class="p">[</span>
+<a id="L-0-71" name="L-0-71"></a>            <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span>
+<a id="L-0-72" name="L-0-72"></a>              <span class="s">&quot;version&quot;</span><span class="p">,</span>
+<a id="L-0-73" name="L-0-73"></a>              <span class="s">&quot;Version constraint&quot;</span>
+<a id="L-0-74" name="L-0-74"></a>              <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;v&#39;</span><span class="p">,</span>
+<a id="L-0-75" name="L-0-75"></a>              <span class="n">default&#39;</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+<a id="L-0-76" name="L-0-76"></a>            <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span>
+<a id="L-0-77" name="L-0-77"></a>              <span class="s">&quot;revision&quot;</span><span class="p">,</span>
+<a id="L-0-78" name="L-0-78"></a>              <span class="s">&quot;Specific revision: tag, branch, commit&quot;</span>
+<a id="L-0-79" name="L-0-79"></a>              <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span>
+<a id="L-0-80" name="L-0-80"></a>              <span class="n">default&#39;</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+<a id="L-0-81" name="L-0-81"></a>          <span class="p">],</span>
+<a id="L-0-82" name="L-0-82"></a>          <span class="p">[</span>
+<a id="L-0-83" name="L-0-83"></a>            <span class="n n-Type">ArgSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;locator&quot;</span><span class="p">,</span> <span class="s">&quot;Organization/repository name.&quot;</span><span class="p">)</span>
+<a id="L-0-84" name="L-0-84"></a>          <span class="p">])?</span>
+<a id="L-0-85" name="L-0-85"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-86" name="L-0-86"></a>          <span class="s">&quot;remove&quot;</span><span class="p">,</span>
+<a id="L-0-87" name="L-0-87"></a>          <span class="s">&quot;Removes one or more deps from the bundle.&quot;</span><span class="p">,</span>
+<a id="L-0-88" name="L-0-88"></a>          <span class="nb nb-Type">Array</span><span class="p">[</span><span class="n n-Type">OptionSpec</span><span class="p">](),</span>
+<a id="L-0-89" name="L-0-89"></a>          <span class="p">[</span>
+<a id="L-0-90" name="L-0-90"></a>            <span class="n n-Type">ArgSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;locator&quot;</span><span class="p">,</span> <span class="s">&quot;Organization/repository name.&quot;</span><span class="p">)</span>
+<a id="L-0-91" name="L-0-91"></a>          <span class="p">])?</span>
+<a id="L-0-92" name="L-0-92"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-93" name="L-0-93"></a>          <span class="s">&quot;list&quot;</span><span class="p">,</span>
+<a id="L-0-94" name="L-0-94"></a>          <span class="s">&quot;Lists the deps and packages, including corral details.&quot;</span><span class="p">)?</span>
+<a id="L-0-95" name="L-0-95"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-96" name="L-0-96"></a>          <span class="s">&quot;clean&quot;</span><span class="p">,</span>
+<a id="L-0-97" name="L-0-97"></a>          <span class="s">&quot;Cleans repo cache and working corral. Default is to clean&quot;</span>
+<a id="L-0-98" name="L-0-98"></a>            <span class="o">+</span> <span class="s">&quot; only the working corral.&quot;</span><span class="p">,</span>
+<a id="L-0-99" name="L-0-99"></a>          <span class="p">[</span>
+<a id="L-0-100" name="L-0-100"></a>            <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">bool</span><span class="p">(</span>
+<a id="L-0-101" name="L-0-101"></a>              <span class="s">&quot;all&quot;</span><span class="p">,</span>
+<a id="L-0-102" name="L-0-102"></a>              <span class="s">&quot;Clean both repo cache and working corral.&quot;</span>
+<a id="L-0-103" name="L-0-103"></a>              <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;a&#39;</span><span class="p">,</span>
+<a id="L-0-104" name="L-0-104"></a>              <span class="n">default&#39;</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<a id="L-0-105" name="L-0-105"></a>            <span class="n n-Type">OptionSpec</span><span class="p">.</span><span class="n">bool</span><span class="p">(</span>
+<a id="L-0-106" name="L-0-106"></a>              <span class="s">&quot;repos&quot;</span><span class="p">,</span>
+<a id="L-0-107" name="L-0-107"></a>              <span class="s">&quot;Clean repo cache only.&quot;</span>
+<a id="L-0-108" name="L-0-108"></a>              <span class="k">where</span> <span class="n">short&#39;</span> <span class="o">=</span> <span class="sc">&#39;r&#39;</span><span class="p">,</span>
+<a id="L-0-109" name="L-0-109"></a>              <span class="n">default&#39;</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<a id="L-0-110" name="L-0-110"></a>          <span class="p">])?</span>
+<a id="L-0-111" name="L-0-111"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-112" name="L-0-112"></a>          <span class="s">&quot;update&quot;</span><span class="p">,</span>
+<a id="L-0-113" name="L-0-113"></a>          <span class="s">&quot;Updates one or more or all of the deps in the corral to their&quot;</span>
+<a id="L-0-114" name="L-0-114"></a>            <span class="o">+</span> <span class="s">&quot; best revisions.&quot;</span><span class="p">)?</span>
+<a id="L-0-115" name="L-0-115"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-116" name="L-0-116"></a>          <span class="s">&quot;fetch&quot;</span><span class="p">,</span>
+<a id="L-0-117" name="L-0-117"></a>          <span class="s">&quot;Fetches one or more or all of the deps into the corral.&quot;</span><span class="p">)?</span>
+<a id="L-0-118" name="L-0-118"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-119" name="L-0-119"></a>          <span class="s">&quot;run&quot;</span><span class="p">,</span>
+<a id="L-0-120" name="L-0-120"></a>          <span class="s">&quot;Runs a shell command inside an environment with the corral on&quot;</span>
+<a id="L-0-121" name="L-0-121"></a>            <span class="o">+</span> <span class="s">&quot; the PONYPATH.&quot;</span><span class="p">,</span>
+<a id="L-0-122" name="L-0-122"></a>          <span class="nb nb-Type">Array</span><span class="p">[</span><span class="n n-Type">OptionSpec</span><span class="p">](),</span>
+<a id="L-0-123" name="L-0-123"></a>          <span class="p">[</span>
+<a id="L-0-124" name="L-0-124"></a>            <span class="n n-Type">ArgSpec</span><span class="p">.</span><span class="n">string_seq</span><span class="p">(</span><span class="s">&quot;args&quot;</span><span class="p">,</span> <span class="s">&quot;Arguments to run.&quot;</span><span class="p">)</span>
+<a id="L-0-125" name="L-0-125"></a>          <span class="p">])?</span>
+<a id="L-0-126" name="L-0-126"></a>        <span class="n n-Type">CommandSpec</span><span class="p">.</span><span class="n">leaf</span><span class="p">(</span>
+<a id="L-0-127" name="L-0-127"></a>          <span class="s">&quot;pack&quot;</span><span class="p">,</span>
+<a id="L-0-128" name="L-0-128"></a>          <span class="s">&quot;Creates a distributable version of a pony library bundle.&quot;</span><span class="p">,</span>
+<a id="L-0-129" name="L-0-129"></a>          <span class="nb nb-Type">Array</span><span class="p">[</span><span class="n n-Type">OptionSpec</span><span class="p">](),</span>
+<a id="L-0-130" name="L-0-130"></a>          <span class="p">[</span>
+<a id="L-0-131" name="L-0-131"></a>            <span class="n n-Type">ArgSpec</span><span class="p">.</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">,</span> <span class="s">&quot;Directory to create the packed library bundle in&quot;</span><span class="p">)</span>
+<a id="L-0-132" name="L-0-132"></a>          <span class="p">])?</span>
+<a id="L-0-133" name="L-0-133"></a>      <span class="p">])?</span>
+<a id="L-0-134" name="L-0-134"></a>      <span class="p">.</span><span class="o">&gt;</span> <span class="n">add_help</span><span class="p">()?</span>
+</code></pre></div></td></tr></table></div>
+
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
         </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
       </main>
       
-        
-<footer class="md-footer">
+        <footer class="md-footer">
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
-      </div>
-      
-        
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
       
     </div>
   </div>
 </footer>
       
     </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
     
-    <script src="../../../assets/javascripts/application.cb37bb38.js"></script>
-      
-      <script>app.initialize({version:"1.3.0",url:{base:"../../.."}})</script>
-      
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.top"], "search": "../../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
+      <script src="../../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
       
+    
     
   </body>
 </html>
