@@ -1,19 +1,23 @@
-name: ponyc update breakage test
+name: macOS ponyc update breakage test
 
 on:
   repository_dispatch:
-    types: [shared-docker-linux-builders-updated]
+    types: [ponyc-macos-nightly-released]
 
 jobs:
-  linux:
-    name: Verify main against the latest ponyc on Linux
-    runs-on: ubuntu-latest
-    container:
-      image: ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+  macos:
+    name: Verify main against the latest ponyc on macOS
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Test
-        run: make unit-tests config=debug
+      - name: install ponyc
+        run: bash .ci-scripts/macOS-install-pony-tools.bash nightly
+      - name: brew install dependencies
+        run: brew install coreutils
+      - name: Test with most recent ponyc release
+        run: |
+          export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
+          make unit-tests
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip@35d7ad8e98444f894dcfe1d4e17332581d28ebeb

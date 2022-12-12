@@ -15,7 +15,7 @@ jobs:
           Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
-          .\make.ps1 -Command test 2>&1
+          .\make.ps1 -Command unit-tests 2>&1
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip@35d7ad8e98444f894dcfe1d4e17332581d28ebeb
