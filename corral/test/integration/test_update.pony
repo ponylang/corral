@@ -237,7 +237,7 @@ class  \nodoc\ TestUpdateRemoteGits is UnitTest
   fun tear_down(h: TestHelper val) => data.cleanup(h)
 
   fun apply(h: TestHelper) =>
-    h.long_test(30_000_000_000)
+    h.long_test(120_000_000_000)
     Execute(h,
       recover [
         "update"
