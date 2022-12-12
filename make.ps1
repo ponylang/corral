@@ -140,6 +140,25 @@ switch ($Command.ToLower())
     break
   }
 
+  "unit-tests"
+  {
+    BuildCorral
+    $testFile = (BuildTest)[-1]
+
+    & "$testFile" --exclude=integration --sequential
+    break
+  }
+
+  "integration-tests"
+  {
+    BuildCorral
+    $testFile = (BuildTest)[-1]
+
+    $env:CORRAL_BIN = Join-Path -Path $buildDir -ChildPath "corral.exe"
+    & "$testFile" --only=integration --sequential
+    break
+  }
+
   "clean"
   {
     if (Test-Path "$buildDir")
