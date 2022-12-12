@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Remove macOS on Intel support ([PR #228](https://github.com/ponylang/corral/pull/228))
 
 ## [0.6.1] - 2022-12-01
 
