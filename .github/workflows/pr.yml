@@ -46,20 +46,6 @@ jobs:
       - name: Test with most recent ponyc release
         run: make test
 
-  macos:
-    name: Verify PR builds most recent ponyc release on macOS
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: install ponyc
-        run: bash .ci-scripts/macOS-install-pony-tools.bash release
-      - name: brew install dependencies
-        run: brew install coreutils
-      - name: Test with most recent ponyc release
-        run: |
-          export PATH="$HOME/.local/share/ponyup/bin/:$PATH"
-          make test
-
   windows:
     name: Verify PR builds most recent ponyc release on Windows
     runs-on: windows-2022
