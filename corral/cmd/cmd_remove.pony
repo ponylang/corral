@@ -1,5 +1,5 @@
 use "cli"
-use "json"
+use "../json"
 use "../logger"
 use "../bundle"
 use "../vcs"

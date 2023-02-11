@@ -1,5 +1,5 @@
 use "files"
-use "json"
+use "../json"
 use "../logger"
 
 primitive JsonError

@@ -1,4 +1,4 @@
-use "json"
+use "../json"
 
 class BundleData
   let info: InfoData
