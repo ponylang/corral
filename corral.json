@@ -4,6 +4,7 @@
     "corral/archive",
     "corral/bundle",
     "corral/cmd",
+    "corral/json",
     "corral/mort",
     "corral/semver/range",
     "corral/semver/solver",

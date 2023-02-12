@@ -1,6 +1,6 @@
 use "collections"
 use "files"
-use "json"
+use "../json"
 use "../logger"
 
 primitive Files
