@@ -75,6 +75,7 @@ actor _Updater is RepoOperationResultReceiver
         else
           ctx.uout(Error) and ctx.uout.log("Error loading dep " + dep.name())
           // It won't get a lock. How should we handle/report the error?
+          ctx.env.exitcode(1)
         end
       end
     end
@@ -170,6 +171,7 @@ actor _Updater is RepoOperationResultReceiver
           base_bundle.save()?
         else
           ctx.uout(Error) and ctx.uout.log("Error saving project bundle")
+          ctx.env.exitcode(1)
         end
         _results_receiver.cmd_completed()
         // All done, should quiesce now...

@@ -27,6 +27,7 @@ class CmdPack is CmdType
         if not path.mkdir() then
           ctx.uout(Error) and
             ctx.uout.log("pack: unable to create " + _output)
+          ctx.env.exitcode(1)
         end
 
         let car_name: String = bundle.info.name + "-" + bundle.info.version + ".car"
