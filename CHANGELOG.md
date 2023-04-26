@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Set exit code when "post fetch script" encounters an error ([PR #234](https://github.com/ponylang/corral/pull/234))
 
 ### Added
 
