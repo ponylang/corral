@@ -97,7 +97,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - x86-64-unknown-linux-release
-      - x86-64-apple-darwin-release
       - x86-64-pc-windows-msvc-release
       - build-release-docker-images
       - generate-documentation
