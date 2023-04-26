@@ -2,14 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.7.0] - 2023-04-26
 
 ### Fixed
 
 - Set exit code when "post fetch script" encounters an error ([PR #234](https://github.com/ponylang/corral/pull/234))
-
-### Added
-
 
 ### Changed
 
