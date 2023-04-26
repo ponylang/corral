@@ -36,6 +36,7 @@ primitive PostFetchScript
             ctx.uout(Error) and ctx.uout.log("Failed: '" +
               post_fetch_or_update + "' in '" + repo.workspace.path + "'")
             ctx.uout(Error) and ctx.uout.log(result.stderr)
+            ctx.env.exitcode(1)
           })
         end
       end
