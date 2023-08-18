@@ -61,3 +61,17 @@ jobs:
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command test 2>&1
+
+  macos:
+    name: Verify PR builds most recent ponyc release on macOS
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v2
+      - name: install ponyc
+        run: bash .ci-scripts/macOS-x86-install-pony-tools.bash nightly
+      - name: brew install dependencies
+        run: brew install coreutils
+      - name: Test with most recent ponyc release
+        run: |
+          export PATH="/tmp/ponyc/bin/:$PATH"
+          make test
