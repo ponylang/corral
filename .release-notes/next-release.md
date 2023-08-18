@@ -10,3 +10,7 @@ We've added macOS on Intel as a fully supported platform. This means that we tes
 
 We plan to maintain macOS on Intel support for as long as we have access to a CI environment that supports it or until Apple stops supporting new macOS versions on Intel CPUs.
 
+## Releases are no longer available for FreeBSD
+
+We no longer do nightly or release builds for FreeBSD. You can still build corral from source on FreeBSD.
+
