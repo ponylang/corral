@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add macOS on Intel as a fully supported platform ([PR #239](https://github.com/ponylang/corral/pull/239))
 
 ### Changed
 
