@@ -1,8 +1,8 @@
-name: macOS ponyc update breakage test
+name: x86-64 macOS ponyc update breakage test
 
 on:
   repository_dispatch:
-    types: [ponyc-macos-nightly-released]
+    types: [ponyc-x86_64-macos-nightly-released]
 
 jobs:
   macos:
