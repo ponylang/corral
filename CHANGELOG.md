@@ -15,6 +15,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 - Change supported MacOS version to Ventura ([PR #235](https://github.com/ponylang/corral/pull/235))
 - Stop providing releases for FreeBSD ([PR #237](https://github.com/ponylang/corral/pull/237))
+- Temporarily drop macOS on Apple Silicon as fully supported platform ([PR #240](https://github.com/ponylang/corral/pull/240))
 
 ## [0.7.0] - 2023-04-26
 
