@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Update base image to Alpine 3.18 ([PR #253](https://github.com/ponylang/corral/pull/253))
 
 ## [0.8.0] - 2023-08-30
 
