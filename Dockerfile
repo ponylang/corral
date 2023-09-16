@@ -1,4 +1,4 @@
-FROM ponylang/ponyc:release-alpine AS build
+FROM ghcr.io/ponylang/ponyc:release-alpine AS build
 
 WORKDIR /src/corral
 
