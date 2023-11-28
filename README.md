@@ -27,9 +27,9 @@ Check out [Pony Package Dependency Management](doc/package_dependency_management
 
 ## Installation
 
-Use [ponyup](https://github.com/ponylang/ponyup) to install corral.
+Pre-built binaries of Corral are available for Linux x86, MacOS x86, and Windows x86. To install on any of these platforms, use [ponyup](https://github.com/ponylang/ponyup). For any other platform, you'll need to be build from source.
 
-The following command is assuming that `ponyup`, our toolchain multiplexer, is already installed on your machine and is available in your $PATH environment variable. If you don't have ponyup installed, please follow the [ponyup installation instructions](https://github.com/ponylang/ponyup#installing-ponyup).
+The following command is assuming that `ponyup`, our toolchain multiplexer, is already installed on your machine and is locatable by the name `ponyup`. If you don't have ponyup installed, please follow the [ponyup installation instructions](https://github.com/ponylang/ponyup#installing-ponyup).
 
 ```bash
 ponyup update corral release
