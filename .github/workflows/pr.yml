@@ -40,8 +40,8 @@ jobs:
       - name: Verify CHANGELOG
         run: changelog-tool verify
 
-  linux:
-    name: Verify PR builds most recent ponyc release on Linux
+  x86_linux:
+    name: x86_64 Linux
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
@@ -50,8 +50,8 @@ jobs:
       - name: Test with most recent ponyc release
         run: make test
 
-  windows:
-    name: Verify PR builds most recent ponyc release on Windows
+  x86_windows:
+    name: x86_64 Windows
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
@@ -62,13 +62,27 @@ jobs:
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command test 2>&1
 
-  macos:
-    name: Verify PR builds most recent ponyc release on macOS
+  x86_macos:
+    name: x86_64 MacOS
     runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
       - name: install ponyc
         run: bash .ci-scripts/macOS-x86-install-pony-tools.bash release
+      - name: brew install dependencies
+        run: brew install coreutils
+      - name: Test with most recent ponyc release
+        run: |
+          export PATH="/tmp/ponyc/bin/:$PATH"
+          make test
+
+  arm64_macos:
+    name: arm64 MacOS
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v3
+      - name: install ponyc
+        run: bash .ci-scripts/macOS-arm64-install-pony-tools.bash nightly
       - name: brew install dependencies
         run: brew install coreutils
       - name: Test with most recent ponyc release
