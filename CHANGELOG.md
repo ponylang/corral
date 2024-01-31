@@ -9,6 +9,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Added
 
+- Add MacOS on Apple Silicon as a fully supported platform ([PR #261](https://github.com/ponylang/corral/pull/261))
 
 ### Changed
 
