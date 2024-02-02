@@ -11,7 +11,7 @@ jobs:
     name: Lint bash, docker, markdown, and yaml
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Lint codebase
         uses: docker://github/super-linter:v3.8.3
         env:
@@ -26,7 +26,7 @@ jobs:
     name: Validate Docker image builds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Docker build
         run: "docker build --pull ."
 
@@ -36,7 +36,7 @@ jobs:
     container:
       image: ghcr.io/ponylang/changelog-tool:release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Verify CHANGELOG
         run: changelog-tool verify
 
@@ -46,7 +46,7 @@ jobs:
     container:
       image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Test with most recent ponyc release
         run: make test
 
@@ -54,7 +54,7 @@ jobs:
     name: x86_64 Windows
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Test with most recent ponyc release
         run: |
           Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
@@ -66,7 +66,7 @@ jobs:
     name: x86_64 MacOS
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: install ponyc
         run: bash .ci-scripts/macOS-x86-install-pony-tools.bash release
       - name: brew install dependencies
@@ -80,7 +80,7 @@ jobs:
     name: arm64 MacOS
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: install ponyc
         run: bash .ci-scripts/macOS-arm64-install-pony-tools.bash nightly
       - name: brew install dependencies

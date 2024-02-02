@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.1
         with:
           ref: "main"
           token: ${{ secrets.RELEASE_TOKEN }}
@@ -33,7 +33,7 @@ jobs:
     container:
       image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:release
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Build and upload
         run: bash .ci-scripts/release/x86-64-unknown-linux-release.bash
         env:
@@ -45,7 +45,7 @@ jobs:
     needs:
       - pre-artefact-creation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: install ponyc
         run: bash .ci-scripts/macOS-x86-install-pony-tools.bash release
       - name: brew install dependencies
@@ -65,7 +65,7 @@ jobs:
     needs:
       - pre-artefact-creation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: install ponyc
         run: bash .ci-scripts/macOS-arm64-install-pony-tools.bash nightly
       - name: brew install dependencies
@@ -85,7 +85,7 @@ jobs:
     needs:
       - pre-artefact-creation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Build and upload
         run: |
           python.exe -m pip install --upgrade cloudsmith-cli
@@ -105,7 +105,7 @@ jobs:
       - pre-artefact-creation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Login to GitHub Container Registry
         # v2.2.0
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc
@@ -122,7 +122,7 @@ jobs:
       - pre-artefact-creation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Generate documentation and upload
         uses: docker://ghcr.io/ponylang/library-documentation-action:release
         with:
@@ -145,7 +145,7 @@ jobs:
       - build-release-docker-images
       - generate-documentation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
         with:
           ref: "main"
           token: ${{ secrets.RELEASE_TOKEN }}

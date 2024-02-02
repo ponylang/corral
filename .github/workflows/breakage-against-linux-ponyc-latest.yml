@@ -11,7 +11,7 @@ jobs:
     container:
       image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4.1.1
       - name: Test
         run: make unit-tests config=debug
       - name: Send alert on failure
