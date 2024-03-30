@@ -71,7 +71,7 @@ jobs:
       - name: brew install dependencies
         run: brew install coreutils
       - name: pip install dependencies
-        run: pip3 install --upgrade cloudsmith-cli
+        run: pip3 install --upgrade --break-system-packages cloudsmith-cli
       - name: Build and upload
         run: |
           export PATH="/tmp/ponyc/bin/:/Library/Frameworks/Python.framework/Versions/3.11/bin/:$PATH"
