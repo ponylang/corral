@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Use Alpine 3.20 as our base image ([PR #271](https://github.com/ponylang/corral/pull/271))
 
 ## [0.8.1] - 2024-02-02
 
