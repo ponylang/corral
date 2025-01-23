@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Fix bug with default bundle directory handling ([PR #275](https://github.com/ponylang/corral/pull/275))
 
 ### Added
 
