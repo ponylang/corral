@@ -20,7 +20,7 @@
     "homepage": "https://github.com/ponylang/corral",
     "license": "BSD-2-Clause",
     "documentation_url": "https://ponylang.github.io/corral/",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "name": "corral"
   }
 }
