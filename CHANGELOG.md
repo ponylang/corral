@@ -2,14 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.8.2] - 2025-01-24
 
 ### Fixed
 
 - Fix bug with default bundle directory handling ([PR #275](https://github.com/ponylang/corral/pull/275))
-
-### Added
-
 
 ### Changed
 
