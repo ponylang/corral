@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [ponyc-windows-nightly-released]
 
+permissions:
+  packages: read
+
 jobs:
   windows:
     name: Verify main against the latest ponyc on Windows

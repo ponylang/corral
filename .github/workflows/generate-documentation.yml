@@ -3,6 +3,12 @@ name: Manually generate documentation
 on:
   workflow_dispatch
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  packages: read
+
 jobs:
   generate-documentation:
     name: Generate documentation for release
