@@ -2,7 +2,12 @@ name: Release Notes Reminder
 
 on:
   pull_request_target:
-    types: [labeled]
+    types:
+      - labeled
+
+permissions:
+  packages: read
+  pull-requests: write
 
 jobs:
   release-note-reminder:
