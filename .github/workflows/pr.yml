@@ -81,7 +81,7 @@ jobs:
 
   arm64_macos:
     name: arm64 MacOS
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4.1.1
       - name: install ponyc
