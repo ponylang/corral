@@ -11,14 +11,22 @@ Param(
   [string]
   $Version = "",
 
-  [Parameter(HelpMessage="Architecture (native, x64).")]
+  [Parameter(HelpMessage="The architecture to use for compiling, e.g. `"X64`", `"Arm64`"")]
   [string]
-  $Arch = "x86-64",
+  $Arch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture,
+
 
   [Parameter(HelpMessage="Directory to install to.")]
   [string]
   $Destdir = "build/install"
 )
+
+$Thost = "x86-64"
+if ($Arch -ieq "arm64")
+{
+    # if this is lowercase arm64, then things go boom.
+    $Thost = "ARM64"
+}
 
 $ErrorActionPreference = "Stop"
 
@@ -84,7 +92,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" --cpu "$Thost" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
@@ -104,8 +112,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$Arch`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" --bin-name test "$testDir"
+      Write-Output "ponyc `"$configFlag`" --cpu `"$Thost`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" --cpu "$Thost" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }
@@ -182,10 +190,20 @@ switch ($Command.ToLower())
     break
   }
 
-  "package"
+  "package-x86-64"
   {
     $binDir = Join-Path -Path $Destdir -ChildPath "bin"
     $package = "corral-x86-64-pc-windows-msvc.zip"
+    Write-Output "Creating $package..."
+
+    Compress-Archive -Path $binDir -DestinationPath "$buildDir\..\$package" -Force
+    break
+  }
+
+  "package-arm64"
+  {
+    $binDir = Join-Path -Path $Destdir -ChildPath "bin"
+    $package = "corral-arm64-pc-windows-msvc.zip"
     Write-Output "Creating $package..."
 
     Compress-Archive -Path $binDir -DestinationPath "$buildDir\..\$package" -Force
