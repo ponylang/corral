@@ -65,6 +65,18 @@ jobs:
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command test 2>&1
 
+  arm64_windows:
+    name: arm64 Windows
+    runs-on: windows-11-arm
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Test with most recent ponyc release
+        run: |
+          Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-arm64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
+          Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
+          $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
+          .\make.ps1 -Command test 2>&1
+
   x86_macos:
     name: x86_64 MacOS
     runs-on: macos-13
