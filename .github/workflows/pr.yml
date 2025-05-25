@@ -53,7 +53,7 @@ jobs:
       - name: Test with most recent ponyc release
         run: make test
 
-  # Currently, Github actions supplied by GH like checkout and cache do not work
+  # Currently, GitHub actions supplied by GH like checkout and cache do not work
   # in musl libc environments on arm64. We can work around this by running
   # those actions on the host and then "manually" doing our work that would
   # normally be done "in the musl container" by starting the container ourselves
