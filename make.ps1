@@ -15,17 +15,18 @@ Param(
   [string]
   $Arch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture,
 
-
   [Parameter(HelpMessage="Directory to install to.")]
   [string]
   $Destdir = "build/install"
 )
 
-$Thost = "x86-64"
-if ($Arch -ieq "arm64")
+if ($Arch -ieq 'x64')
 {
-    # if this is lowercase arm64, then things go boom.
-    $Thost = "ARM64"
+  $Arch = 'x86-64'
+}
+elseif ($Arch -ieq 'arm64')
+{
+  $Arch = 'arm64'
 }
 
 $ErrorActionPreference = "Stop"
@@ -92,7 +93,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --cpu "$Thost" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
@@ -112,8 +113,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$Thost`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$Thost" --output "$buildDir" --bin-name test "$testDir"
+      Write-Output "ponyc `"$configFlag`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }
@@ -190,20 +191,10 @@ switch ($Command.ToLower())
     break
   }
 
-  "package-x86-64"
+  "package"
   {
     $binDir = Join-Path -Path $Destdir -ChildPath "bin"
-    $package = "corral-x86-64-pc-windows-msvc.zip"
-    Write-Output "Creating $package..."
-
-    Compress-Archive -Path $binDir -DestinationPath "$buildDir\..\$package" -Force
-    break
-  }
-
-  "package-arm64"
-  {
-    $binDir = Join-Path -Path $Destdir -ChildPath "bin"
-    $package = "corral-arm64-pc-windows-msvc.zip"
+    $package = "corral-$Arch-pc-windows-msvc.zip"
     Write-Output "Creating $package..."
 
     Compress-Archive -Path $binDir -DestinationPath "$buildDir\..\$package" -Force
