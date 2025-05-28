@@ -57,12 +57,12 @@ fi
 set -o nounset
 
 # Compiler target parameters
-ARCH=arm64
+ARCH=armv8-a
 
 # Triple construction
 VENDOR=unknown
 OS=linux
-TRIPLE=${ARCH}-${VENDOR}-${OS}
+TRIPLE=arm64-${VENDOR}-${OS}
 
 # Build parameters
 BUILD_PREFIX=$(mktemp -d)
