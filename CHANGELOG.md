@@ -10,6 +10,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 ### Added
 
 - Add arm64 Linux as a supported platform ([PR #280](https://github.com/ponylang/corral/pull/280))
+- Add Windows on arm64 as a fully supported platform ([PR #278](https://github.com/ponylang/corral/pull/278))
 
 ### Changed
 
