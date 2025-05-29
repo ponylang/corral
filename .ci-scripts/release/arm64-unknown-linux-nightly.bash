@@ -60,7 +60,7 @@ TODAY=$(date +%Y%m%d)
 
 # Compiler target parameters
 ARCH=arm64
-CPU=armv8-a
+CPU=generic
 
 # Triple construction
 VENDOR=unknown

@@ -58,7 +58,7 @@ set -o nounset
 
 # Compiler target parameters
 ARCH=arm64
-CPU=armv8-a
+CPU=generic
 
 # Triple construction
 VENDOR=unknown
