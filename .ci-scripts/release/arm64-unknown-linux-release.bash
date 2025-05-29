@@ -57,12 +57,13 @@ fi
 set -o nounset
 
 # Compiler target parameters
-ARCH=armv8-a
+ARCH=arm64
+CPU=armv8-a
 
 # Triple construction
 VENDOR=unknown
 OS=linux
-TRIPLE=arm64-${VENDOR}-${OS}
+TRIPLE=${ARCH}-${VENDOR}-${OS}
 
 # Build parameters
 BUILD_PREFIX=$(mktemp -d)
@@ -84,7 +85,7 @@ ASSET_DESCRIPTION="https://github.com/${GITHUB_REPOSITORY}"
 
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
-make install prefix="${BUILD_DIR}" arch=${ARCH} \
+make install prefix="${BUILD_DIR}" arch=${CPU} \
   version="${APPLICATION_VERSION}" static=true linker=bfd
 
 # Package it all up
