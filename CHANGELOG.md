@@ -14,6 +14,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Stop having a base image ([PR #281](https://github.com/ponylang/corral/pull/281))
 
 ## [0.8.2] - 2025-01-24
 
