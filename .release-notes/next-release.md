@@ -6,3 +6,7 @@ We are adding arm64 Linux as a supported platform for Corral. This means that we
 
 We've added Windows on Arm64 as a fully supported platform. This means that we test corral on Windows on Arm64 and provide nightly and release binaries of corral.
 
+## Stop having a base imageAdd commentMore actions
+
+Previously we were using Alpine 3.20 as the base image for the corral container image. We've switched to using the `scratch` image instead. This means that the container image is now much smaller and only contains the `corral` binary.
+
