@@ -24,11 +24,9 @@ primitive PostFetchScript
           let action = Action(program, consume argv, ctx.env.vars,
             repo.workspace)
           Runner.run(action, {(result: ActionResult) =>
-            let stderr = result.stderr.clone()
             match result.exit_status
             | let exited: Exited =>
-              stderr.strip(" \t\r\n")
-              if stderr.size() == 0 then
+              if not result.stderr.contains("running scripts is disabled") then
                 ctx.uout(Fine) and ctx.uout.log("Succeeded: '" +
                   post_fetch_or_update + "' in '" + repo.workspace.path + "'")
                 ctx.uout(Fine) and ctx.uout.log(result.stdout)
