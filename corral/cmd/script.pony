@@ -26,10 +26,12 @@ primitive PostFetchScript
           Runner.run(action, {(result: ActionResult) =>
             match result.exit_status
             | let exited: Exited =>
-              ctx.uout(Fine) and ctx.uout.log("Succeeded: '" +
-                post_fetch_or_update + "' in '" + repo.workspace.path + "'")
-              ctx.uout(Fine) and ctx.uout.log(result.stdout)
-              return
+              if not result.stderr.contains("running scripts is disabled") then
+                ctx.uout(Fine) and ctx.uout.log("Succeeded: '" +
+                  post_fetch_or_update + "' in '" + repo.workspace.path + "'")
+                ctx.uout(Fine) and ctx.uout.log(result.stdout)
+                return
+              end
             else
               None
             end
