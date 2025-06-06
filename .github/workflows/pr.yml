@@ -80,7 +80,7 @@ jobs:
 
   x86_windows:
     name: x86_64 Windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Test with most recent ponyc release

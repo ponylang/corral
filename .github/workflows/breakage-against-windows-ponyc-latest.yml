@@ -10,7 +10,7 @@ permissions:
 jobs:
   windows:
     name: Verify main against the latest ponyc on Windows
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Test with most recent ponyc nightly
