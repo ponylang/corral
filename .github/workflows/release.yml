@@ -8,7 +8,7 @@ on:
 concurrency: release
 
 permissions:
-  packages: write
+  packages: read
   contents: write
 
 jobs:
@@ -152,23 +152,6 @@ jobs:
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
 
-  build-release-docker-images:
-    name: Build and push release Docker images
-    needs:
-      - pre-artefact-creation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4.1.1
-      - name: Login to GitHub Container Registry
-        # v2.2.0
-        uses: docker/login-action@5139682d94efc37792e6b54386b5b470a68a4737
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push
-        run: bash .ci-scripts/release/build-docker-images-on-release.bash
-
   generate-documentation:
     name: Generate documentation for release
     needs:
@@ -195,7 +178,6 @@ jobs:
       - x86-64-pc-windows-msvc-release
       - x86-64-apple-darwin-release
       - arm64-apple-darwin-release
-      - build-release-docker-images
       - generate-documentation
     steps:
       - uses: actions/checkout@v4.1.1
