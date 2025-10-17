@@ -27,7 +27,7 @@ Check out [Pony Package Dependency Management](doc/package_dependency_management
 
 ## Installation
 
-Pre-built binaries of Corral are available for Linux x86, MacOS x86, and Windows x86. To install on any of these platforms, use [ponyup](https://github.com/ponylang/ponyup). For any other platform, you'll need to be build from source.
+Pre-built binaries of Corral are available for Linux, MacOS, and Windows. To install on any of these platforms, use [ponyup](https://github.com/ponylang/ponyup). For any other platform, you'll need to be build from source.
 
 The following command is assuming that `ponyup`, our toolchain multiplexer, is already installed on your machine and is locatable by the name `ponyup`. If you don't have ponyup installed, please follow the [ponyup installation instructions](https://github.com/ponylang/ponyup#installing-ponyup).
 
