@@ -12,7 +12,7 @@ jobs:
     name: Verify main against the latest ponyc on Linux
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ponylang/shared-docker-ci-x86-64-unknown-linux-builder:latest
+      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
     steps:
       - uses: actions/checkout@v4.1.1
       - name: Test
