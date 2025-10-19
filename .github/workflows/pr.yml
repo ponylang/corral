@@ -69,13 +69,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Pull Docker image
-        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:release
       - name: Test with most recent ponyc release
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/root/project \
             -w /root/project \
-            ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly \
+            ghcr.io/ponylang/shared-docker-ci-standard-builder:release \
             make test
 
   x86_windows:
