@@ -12,6 +12,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Stop Building Corral Docker Images ([PR #285](https://github.com/ponylang/corral/pull/285))
 
 ## [0.9.0] - 2025-06-10
 
