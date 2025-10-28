@@ -104,7 +104,7 @@ jobs:
 
   x86_macos:
     name: x86_64 MacOS
-    runs-on: macos-13
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4.1.1
       - name: install ponyc

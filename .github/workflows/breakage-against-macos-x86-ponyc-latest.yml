@@ -10,7 +10,7 @@ permissions:
 jobs:
   macos:
     name: Verify main against the latest ponyc on macOS
-    runs-on: macos-13
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4.1.1
       - name: install ponyc
