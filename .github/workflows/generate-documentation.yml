@@ -9,19 +9,34 @@ permissions:
   id-token: write
   packages: read
 
+concurrency:
+  group: "update-documentation"
+  cancel-in-progress: true
+
 jobs:
   generate-documentation:
     name: Generate documentation for release
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/ponylang/library-documentation-action-v2-insiders:release
     steps:
-      - uses: actions/checkout@v4.1.1
-      - name: Generate documentation and upload
-        uses: docker://ghcr.io/ponylang/library-documentation-action:release
-        with:
-          site_url: "https://ponylang.github.io/corral/"
-          library_name: "corral"
-          docs_build_dir: "build/corral-docs"
-          GIT_USER_NAME: "Ponylang Main Bot"
-          GIT_USER_EMAIL: "ponylang.main@gmail.com"
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - name: Generate documentation
+        run: /entrypoint.py
         env:
-          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          INPUT_SITE_URL: "https://ponylang.github.io/corral/"
+          INPUT_LIBRARY_NAME: "corral"
+          INPUT_DOCS_BUILD_DIR: "build/corral-docs"
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'build/corral-docs/site/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
