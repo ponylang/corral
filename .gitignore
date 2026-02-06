@@ -4,3 +4,4 @@ corral/version.pony
 **/_corral
 .vscode
 *.code-workspace
+.claude
