@@ -53,7 +53,7 @@ actor Main
     // Hand off to Executor to resolve required dirs and execute the command
     Executor.execute(
       command._1, env, log, command._2,
-      cmd.option("nothing").bool(), cmd.option("bundle_dir").string())
+      cmd.option("nothing").bool(), quiet, cmd.option("bundle_dir").string())
 
   fun @runtime_override_defaults(rto: RuntimeOptions) =>
     rto.ponynoblock = true

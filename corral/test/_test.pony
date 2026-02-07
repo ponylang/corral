@@ -30,6 +30,7 @@ actor \nodoc\ Main is TestList
     test(integration.TestRunBinaryNotFound)
     test(integration.TestRunBinaryNotFoundAbsolute)
     test(integration.TestRunBinaryInParentFolder)
+    test(integration.TestRunQuiet)
     test(integration.TestClean)
 
     test(integration.TestUpdateScripts)

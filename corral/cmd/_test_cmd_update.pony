@@ -91,7 +91,7 @@ primitive _OpsRecorderTestRunner
     let log = StringLogger(Error, h.env.err, SimpleLogFormatter)
     let fp: FilePath = _TestData.file_path_from(h, dep_path)?
     let repo_cache = _TestRepoCache(auth)
-    let ctx = Context(h.env, log, log, false, repo_cache)
+    let ctx = Context(h.env, log, log, false, false, repo_cache)
     let project = Project(auth, log, fp)
     let bundle = Bundle.load(fp, log)?
     let vcs_builder: VCSBuilder = _TestCmdUpdateVCSBuilder(recorder)

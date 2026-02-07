@@ -16,6 +16,7 @@ primitive Executor
     log: Logger[String],
     uout: Logger[String],
     nothing: Bool,
+    quiet: Bool,
     bundle_dir_arg: String)
     // TODO: add when we have the cli flag: repo_cache_str: String
   =>
@@ -89,7 +90,7 @@ primitive Executor
         return
       end
 
-    let context = Context(env, log, uout, nothing, repo_cache)
+    let context = Context(env, log, uout, nothing, quiet, repo_cache)
     let project = Project(auth, log, bundle_dir)
     let vcs_builder = CorralVCSBuilder(env)
     command(context, project, vcs_builder, NoOpResultReceiver)
