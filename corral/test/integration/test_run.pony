@@ -88,6 +88,26 @@ class \nodoc\ TestRunBinaryNotFoundAbsolute is UnitTest
         h.complete(ar.exit_code() != 0)
       })
 
+class \nodoc\ TestRunQuiet is UnitTest
+  fun name(): String => "integration/run/quiet"
+  fun apply(h: TestHelper) ? =>
+    h.long_test(30_000_000_000)
+    Execute(h,
+      recover [
+        "--quiet"
+        "run"
+        "--bundle_dir"; Data(h, "empty-deps")?.path
+        "--"
+        "ponyc"; "-version"
+      ] end,
+      {(h: TestHelper, ar: ActionResult) =>
+        h.assert_eq[I32](0, ar.exit_code())
+        h.assert_false(ar.stdout.contains("exit:"))
+        h.assert_false(ar.stdout.contains("out:"))
+        h.assert_false(ar.stdout.contains("err:"))
+        h.complete(ar.exit_code() == 0)
+      })
+
 class \nodoc\ TestRunBinaryInParentFolder is UnitTest
   fun name(): String => "integration/run/binary-in-parent-folder"
   fun apply(h: TestHelper) ? =>

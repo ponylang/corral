@@ -9,6 +9,7 @@ class val Context
   let log: Logger[String]
   let uout: Logger[String]
   let nothing: Bool
+  let quiet: Bool
   let repo_cache: FilePath
 
   new val create(
@@ -16,10 +17,12 @@ class val Context
     log': Logger[String],
     uout': Logger[String],
     nothing': Bool,
+    quiet': Bool,
     repo_cache': FilePath)
   =>
     env = env'
     log = log'
     uout = uout'
     nothing = nothing'
+    quiet = quiet'
     repo_cache = repo_cache'
