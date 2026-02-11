@@ -2,14 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.9.1] - 2026-02-11
 
 ### Fixed
 
 - Fix `--quiet` not stopping all output ([PR #289](https://github.com/ponylang/corral/pull/289))
-
-### Added
-
 
 ### Changed
 
