@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Fix `--quiet` not stopping all output ([PR #289](https://github.com/ponylang/corral/pull/289))
 
 ### Added
 
