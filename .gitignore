@@ -5,3 +5,4 @@ corral/version.pony
 .vscode
 *.code-workspace
 .claude
+CLAUDE.md
