@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Fix intermittent corral Windows build failures ([PR #291](https://github.com/ponylang/corral/pull/291))
 
 ### Added
 
