@@ -2,17 +2,11 @@
 
 All notable changes to Corral will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a CHANGELOG](http://keepachangelog.com/).
 
-## [unreleased] - unreleased
+## [0.9.2] - 2026-02-26
 
 ### Fixed
 
 - Fix intermittent corral Windows build failures ([PR #291](https://github.com/ponylang/corral/pull/291))
-
-### Added
-
-
-### Changed
-
 
 ## [0.9.1] - 2026-02-11
 
