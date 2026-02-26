@@ -23,10 +23,12 @@ Param(
 if ($Arch -ieq 'x64')
 {
   $Arch = 'x86-64'
+  $CPU = 'x86-64'
 }
 elseif ($Arch -ieq 'arm64')
 {
   $Arch = 'arm64'
+  $CPU = 'generic'
 }
 
 $ErrorActionPreference = "Stop"
@@ -93,7 +95,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
@@ -113,8 +115,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$Arch`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" --bin-name test "$testDir"
+      Write-Output "ponyc `"$configFlag`" --cpu `"$CPU`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }
