@@ -93,7 +93,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
@@ -113,8 +113,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --output "$buildDir" --bin-name test "$testDir"
+      Write-Output "ponyc `"$configFlag`" --cpu `"$Arch`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" --cpu "$Arch" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }
