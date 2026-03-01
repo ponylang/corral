@@ -16,7 +16,7 @@ class CmdUpdate is CmdType
     results_receiver: CmdResultReceiver)
   =>
     ctx.uout(Info) and ctx.uout.log("update: updating from " + project.dir.path)
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle iso =>
       _Updater(ctx, project, consume bundle, vcs_builder, results_receiver)
     | let err: String =>
@@ -183,7 +183,7 @@ actor _Updater is RepoOperationResultReceiver
     // TODO: consider parsing version much earlier, maybe in Bundle.
     // https://github.com/ponylang/corral/issues/26
     let revision =
-      match Constraints.resolve_version(dep.data.version, tags, ctx.log)
+      match \exhaustive\ Constraints.resolve_version(dep.data.version, tags, ctx.log)
       | "" => Constraints.best_revision(
         base_bundle.dep_revision(dep.locator.string()),
         dep.revision(),

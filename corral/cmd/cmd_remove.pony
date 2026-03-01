@@ -17,7 +17,7 @@ class CmdRemove is CmdType
   =>
     ctx.uout(Info) and ctx.uout.log("remove: removing: " + locator)
 
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle =>
       try
         bundle.remove_dep(locator)?

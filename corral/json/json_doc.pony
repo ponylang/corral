@@ -72,7 +72,7 @@ class JsonDoc
     Raise error on invalid or missing value.
     """
     _dump_whitespace()
-    match _peek_char(context)?
+    match \exhaustive\ _peek_char(context)?
     | let c: U8 if (c >= 'a') and (c <= 'z') => _parse_keyword()?
     | let c: U8 if (c >= '0') and (c <= '9') => _parse_number()?
     | '-' => _parse_number()?
@@ -350,7 +350,7 @@ class JsonDoc
 
     while i < 4 do
       let d =
-        match _get_char("Unicode escape sequence")?
+        match \exhaustive\ _get_char("Unicode escape sequence")?
         | let c: U8 if (c >= '0') and (c <= '9') => c - '0'
         | let c: U8 if (c >= 'a') and (c <= 'f') => (c - 'a') + 10
         | let c: U8 if (c >= 'A') and (c <= 'F') => (c - 'A') + 10
@@ -401,7 +401,7 @@ class JsonDoc
       // EOF found, is that OK?
       _last_index = -1
 
-      match eof_context
+      match \exhaustive\ eof_context
       | None => return 0  // EOF is allowed
       | let context: String =>
         // EOF not allowed

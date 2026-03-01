@@ -111,7 +111,7 @@ class val ActionResult
     errmsg = errmsg'
 
   fun val exit_code(): I32 =>
-    match exit_status
+    match \exhaustive\ exit_status
     | let exited: Exited => exited.exit_code()
     | let signaled: Signaled =>
       // simulate bash signal to return code mapping
@@ -119,7 +119,7 @@ class val ActionResult
     end
 
   fun val print_to(out: OutStream) =>
-    match errmsg
+    match \exhaustive\ errmsg
     | None =>
       out.print("  exit: " + exit_status.string())
 

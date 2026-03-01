@@ -29,7 +29,7 @@ primitive _JsonPrint
     """
     var buf = consume buf'
 
-    match d
+    match \exhaustive\ d
     | let x: Bool => buf.append(x.string())
     | let x: None => buf.append("null")
     | let x: String =>

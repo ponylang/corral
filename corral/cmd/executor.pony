@@ -74,7 +74,7 @@ primitive Executor
 
     // Finally, make a FilePath for the bundle dir
     let bundle_dir: FilePath =
-      match bundle_dir_maybe
+      match \exhaustive\ bundle_dir_maybe
       | let fp: FilePath => fp
       | None => FilePath(auth, bundle_dir_str)  // placeholder for create
       end

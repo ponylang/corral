@@ -20,7 +20,7 @@ class CmdInit is CmdType
 
     // TODO: try to read first to convert/update existing file(s)
     // TODO: might want to fail if files exist.
-    match project.create_bundle()
+    match \exhaustive\ project.create_bundle()
     | let bundle: Bundle =>
       try
         if not ctx.nothing then

@@ -22,7 +22,7 @@ class CmdAdd is CmdType
     ctx.uout(Info) and ctx.uout.log(
       "add: adding: " + locator + " " + version + " " + revision)
 
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle =>
       try
         let dep = bundle.add_dep(locator, version, revision)

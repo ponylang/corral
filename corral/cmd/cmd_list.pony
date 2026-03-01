@@ -15,7 +15,7 @@ class CmdList is CmdType
   =>
     ctx.uout(Info) and ctx.uout.log("list: from " + project.dir.path)
 
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle =>
       let iter = project.transitive_deps(bundle).values()
       for d in iter do

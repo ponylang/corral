@@ -7,7 +7,7 @@ actor Main
   new create(env: Env) =>
     // Parse the CLI args and handle help and errors.
     let cmd =
-      match recover val CLI.parse(env.args, env.vars) end
+      match \exhaustive\ recover val CLI.parse(env.args, env.vars) end
       | let c: Command => c
       | (let exit_code: U8, let msg: String) =>
         if exit_code == 0 then

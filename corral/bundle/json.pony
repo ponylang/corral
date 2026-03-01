@@ -8,7 +8,7 @@ primitive Json
   fun load_object(file_path: FilePath, log: Logger[String])
     : (JsonObject | FileErrNo | JsonError)
   =>
-    let file = match OpenFile(file_path)
+    let file = match \exhaustive\ OpenFile(file_path)
     | let f: File => f
     | let e: FileErrNo => return e
     end

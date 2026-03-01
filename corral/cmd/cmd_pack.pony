@@ -20,7 +20,7 @@ class CmdPack is CmdType
   =>
     ctx.uout(Info) and ctx.uout.log("pack: from " + project.dir.path)
 
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle =>
       try
         let path = FilePath(project.auth, _output)
