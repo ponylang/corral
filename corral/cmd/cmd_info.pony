@@ -15,7 +15,7 @@ class CmdInfo is CmdType
   =>
     ctx.uout(Info) and ctx.uout.log("info: from " + project.dir.path)
 
-    match project.load_bundle()
+    match \exhaustive\ project.load_bundle()
     | let bundle: Bundle =>
       ctx.uout(Info) and ctx.uout.log("info: " + bundle.info.json().string())
     | let err: String =>

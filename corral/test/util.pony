@@ -22,7 +22,7 @@ primitive \nodoc\ Execute
       let corral_bin = evars.get_or_else(corral_bin_key, corral_default)
       let corral_prog = Program(h.env, corral_bin)?
       let corral_cmd = Action(corral_prog, args, h.env.vars)
-      match checker
+      match \exhaustive\ checker
       | let chk: Checker => Runner.run(corral_cmd, {(ar: ActionResult) => chk(h, ar)} iso)
       | None => Runner.run(corral_cmd, {(ar: ActionResult) => None} iso)
       end

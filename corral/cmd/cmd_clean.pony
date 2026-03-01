@@ -39,7 +39,7 @@ class CmdClean is CmdType
     end
 
     if clean_corral then
-      match project.load_bundle()
+      match \exhaustive\ project.load_bundle()
       | let bundle: Bundle =>
         try
           let corral_dir = project.corral_dirpath()?

@@ -32,11 +32,11 @@ primitive Copy
     })
 
   fun file(from_path: FilePath, to_path: FilePath): FileErrNo =>
-    let from_file = match OpenFile(from_path)
+    let from_file = match \exhaustive\ OpenFile(from_path)
     | let f: File => f
     | let e: FileErrNo => return e
     end
-    let to_file = match CreateFile(to_path)
+    let to_file = match \exhaustive\ CreateFile(to_path)
     | let f: File => f
     | let e: FileErrNo => return e
     end

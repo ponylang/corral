@@ -24,7 +24,7 @@ class CmdRun is CmdType
 
     // Build a : separated path from bundle roots.
     let ponypath = recover val
-      match project.load_bundle()
+      match \exhaustive\ project.load_bundle()
       | let bundle: Bundle =>
         let ponypath' = recover trn String end
         let iter = project.transitive_deps(bundle).values()

@@ -30,7 +30,7 @@ class Bundle
     log = log'
 
     log(Fine) and log.log("Loading bundle: " + dir.join(Files.bundle_filename())?.path)
-    let data = match Json.load_object(dir.join(Files.bundle_filename())?, log)
+    let data = match \exhaustive\ Json.load_object(dir.join(Files.bundle_filename())?, log)
       | let jo: JsonObject => BundleData(jo)
       | let fe: FileErrNo =>
         log(Fine) and log.log("Bundle file not present for: " + Path.base(dir.path))
@@ -45,7 +45,7 @@ class Bundle
 
     let lm = Map[String, LockData]
     try
-      let locks_data = match Json.load_object(dir.join(Files.lock_filename())?, log)
+      let locks_data = match \exhaustive\ Json.load_object(dir.join(Files.lock_filename())?, log)
         | let jo: JsonObject => LocksData(jo)
         | let fe: FileErrNo =>
           log(Fine) and log.log("Lock file not present for: " + Path.base(dir.path))

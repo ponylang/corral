@@ -7,7 +7,7 @@ primitive CLI
     : (Command | (U8, String))
   =>
     try
-      match CommandParser(spec()?).parse(args, envs)
+      match \exhaustive\ CommandParser(spec()?).parse(args, envs)
       | let c: Command => c
       | let h: CommandHelp => (0, h.help_string())
       | let e: SyntaxError => (1, e.string())
