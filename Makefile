@@ -20,6 +20,7 @@ ifdef config
 endif
 
 PONYC ?= ponyc
+BUILD_DOCS_WITH ?= pony-doc
 
 ifeq ($(config),release)
 	PONYC := $(PONYC)
@@ -97,7 +98,7 @@ clean:
 
 $(docs_dir): $(SOURCE_FILES)
 	rm -rf $(docs_dir)
-	$(PONYC) --docs-public --pass=docs --output build $(SRC_DIR)
+	$(BUILD_DOCS_WITH) --output build $(SRC_DIR)
 
 docs: $(docs_dir)
 
