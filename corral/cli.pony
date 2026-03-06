@@ -1,5 +1,6 @@
 use "cli"
 
+
 primitive CLI
   fun parse(
     args: Array[String] box,
