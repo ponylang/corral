@@ -21,7 +21,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ponylang/library-documentation-action-v2-insiders:release
+      image: ghcr.io/ponylang/library-documentation-action-v2:release
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
