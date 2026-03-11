@@ -15,7 +15,7 @@ jobs:
     container:
       image: ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v6.0.2
       - name: Test
         run: make unit-tests config=debug
       - name: Send alert on failure

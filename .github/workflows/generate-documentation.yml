@@ -24,7 +24,7 @@ jobs:
       image: ghcr.io/ponylang/library-documentation-action-v2:release
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v6.0.2
       - name: Generate documentation
         run: /entrypoint.py
         env:
