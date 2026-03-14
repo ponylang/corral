@@ -7,6 +7,7 @@ Pony dependency manager. Manages `corral.json` (deps/packages/info) and `lock.js
 ```
 make                  # build + test (unit + integration)
 make unit-tests       # unit tests only
+make test-one t=TestName  # run a single test by name
 make integration      # integration tests only (requires built binary)
 make test             # both unit and integration
 make clean            # remove build artifacts
