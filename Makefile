@@ -87,6 +87,9 @@ $(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
 unit-tests: $(tests_binary)
 	$^ --exclude=integration
 
+test-one: $(tests_binary)
+	$^ --only="$(t)"
+
 integration: $(binary) $(tests_binary)
 	CORRAL_BIN=$$(pwd)/$(binary) $(tests_binary) --only=integration --sequential
 
@@ -107,4 +110,4 @@ all: test $(binary)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY: all clean install test unittest integration
+.PHONY: all clean install test unittest integration test-one
