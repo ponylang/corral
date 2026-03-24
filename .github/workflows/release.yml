@@ -118,6 +118,8 @@ jobs:
     needs:
       - pre-artefact-creation
     steps:
+      - name: Disable Windows Defender
+        run: Set-MpPreference -DisableRealtimeMonitoring $true
       - uses: actions/checkout@v6.0.2
       - name: Build and upload
         run: |
@@ -138,6 +140,8 @@ jobs:
     needs:
       - pre-artefact-creation
     steps:
+      - name: Disable Windows Defender
+        run: Set-MpPreference -DisableRealtimeMonitoring $true
       - uses: actions/checkout@v6.0.2
       - name: Build and upload
         run: |
