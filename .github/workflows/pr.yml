@@ -56,6 +56,8 @@ jobs:
     name: x86_64 Windows
     runs-on: windows-2025
     steps:
+      - name: Disable Windows Defender
+        run: Set-MpPreference -DisableRealtimeMonitoring $true
       - uses: actions/checkout@v6.0.2
       - name: Test with most recent ponyc release
         run: |
@@ -68,6 +70,8 @@ jobs:
     name: arm64 Windows
     runs-on: windows-11-arm
     steps:
+      - name: Disable Windows Defender
+        run: Set-MpPreference -DisableRealtimeMonitoring $true
       - uses: actions/checkout@v6.0.2
       - name: Test with most recent ponyc release
         run: |
