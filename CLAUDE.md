@@ -5,14 +5,16 @@ Pony dependency manager. Manages `corral.json` (deps/packages/info) and `lock.js
 ## Building and Testing
 
 ```
-make                  # build + test (unit + integration)
-make unit-tests       # unit tests only
-make test-one t=TestName  # run a single test by name
-make integration      # integration tests only (requires built binary)
-make test             # both unit and integration
-make clean            # remove build artifacts
-make config=debug     # debug build
+make ssl=3.0.x                  # build + test (unit + integration)
+make unit-tests ssl=3.0.x       # unit tests only
+make test-one ssl=3.0.x t=TestName  # run a single test by name
+make integration ssl=3.0.x      # integration tests only (requires built binary)
+make test ssl=3.0.x             # both unit and integration
+make clean                      # remove build artifacts (no ssl= needed)
+make config=debug ssl=3.0.x     # debug build
 ```
+
+The `ssl=` parameter is required for all targets except `clean`. Values: `3.0.x` (OpenSSL 3.x), `1.1.x` (OpenSSL 1.1), `libressl` (LibreSSL). CI uses `ssl=libressl`; use whichever matches your local installation.
 
 Tests run via `ponyc` directly (no corral dependencies needed — it bootstraps itself). The Makefile generates `version.pony` from `version.pony.in` using the VERSION file.
 
@@ -42,6 +44,14 @@ corral/
     vcs.pony               -- VCS interface, Repo class, RepoOperation interface
     vcs_builder.pony       -- VCSBuilder interface + CorralVCSBuilder
     git.pony               -- GitVCS (the only fully-featured one)
+  _vendor/                 -- Vendored dependencies (ssl, lori, courier)
+    ssl/                   -- SSL wrappers (crypto/, net/)
+    lori/                  -- TCP networking
+    courier/               -- HTTP client
+    VERSIONS               -- Pinned version info
+  git/                     -- Pure Pony git internals
+    inflate/               -- RFC 1951 DEFLATE decompression
+    sha1/                  -- SHA-1 hashing (wraps ssl/crypto)
   semver/                  -- Semantic versioning (parsing, ranges, constraint solving)
   json/                    -- Custom JSON handling (not stdlib)
   util/                    -- Action (Program/Action/ActionResult/Runner), Copy, Log
@@ -65,7 +75,7 @@ corral/
 
 - **Unit tests** (`cmd/_test_cmd_update.pony`): Use fake VCS (`_RecordedVCS`) to verify operation counts (syncs, tag queries, checkouts) without network. Test data from `test/testdata/`.
 - **Integration tests** (`test/integration/`): Run the actual corral binary via `Execute` helper (uses `ProcessMonitor`). `DataClone` copies test fixtures to temp dirs. Tests use `h.long_test()` with 30s timeouts.
-- **Test registration**: `test/_test.pony` is the test Main. Unit tests listed directly; cmd tests delegated via `cmd.Main.make().tests(test)`.
+- **Test registration**: `test/_test.pony` is the test Main. Unit tests listed directly; cmd tests delegated via `cmd.Main.make().tests(test)`, git tests via `git.Main.make().tests(test)`.
 - **Naming**: Integration tests named `"integration/..."`, unit tests named `"cmd/update/..."` etc. `\nodoc\` annotation on test classes.
 
 ## Conventions
@@ -77,3 +87,7 @@ corral/
 - Error returns as union types: `(SuccessType | ErrorType)` rather than exceptions, except `?` for simple lookup failures.
 - `iso` bundles passed between actors via `consume`.
 - Capabilities: `Bundle` created as `iso`, consumed into `ref` by actors. `Context`, `Project`, `Locator`, `VCS`, `Repo`, `Action`, `Program` are all `val`.
+
+## Vendored Dependencies
+
+Corral vendors ssl, lori, and courier for the pure Pony git implementation. These live in `corral/_vendor/` and are compiled via `-p` flag in the Makefile. Version info is in `corral/_vendor/VERSIONS`. Do not modify vendored code directly -- update the upstream package and re-vendor.

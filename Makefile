@@ -4,6 +4,7 @@ config ?= release
 arch ?=
 static ?= false
 linker ?=
+ssl ?=
 
 BUNDLE := corral
 
@@ -46,6 +47,18 @@ ifneq ($(linker),)
   LINKER += --link-ldcmd=$(linker)
 endif
 
+ifeq (,$(filter $(MAKECMDGOALS),clean))
+  ifeq ($(ssl), 3.0.x)
+    SSL = -Dopenssl_3.0.x
+  else ifeq ($(ssl), 1.1.x)
+    SSL = -Dopenssl_1.1.x
+  else ifeq ($(ssl), libressl)
+    SSL = -Dlibressl
+  else
+    $(error Unknown SSL version "$(ssl)". Must set using 'ssl=FOO')
+  endif
+endif
+
 # Default to version from `VERSION` file but allowing overridding on the
 # make command line like:
 # make version="nightly-19710702"
@@ -74,7 +87,7 @@ GEN_FILES = $(patsubst %.pony.in, %.pony, $(GEN_FILES_IN))
 	sed s/%%VERSION%%/$(version)/ $< > $@
 
 $(binary): $(GEN_FILES) $(SOURCE_FILES) | $(BUILD_DIR)
-	${PONYC} $(arch_arg) $(LINKER) $(SRC_DIR) -o ${BUILD_DIR}
+	${PONYC} $(SSL) -p $(SRC_DIR)/_vendor $(arch_arg) $(LINKER) $(SRC_DIR) -o ${BUILD_DIR}
 
 install: $(binary)
 	@echo "install"
@@ -82,7 +95,7 @@ install: $(binary)
 	cp $^ $(DESTDIR)$(prefix)/bin
 
 $(tests_binary): $(GEN_FILES) $(SOURCE_FILES) $(TEST_FILES) | $(BUILD_DIR)
-	${PONYC} $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
+	${PONYC} $(SSL) -p $(SRC_DIR)/_vendor $(arch_arg) $(LINKER) --debug -o ${BUILD_DIR} $(SRC_DIR)/test
 
 unit-tests: $(tests_binary)
 	$^ --exclude=integration
@@ -101,7 +114,7 @@ clean:
 
 $(docs_dir): $(SOURCE_FILES)
 	rm -rf $(docs_dir)
-	$(BUILD_DOCS_WITH) --output build $(SRC_DIR)
+	$(BUILD_DOCS_WITH) $(SSL) -p $(SRC_DIR)/_vendor --output build $(SRC_DIR)
 
 docs: $(docs_dir)
 

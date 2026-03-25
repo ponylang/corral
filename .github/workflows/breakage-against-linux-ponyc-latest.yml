@@ -13,11 +13,11 @@ jobs:
     name: Verify main against the latest ponyc on Linux
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+      image: ghcr.io/ponylang/shared-docker-ci-standard-builder-with-libressl-4.2.0:nightly
     steps:
       - uses: actions/checkout@v6.0.2
       - name: Test
-        run: make unit-tests config=debug
+        run: make unit-tests config=debug ssl=libressl
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5

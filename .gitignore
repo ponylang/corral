@@ -4,5 +4,6 @@ corral/version.pony
 **/_corral
 .vscode
 *.code-workspace
+*.lib
 .claude
 CLAUDE.md
