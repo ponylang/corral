@@ -36,7 +36,7 @@ $ErrorActionPreference = "Stop"
 $rootDir = Split-Path $script:MyInvocation.MyCommand.Path
 $srcDir = Join-Path -Path $rootDir -ChildPath "corral"
 
-$ponyArgs = "--define libressl --path corral\_vendor --path ."
+$ponyArgs = @("--define", "libressl", "--path", "corral\_vendor", "--path", ".")
 
 if ($Config -ieq "Release")
 {
