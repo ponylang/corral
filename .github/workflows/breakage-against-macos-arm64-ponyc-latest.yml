@@ -17,10 +17,13 @@ jobs:
         run: bash .ci-scripts/macos-arm64-install-pony-tools.bash nightly
       - name: brew install dependencies
         run: brew install coreutils
+      - name: Install LibreSSL
+        continue-on-error: true
+        run: brew install libressl
       - name: Test with most recent ponyc release
         run: |
           export PATH="/tmp/ponyc/bin/:$PATH"
-          make unit-tests config=debug
+          make unit-tests config=debug ssl=libressl
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@e4c8f27c732ba9bd98ac6be0583096dea82feea5
