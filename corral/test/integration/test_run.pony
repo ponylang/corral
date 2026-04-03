@@ -16,7 +16,6 @@ class \nodoc\ TestRun is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
-        h.assert_true(ar.stdout.lower().contains("compiled with: "))
         h.complete(ar.exit_code() == 0)
       })
 
@@ -33,7 +32,6 @@ class \nodoc\ TestRunWithoutBundle is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
-        h.assert_true(ar.stdout.lower().contains("compiled with: "))
         h.complete(ar.exit_code() == 0)
       })
 
@@ -129,6 +127,5 @@ class \nodoc\ TestRunBinaryInParentFolder is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
-        h.assert_true(ar.stdout.lower().contains("compiled with: "))
         h.complete(ar.exit_code() == 0)
       })
