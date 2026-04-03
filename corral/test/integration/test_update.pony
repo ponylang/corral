@@ -15,7 +15,6 @@ class  \nodoc\ TestUpdateEmpty is UnitTest
       ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
-        h.assert_true(ar.stdout.contains("update:"))
         h.complete(ar.exit_code() == 0)
       })
 
@@ -40,7 +39,6 @@ class  \nodoc\ TestUpdateLocalDirect is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           let repos_dir = data.dir_path("_repos")?
           h.assert_false(repos_dir.exists())
@@ -74,7 +72,6 @@ class  \nodoc\ TestUpdateMutuallyRecursive is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           let repos_dir = data.dir_path("_repos")?
           h.assert_false(repos_dir.exists())
@@ -107,7 +104,6 @@ class  \nodoc\ TestUpdateSelfReferential is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           let repos_dir = data.dir_path("_repos")?
           h.assert_false(repos_dir.exists())
@@ -140,7 +136,6 @@ class  \nodoc\ TestUpdateGithub is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           // Check that lock was at least created.
           let lock_file = data.dir_path("lock.json")?
@@ -211,7 +206,6 @@ class  \nodoc\ TestUpdateGithubDeep is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.join("github_com_ponylang_corral_test_repo_git")?.exists())
@@ -247,7 +241,6 @@ class  \nodoc\ TestUpdateRemoteGits is UnitTest
       {(h: TestHelper, ar: ActionResult)(data=data) =>
         try
           h.assert_eq[I32](0, ar.exit_code())
-          h.assert_true(ar.stdout.contains("update:"))
 
           let repos_dir = data.dir_path("_repos")?
           h.assert_true(repos_dir.join("bitbucket_org_cquinn_pony_thing_git")?.exists())

@@ -11,6 +11,7 @@ actor _TestCmdUpdate is TestList
 
   fun tag tests(test: PonyTest) =>
     test(_TestEmptyDeps)
+    test(_TestLocalDirect)
     test(_TestMutuallyRecursive)
     test(_TestRegression120)
     test(_TestSelfReferential)
@@ -29,6 +30,21 @@ class iso _TestEmptyDeps is UnitTest
       h,
       "empty-deps",
       _OpsRecorder(h, 0, 0, 0))?
+
+class iso _TestLocalDirect is UnitTest
+  """
+  Verify that a bundle with a single local dependency executes exactly
+  1 sync, 1 tag query, and 1 checkout operation.
+  """
+
+  fun name(): String =>
+    "cmd/update/" + __loc.type_name()
+
+  fun apply(h: TestHelper) ? =>
+    _OpsRecorderTestRunner(
+      h,
+      "local-direct",
+      _OpsRecorder(h, 1, 1, 1))?
 
 class iso _TestMutuallyRecursive is UnitTest
   """
