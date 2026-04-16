@@ -36,6 +36,8 @@ $ErrorActionPreference = "Stop"
 $rootDir = Split-Path $script:MyInvocation.MyCommand.Path
 $srcDir = Join-Path -Path $rootDir -ChildPath "corral"
 
+$ponyArgs = @("--define", "libressl", "--path", "corral\_vendor", "--path", ".")
+
 if ($Config -ieq "Release")
 {
   $configFlag = ""
@@ -95,7 +97,7 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" "$srcDir"
+      ponyc "$configFlag" $ponyArgs --cpu "$CPU" --output "$buildDir" "$srcDir"
       break buildFiles
     }
   }
@@ -115,8 +117,8 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$CPU`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" --bin-name test "$testDir"
+      Write-Output "ponyc `"$configFlag`" $ponyArgs --cpu `"$CPU`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
+      ponyc "$configFlag" $ponyArgs --cpu "$CPU" --output "$buildDir" --bin-name test "$testDir"
       break testFiles
     }
   }

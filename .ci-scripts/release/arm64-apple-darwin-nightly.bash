@@ -88,7 +88,7 @@ ASSET_DESCRIPTION="https://github.com/${GITHUB_REPOSITORY}"
 # Build application installation
 echo -e "\e[34mBuilding ${APPLICATION_NAME}...\e[0m"
 make install prefix="${BUILD_DIR}" arch=${CPU} \
-  version="${APPLICATION_VERSION}"
+  version="${APPLICATION_VERSION}" ssl=libressl
 
 # Package it all up
 echo -e "\e[34mCreating .tar.gz of ${APPLICATION_NAME}...\e[0m"

@@ -2,6 +2,7 @@ use "pony_test"
 use "files"
 use integration = "integration"
 use cmd = "../cmd"
+use git = "../git"
 
 actor \nodoc\ Main is TestList
   new create(env: Env) =>
@@ -36,6 +37,7 @@ actor \nodoc\ Main is TestList
     test(integration.TestUpdateScripts)
 
     cmd.Main.make().tests(test)
+    git.Main.make().tests(test)
 
   fun @runtime_override_defaults(rto: RuntimeOptions) =>
     rto.ponynoblock = true

@@ -15,6 +15,8 @@ jobs:
       - name: Disable Windows Defender
         run: Set-MpPreference -DisableRealtimeMonitoring $true
       - uses: actions/checkout@v6.0.2
+      - name: Install LibreSSL
+        run: .ci-scripts\windows-install-libressl.ps1
       - name: Test with most recent ponyc nightly
         run: |
           Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/nightlies/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
