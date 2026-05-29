@@ -5,7 +5,7 @@ on:
     - cron: "0 0 * * *"
 
 permissions:
-  packages: read
+  packages: write
 
 jobs:
   # Currently, GitHub actions supplied by GH like checkout and cache do not work
@@ -18,7 +18,7 @@ jobs:
   # container" but is required to work around the GitHub actions limitation
   # documented above.
   arm64-unknown-linux-nightly:
-    name: Build and upload arm64-unknown-linux-nightly to Cloudsmith
+    name: Build and upload arm64-unknown-linux-nightly
     runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout
@@ -32,6 +32,8 @@ jobs:
             -w /root/project \
             -e CLOUDSMITH_API_KEY=${{ secrets.CLOUDSMITH_API_KEY }} \
             -e GITHUB_REPOSITORY=${{ github.repository }} \
+            -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+            -e GITHUB_ACTOR=${{ github.actor }} \
             ghcr.io/ponylang/shared-docker-ci-standard-builder:release \
             bash .ci-scripts/release/arm64-unknown-linux-nightly.bash
       - name: Send alert on failure
@@ -47,7 +49,7 @@ jobs:
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
   x86-64-unknown-linux-nightly:
-    name: Build and upload x86-64-unknown-linux-nightly to Cloudsmith
+    name: Build and upload x86-64-unknown-linux-nightly
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/ponylang/shared-docker-ci-standard-builder:release
@@ -57,6 +59,7 @@ jobs:
         run: bash .ci-scripts/release/x86-64-unknown-linux-nightly.bash
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
@@ -70,7 +73,7 @@ jobs:
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
   x86-64-pc-windows-msvc-nightly:
-    name: Build and upload x86-64-pc-windows-msvc-nightly to Cloudsmith
+    name: Build and upload x86-64-pc-windows-msvc-nightly
     runs-on: windows-2025
     steps:
       - name: Disable Windows Defender
@@ -87,8 +90,12 @@ jobs:
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
+          # Additionally publish to GHCR, reusing $version so both destinations
+          # get the same date.
+          python .ci-scripts\release\ghcr_nightly.py push corral x86-64-pc-windows-msvc $version build\corral-x86-64-pc-windows-msvc.zip
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
@@ -102,7 +109,7 @@ jobs:
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
   arm64-pc-windows-msvc-nightly:
-    name: Build and upload arm64-pc-windows-msvc-nightly to Cloudsmith
+    name: Build and upload arm64-pc-windows-msvc-nightly
     runs-on: windows-11-arm
     steps:
       - name: Disable Windows Defender
@@ -119,8 +126,12 @@ jobs:
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-arm64-pc-windows-msvc.zip
+          # Additionally publish to GHCR, reusing $version so both destinations
+          # get the same date.
+          python .ci-scripts\release\ghcr_nightly.py push corral arm64-pc-windows-msvc $version build\corral-arm64-pc-windows-msvc.zip
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
@@ -134,7 +145,7 @@ jobs:
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
   x86-64-apple-darwin-nightly:
-    name: Build and upload x86-64-apple-darwin-nightly to Cloudsmith
+    name: Build and upload x86-64-apple-darwin-nightly
     runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v6.0.2
@@ -150,6 +161,7 @@ jobs:
           bash .ci-scripts/release/x86-64-apple-darwin-nightly.bash
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
@@ -163,7 +175,7 @@ jobs:
           content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
 
   arm64-apple-darwin-nightly:
-    name: Build and upload arm64-apple-darwin-nightly to Cloudsmith
+    name: Build and upload arm64-apple-darwin-nightly
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v6.0.2
@@ -179,6 +191,44 @@ jobs:
           bash .ci-scripts/release/arm64-apple-darwin-nightly.bash
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Send alert on failure
+        if: ${{ failure() }}
+        uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
+        with:
+          api-key: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_API_KEY }}
+          email: ${{ secrets.ZULIP_SCHEDULED_JOB_FAILURE_EMAIL }}
+          organization-url: 'https://ponylang.zulipchat.com/'
+          to: notifications
+          type: stream
+          topic: ${{ github.repository }} scheduled job failure
+          content: ${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }} failed.
+
+  prune-old-nightlies:
+    name: Prune GHCR nightlies older than 90 days
+    runs-on: ubuntu-latest
+    # This job must depend on EVERY platform publish job above. If a new
+    # platform is added, add its job here too: otherwise its freshly published
+    # artifact could be eligible for deletion before it is ever pulled. The
+    # dependency list, not the individual platform job, is what breaks if this
+    # falls out of sync, so the invariant is documented here.
+    needs:
+      - arm64-unknown-linux-nightly
+      - x86-64-unknown-linux-nightly
+      - x86-64-pc-windows-msvc-nightly
+      - arm64-pc-windows-msvc-nightly
+      - x86-64-apple-darwin-nightly
+      - arm64-apple-darwin-nightly
+    steps:
+      - name: Prune
+        # v3.0.1
+        uses: snok/container-retention-policy@3b0972b2276b171b212f8c4efbca59ebba26eceb
+        with:
+          account: ponylang
+          token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+          image-names: "nightly/corral-*"
+          tag-selection: tagged
+          cut-off: 90d
       - name: Send alert on failure
         if: ${{ failure() }}
         uses: zulip/github-actions-zulip/send-message@bd8ec52de371d139ae8313661b7d8318c19266aa
