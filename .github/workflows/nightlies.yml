@@ -90,6 +90,11 @@ jobs:
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
+          # Guard the Cloudsmith exit code: in a pwsh step the step's exit
+          # code is that of the last native command, so a failed Cloudsmith
+          # push followed by a successful GHCR push would exit 0 and mask the
+          # failure to the primary download source.
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           # Additionally publish to GHCR, reusing $version so both destinations
           # get the same date.
           python .ci-scripts\release\ghcr_nightly.py push corral x86-64-pc-windows-msvc $version build\corral-x86-64-pc-windows-msvc.zip
@@ -126,6 +131,11 @@ jobs:
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-arm64-pc-windows-msvc.zip
+          # Guard the Cloudsmith exit code: in a pwsh step the step's exit
+          # code is that of the last native command, so a failed Cloudsmith
+          # push followed by a successful GHCR push would exit 0 and mask the
+          # failure to the primary download source.
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           # Additionally publish to GHCR, reusing $version so both destinations
           # get the same date.
           python .ci-scripts\release\ghcr_nightly.py push corral arm64-pc-windows-msvc $version build\corral-arm64-pc-windows-msvc.zip
