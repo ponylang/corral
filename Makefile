@@ -3,7 +3,6 @@ destdir ?= ${prefix}
 config ?= release
 arch ?=
 static ?= false
-linker ?=
 
 BUNDLE := corral
 
@@ -40,10 +39,6 @@ endif
 
 ifeq ($(static),true)
   LINKER += --static
-endif
-
-ifneq ($(linker),)
-  LINKER += --link-ldcmd=$(linker)
 endif
 
 # Default to version from `VERSION` file but allowing overridding on the
