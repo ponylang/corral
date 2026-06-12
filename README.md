@@ -2,7 +2,6 @@
 
 [Pony](https://ponylang.io) dependency manager
 
-
 ## Status
 
 Corral is beta level software.
