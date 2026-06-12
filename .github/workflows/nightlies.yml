@@ -85,18 +85,23 @@ jobs:
           # non-zero native exit as non-fatal by default.
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
+          # Pass -Version explicitly so the embedded version string matches
+          # the Linux/macOS nightly scripts, which pass `version=nightly-<date>`
+          # to make. Without this, make.ps1 falls back to "<VERSION>-<sha>".
+          $cloudsmithVersion = (Get-Date).ToString("yyyyMMdd")
+          $applicationVersion = "nightly-$cloudsmithVersion"
           python.exe -m pip install --upgrade cloudsmith-cli
           Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-x86-64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
-          .\make.ps1 -Command build;
+          .\make.ps1 -Command build -Version $applicationVersion;
           .\make.ps1 -Command test;
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
-          $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
-          # Additionally publish to GHCR, reusing $version so both destinations
-          # get the same date.
-          python .ci-scripts\release\ghcr_nightly.py push corral x86-64-pc-windows-msvc $version build\corral-x86-64-pc-windows-msvc.zip
+          cloudsmith push raw --version $cloudsmithVersion --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
+          # Additionally publish to GHCR, reusing the date so both destinations
+          # get the same value.
+          python .ci-scripts\release\ghcr_nightly.py push corral x86-64-pc-windows-msvc $cloudsmithVersion build\corral-x86-64-pc-windows-msvc.zip
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -125,6 +130,11 @@ jobs:
           # non-zero native exit as non-fatal by default.
           $ErrorActionPreference = 'Stop'
           $PSNativeCommandUseErrorActionPreference = $true
+          # Pass -Version explicitly so the embedded version string matches
+          # the Linux/macOS nightly scripts, which pass `version=nightly-<date>`
+          # to make. Without this, make.ps1 falls back to "<VERSION>-<sha>".
+          $cloudsmithVersion = (Get-Date).ToString("yyyyMMdd")
+          $applicationVersion = "nightly-$cloudsmithVersion"
           # Pin cloudsmith-cli below 1.19.0: 1.19.0 added a PyJWT[crypto]
           # dependency that pulls in cryptography, which has no prebuilt
           # win_arm64 wheel and fails to build from source on this runner.
@@ -134,14 +144,14 @@ jobs:
           Invoke-WebRequest https://dl.cloudsmith.io/public/ponylang/releases/raw/versions/latest/ponyc-arm64-pc-windows-msvc.zip -OutFile C:\ponyc.zip;
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
-          .\make.ps1 -Command build;
+          .\make.ps1 -Command build -Version $applicationVersion;
           .\make.ps1 -Command test;
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
-          $version = (Get-Date).ToString("yyyyMMdd"); cloudsmith push raw --version $version --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-arm64-pc-windows-msvc.zip
-          # Additionally publish to GHCR, reusing $version so both destinations
-          # get the same date.
-          python .ci-scripts\release\ghcr_nightly.py push corral arm64-pc-windows-msvc $version build\corral-arm64-pc-windows-msvc.zip
+          cloudsmith push raw --version $cloudsmithVersion --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-arm64-pc-windows-msvc.zip
+          # Additionally publish to GHCR, reusing the date so both destinations
+          # get the same value.
+          python .ci-scripts\release\ghcr_nightly.py push corral arm64-pc-windows-msvc $cloudsmithVersion build\corral-arm64-pc-windows-msvc.zip
         env:
           CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
