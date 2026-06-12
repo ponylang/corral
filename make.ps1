@@ -53,7 +53,7 @@ else
 
 if ($Version -eq "")
 {
-  $Version = (Get-Content "$rootDir\VERSION") + "-" + (git rev-parse --short --verify HEAD^)
+  $Version = (Get-Content "$rootDir\VERSION") + "-" + (git rev-parse --short --verify HEAD)
 }
 
 Write-Output "Configuration:    $Config"
@@ -95,7 +95,16 @@ function BuildCorral
   {
     if ($binaryTimestamp -lt $file.LastWriteTimeUtc)
     {
-      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" "$srcDir"
+      # Build the arg list so $configFlag is genuinely absent when empty.
+      # pwsh 7 passes a quoted-or-unquoted empty variable to native commands as
+      # a literal empty string, which ponyc reads as a second positional package
+      # path ("") and fails with "no source files in package ''" after a
+      # successful link.
+      $ponycArgs = @()
+      if ($configFlag) { $ponycArgs += $configFlag }
+      $ponycArgs += @("--cpu", "$CPU", "--output", "$buildDir", "$srcDir")
+      ponyc @ponycArgs
+      if ($LastExitCode -ne 0) { throw "Error" }
       break buildFiles
     }
   }
@@ -115,8 +124,12 @@ function BuildTest
     if ($testTimestamp -lt $file.LastWriteTimeUtc)
     {
       $testDir = Join-Path -Path $srcDir -ChildPath "test"
-      Write-Output "ponyc `"$configFlag`" --cpu `"$CPU`" --output `"$buildDir`" --bin-name `"test`" `"$testDir`""
-      ponyc "$configFlag" --cpu "$CPU" --output "$buildDir" --bin-name test "$testDir"
+      $ponycArgs = @()
+      if ($configFlag) { $ponycArgs += $configFlag }
+      $ponycArgs += @("--cpu", "$CPU", "--output", "$buildDir", "--bin-name", "test", "$testDir")
+      Write-Output "ponyc $ponycArgs"
+      ponyc @ponycArgs
+      if ($LastExitCode -ne 0) { throw "Error" }
       break testFiles
     }
   }
@@ -145,9 +158,11 @@ switch ($Command.ToLower())
     $testFile = (BuildTest)[-1]
 
     & "$testFile" --exclude=integration --sequential
+    if ($LastExitCode -ne 0) { throw "Error" }
 
     $env:CORRAL_BIN = Join-Path -Path $buildDir -ChildPath "corral.exe"
     & "$testFile" --only=integration --sequential
+    if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
 
@@ -157,6 +172,7 @@ switch ($Command.ToLower())
     $testFile = (BuildTest)[-1]
 
     & "$testFile" --exclude=integration --sequential
+    if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
 
@@ -167,6 +183,7 @@ switch ($Command.ToLower())
 
     $env:CORRAL_BIN = Join-Path -Path $buildDir -ChildPath "corral.exe"
     & "$testFile" --only=integration --sequential
+    if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
 
