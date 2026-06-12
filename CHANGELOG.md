@@ -6,6 +6,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Fixed
 
+- Align Windows `corral version` string with Linux and macOS ([PR #335](https://github.com/ponylang/corral/pull/335))
 
 ### Added
 
