@@ -157,11 +157,11 @@ switch ($Command.ToLower())
     BuildCorral
     $testFile = (BuildTest)[-1]
 
-    & "$testFile" --exclude=integration --sequential
+    & "$testFile" --exclude=integration --sequential --shuffle
     if ($LastExitCode -ne 0) { throw "Error" }
 
     $env:CORRAL_BIN = Join-Path -Path $buildDir -ChildPath "corral.exe"
-    & "$testFile" --only=integration --sequential
+    & "$testFile" --only=integration --sequential --shuffle
     if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
@@ -171,7 +171,7 @@ switch ($Command.ToLower())
     BuildCorral
     $testFile = (BuildTest)[-1]
 
-    & "$testFile" --exclude=integration --sequential
+    & "$testFile" --exclude=integration --sequential --shuffle
     if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
@@ -182,7 +182,7 @@ switch ($Command.ToLower())
     $testFile = (BuildTest)[-1]
 
     $env:CORRAL_BIN = Join-Path -Path $buildDir -ChildPath "corral.exe"
-    & "$testFile" --only=integration --sequential
+    & "$testFile" --only=integration --sequential --shuffle
     if ($LastExitCode -ne 0) { throw "Error" }
     break
   }
