@@ -1,79 +1,120 @@
 use "collections"
 use "../logger"
-use sr="../semver/range"
-use ss="../semver/solver"
-use sv="../semver/version"
+use sr = "../semver/range"
+use ss = "../semver/solver"
+use sv = "../semver/version"
 
 primitive Constraints
+  """
+  Version constraint parsing and resolution.
+  """
 
-  fun resolve_version(version: String, tags: Array[String] val, log: Logger[String]): String
+  fun resolve_version(
+    version: String,
+    tags: Array[String] val,
+    log: Logger[String])
+    : String
   =>
     """
-    Returns the best revision given a version string and an array of tag
-    choices. If version is a tag, hash or other non-constraint, then return
-    that.
+    Returns the best revision given a version string
+    and an array of tag choices. If version is a tag,
+    hash or other non-constraint, then return that.
     """
     // Attempt to parse version as constraints.
     let constraints =
       try
         _parse_constraints(version)?
       else
-        return version // interpret version as a literal tag or hash
+        // interpret version as a literal tag or hash
+        return version
       end
 
-    let result = _solve_constraints(constraints, tags, log)
+    let result =
+      _solve_constraints(constraints, tags, log)
 
-    // TODO: probably OK to have multiple solutions: choose 'best' with a strategy like 'latest'.
-    // https://github.com/ponylang/corral/issues/63
+    // TODO: probably OK to have multiple solutions:
+    // choose 'best' with a strategy like 'latest'.
+    // ponylang/corral/issues/63
 
     try
-      if (result.solution.size() == 0) or (result.is_err()) then
-        log(Warn) and log.log("no solution for " + version + ": " + result.err)
+      if (result.solution.size() == 0)
+        or result.is_err()
+      then
+        log(Warn) and log.log(
+          "no solution for " + version
+            + ": " + result.err)
         ""
       elseif result.solution.size() == 1 then
-        let rev: String = result.solution(0)?.version.string()
-        log(Fine) and log.log("single solution for " + version + ": " + rev)
+        let rev: String =
+          result.solution(0)?.version.string()
+        log(Fine) and log.log(
+          "single solution for " + version
+            + ": " + rev)
         rev
       else
-        log(Fine) and log.log("multiple solutions for " + version + ": " + result.solution.size().string())
-        let max_heap = MaxHeap[ss.Artifact box](result.solution.size())
-        max_heap.append(result.solution) // Could use itertools.map() to get a String iter
+        log(Fine) and log.log(
+          "multiple solutions for " + version
+            + ": "
+            + result.solution.size().string())
+        let max_heap =
+          MaxHeap[ss.Artifact box](
+            result.solution.size())
+        // Could use itertools.map() to get a
+        // String iter
+        max_heap.append(result.solution)
         let rev_arti = max_heap.pop()?
-        log(Fine) and log.log("  selected: " + rev_arti.string())
+        log(Fine) and log.log(
+          "  selected: " + rev_arti.string())
         rev_arti.string()
       end
     else
-      "" // Should not happen since we know collections accessed are not empty
+      // Should not happen since we know collections
+      // accessed are not empty
+      ""
     end
 
-
-  fun best_revision(lrevision: String, drevision: String, version: String): String
+  fun best_revision(
+    lrevision: String,
+    drevision: String,
+    version: String)
+    : String
   =>
     """
-    Returns the best choice of possible: a lock revision, a fallback dep revision, and a version.
-    TODO https://github.com/ponylang/corral/issues/59
+    Returns the best choice of possible: a lock
+    revision, a fallback dep revision, and a version.
+    TODO ponylang/corral/issues/59
     """
     if lrevision != "" then
-      lrevision  // Base lock revision is always best
+      // Base lock revision is always best
+      lrevision
     elseif drevision != "" then
-      drevision  // Dep lock revision is second best
+      // Dep lock revision is second best
+      drevision
     else
       try
         Constraints._parse_constraints(version)?
-        "main" // Is a constraint: use main until update.
+        // Is a constraint: use main until update.
+        "main"
       else
         if version != "" then
-          version  // Version is not a constraint, use that.
+          // Version is not a constraint, use that.
+          version
         else
-          "main"  // Get the latest main if no constraints at all.
+          // Get the latest main if no constraints.
+          "main"
         end
       end
     end
 
-  fun _parse_constraints(constraint_str: String box): Array[ss.Constraint] ? =>
-    let constraints: Array[ss.Constraint] = constraints.create()
+  fun _parse_constraints(
+    constraint_str: String box)
+    : Array[ss.Constraint] ?
+  =>
+    let constraints: Array[ss.Constraint] =
+      constraints.create()
     for c in constraint_str.split_by(" ").values() do
-      let cs = recover val c.clone().>strip() end
+      let cs =
+        recover val c.clone() .> strip() end
       if cs != "" then
         constraints.push(_parse_constraint(cs)?)
       end
@@ -83,38 +124,61 @@ primitive Constraints
     end
     constraints
 
-  fun _parse_constraint(c: String box): ss.Constraint ? =>
-    for pre in ["<="; "<"; ">="; ">"; "="; "^"; "~" ].values() do  // "-"; "+"
+  fun _parse_constraint(c: String box)
+    : ss.Constraint ?
+  =>
+    for pre in
+      ["<="; "<"; ">="; ">"; "="; "^"; "~"].values()
+    do
       if not c.at(pre) then continue end
-      let part = recover val c.substring(pre.size().isize()) end
+      let part =
+        recover val
+          c.substring(pre.size().isize())
+        end
       let version = sv.ParseVersion(part)
       if pre.at("=") then
-        let range = sr.Range(version, version, true, true)
+        let range =
+          sr.Range(version, version, true, true)
         return ss.Constraint("A", range)
       elseif pre.at("^") then
         None
       elseif pre.at("~") then
         None
       else
-        let from_version = if pre.at(">") then version else None end
-        let to_version = if pre.at("<") then version else None end
+        let from_version =
+          if pre.at(">") then version else None end
+        let to_version =
+          if pre.at("<") then version else None end
         let inclusive = pre.at("=", 1)
-        let range = sr.Range(from_version, to_version, inclusive, inclusive)
+        let range =
+          sr.Range(
+            from_version,
+            to_version,
+            inclusive,
+            inclusive)
         return ss.Constraint("A", range)
       end
     end
     error
 
-  fun _solve_constraints(constraints: Array[ss.Constraint], tags: Array[String] val, log: Logger[String]): ss.Result
+  fun _solve_constraints(
+    constraints: Array[ss.Constraint],
+    tags: Array[String] val,
+    log: Logger[String])
+    : ss.Result
   =>
-    let source: ss.InMemArtifactSource = source.create()
+    let source: ss.InMemArtifactSource =
+      source.create()
     for tg in tags.values() do
       log(Fine) and log.log("  tag:" + tg)
-      let artifact = ss.Artifact("A", sv.ParseVersion(tg))
+      let artifact =
+        ss.Artifact("A", sv.ParseVersion(tg))
       source.add(artifact)
     end
-    let result = ss.Solver(source).solve(constraints.values())
+    let result =
+      ss.Solver(source).solve(constraints.values())
     if result.is_err() then
-      log(Fine) and log.log("result err: " + result.err)
+      log(Fine) and log.log(
+        "result err: " + result.err)
     end
     result

@@ -1,13 +1,24 @@
+"""
+The range package provides semantic version range
+types and operations for matching versions against
+range constraints.
+"""
+
 use "../version"
 
 class Range is (Equatable[Range] & Stringable)
+  """
+  Represents a version range with optional inclusive or
+  exclusive lower and upper bounds. Used to check whether
+  a given Version falls within the range.
+  """
   let from: RangeBound box
   let to: RangeBound box
   let from_inc: Bool
   let to_inc: Bool
 
-  // note: from > to will result in undefined behavior
-  //       decided not to raise an error for this situation
+  // from > to will result in undefined behavior;
+  // decided not to raise an error for this situation
   new create(
     from': RangeBound box,
     to': RangeBound box,
@@ -23,8 +34,14 @@ class Range is (Equatable[Range] & Stringable)
 
     from = from'
     to = to'
-    from_inc = ((from' is None) or from_equals_to or from_inc')
-    to_inc = ((to' is None) or from_equals_to or to_inc')
+    from_inc =
+      ((from' is None)
+        or from_equals_to
+        or from_inc')
+    to_inc =
+      ((to' is None)
+        or from_equals_to
+        or to_inc')
 
   fun contains(v: Version): Bool =>
     match from
@@ -51,10 +68,22 @@ class Range is (Equatable[Range] & Stringable)
     (from_inc == that.from_inc) and
     (to_inc == that.to_inc)
 
-  // note: ranges do not have to overlap to be merged
+  // ranges do not have to overlap to be merged
   fun merge(that: Range): Range =>
-    (let m_from, let m_from_inc) = _merge_version_bounds(from, that.from, from_inc, that.from_inc, Less)
-    (let m_to, let m_to_inc) = _merge_version_bounds(to, that.to, to_inc, that.to_inc, Greater)
+    (let m_from, let m_from_inc) =
+      _merge_version_bounds(
+        from,
+        that.from,
+        from_inc,
+        that.from_inc,
+        Less)
+    (let m_to, let m_to_inc) =
+      _merge_version_bounds(
+        to,
+        that.to,
+        to_inc,
+        that.to_inc,
+        Greater)
     Range(m_from, m_to, m_from_inc, m_to_inc)
 
   fun _merge_version_bounds(
@@ -64,36 +93,61 @@ class Range is (Equatable[Range] & Stringable)
     inc2: Bool,
     v1_wins_if: Compare
   ): (RangeBound box, Bool) =>
-    if ((vb1 is None) or (vb2 is None)) then return (None, true) end
+    if ((vb1 is None) or (vb2 is None)) then
+      return (None, true)
+    end
 
     match (vb1, vb2)
-    | (let v1: Version box, let v2: Version box) =>
+    | (let v1: Version box,
+      let v2: Version box)
+    =>
       let c = v1.compare(v2)
-      if (c is Equal) then return (v1, inc1 or inc2)
-      elseif (c is v1_wins_if) then return (v1, inc1)
-      else return (v2, inc2)
+      if (c is Equal) then
+        return (v1, inc1 or inc2)
+      elseif (c is v1_wins_if) then
+        return (v1, inc1)
+      else
+        return (v2, inc2)
       end
     end
 
-    (None, true) // should never get here but compiler complains without it
+    // should never get here but compiler
+    // complains without it
+    (None, true)
 
   fun overlaps(that: Range): Bool =>
-    _from_less_than_to(this, that) and _from_less_than_to(that, this)
+    _from_less_than_to(this, that)
+      and _from_less_than_to(that, this)
 
-  fun _from_less_than_to(vr1: Range box, vr2: Range box): Bool =>
+  fun _from_less_than_to(
+    vr1: Range box,
+    vr2: Range box)
+    : Bool
+  =>
     match (vr1.from, vr2.to)
-    | (let f: Version box, let t: Version box) =>
+    | (let f: Version box,
+      let t: Version box)
+    =>
       match f.compare(t)
-      | Equal if ((not vr1.from_inc) or (not vr2.to_inc)) => return false
+      | Equal if
+        ((not vr1.from_inc)
+          or (not vr2.to_inc))
+      =>
+        return false
       | Greater => return false
       end
     end
     true
 
   fun string(): String iso^ =>
-    let result = recover String() end
-    result.append(from.string() + " ")
-    result.append(if (from_inc) then "(incl)" else "(excl)" end + " to ")
-    result.append(to.string() + " ")
-    result.append(if (to_inc) then "(incl)" else "(excl)" end)
-    result
+    (recover String() end)
+      .> append(from.string() + " ")
+      .> append(
+        if from_inc then "(incl)"
+        else "(excl)"
+        end + " to ")
+      .> append(to.string() + " ")
+      .> append(
+        if to_inc then "(incl)"
+        else "(excl)"
+        end)

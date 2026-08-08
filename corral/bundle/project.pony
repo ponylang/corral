@@ -4,53 +4,89 @@ use "../json"
 use "../logger"
 
 primitive Files
+  """
+  Standard file and directory names for corral projects.
+  """
   fun tag bundle_filename(): String => "corral.json"
   fun tag lock_filename(): String => "lock.json"
   fun tag corral_dirname(): String => "_corral"
 
 primitive BundleDir
   """
-  Locates project bundle directories either by direct resolving of bundle
-  files, or searching up the directory tree until the files are found.
+  Locates project bundle directories either by direct
+  resolving of bundle files, or searching up the directory
+  tree until the files are found.
   """
-  fun find(auth: FileAuth, dir: String, log: Logger[String]): (FilePath | None) =>
+
+  fun find(
+    auth: FileAuth,
+    dir: String,
+    log: Logger[String])
+    : (FilePath | None)
+  =>
+    """
+    Search up the directory tree for a bundle file.
+    """
     var dir' = dir
     while dir'.size() > 0 do
-      log(Info) and log.log("Looking for " + Files.bundle_filename() + " in: '" + dir' + "'")
+      log(Info) and log.log(
+        "Looking for "
+          + Files.bundle_filename()
+          + " in: '" + dir' + "'")
       try
         let dir_path = FilePath(auth, dir')
-        let bundle_file = dir_path.join(Files.bundle_filename())?
+        let bundle_file =
+          dir_path.join(Files.bundle_filename())?
         if bundle_file.exists() then
           return dir_path
         end
       end
       dir' = Path.split(dir')._1
     end
-    log(Info) and log.log(Files.bundle_filename() + " not found, looked last in: '" + dir' + "'")
+    log(Info) and log.log(
+      Files.bundle_filename()
+        + " not found, looked last in: '"
+        + dir' + "'")
     None
 
-  fun resolve(auth: FileAuth, dir: String, log: Logger[String]): (FilePath | None) =>
-    log(Info) and log.log("Checking for " + Files.bundle_filename() + " in: '" + dir + "'")
+  fun resolve(
+    auth: FileAuth,
+    dir: String,
+    log: Logger[String])
+    : (FilePath | None)
+  =>
+    """
+    Check a specific directory for a bundle file.
+    """
+    log(Info) and log.log(
+      "Checking for " + Files.bundle_filename()
+        + " in: '" + dir + "'")
     try
       let dir_path = FilePath(auth, dir)
-      let bundle_file = dir_path.join(Files.bundle_filename())?
+      let bundle_file =
+        dir_path.join(Files.bundle_filename())?
       if bundle_file.exists() then
         return dir_path
       end
     end
-    log(Info) and log.log(Files.bundle_filename() + " not found")
+    log(Info) and log.log(
+      Files.bundle_filename() + " not found")
     None
 
 class val Project
   """
-  Project assists with the performing operations on bundles and deps of a
-  project.
+  Project assists with performing operations on bundles
+  and deps of a project.
   """
   let auth: FileAuth
   let log: Logger[String]
   let dir: FilePath
 
-  new val create(auth': FileAuth, log': Logger[String], dir': FilePath) =>
+  new val create(
+    auth': FileAuth,
+    log': Logger[String],
+    dir': FilePath)
+  =>
     auth = auth'
     log = log'
     dir = dir'
@@ -65,30 +101,46 @@ class val Project
   fun create_bundle(): (Bundle iso^ | String) =>
     Bundle.create(dir, log)
 
-  fun corral_dirpath(): FilePath ? => dir.join(Files.corral_dirname())?
+  fun corral_dirpath(): FilePath ? =>
+    dir.join(Files.corral_dirname())?
 
   // For VCS only (not for local-direct)
   fun dep_workspace_root(locator: Locator): FilePath ? =>
     """
-    Returns the VCS workspace root for a given dep. Not used for local-direct deps.
+    Returns the VCS workspace root for a given dep.
+    Not used for local-direct deps.
     """
-    let root = if locator.is_local_direct() then
-      error
-    else
-      corral_dirpath()?.join(locator.flat_name())?
-    end
+    let root =
+      if locator.is_local_direct() then
+        error
+      else
+        corral_dirpath()?
+          .join(locator.flat_name())?
+      end
     root
 
   fun dep_bundle_root(locator: Locator): FilePath ? =>
-    let root = if locator.is_local_direct() then
-      FilePath(auth, Path.join(dir.path, locator.bundle_path))
-    else
-      corral_dirpath()?.join(Path.join(locator.flat_name(), locator.bundle_path))?
-    end
+    let root =
+      if locator.is_local_direct() then
+        FilePath(
+          auth,
+          Path.join(dir.path, locator.bundle_path))
+      else
+        corral_dirpath()?.join(
+          Path.join(
+            locator.flat_name(),
+            locator.bundle_path))?
+      end
     root
 
-  fun transitive_deps(base_bundle: Bundle box): Map[Locator, Dep box] box =>
-    """Return all immediate and transitive deps, with no duplicates."""
+  fun transitive_deps(
+    base_bundle: Bundle box)
+    : Map[Locator, Dep box] box
+  =>
+    """
+    Return all immediate and transitive deps, with no
+    duplicates.
+    """
     let tran_deps = Map[Locator, Dep box]
     _transitive_deps(base_bundle, tran_deps)
     tran_deps
@@ -101,11 +153,15 @@ class val Project
       try
         if not tran_deps.contains(dep.locator) then
           tran_deps(dep.locator) = dep
-          let dbundle_root = dep_bundle_root(dep.locator)?
-          let dbundle: Bundle val = Bundle.load(dbundle_root, log)?
+          let dbundle_root =
+            dep_bundle_root(dep.locator)?
+          let dbundle: Bundle val =
+            Bundle.load(dbundle_root, log)?
           _transitive_deps(dbundle, tran_deps)
         end
       else
-        log(Error) and log.log("Project: error finding/loading bundle for dep: " + dep.name())
+        log(Error) and log.log(
+          "Project: error finding/loading bundle"
+            + " for dep: " + dep.name())
       end
     end

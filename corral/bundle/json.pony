@@ -2,66 +2,106 @@ use "files"
 use "../json"
 use "../logger"
 
-primitive JsonError
+primitive JSONError
+  """
+  Sentinel value indicating a JSON parse error.
+  """
 
-primitive Json
-  fun load_object(file_path: FilePath, log: Logger[String])
-    : (JsonObject | FileErrNo | JsonError)
+primitive JSON
+  """
+  Helpers for loading and writing JSON bundle files.
+  """
+
+  fun load_object(
+    file_path: FilePath,
+    log: Logger[String])
+    : (JSONObject | FileErrNo | JSONError)
   =>
-    let file = match \exhaustive\ OpenFile(file_path)
-    | let f: File => f
-    | let e: FileErrNo => return e
-    end
+    """
+    Load a JSON object from a file.
+    """
+    let file =
+      match \exhaustive\ OpenFile(file_path)
+      | let f: File => f
+      | let e: FileErrNo => return e
+      end
     let content: String = file.read_string(file.size())
-    let json: JsonDoc ref = JsonDoc
+    let json: JSONDoc ref = JSONDoc
     try
       json.parse(content)?
-      json.data as JsonObject
+      json.data as JSONObject
     else
-      (let err_line, let err_message) = json.parse_report()
+      (let err_line, let err_message) =
+        json.parse_report()
       log(Error) and log.log(
-        "JSON error at: " + file.path.path + ":" + err_line.string() + " : "
-          + err_message)
-      JsonError
+        "JSON error at: " + file.path.path
+          + ":" + err_line.string()
+          + " : " + err_message)
+      JSONError
     end
 
-  fun write_object(jo: JsonObject, file_path: FilePath, log: Logger[String]) =>
-    log(Fine) and log.log("Going to write " + file_path.path)
+  fun write_object(
+    jo: JSONObject,
+    file_path: FilePath,
+    log: Logger[String])
+  =>
+    log(Fine) and log.log(
+      "Going to write " + file_path.path)
     try
       let file = CreateFile(file_path) as File
-      log(Info) and log.log("Writing " + file.path.path)
+      log(Info) and log.log(
+        "Writing " + file.path.path)
       file.set_length(0)
-      let json: JsonDoc = JsonDoc
+      let json: JSONDoc = JSONDoc
       json.data = jo
       file.print(json.string("  ", true))
       file.dispose()
     else
-      log(Error) and log.log("Error writing " + file_path.path + ".")
+      log(Error) and log.log(
+        "Error writing " + file_path.path + ".")
     end
 
-  fun string(jt: JsonType box, name: String): String =>
+  fun string(jt: JSONType box, name: String): String =>
     try
-      (jt as JsonObject box).data(name)? as String
+      (jt as JSONObject box).data(name)? as String
     else
       ""
     end
 
-  fun set_string(jo: JsonObject, name: String, value: String) =>
+  fun set_string(
+    jo: JSONObject,
+    name: String,
+    value: String)
+  =>
     jo.data(name) = value
 
-  fun string_must(jt: JsonType box, name: String): String ? =>
-    (jt as JsonObject box).data(name)? as String
+  fun string_must(
+    jt: JSONType box,
+    name: String)
+    : String ?
+  =>
+    (jt as JSONObject box).data(name)? as String
 
-  fun array(jt: JsonType box, name: String): JsonArray box =>
+  fun array(
+    jt: JSONType box,
+    name: String)
+    : JSONArray box
+  =>
     try
-      (jt as JsonObject box).data(name)? as JsonArray box
+      (jt as JSONObject box).data(name)?
+        as JSONArray box
     else
-      JsonArray
+      JSONArray
     end
 
-  fun objekt(jt: JsonType box, name: String): JsonObject box =>
+  fun objekt(
+    jt: JSONType box,
+    name: String)
+    : JSONObject box
+  =>
     try
-      (jt as JsonObject box).data(name)? as JsonObject box
+      (jt as JSONObject box).data(name)?
+        as JSONObject box
     else
-      JsonObject
+      JSONObject
     end

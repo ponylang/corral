@@ -4,6 +4,10 @@ use "files"
 use "../mort"
 
 class ArchiveEncoder
+  """
+  Encodes files and directories into a corral archive.
+  """
+
   let _root: FilePath
   let _writer: Writer = Writer
 

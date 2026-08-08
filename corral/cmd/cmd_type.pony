@@ -2,10 +2,17 @@ use "../bundle"
 use "../vcs"
 
 trait CmdType
+  """
+  Base trait for all corral subcommands.
+  """
   fun requires_bundle(): Bool => true
   fun requires_no_bundle(): Bool => false
 
-  fun ref apply(ctx: Context,
+  fun ref apply(
+    ctx: Context,
     project: Project,
     vcs_builder: VCSBuilder,
     results_receiver: CmdResultReceiver)
+  """
+  Execute this command.
+  """

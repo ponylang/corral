@@ -1,4 +1,9 @@
-interface ComparableMixin[A: Comparable[A] #read] is Comparable[A]
+interface ComparableMixin[A: Comparable[A] #read]
+  is Comparable[A]
+  """
+  Provides default implementations of comparison
+  methods based on a single `compare` method.
+  """
   fun compare(that: box->A): Compare
 
   fun lt(that: box->A): Bool =>

@@ -4,10 +4,12 @@ use "../../util"
 
 class  \nodoc\ TestHelp is UnitTest
   fun name(): String => "integration/help"
+
   fun apply(h: TestHelper) =>
     h.long_test(30_000_000_000)
-    Execute(h,
-      recover ["help"] end,
+    Execute(
+      h,
+      recover [ "help" ] end,
       {(h: TestHelper, ar: ActionResult) =>
         h.assert_eq[I32](0, ar.exit_code())
         h.complete(ar.exit_code() == 0)

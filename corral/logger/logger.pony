@@ -88,26 +88,12 @@ This can either be a class or because the interface only has a single apply
 method, can also be a lambda.
 """
 
-type LogLevel is
-  ( Fine
-  | Info
-  | Warn
-  | Error
-  )
-
-primitive Fine
-  fun apply(): U32 => 0
-
-primitive Info
-  fun apply(): U32 => 1
-
-primitive Warn
-  fun apply(): U32 => 2
-
-primitive Error
-  fun apply(): U32 => 3
-
 class val Logger[A]
+  """
+  A configurable logger that converts values of type A
+  to strings and writes them to an output stream when
+  the log level is at or above the configured threshold.
+  """
   let _level: LogLevel
   let _out: OutStream
   let _f: {(A): String} val
@@ -132,41 +118,18 @@ class val Logger[A]
     true
 
 primitive StringLogger
+  """
+  Creates a `Logger[String]` from the given log level,
+  output stream, and optional formatter.
+  """
   fun apply(
     level: LogLevel,
     out: OutStream,
     formatter: LogFormatter = DefaultLogFormatter)
     : Logger[String]
   =>
-    Logger[String](level, out, {(s: String): String => s }, formatter)
-
-interface val LogFormatter
-  """
-  Interface required to implement custom log formatting.
-
-  * `msg` is the logged message
-  * `loc` is the location log was called from
-
-  See `DefaultLogFormatter` for an example of how to implement a LogFormatter.
-  """
-  fun apply(msg: String, loc: SourceLoc): String
-
-primitive DefaultLogFormatter is LogFormatter
-  fun apply(msg: String, loc: SourceLoc): String =>
-    let file_name: String = loc.file()
-    let file_linenum: String  = loc.line().string()
-    let file_linepos: String  = loc.pos().string()
-
-    (recover String(file_name.size()
-      + file_linenum.size()
-      + file_linepos.size()
-      + msg.size()
-      + 4)
-    end)
-     .> append(file_name)
-     .> append(":")
-     .> append(file_linenum)
-     .> append(":")
-     .> append(file_linepos)
-     .> append(": ")
-     .> append(msg)
+    Logger[String](
+      level,
+      out,
+      {(s: String): String => s },
+      formatter)
