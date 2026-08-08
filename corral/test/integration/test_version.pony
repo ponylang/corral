@@ -4,9 +4,13 @@ use "../../util"
 
 class  \nodoc\ TestVersion is UnitTest
   fun name(): String => "integration/version"
+
   fun apply(h: TestHelper) =>
     h.long_test(30_000_000_000)
-    Execute(h, recover ["version"] end, CheckVersion)
+    Execute(
+      h,
+      recover [ "version" ] end,
+      CheckVersion)
 
 class  \nodoc\ CheckVersion is Checker
   fun tag apply(h: TestHelper, ar: ActionResult) =>

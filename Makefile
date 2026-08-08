@@ -20,6 +20,7 @@ endif
 
 PONYC ?= ponyc
 BUILD_DOCS_WITH ?= pony-doc
+LINT_WITH := pony-lint
 
 ifeq ($(config),release)
 	PONYC := $(PONYC)
@@ -100,9 +101,12 @@ $(docs_dir): $(SOURCE_FILES)
 
 docs: $(docs_dir)
 
+lint: $(GEN_FILES)
+	find corral -path '*/testdata' -prune -o -name '*.pony' -print | xargs $(LINT_WITH)
+
 all: test $(binary)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY: all clean install test unittest integration test-one
+.PHONY: all clean install test unittest integration test-one lint

@@ -2,6 +2,10 @@ use "buffered"
 use "files"
 
 primitive ArchiveDecoder
+  """
+  Decodes corral archives into a directory.
+  """
+
   fun apply(archive: FilePath, to: Directory) ? =>
     """
     Decodes corral archive `archive` into directory `to`

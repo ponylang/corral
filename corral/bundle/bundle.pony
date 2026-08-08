@@ -1,3 +1,9 @@
+"""
+The bundle package manages corral.json and lock.json
+files, including loading, saving, and dependency
+management.
+"""
+
 use "collections"
 use "files"
 use "../json"
@@ -5,8 +11,8 @@ use "../logger"
 
 class Bundle
   """
-  Encapsulation of a Bundle + Lock file pair, including all file activities for
-  those files.
+  Encapsulation of a Bundle + Lock file pair, including all file
+  activities for those files.
   """
   let dir: FilePath
   let log: Logger[String]
@@ -19,24 +25,35 @@ class Bundle
   new iso create(dir': FilePath, log': Logger[String]) =>
     dir = dir'
     log = log'
-    info = InfoData(JsonObject)
+    info = InfoData(JSONObject)
     packages = Array[String]
     log(Info) and log.log("Created bundle in " + dir.path)
     scripts = None
     modified = true
 
   new iso load(dir': FilePath, log': Logger[String]) ? =>
+    """
+    Load a bundle from the given directory.
+    """
     dir = dir'
     log = log'
 
-    log(Fine) and log.log("Loading bundle: " + dir.join(Files.bundle_filename())?.path)
-    let data = match \exhaustive\ Json.load_object(dir.join(Files.bundle_filename())?, log)
-      | let jo: JsonObject => BundleData(jo)
+    log(Fine) and log.log(
+      "Loading bundle: "
+        + dir.join(Files.bundle_filename())?.path)
+    let data =
+      match \exhaustive\ JSON.load_object(
+        dir.join(Files.bundle_filename())?, log)
+      | let jo: JSONObject => BundleData(jo)
       | let fe: FileErrNo =>
-        log(Fine) and log.log("Bundle file not present for: " + Path.base(dir.path))
+        log(Fine) and log.log(
+          "Bundle file not present for: "
+            + Path.base(dir.path))
         error
-      | let je: JsonError =>
-        log(Error) and log.log("Bundle file unparseable for: " + Path.base(dir.path))
+      | let je: JSONError =>
+        log(Error) and log.log(
+          "Bundle file unparseable for: "
+            + Path.base(dir.path))
         error
       end
     info = data.info
@@ -45,37 +62,62 @@ class Bundle
 
     let lm = Map[String, LockData]
     try
-      let locks_data = match \exhaustive\ Json.load_object(dir.join(Files.lock_filename())?, log)
-        | let jo: JsonObject => LocksData(jo)
+      let locks_data =
+        match \exhaustive\ JSON.load_object(
+          dir.join(Files.lock_filename())?, log)
+        | let jo: JSONObject => LocksData(jo)
         | let fe: FileErrNo =>
-          log(Fine) and log.log("Lock file not present for: " + Path.base(dir.path))
+          log(Fine) and log.log(
+            "Lock file not present for: "
+              + Path.base(dir.path))
           error
-        | let je: JsonError =>
-          log(Error) and log.log("Lock file unparseable for: " + Path.base(dir.path))
+        | let je: JSONError =>
+          log(Error) and log.log(
+            "Lock file unparseable for: "
+              + Path.base(dir.path))
           error
         end
       for l in locks_data.locks.values() do
-        log(Fine) and log.log("Loaded " + name() + " lock: " + l.locator + " : " + l.revision)
+        log(Fine) and log.log(
+          "Loaded " + name() + " lock: "
+            + l.locator + " : " + l.revision)
         lm(l.locator) = l
       end
     end
     for dd in data.deps.values() do
-      let d = Dep(this, dd, lm.get_or_else(dd.locator, LockData.none()))
+      let d =
+        Dep(
+          this,
+          dd,
+          lm.get_or_else(
+            dd.locator, LockData.none()))
       deps(d.data.locator) = d
-      log(Fine) and log.log("Loaded " + name() + " dep: " + d.name())
+      log(Fine) and log.log(
+        "Loaded " + name() + " dep: " + d.name())
     end
 
   fun name(): String => Path.base(dir.path)
 
-  fun bundle_filepath(): FilePath ? => dir.join(Files.bundle_filename())?
+  fun bundle_filepath(): FilePath ? =>
+    dir.join(Files.bundle_filename())?
 
-  fun lock_filepath(): FilePath ? => dir.join(Files.lock_filename())?
+  fun lock_filepath(): FilePath ? =>
+    dir.join(Files.lock_filename())?
 
-  fun ref add_dep(locator: String, version: String, revision: String): Dep =>
-    let dd = DepData(JsonObject)
+  fun ref add_dep(
+    locator: String,
+    version: String,
+    revision: String)
+    : Dep
+  =>
+    """
+    Add a dependency with the given locator, version, and
+    revision.
+    """
+    let dd = DepData(JSONObject)
     dd.locator = locator
     dd.version = version
-    let ld = LockData(JsonObject)
+    let ld = LockData(JSONObject)
     ld.locator = locator
     ld.revision = revision
     let dep = Dep(this, dd, ld)
@@ -84,12 +126,16 @@ class Bundle
     dep
 
   fun ref remove_dep(locator: String) ? =>
-    log(Fine) and log.log("Removing " + locator + " from " + "|".join(deps.keys()))
+    log(Fine) and log.log(
+      "Removing " + locator + " from "
+        + "|".join(deps.keys()))
     deps.remove(locator)?
     modified = true
 
   fun dep_revision(locator: String): String =>
-    """Returns the revision for a dep from this bundle's lock."""
+    """
+    Returns the revision for a dep from this bundle's lock.
+    """
     try
       deps(locator)?.revision()
     else
@@ -97,7 +143,9 @@ class Bundle
     end
 
   fun ref lock_revision(locator: String, revision: String) =>
-    """Records the revision for a dep into this bundle's lock."""
+    """
+    Records the revision for a dep into this bundle's lock.
+    """
     try
       let dep = deps(locator)?
       dep.lock.locator = locator
@@ -110,30 +158,37 @@ class Bundle
       deps.insert(locator, Dep(this, dd, ld))
     end
 
-  fun bundle_json(): JsonObject =>
-    let jo: JsonObject = JsonObject
+  fun bundle_json(): JSONObject =>
+    """
+    Build the JSON representation of the bundle file.
+    """
+    let jo: JSONObject = JSONObject
     jo.data("info") = info.json()
 
-    let packages_array = recover ref JsonArray end
+    let packages_array = recover ref JSONArray end
     for p in packages.values() do
       packages_array.data.push(p)
     end
     jo.data("packages") = packages_array
 
-    let deps_array = recover ref JsonArray end
+    let deps_array = recover ref JSONArray end
     for d in deps.values() do
       deps_array.data.push(d.data.json())
     end
     jo.data("deps") = deps_array
 
     try
-      jo.data("scripts") = (scripts as this->ScriptsData).json()
+      jo.data("scripts") =
+        (scripts as this->ScriptsData).json()
     end
     jo
 
-  fun lock_json(): JsonObject =>
-    let jo: JsonObject = JsonObject
-    let locks_array = recover ref JsonArray end
+  fun lock_json(): JSONObject =>
+    """
+    Build the JSON representation of the lock file.
+    """
+    let jo: JSONObject = JSONObject
+    let locks_array = recover ref JSONArray end
     for d in deps.values() do
       if d.lock.locator != "" then
         locks_array.data.push(d.lock.json())
@@ -144,7 +199,9 @@ class Bundle
 
   fun ref save() ? =>
     if modified then
-      Json.write_object(bundle_json(), bundle_filepath()?, log)
+      JSON.write_object(
+        bundle_json(), bundle_filepath()?, log)
       modified = false
     end
-    Json.write_object(lock_json(), lock_filepath()?, log)
+    JSON.write_object(
+      lock_json(), lock_filepath()?, log)

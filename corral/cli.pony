@@ -1,6 +1,11 @@
 use "cli"
 
 primitive CLI
+  """
+  Parses command-line arguments and produces a Command
+  or an error code with a message.
+  """
+
   fun parse(
     args: Array[String] box,
     envs: (Array[String] box | None))
@@ -47,7 +52,10 @@ primitive CLI
           default' = false)
         OptionSpec.string(
           "bundle_dir",
-          "The directory where the bundle's corral.json and lock.json are located. Defaults to the current working directory."
+          "The directory where the bundle's "
+            + "corral.json and lock.json are "
+            + "located. Defaults to the current "
+            + "working directory."
           where short' = 'd',
           default' = "")
       ],
@@ -128,7 +136,10 @@ primitive CLI
           "Creates a distributable version of a pony library bundle.",
           Array[OptionSpec](),
           [
-            ArgSpec.string("output", "Directory to create the packed library bundle in")
+            ArgSpec.string(
+              "output",
+              "Directory to create the packed "
+                + "library bundle in")
           ])?
       ])?
       .> add_help()?

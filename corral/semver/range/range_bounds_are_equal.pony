@@ -1,7 +1,18 @@
 use "../version"
 
 primitive RangeBoundsAreEqual
-  fun apply(vrb1: RangeBound box, vrb2: RangeBound box): Bool =>
+  """
+  Checks whether two range bounds are equal.
+  """
+  fun apply(
+    vrb1: RangeBound box,
+    vrb2: RangeBound box)
+    : Bool
+  =>
+    """
+    Returns true if both bounds are None or both are
+    equal Versions.
+    """
     if (vrb1 is None) then return (vrb2 is None) end
     if (vrb2 is None) then return false end
 

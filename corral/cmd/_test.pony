@@ -8,4 +8,4 @@ actor Main is TestList
     None
 
   fun tag tests(test: PonyTest) =>
-   _TestCmdUpdate.make().tests(test)
+    _TestCmdUpdate.make().tests(test)

@@ -1,3 +1,6 @@
 primitive Version
-  fun apply() : String =>
+  """
+  The current version of corral.
+  """
+  fun apply(): String =>
     "%%VERSION%%"
