@@ -196,7 +196,7 @@ class val ActionResult
 
 primitive Runner
   """
-  Run an Action using ProcessMonitor, and pass the
+  Run an Action using StartProcess, and pass the
   resulting ActionResult to a given lambda.
   """
 
@@ -207,7 +207,8 @@ primitive Runner
     """
     Execute the action and deliver the result.
     """
-    let c = _Collector(consume result)
+    let sink = _ResultSink(consume result)
+    let c = _Collector(sink)
     let argv: Array[String] iso =
       recover argv.create(action.args.size() + 1) end
     let appname =
@@ -222,28 +223,42 @@ primitive Runner
       end
     argv.push(appname)
     argv.append(action.args)
-    let pm =
-      ProcessMonitor(
-        action.prog.process_auth,
-        action.prog.backpressure_auth,
-        consume c,
-        action.prog.path,
-        consume argv,
-        action.vars,
-        try action.cwd as FilePath end)
-    pm.done_writing()
+    match \exhaustive\ StartProcess(
+      action.prog.process_auth,
+      action.prog.backpressure_auth,
+      consume c,
+      action.prog.path,
+      consume argv,
+      action.vars,
+      try action.cwd as FilePath end)
+    | let pm: ProcessMonitor =>
+      pm.done_writing()
+    | let err: ProcessError =>
+      sink.deliver(ActionResult.fail(err.string()))
+    end
+
+actor \nodoc\ _ResultSink
+  var _result: ({(ActionResult)} ref | None)
+
+  new create(result: {(ActionResult)} iso) =>
+    _result = consume result
+
+  be deliver(ar: ActionResult) =>
+    match _result = None
+    | let r: {(ActionResult)} ref => r(ar)
+    end
 
 class _Collector is ProcessNotify
   """
   Collect Action output and exit into an ActionResult
-  and hand it to the given lambda when ready.
+  and deliver it via _ResultSink.
   """
   let _stdout: String iso = recover String end
   let _stderr: String iso = recover String end
-  let _result: {(ActionResult)} iso
+  let _sink: _ResultSink tag
 
-  new iso create(result: {(ActionResult)} iso) =>
-    _result = consume result
+  new iso create(sink: _ResultSink tag) =>
+    _sink = sink
 
   fun ref created(
     process: ProcessMonitor ref)
@@ -274,7 +289,7 @@ class _Collector is ProcessNotify
             recover val _stdout.clone() end,
           stderr' =
             recover val _stderr.clone() end)
-    _result(cr)
+    _sink.deliver(cr)
 
   fun ref dispose(
     process: ProcessMonitor ref,
@@ -285,7 +300,7 @@ class _Collector is ProcessNotify
         child_exit_status,
         recover val _stdout.clone() end,
         recover val _stderr.clone() end)
-    _result(cr)
+    _sink.deliver(cr)
 
 // gnu.org/software/libc/manual/html_node/
 // Working-Directory.html
