@@ -69,8 +69,8 @@ actor Main
         (CmdVersion(cmd), uout_info)
       else
         log(Error) and log.log(
-          "Internal error: unexpected "
-            + "command: " + cmd.fullname())
+          "Internal error: unexpected " +
+            "command: " + cmd.fullname())
         env.exitcode(2)
         return
       end

@@ -52,10 +52,10 @@ primitive CLI
           default' = false)
         OptionSpec.string(
           "bundle_dir",
-          "The directory where the bundle's "
-            + "corral.json and lock.json are "
-            + "located. Defaults to the current "
-            + "working directory."
+          "The directory where the bundle's " +
+            "corral.json and lock.json are " +
+            "located. Defaults to the current " +
+            "working directory."
           where short' = 'd',
           default' = "")
       ],
@@ -65,13 +65,13 @@ primitive CLI
           "Show the version and exit")?
         CommandSpec.leaf(
           "init",
-          "Initializes the corral.json and lock.json files with"
-            + " skeletal information."
+          "Initializes the corral.json and lock.json files with" +
+            " skeletal information."
         )?
         CommandSpec.leaf(
           "info",
-          "Prints all or specific information about the bundle from"
-            + " corral.json.")?
+          "Prints all or specific information about the bundle from" +
+            " corral.json.")?
         CommandSpec.leaf(
           "add",
           "Adds a remote VCS, local VCS or local direct dependency.",
@@ -102,8 +102,8 @@ primitive CLI
           "Lists the deps and packages, including corral details.")?
         CommandSpec.leaf(
           "clean",
-          "Cleans repo cache and working corral. Default is to clean"
-            + " only the working corral.",
+          "Cleans repo cache and working corral. Default is to clean" +
+            " only the working corral.",
           [
             OptionSpec.bool(
               "all",
@@ -118,15 +118,15 @@ primitive CLI
           ])?
         CommandSpec.leaf(
           "update",
-          "Updates one or more or all of the deps in the corral to their"
-            + " best revisions.")?
+          "Updates one or more or all of the deps in the corral to their" +
+            " best revisions.")?
         CommandSpec.leaf(
           "fetch",
           "Fetches one or more or all of the deps into the corral.")?
         CommandSpec.leaf(
           "run",
-          "Runs a shell command inside an environment with the corral on"
-            + " the PONYPATH.",
+          "Runs a shell command inside an environment with the corral on" +
+            " the PONYPATH.",
           Array[OptionSpec](),
           [
             ArgSpec.string_seq("args", "Arguments to run.")
@@ -138,8 +138,8 @@ primitive CLI
           [
             ArgSpec.string(
               "output",
-              "Directory to create the packed "
-                + "library bundle in")
+              "Directory to create the packed " +
+                "library bundle in")
           ])?
       ])?
       .> add_help()?
