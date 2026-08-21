@@ -9,3 +9,4 @@ corral/version.pony
 # Python bytecode
 __pycache__/
 *.pyc
+lock.json
