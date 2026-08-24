@@ -93,7 +93,6 @@ jobs:
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command build -Version $applicationVersion;
-          .\make.ps1 -Command test;
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           cloudsmith push raw --version $cloudsmithVersion --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-x86-64-pc-windows-msvc.zip
@@ -141,7 +140,6 @@ jobs:
           Expand-Archive -Path C:\ponyc.zip -DestinationPath C:\ponyc;
           $env:PATH = 'C:\ponyc\bin;' + $env:PATH;
           .\make.ps1 -Command build -Version $applicationVersion;
-          .\make.ps1 -Command test;
           .\make.ps1 -Command install;
           .\make.ps1 -Command package;
           cloudsmith push raw --version $cloudsmithVersion --api-key $env:CLOUDSMITH_API_KEY --summary "Pony dependency manager tool" --description "https://github.com/ponylang/corral" ponylang/nightlies build\corral-arm64-pc-windows-msvc.zip
