@@ -13,6 +13,7 @@ All notable changes to Corral will be documented in this file. This project adhe
 
 ### Changed
 
+- Update to work with pony 0.77.0 ([PR #364](https://github.com/ponylang/corral/pull/364))
 
 ## [0.9.2] - 2026-02-26
 
