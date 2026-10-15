@@ -44,8 +44,7 @@ class val Locator is
     Returns a unique name for this locator without the
     vcs suffix.
     """
-    Path.to_slash(
-      Path.join(repo_path, bundle_path))
+    Path.join(repo_path, bundle_path)
 
   fun flat_name(): String =>
     _Flattened(path())
@@ -54,8 +53,7 @@ class val Locator is
     """
     Returns the full string form of this locator.
     """
-    Path.to_slash(
-      Path.join(repo_path + vcs_suffix, bundle_path))
+    Path.join(repo_path + vcs_suffix, bundle_path)
       .clone()
 
   fun compare(that: Locator box): Compare =>
