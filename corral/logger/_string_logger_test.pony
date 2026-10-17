@@ -21,11 +21,11 @@ class \nodoc\ iso _TestError is _StringLoggerTest
   fun tag expected(): String =>
     "error message\n"
 
-  fun log(logger: Logger[String]) =>
-    logger(Error) and logger.log("error message")
-    logger(Warn) and logger.log("warn message")
-    logger(Info) and logger.log("info message")
-    logger(Fine) and logger.log("fine message")
+  fun log(logger': Logger[String]) =>
+    logger'(Error) and logger'.log("error message")
+    logger'(Warn) and logger'.log("warn message")
+    logger'(Info) and logger'.log("info message")
+    logger'(Fine) and logger'.log("fine message")
 
 class \nodoc\ iso _TestWarn is _StringLoggerTest
   fun name(): String => "logger/warn"
@@ -35,11 +35,11 @@ class \nodoc\ iso _TestWarn is _StringLoggerTest
   fun tag expected(): String =>
     "error message\nwarn message\n"
 
-  fun log(logger: Logger[String]) =>
-    logger(Error) and logger.log("error message")
-    logger(Warn) and logger.log("warn message")
-    logger(Info) and logger.log("info message")
-    logger(Fine) and logger.log("fine message")
+  fun log(logger': Logger[String]) =>
+    logger'(Error) and logger'.log("error message")
+    logger'(Warn) and logger'.log("warn message")
+    logger'(Info) and logger'.log("info message")
+    logger'(Fine) and logger'.log("fine message")
 
 class \nodoc\ iso _TestInfo is _StringLoggerTest
   fun name(): String => "logger/info"
@@ -49,11 +49,11 @@ class \nodoc\ iso _TestInfo is _StringLoggerTest
   fun tag expected(): String =>
     "error message\nwarn message\ninfo message\n"
 
-  fun log(logger: Logger[String]) =>
-    logger(Error) and logger.log("error message")
-    logger(Warn) and logger.log("warn message")
-    logger(Info) and logger.log("info message")
-    logger(Fine) and logger.log("fine message")
+  fun log(logger': Logger[String]) =>
+    logger'(Error) and logger'.log("error message")
+    logger'(Warn) and logger'.log("warn message")
+    logger'(Info) and logger'.log("info message")
+    logger'(Fine) and logger'.log("fine message")
 
 class \nodoc\ iso _TestFine is _StringLoggerTest
   fun name(): String => "logger/fine"
@@ -63,11 +63,11 @@ class \nodoc\ iso _TestFine is _StringLoggerTest
   fun tag expected(): String =>
     "error message\nwarn message\ninfo message\nfine message\n"
 
-  fun log(logger: Logger[String]) =>
-    logger(Error) and logger.log("error message")
-    logger(Warn) and logger.log("warn message")
-    logger(Info) and logger.log("info message")
-    logger(Fine) and logger.log("fine message")
+  fun log(logger': Logger[String]) =>
+    logger'(Error) and logger'.log("error message")
+    logger'(Warn) and logger'.log("warn message")
+    logger'(Info) and logger'.log("info message")
+    logger'(Fine) and logger'.log("fine message")
 
 class \nodoc\ _TestObjectLogging is _LoggerTest[U64]
   fun name(): String => "logger/object"
