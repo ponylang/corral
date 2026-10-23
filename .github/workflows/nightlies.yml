@@ -85,7 +85,7 @@ jobs:
           # Pass -Version explicitly so the embedded version string matches
           # the Linux/macOS nightly scripts, which pass `version=nightly-<date>`
           # to make. Without this, make.ps1 falls back to "<VERSION>-<sha>".
-          $cloudsmithVersion = (Get-Date).ToString("yyyyMMdd")
+          $cloudsmithVersion = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
           $applicationVersion = "nightly-$cloudsmithVersion"
           Invoke-WebRequest https://github.com/ponylang/cloudsmith-uploader/releases/latest/download/cloudsmith-uploader-x86-64-pc-windows-msvc.zip -OutFile C:\cloudsmith-uploader.zip
           Expand-Archive -Path C:\cloudsmith-uploader.zip -DestinationPath C:\cloudsmith-uploader
@@ -128,7 +128,7 @@ jobs:
           # Pass -Version explicitly so the embedded version string matches
           # the Linux/macOS nightly scripts, which pass `version=nightly-<date>`
           # to make. Without this, make.ps1 falls back to "<VERSION>-<sha>".
-          $cloudsmithVersion = (Get-Date).ToString("yyyyMMdd")
+          $cloudsmithVersion = (Get-Date).ToUniversalTime().ToString("yyyyMMdd")
           $applicationVersion = "nightly-$cloudsmithVersion"
           Invoke-WebRequest https://github.com/ponylang/cloudsmith-uploader/releases/latest/download/cloudsmith-uploader-arm64-pc-windows-msvc.zip -OutFile C:\cloudsmith-uploader.zip
           Expand-Archive -Path C:\cloudsmith-uploader.zip -DestinationPath C:\cloudsmith-uploader
