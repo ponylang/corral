@@ -139,7 +139,7 @@ class Range is (Equatable[Range] & Stringable)
     end
     true
 
-  fun string(): String iso^ =>
+  fun string(): String =>
     (recover String() end)
       .> append(from.string() + " ")
       .> append(

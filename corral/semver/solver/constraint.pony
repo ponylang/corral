@@ -14,7 +14,7 @@ class Constraint is Stringable
     artifact_name = artifact_name'
     range = range'
 
-  fun string(): String iso^ =>
+  fun string(): String =>
     (recover String() end)
       .> append(
         artifact_name + " ["
