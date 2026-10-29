@@ -48,7 +48,7 @@ class Version is
   fun is_valid(): Bool =>
     errors.size() == 0
 
-  fun string(): String iso^ =>
+  fun string(): String =>
     // we always need at least 5 chars ("0.0.0")
     let result = recover String(5) end
 

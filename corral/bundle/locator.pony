@@ -49,12 +49,11 @@ class val Locator is
   fun flat_name(): String =>
     _Flattened(path())
 
-  fun string(): String iso^ =>
+  fun string(): String =>
     """
     Returns the full string form of this locator.
     """
     Path.join(repo_path + vcs_suffix, bundle_path)
-      .clone()
 
   fun compare(that: Locator box): Compare =>
     if repo_path != that.repo_path then

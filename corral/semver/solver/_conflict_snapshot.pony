@@ -12,7 +12,7 @@ class _ConflictSnapshot is Stringable
     constraint = constraint'
     parent = parent'
 
-  fun string(): String iso^ =>
+  fun string(): String =>
     let result = recover String end
 
     let activated = Array[String]

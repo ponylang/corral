@@ -37,7 +37,7 @@ ponyup update corral release
 
 ## Building From Source
 
-Building from source requires ponyc 0.77.0 or later.
+Building from source requires ponyc 0.78.0 or later.
 
 See [BUILD.md](BUILD.md)
 
