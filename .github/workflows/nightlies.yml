@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: Pull Docker image
-        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:release
       - name: Build and upload
         run: |
           docker run --rm \
@@ -33,7 +33,7 @@ jobs:
             -e GITHUB_REPOSITORY=${{ github.repository }} \
             -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
             -e GITHUB_ACTOR=${{ github.actor }} \
-            ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly \
+            ghcr.io/ponylang/shared-docker-ci-standard-builder:release \
             bash .ci-scripts/release/arm64-unknown-linux-nightly.bash
       - name: Send alert on failure
         if: ${{ failure() }}
@@ -51,7 +51,7 @@ jobs:
     name: Build and upload x86-64-unknown-linux-nightly
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:release
     steps:
       - uses: actions/checkout@v6.0.2
       - name: Build and upload

@@ -21,7 +21,7 @@ jobs:
     name: x86_64 Linux
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+      image: ghcr.io/ponylang/shared-docker-ci-standard-builder:release
     steps:
       - uses: actions/checkout@v6.0.2
       - name: Test with most recent ponyc release
@@ -43,13 +43,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
       - name: Pull Docker image
-        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly
+        run: docker pull ghcr.io/ponylang/shared-docker-ci-standard-builder:release
       - name: Test with most recent ponyc release
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/root/project \
             -w /root/project \
-            ghcr.io/ponylang/shared-docker-ci-standard-builder:nightly \
+            ghcr.io/ponylang/shared-docker-ci-standard-builder:release \
             make test
 
   x86_windows:
