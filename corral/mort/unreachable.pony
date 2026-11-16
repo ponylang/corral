@@ -1,4 +1,4 @@
-use @exit[None](status: U8)
+use @exit[None](status: I32)
 use @fprintf[I32](stream: Pointer[U8] tag, fmt: Pointer[U8] tag, ...)
 use @pony_os_stderr[Pointer[U8]]()
 
