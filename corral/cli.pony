@@ -34,22 +34,22 @@ primitive CLI
           "debug",
           "Configure debug output: 0=err, 1=warn, 2=info, 3=fine."
           where short'='g',
-          default' = 0)
+          default' = 0)?
         OptionSpec.bool(
           "quiet",
           "Quiet output."
           where short'='q',
-          default' = false)
+          default' = false)?
         OptionSpec.bool(
           "nothing",
           "Don't actually apply changes."
           where short' = 'n',
-          default' = false)
+          default' = false)?
         OptionSpec.bool(
           "verbose",
           "Verbose output."
           where short'='v',
-          default' = false)
+          default' = false)?
         OptionSpec.string(
           "bundle_dir",
           "The directory where the bundle's " +
@@ -57,7 +57,7 @@ primitive CLI
             "located. Defaults to the current " +
             "working directory."
           where short' = 'd',
-          default' = "")
+          default' = "")?
       ],
       [
         CommandSpec.leaf(
@@ -80,22 +80,22 @@ primitive CLI
               "version",
               "Version constraint"
               where short' = 'v',
-              default' = "")
+              default' = "")?
             OptionSpec.string(
               "revision",
               "Specific revision: tag, branch, commit"
               where short' = 'r',
-              default' = "")
+              default' = "")?
           ],
           [
-            ArgSpec.string("locator", "Organization/repository name.")
+            ArgSpec.string("locator", "Organization/repository name.")?
           ])?
         CommandSpec.leaf(
           "remove",
           "Removes one or more deps from the bundle.",
           Array[OptionSpec](),
           [
-            ArgSpec.string("locator", "Organization/repository name.")
+            ArgSpec.string("locator", "Organization/repository name.")?
           ])?
         CommandSpec.leaf(
           "list",
@@ -109,12 +109,12 @@ primitive CLI
               "all",
               "Clean both repo cache and working corral."
               where short' = 'a',
-              default' = false)
+              default' = false)?
             OptionSpec.bool(
               "repos",
               "Clean repo cache only."
               where short' = 'r',
-              default' = false)
+              default' = false)?
           ])?
         CommandSpec.leaf(
           "update",
@@ -129,7 +129,7 @@ primitive CLI
             " the PONYPATH.",
           Array[OptionSpec](),
           [
-            ArgSpec.string_seq("args", "Arguments to run.")
+            ArgSpec.string_seq("args", "Arguments to run.")?
           ])?
         CommandSpec.leaf(
           "pack",
@@ -139,7 +139,7 @@ primitive CLI
             ArgSpec.string(
               "output",
               "Directory to create the packed " +
-                "library bundle in")
+                "library bundle in")?
           ])?
       ])?
       .> add_help()?
